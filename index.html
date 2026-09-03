@@ -1,0 +1,1714 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StepBy School — шкільні предмети крок за кроком</title>
+<style>
+:root{
+  --bg:#f4f5fb; --card:#ffffff; --ink:#1f2340; --muted:#6b7196;
+  --primary:#5b4be6; --primary-d:#4636c9; --primary-l:#eceafd;
+  --green:#12a36b; --green-l:#e2f6ee; --amber:#e0982a; --amber-l:#fdf1dd;
+  --pink:#d63c8a; --pink-l:#fce6f2; --line:#e6e8f2; --shadow:0 8px 30px rgba(40,40,90,.08);
+  --radius:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+.hidden{display:none!important}
+
+/* ===== Top bar ===== */
+header.topbar{background:linear-gradient(100deg,#5b4be6,#7d5bef);color:#fff;padding:14px 26px;display:flex;align-items:center;gap:18px;box-shadow:var(--shadow);position:sticky;top:0;z-index:50}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:20px;letter-spacing:.2px;cursor:pointer}
+.logo .mark{width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.2);display:grid;place-items:center;font-size:20px}
+.logo .brand{display:flex;flex-direction:column;line-height:1.12}
+.logo .brand .bn{font-weight:800;font-size:20px;letter-spacing:.2px}
+.logo .brand .bn i{font-style:normal;font-weight:600;opacity:.9}
+.logo .brand .bt{font-weight:500;font-size:10.5px;opacity:.82;letter-spacing:.2px}
+.role-tabs{margin-left:auto;display:flex;gap:6px;background:rgba(255,255,255,.14);padding:5px;border-radius:12px}
+.role-tabs button{color:#fff;padding:8px 16px;border-radius:9px;font-size:14px;font-weight:600;opacity:.8;transition:.15s;display:flex;gap:7px;align-items:center}
+.role-tabs button.active{background:#fff;color:var(--primary);opacity:1}
+.who{display:flex;align-items:center;gap:10px;font-size:13px;background:rgba(255,255,255,.14);padding:6px 12px;border-radius:30px}
+.who .av{width:30px;height:30px;border-radius:50%;background:#fff;color:var(--primary);display:grid;place-items:center;font-weight:700}
+
+/* ===== Layout ===== */
+.wrap{max-width:1180px;margin:0 auto;padding:26px}
+.wrap.wide{max-width:1320px}
+.crumbs{display:flex;gap:8px;align-items:center;color:var(--muted);font-size:14px;margin-bottom:18px;flex-wrap:wrap}
+.crumbs a{color:var(--primary);cursor:pointer;font-weight:600}
+.crumbs span.sep{opacity:.5}
+h1.page{font-size:26px;margin-bottom:4px}
+.sub{color:var(--muted);margin-bottom:22px}
+
+.grid{display:grid;gap:16px}
+.grid.c3{grid-template-columns:repeat(3,1fr)}
+.grid.c2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:820px){.grid.c3,.grid.c2{grid-template-columns:1fr}}
+
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;border:1px solid var(--line)}
+.card.click{cursor:pointer;transition:.18s}
+.card.click:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(40,40,90,.14)}
+.card .ico{width:48px;height:48px;border-radius:12px;display:grid;place-items:center;font-size:24px;margin-bottom:12px}
+.card h3{font-size:17px;margin-bottom:5px}
+.card p.d{color:var(--muted);font-size:14px}
+.pill{display:inline-block;font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;background:var(--primary-l);color:var(--primary)}
+.tag-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+
+.btn{background:var(--primary);color:#fff;padding:11px 20px;border-radius:11px;font-weight:600;font-size:14px;transition:.15s;display:inline-flex;gap:8px;align-items:center}
+.btn:hover{background:var(--primary-d)}
+.btn.ghost{background:var(--primary-l);color:var(--primary)}
+.btn.ghost:hover{background:#e0ddfb}
+.btn.sm{padding:7px 13px;font-size:13px}
+.btn.green{background:var(--green)}
+.btn.gray{background:#eceef5;color:var(--ink)}
+.btn.gray:hover{background:#e2e5ef}
+
+input,select,textarea{font-family:inherit;font-size:15px;padding:10px 13px;border:1.5px solid var(--line);border-radius:10px;width:100%;color:var(--ink);background:#fff}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--primary)}
+label.fl{display:block;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:6px}
+.field{margin-bottom:14px}
+.row{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap}
+
+/* ===== Tool workspace ===== */
+.tool-shell{display:grid;grid-template-columns:224px 1fr;gap:16px;align-items:start}
+@media(max-width:900px){.tool-shell{grid-template-columns:1fr}}
+.panel{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--line);padding:20px}
+/* компактний конфігуратор завдання */
+.tool-shell .cfg{padding:16px}
+.tool-shell .cfg h3{font-size:15px;margin-bottom:10px}
+.tool-shell .cfg .field{margin-bottom:10px}
+.tool-shell .cfg label.fl{font-size:12px;margin-bottom:4px}
+.tool-shell .cfg input,.tool-shell .cfg select{padding:7px 10px;font-size:14px;border-radius:9px}
+.tool-shell .cfg .btn{padding:9px 14px;font-size:13px}
+.tool-shell .cfg .helper{font-size:12px;margin-top:8px}
+.panel h3{font-size:16px;margin-bottom:14px;display:flex;gap:8px;align-items:center}
+.stage{min-height:480px;display:flex;flex-direction:column}
+.stage-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.step-count{font-size:13px;color:var(--muted);font-weight:600}
+.calc{flex:1;display:flex;padding:0;overflow:auto}
+.explain{background:var(--primary-l);color:var(--primary-d);border-radius:12px;padding:14px 16px;font-size:15px;font-weight:500;margin-top:14px;min-height:54px;display:flex;align-items:center}
+.explain.done{background:var(--green-l);color:#0c7a4f}
+.step-nav{display:flex;gap:10px;margin-top:16px;justify-content:center}
+
+/* ===== Зошит у клітинку ===== */
+:root{--cell:30px; --grid:#c4d8ef; --graphite:#2f3550; --paper:#fbfdff}
+.paper{
+  background-color:var(--paper);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size:var(--cell) var(--cell);
+  border:1px solid #d3e2f4;border-radius:8px;
+  box-shadow:0 2px 10px rgba(60,90,140,.08);
+}
+.notebook{display:inline-grid;grid-auto-rows:var(--cell)}
+.nk{width:var(--cell);height:var(--cell);display:grid;place-items:center;
+  font-family:'JetBrains Mono','Consolas',monospace;font-size:19px;color:var(--graphite);position:relative}
+.nk.res{color:var(--green);font-weight:700}
+.nk.op{color:var(--pink);font-weight:800}
+.nk.muted{color:#98a0bd}
+.nk.ul::after{content:"";position:absolute;left:-1px;right:-1px;bottom:0;height:2px;background:var(--graphite);border-radius:2px}
+.divwrap{display:flex;align-items:flex-start}
+.divwrap .notebook{border:none;box-shadow:none;background:transparent}
+.divbar{align-self:stretch;border-left:3px solid var(--graphite)}
+.paper.sheet{flex:1;padding:var(--cell);box-sizing:border-box;min-height:calc(var(--cell)*13);overflow:auto}
+
+/* fractions */
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 4px;font-size:21px;font-family:'JetBrains Mono',monospace;color:var(--graphite)}
+.frac .fn{padding:0 6px}
+.frac .fd{padding:0 6px}
+.frac .fbar{align-self:stretch;height:2px;background:var(--graphite);margin:2px 0;border-radius:1px}
+.eqline{font-size:22px;font-family:'JetBrains Mono',monospace;display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;color:var(--graphite)}
+.eqline .hl{background:var(--amber-l);color:var(--amber);border-radius:6px;padding:0 6px}
+.eqline .res{color:var(--green);font-weight:700}
+
+/* equation */
+.eqstep{font-size:22px;font-family:'JetBrains Mono',monospace;text-align:center;color:var(--graphite);line-height:1.7}
+.eqsolve{display:flex;flex-direction:column;align-items:flex-start;font-family:'JetBrains Mono',monospace;color:var(--graphite)}
+.eqrow{font-size:20px;height:var(--cell);display:flex;align-items:center;gap:5px;padding:0 8px;border-radius:7px;white-space:nowrap;transition:background .2s}
+.eqrow.cur{background:rgba(224,152,42,.18)}
+.eqrow.done-row{background:var(--green-l)}
+.eqrow .res{color:var(--green);font-weight:700}
+.eqrow .op{color:var(--pink);font-weight:700}
+.eqrow .muted{color:#98a0bd}
+.eqrow .note{font-size:14px;color:var(--muted);margin-left:8px;font-family:'Segoe UI',sans-serif}
+/* поява символів: «write» — послідовне написання; «move/combine» — переліт цифр (керує JS) */
+.eqsolve{position:relative}
+.eqrow .eq-eq{color:var(--pink);font-weight:700}
+.eqrow .tok{display:inline-block}
+@keyframes tokWrite{0%{opacity:0;transform:translateY(-4px) scale(.75);filter:blur(.7px)}100%{opacity:1;transform:none;filter:none}}
+@keyframes tokPop{0%{transform:scale(.4);opacity:.3}70%{transform:scale(1.18)}100%{transform:scale(1);opacity:1}}
+@keyframes signFlip{0%{transform:scale(1)}45%{transform:scale(1.55) rotate(-8deg)}100%{transform:scale(1) rotate(0)}}
+.eqrow.writing .note{animation:tokWrite .3s ease-out both}
+.eqclone{position:absolute;font-family:'JetBrains Mono',monospace;font-size:20px;color:var(--graphite);pointer-events:none;will-change:transform}
+.eqclone.op{color:var(--pink);font-weight:700}
+.eqclone.res{color:var(--green);font-weight:700}
+/* рукописні гліфи: перо малює контур */
+.hwg{height:1.02em;width:.6em;display:inline-block;vertical-align:-.19em;overflow:visible}
+.hwg path{fill:none;stroke:currentColor;stroke-width:7.5;stroke-linecap:round;stroke-linejoin:round}
+.hwt{font-family:inherit}
+@keyframes hwdraw{to{stroke-dashoffset:0}}
+@media(prefers-reduced-motion:reduce){.eqrow.writing .note{animation:none!important}.hwg path{animation:none!important;stroke-dashoffset:0!important}}
+/* ланцюжок дробів в один рядок з переносом (flex-wrap) */
+.fracsolve{display:flex;flex-wrap:wrap;align-items:flex-start;gap:6px 10px;font-family:'JetBrains Mono',monospace;color:var(--graphite);max-width:100%}
+.fseg{display:inline-flex;flex-direction:column;align-items:center;white-space:nowrap}
+.fseg-math{display:inline-flex;align-items:center;gap:7px}
+.fseg .funit{display:inline-flex;align-items:center}
+.fseg .feq,.fseg .fop{color:var(--pink);font-weight:700;font-size:22px}
+.fseg .fmix{font-size:21px;margin-right:4px}
+.fmul{color:var(--primary);font-weight:700}
+.fseg.flymul .fmul{opacity:0}
+.fmulclone{position:absolute;font-family:'JetBrains Mono',monospace;font-size:21px;color:var(--primary);font-weight:700;pointer-events:none;will-change:transform;z-index:6}
+@keyframes fmulPop{0%{transform:scale(.4)}60%{transform:scale(1.35)}100%{transform:scale(1)}}
+/* крок-обчислення: числа приховані, поки не прилетять і не перетворяться на результат */
+.fseg.morphing .fn,.fseg.morphing .fd{opacity:0}
+.fseg.morphing .feq,.fseg.morphing .fop,.fseg.morphing .fmix{animation:fracIn .3s ease-out both}
+.fseg.morphing .fbar{animation:barDraw .3s ease-out both;transform-origin:left}
+.fracmorph{position:absolute;font-family:'JetBrains Mono',monospace;font-size:21px;color:var(--graphite);pointer-events:none;will-change:transform;z-index:6;white-space:nowrap;padding:0 6px;line-height:1}
+.fracmorph.fmlabel{padding:0;background:rgba(255,255,255,.65);border-radius:6px}
+.fracmorph .fmop{color:var(--pink);font-weight:700;margin:0 5px}
+.fnote{font-size:11px;color:var(--muted);font-family:'Segoe UI',sans-serif;text-align:center;line-height:1.15;margin-top:2px;max-width:140px;white-space:normal}
+.fdone .fn,.fdone .fd,.fdone .fmix{color:var(--green);font-weight:700}
+.fdone .fbar{background:var(--green)}
+@keyframes fracIn{0%{opacity:0;transform:scale(.5) translateY(-4px)}100%{opacity:1;transform:none}}
+@keyframes barDraw{0%{opacity:0;transform:scaleX(0)}100%{opacity:1;transform:scaleX(1)}}
+/* послідовний рукописний запис: цифри малюються штрихами (hwdraw), риска — окремим тактом, підпис — плавно */
+.fseg.writing .fnote{animation:fracIn .3s ease-out both}
+.fseg.writing .fbar{animation:barDraw .28s ease-out both;transform-origin:left}
+@media(prefers-reduced-motion:reduce){.fseg.writing .fnote,.fseg.writing .fbar{animation:none!important}}
+/* робоча область пошуку спільного знаменника (НСК) */
+.fracwork{display:flex;flex-direction:column;gap:18px}
+.denbox{background:rgba(91,75,230,.05);border:1.5px dashed #cfc8f5;border-radius:12px;padding:12px 14px;max-width:560px;font-family:'Segoe UI',sans-serif}
+.denttl{font-size:13px;font-weight:700;color:var(--primary);margin-bottom:10px}
+.denrow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:7px}
+.denlbl{font-size:13px;color:var(--muted);min-width:96px;font-weight:600}
+.denchip{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;min-width:34px;padding:2px 7px 3px;background:#fff;border:1px solid var(--line);border-radius:8px;font-family:'JetBrains Mono',monospace;line-height:1.05}
+.denchip .chipk{font-size:10px;color:#a8adc4;font-weight:700}
+.denchip .chipv{font-size:15px;color:var(--graphite)}
+.denchip.hl{background:var(--green-l);border-color:var(--green);transform:scale(1.06)}
+.denchip.hl .chipv{color:var(--green);font-weight:700}
+.denchip.mul{box-shadow:0 0 0 2px var(--primary)}
+.denchip.mul .chipk{color:var(--primary);font-size:12px}
+.denres .mk{color:var(--primary)}
+.denchip.chipnew{animation:chipPop .32s ease-out}
+.denchip.hl.chipnew{animation:chipMatch .5s ease-out}
+@keyframes chipPop{0%{opacity:0;transform:scale(.3) translateY(-8px)}70%{transform:scale(1.15)}100%{opacity:1;transform:scale(1)}}
+@keyframes chipMatch{0%{opacity:0;transform:scale(.3)}50%{transform:scale(1.5)}75%{transform:scale(1.05)}100%{opacity:1;transform:scale(1.06)}}
+.denres{font-size:15px;color:var(--graphite);margin-top:2px}
+.denres b{color:var(--green);font-size:17px}
+.denmul{font-size:14px;color:var(--graphite);margin-top:8px;font-family:'JetBrains Mono',monospace}
+.denmul b{color:var(--primary)}
+.denhint{font-family:'Segoe UI',sans-serif;font-size:12px;color:var(--muted);margin-left:4px}
+@keyframes denIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.list-item{display:flex;align-items:center;gap:14px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;margin-bottom:10px;background:#fff}
+.list-item .ic{width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-size:20px;flex-shrink:0}
+.list-item .txt{flex:1}
+.list-item .txt b{display:block}
+.list-item .txt small{color:var(--muted)}
+.badge{font-size:12px;font-weight:700;padding:3px 9px;border-radius:8px}
+.badge.ok{background:var(--green-l);color:var(--green)}
+.badge.new{background:var(--amber-l);color:var(--amber)}
+
+table.tbl{width:100%;border-collapse:collapse;font-size:14px}
+table.tbl th,table.tbl td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line)}
+table.tbl th{color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.4px}
+table.tbl tr:last-child td{border-bottom:none}
+
+.stat{display:flex;gap:14px}
+.stat .box{flex:1;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
+.stat .box .n{font-size:28px;font-weight:800;color:var(--primary)}
+.stat .box .l{color:var(--muted);font-size:13px}
+
+.section-title{font-size:15px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin:26px 0 12px}
+.modal-bg{position:fixed;inset:0;background:rgba(25,25,55,.45);display:grid;place-items:center;z-index:100;padding:20px}
+.modal{background:#fff;border-radius:18px;max-width:520px;width:100%;padding:26px;box-shadow:0 20px 60px rgba(0,0,0,.3);max-height:90vh;overflow:auto}
+.modal h2{margin-bottom:6px}
+.modal .close{position:absolute}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 22px;border-radius:30px;font-size:14px;box-shadow:var(--shadow);z-index:200;opacity:0;transition:.3s;pointer-events:none}
+.toast.show{opacity:1}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--primary);background:var(--primary-l);padding:6px 12px;border-radius:20px}
+.helper{font-size:13px;color:var(--muted);margin-top:6px}
+.empty{text-align:center;color:var(--muted);padding:40px}
+
+/* ---- Дільники і кратні (контраст) ---- */
+.dvk{display:flex;flex-direction:column;gap:15px;font-family:'Segoe UI',sans-serif;max-width:660px}
+.dvk-num{align-self:center;display:flex;flex-direction:column;align-items:center;gap:2px}
+.dvk-num .nbig{font-size:40px;font-weight:800;color:var(--graphite);font-family:'JetBrains Mono',monospace;line-height:1;
+  width:74px;height:74px;display:grid;place-items:center;background:#fff;border:2.5px solid var(--primary);border-radius:16px;box-shadow:var(--shadow)}
+.dvk-num .ncap{font-size:12px;color:var(--muted)}
+.dlane{border-radius:14px;padding:12px 14px 14px;border:1.5px solid}
+.dlane.d{background:var(--green-l);border-color:#bfe6cf}
+.dlane.k{background:var(--amber-l);border-color:#f2e0b6}
+.dlane-hd{display:flex;align-items:center;gap:9px;margin-bottom:4px}
+.dlane-hd .lt{font-size:15px;font-weight:800}
+.dlane.d .lt{color:var(--green)} .dlane.k .lt{color:#b5852a}
+.dlane-hd .lsub{font-size:12px;color:var(--muted);font-weight:600}
+.dlane-hd .cnt{margin-left:auto;font-size:12px;font-weight:800;padding:3px 10px;border-radius:20px;font-family:'JetBrains Mono',monospace}
+.dlane.d .cnt{background:#fff;color:var(--green);border:1px solid #bfe6cf}
+.dlane.k .cnt{background:#fff;color:#b5852a;border:1px solid #f2e0b6}
+/* лінійка дільників — обмежена, закінчується на N */
+.ruler{position:relative;height:50px;margin:14px 12px 2px}
+.ruler::before{content:'';position:absolute;left:0;right:14px;top:22px;height:3px;background:var(--graphite);border-radius:3px}
+.ruler .rcap{position:absolute;right:-2px;top:12px;font-size:11px;color:var(--muted);transform:translateX(100%)}
+.post{position:absolute;top:8px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:2px}
+.post .stalk{width:2px;height:14px;background:#a9b6d4}
+.post .lab{font-size:10px;color:#96a0bb;font-family:'JetBrains Mono',monospace}
+.post.on .stalk{display:none}
+.post.on .dot{width:12px;height:12px;border-radius:50%;background:var(--green);border:2.5px solid #fff;box-shadow:0 0 0 2px var(--green);margin-top:9px}
+.post.on .lab{color:var(--green);font-weight:800;font-size:13px}
+/* ланцюг кратних — відкритий, тягнеться до ∞ */
+.ktrack{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin:12px 6px 4px}
+.kstop{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:40px;padding:5px 8px;background:#fff;border:1.5px solid #ecd9a6;border-radius:10px}
+.kstop .kv{font-size:16px;font-weight:800;color:#b5852a;font-family:'JetBrains Mono',monospace;line-height:1}
+.kstop .kk{font-size:9px;color:#c2a25f;font-weight:700;margin-top:1px}
+.kstop.first{border-color:var(--amber);box-shadow:0 0 0 2px var(--amber-l)}
+.kdash{width:26px;height:3px;background:linear-gradient(90deg,#d9bd7a 60%,transparent 0) repeat-x;background-size:8px 3px;margin:0 1px}
+.kinf{font-size:24px;font-weight:800;color:#b5852a;padding-left:6px;font-family:'JetBrains Mono',monospace}
+.dlane .note{font-size:12.5px;color:var(--graphite);margin-top:9px;line-height:1.45}
+.dlane.d .note b{color:var(--green)} .dlane.k .note b{color:#b5852a}
+/* міст: одна дія — два прочитання */
+.dvk-bridge{border:1.5px dashed var(--pink);background:var(--pink-l);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:12px;align-items:center}
+.bridge-eq{display:flex;align-items:center;gap:5px}
+.bridge-eq .rem{font-size:13px;color:var(--green);font-weight:700;margin-left:6px}
+.bridge-reads{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;width:100%}
+.bread{flex:1;min-width:180px;display:flex;flex-direction:column;align-items:center;gap:3px;background:#fff;border-radius:11px;padding:10px 12px;border:1px solid var(--line)}
+.bread .arw{font-size:18px;line-height:1}
+.bread .big{font-size:15px;font-weight:800;text-align:center}
+.bread .sml{font-size:11.5px;color:var(--muted);text-align:center}
+.bread.d{border-color:#bfe6cf} .bread.d .big{color:var(--green)} .bread.d .arw{color:var(--green)}
+.bread.k{border-color:#f2e0b6} .bread.k .big{color:#b5852a} .bread.k .arw{color:#b5852a}
+/* підсумкова таблиця-контраст */
+.dvk-sum{border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.dvk-sum table{width:100%;border-collapse:collapse;font-size:13.5px}
+.dvk-sum td,.dvk-sum th{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left}
+.dvk-sum th{font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);background:#fafbff}
+.dvk-sum tr:last-child td{border-bottom:none}
+.dvk-sum .cd{color:var(--green);font-weight:700} .dvk-sum .ck{color:#b5852a;font-weight:700}
+.dvk-sum td.rl{color:var(--muted);font-weight:600;width:150px;background:#fafbff}
+.dvk-verdict{font-size:13.5px;color:var(--graphite);background:#fff;border:1px solid var(--line);border-radius:11px;padding:11px 14px;line-height:1.5}
+.dvk-verdict b{color:var(--primary)}
+@keyframes dvkpop{0%{opacity:0;transform:translateY(7px) scale(.6)}70%{transform:translateY(0) scale(1.14)}100%{opacity:1;transform:scale(1)}}
+.dvk .pop{animation:dvkpop .34s ease backwards}
+@media(prefers-reduced-motion:reduce){.dvk .pop{animation:none!important}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="logo" onclick="goHome()"><span class="mark">🧮</span><span class="brand"><span class="bn">StepBy <i>School</i></span><span class="bt">шкільні предмети крок за кроком</span></span></div>
+</header>
+
+<div class="wrap" id="app"></div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   ДЕМО-ДАНІ
+   ========================================================= */
+const DB = {
+  classes: [
+    {id:'5a', name:'5'},
+    {id:'6a', name:'6'},
+  ],
+  subjects: [
+    {id:'math', name:'Математика', icon:'📐', color:'var(--primary)', bg:'var(--primary-l)', active:true},
+    {id:'ukr',  name:'Українська мова', icon:'📖', color:'var(--pink)', bg:'var(--pink-l)', active:false},
+    {id:'phys', name:'Фізика', icon:'⚛️', color:'var(--amber)', bg:'var(--amber-l)', active:false},
+    {id:'chem', name:'Хімія', icon:'🧪', color:'var(--green)', bg:'var(--green-l)', active:false},
+  ],
+  users: {
+    student:{name:'Олег Петренко', cls:'5a'},
+    teacher:{name:'Марія Іванівна', subject:'Математика'},
+    admin:{name:'Адміністратор школи'},
+  },
+  // теми: кожна прив'язана до класу + предмета, містить матеріали і завдання-інструменти
+  topics: [
+    {id:'t1', cls:'5a', subject:'math', title:'Множення багатоцифрових чисел',
+     desc:'Множення в стовпчик, властивості множення, задачі.',
+     materials:[
+       {type:'video', title:'Відео: як множити в стовпчик'},
+       {type:'text',  title:'Конспект: алгоритм множення'},
+       {type:'test',  title:'Тест: перевір себе (10 завдань)'},
+     ],
+     tasks:[
+       {id:'k1', tool:'mult', title:'Обчисли 284 × 36', cfg:{a:284,b:36}, done:true},
+       {id:'k2', tool:'mult', title:'Обчисли 507 × 48', cfg:{a:507,b:48}, done:false},
+     ]},
+    {id:'t2', cls:'5a', subject:'math', title:'Ділення багатоцифрових чисел',
+     desc:'Ділення в стовпчик (куточком), ділення з остачею.',
+     materials:[
+       {type:'video', title:'Відео: ділення куточком'},
+       {type:'text',  title:'Конспект: крок за кроком'},
+     ],
+     tasks:[
+       {id:'k3', tool:'div', title:'Виконай ділення 7256 : 8', cfg:{n:7256,d:8}, done:false},
+       {id:'k4', tool:'div', title:'Виконай ділення 9450 : 15', cfg:{n:9450,d:15}, done:false},
+     ]},
+    {id:'t3', cls:'5a', subject:'math', title:'Звичайні дроби',
+     desc:'Додавання і віднімання дробів, зведення до спільного знаменника, скорочення.',
+     materials:[
+       {type:'text',  title:'Конспект: спільний знаменник'},
+       {type:'test',  title:'Тест: дії з дробами'},
+     ],
+     tasks:[
+       {id:'k5', tool:'frac', title:'Обчисли 1/4 + 1/6', cfg:{a:1,b:4,op:'+',c:1,d:6}, done:false},
+       {id:'k6', tool:'frac', title:'Обчисли 5/6 − 1/4', cfg:{a:5,b:6,op:'-',c:1,d:4}, done:false},
+     ]},
+    {id:'t7', cls:'6a', subject:'math', title:'Дільники і кратні числа',
+     desc:'Чим дільник відрізняється від кратного, зв’язок між ними.',
+     materials:[
+       {type:'video', title:'Відео: дільник чи кратне?'},
+       {type:'text',  title:'Конспект: дільники ≤ числа, кратні ≥ числа'},
+       {type:'test',  title:'Тест: відрізни дільник від кратного'},
+     ],
+     tasks:[
+       {id:'k12', tool:'dvk', title:'Порівняй дільники і кратні числа 12', cfg:{n:12}, done:false},
+       {id:'k13', tool:'dvk', title:'Порівняй дільники і кратні числа 7', cfg:{n:7}, done:false},
+     ]},
+    {id:'t5', cls:'6a', subject:'math', title:'Дії з дробами',
+     desc:'Додавання, віднімання дробів з різними знаменниками.',
+     materials:[{type:'text', title:'Конспект: НСК знаменників'}],
+     tasks:[
+       {id:'k9', tool:'frac', title:'Обчисли 7/10 + 2/15', cfg:{a:7,b:10,op:'+',c:2,d:15}, done:false},
+     ]},
+    {id:'t4', cls:'6a', subject:'math', title:'Розв’язування рівнянь',
+     desc:'Лінійні рівняння, перенесення доданків, зведення подібних.',
+     materials:[
+       {type:'video', title:'Відео: що таке рівняння'},
+       {type:'text',  title:'Конспект: правила перенесення'},
+       {type:'test',  title:'Тест: розв’яжи рівняння'},
+     ],
+     tasks:[
+       {id:'k7', tool:'eq', title:'Розв’яжи 3x + 5 = 20', cfg:{text:'3x + 5 = 20'}, done:false},
+       {id:'k8', tool:'eq', title:'Розв’яжи 5x - 4 = 2x + 11', cfg:{text:'5x - 4 = 2x + 11'}, done:false},
+     ]},
+    {id:'t6', cls:'6a', subject:'math', title:'Пропорції',
+     desc:'Основна властивість пропорції, зведення навхрест до лінійного рівняння.',
+     materials:[
+       {type:'video', title:'Відео: що таке пропорція'},
+       {type:'text',  title:'Конспект: множення навхрест'},
+     ],
+     tasks:[
+       {id:'k10', tool:'prop', title:'Знайди x: x : 3 = 4 : 6', cfg:{a:'x',b:'3',c:'4',d:'6'}, done:false},
+       {id:'k11', tool:'prop', title:'Знайди x: 2x : 5 = 6 : 15', cfg:{a:'2x',b:'5',c:'6',d:'15'}, done:false},
+     ]},
+  ],
+  // довідник інструментів
+  tools:{
+    dvk:{name:'Дільники і кратні', icon:'↔️', color:'var(--green)', bg:'var(--green-l)'},
+    frac:{name:'Дії з дробами', icon:'½', color:'var(--amber)', bg:'var(--amber-l)'},
+    eq:{name:'Розв’язування рівнянь', icon:'🟰', color:'var(--pink)', bg:'var(--pink-l)'},
+    prop:{name:'Пропорції', icon:'⚖️', color:'var(--pink)', bg:'var(--pink-l)'},
+    mult:{name:'Множення в стовпчик', icon:'✖️', color:'var(--primary)', bg:'var(--primary-l)'},
+    div:{name:'Ділення в стовпчик', icon:'➗', color:'var(--green)', bg:'var(--green-l)'},
+  }
+};
+
+/* =========================================================
+   СТАН ІНТЕРФЕЙСУ
+   ========================================================= */
+const S = { role:'student', view:'home', cls:null, subject:null, topic:null, tool:null, toolCfg:null, step:0, steps:[], eqModel:null, eqAnim:null, fracModel:null, fracFlip:null, dvkModel:null };
+
+const app = document.getElementById('app');
+function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2200); }
+function esc(s){ return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+
+/* Role switch */
+// повернення на головну (клік по лого)
+function goHome(){ S.view='home'; S.cls=null; S.subject=null; S.topic=null; S.tool=null; S.step=0; render(); }
+
+/* =========================================================
+   РОУТЕР
+   ========================================================= */
+function render(){
+  app.classList.toggle('wide', !!S.tool);   // ширша сторінка для інструмента (зошит займає більше місця)
+  if(S.tool){ return renderTool(); }
+  return renderStudent();
+}
+
+function crumbs(parts){
+  return '<div class="crumbs">'+parts.map((p,i)=>{
+    const sep = i<parts.length-1 ? '<span class="sep">›</span>' : '';
+    if(p.go) return `<a onclick="${p.go}">${esc(p.t)}</a>${sep}`;
+    return `<span>${esc(p.t)}</span>${sep}`;
+  }).join('')+'</div>';
+}
+
+/* =========================================================
+   КАБІНЕТ УЧНЯ
+   ========================================================= */
+function renderStudent(){
+  // home -> вибір класу; далі предмет; далі теми; далі тема
+  if(!S.cls){
+    app.innerHTML = `
+      <h1 class="page">Оберіть клас 👋</h1>
+      <p class="sub">Оберіть клас, щоб перейти до предметів і покрокових інтерактивних інструментів.</p>
+      <div class="grid c3">
+        ${DB.classes.map(c=>`
+          <div class="card click" onclick="pick('cls','${c.id}')">
+            <div class="ico" style="background:var(--primary-l)">🏫</div>
+            <h3>${esc(c.name)} клас</h3>
+            <p class="d">${DB.topics.filter(t=>t.cls===c.id).length} навчальних тем</p>
+          </div>`).join('')}
+      </div>`;
+    return;
+  }
+  const clsName = DB.classes.find(c=>c.id===S.cls).name;
+  const subjName = S.subject ? ((DB.subjects.find(s=>s.id===S.subject)||{}).name || 'Предмет') : 'Предмет';
+  if(!S.subject){
+    app.innerHTML = crumbs([{t:'Класи',go:"pick('cls',null)"},{t:clsName+' клас'}]) + `
+      <h1 class="page">Предмети — ${esc(clsName)} клас</h1>
+      <p class="sub">Оберіть предмет. Наразі наповнена математика — українська мова, фізика та хімія в розробці.</p>
+      <div class="grid c3">
+        ${DB.subjects.map(s=>`
+          <div class="card ${s.active?'click':''}" ${s.active?`onclick="pick('subject','${s.id}')"`:'style="opacity:.55"'}>
+            <div class="ico" style="background:${s.bg}">${s.icon}</div>
+            <h3>${esc(s.name)}</h3>
+            <p class="d">${s.active?'Доступні теми та інтерактивні інструменти':'Скоро з’явиться'}</p>
+            ${s.active?'<div class="tag-row"><span class="pill">Активний</span></div>':''}
+          </div>`).join('')}
+      </div>`;
+    return;
+  }
+  if(!S.topic){
+    const topics = DB.topics.filter(t=>t.cls===S.cls && t.subject===S.subject);
+    app.innerHTML = crumbs([{t:'Класи',go:"pick('cls',null)"},{t:clsName+' клас',go:"pick('subject',null)"},{t:subjName}]) + `
+      <h1 class="page">${esc(subjName)} — ${esc(clsName)} клас</h1>
+      <p class="sub">Оберіть тему навчальної програми.</p>
+      <div class="grid c2">
+        ${topics.map(t=>{
+          const done=t.tasks.filter(x=>x.done).length;
+          return `<div class="card click" onclick="pick('topic','${t.id}')">
+            <div style="display:flex;justify-content:space-between;align-items:start">
+              <div class="ico" style="background:var(--primary-l)">📘</div>
+              <span class="pill">${done}/${t.tasks.length} виконано</span>
+            </div>
+            <h3>${esc(t.title)}</h3>
+            <p class="d">${esc(t.desc)}</p>
+            <div class="tag-row">
+              ${[...new Set(t.tasks.map(x=>x.tool))].map(tl=>`<span class="chip">${DB.tools[tl].icon} ${DB.tools[tl].name}</span>`).join('')}
+            </div>
+          </div>`;
+        }).join('') || '<div class="empty">Тем поки немає</div>'}
+      </div>`;
+    return;
+  }
+  // сторінка теми
+  const t = DB.topics.find(x=>x.id===S.topic);
+  const matIcon={video:'🎬',text:'📄',test:'✅'};
+  app.innerHTML = crumbs([{t:'Класи',go:"pick('cls',null)"},{t:clsName+' клас',go:"pick('subject',null)"},{t:subjName,go:"pick('topic',null)"},{t:t.title}]) + `
+    <h1 class="page">${esc(t.title)}</h1>
+    <p class="sub">${esc(t.desc)}</p>
+
+    <div class="section-title">🧩 Інтерактивні завдання від вчителя</div>
+    <div class="grid c2">
+      ${t.tasks.map(k=>`
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:8px">
+            <div class="ico" style="background:${DB.tools[k.tool].bg};margin:0">${DB.tools[k.tool].icon}</div>
+            ${k.done?'<span class="badge ok">✓ виконано</span>':'<span class="badge new">нове</span>'}
+          </div>
+          <h3>${esc(k.title)}</h3>
+          <p class="d">${DB.tools[k.tool].name}</p>
+          <div style="margin-top:14px">
+            <button class="btn sm" onclick="openTool('${k.tool}',${JSON.stringify(k.cfg).replace(/"/g,'&quot;')},'${k.id}')">▶ Розв’язати крок за кроком</button>
+          </div>
+        </div>`).join('')}
+    </div>
+
+    <div class="section-title">📚 Навчальні матеріали</div>
+    <div class="card">
+      ${t.materials.map(m=>`
+        <div class="list-item">
+          <div class="ic" style="background:var(--primary-l)">${matIcon[m.type]||'📄'}</div>
+          <div class="txt"><b>${esc(m.title)}</b><small>${m.type==='video'?'Відеоурок':m.type==='test'?'Інтерактивний тест':'Текстовий конспект'}</small></div>
+          <button class="btn ghost sm" onclick="toast('Демо: матеріал відкрито')">Відкрити</button>
+        </div>`).join('')}
+    </div>
+
+    <div class="section-title">🛠️ Спробувати інструменти вільно</div>
+    <div class="grid c2">
+      ${[...new Set(t.tasks.map(x=>x.tool))].map(tl=>`
+        <div class="card click" onclick="openTool('${tl}',null,null)">
+          <div class="ico" style="background:${DB.tools[tl].bg}">${DB.tools[tl].icon}</div>
+          <h3>${DB.tools[tl].name}</h3>
+          <p class="d">Введи власні числа і розв’яжи крок за кроком</p>
+        </div>`).join('')}
+    </div>`;
+}
+
+function pick(key,val){
+  if(key==='cls'){ S.cls=val; S.subject=null; S.topic=null; }
+  if(key==='subject'){ S.subject=val; S.topic=null; }
+  if(key==='topic'){ S.topic=val; }
+  render();
+}
+
+/* =========================================================
+   КАБІНЕТ ВЧИТЕЛЯ
+   ========================================================= */
+function renderTeacher(){
+  if(S.topic){
+    return renderTeacherTopic();
+  }
+  const topics=DB.topics.filter(t=>t.subject==='math');
+  app.innerHTML = `
+    <h1 class="page">Кабінет вчителя</h1>
+    <p class="sub">Марія Іванівна · вчитель математики. Керуйте темами та налаштовуйте інтерактивні завдання для учнів.</p>
+    <div class="stat" style="margin-bottom:24px">
+      <div class="box"><div class="n">${DB.classes.length}</div><div class="l">класів</div></div>
+      <div class="box"><div class="n">${topics.length}</div><div class="l">тем з математики</div></div>
+      <div class="box"><div class="n">${topics.reduce((a,t)=>a+t.tasks.length,0)}</div><div class="l">завдань створено</div></div>
+      <div class="box"><div class="n">4</div><div class="l">інтерактивні інструменти</div></div>
+    </div>
+
+    <div class="section-title">📋 Теми та завдання</div>
+    <div class="card">
+      <table class="tbl">
+        <tr><th>Тема</th><th>Клас</th><th>Завдань</th><th>Інструменти</th><th></th></tr>
+        ${topics.map(t=>`
+          <tr>
+            <td><b>${esc(t.title)}</b></td>
+            <td>${DB.classes.find(c=>c.id===t.cls).name}</td>
+            <td>${t.tasks.length}</td>
+            <td>${[...new Set(t.tasks.map(x=>x.tool))].map(tl=>DB.tools[tl].icon).join(' ')}</td>
+            <td style="text-align:right"><button class="btn ghost sm" onclick="teacherOpen('${t.id}')">Налаштувати</button></td>
+          </tr>`).join('')}
+      </table>
+    </div>
+
+    <div class="section-title">🧪 Швидко перевірити інструмент</div>
+    <div class="grid c2">
+      ${Object.keys(DB.tools).map(tl=>`
+        <div class="card click" onclick="openTool('${tl}',null,null)">
+          <div class="ico" style="background:${DB.tools[tl].bg}">${DB.tools[tl].icon}</div>
+          <h3>${DB.tools[tl].name}</h3>
+          <p class="d">Відкрити інструмент і перевірити роботу</p>
+        </div>`).join('')}
+    </div>`;
+}
+function teacherOpen(id){ S.topic=id; render(); }
+
+function renderTeacherTopic(){
+  const t=DB.topics.find(x=>x.id===S.topic);
+  const clsName=DB.classes.find(c=>c.id===t.cls).name;
+  app.innerHTML = crumbs([{t:'Кабінет вчителя',go:"S.topic=null;render()"},{t:t.title}]) + `
+    <h1 class="page">${esc(t.title)}</h1>
+    <p class="sub">${esc(clsName)} клас · Математика. Тут ви налаштовуєте завдання, які учні розв’язують інтерактивно.</p>
+
+    <div class="section-title">🧩 Завдання цієї теми</div>
+    <div class="card">
+      ${t.tasks.map(k=>`
+        <div class="list-item">
+          <div class="ic" style="background:${DB.tools[k.tool].bg}">${DB.tools[k.tool].icon}</div>
+          <div class="txt"><b>${esc(k.title)}</b><small>${DB.tools[k.tool].name} · параметри: ${esc(cfgSummary(k.tool,k.cfg))}</small></div>
+          <button class="btn ghost sm" onclick="editTask('${t.id}','${k.id}')">✏️ Змінити</button>
+          <button class="btn gray sm" onclick="openTool('${k.tool}',${JSON.stringify(k.cfg).replace(/"/g,'&quot;')},null)">👁 Перегляд</button>
+        </div>`).join('')}
+      <button class="btn" style="margin-top:8px" onclick="addTask('${t.id}')">➕ Додати завдання</button>
+    </div>`;
+}
+
+function cfgSummary(tool,cfg){
+  if(tool==='mult') return `${cfg.a} × ${cfg.b}`;
+  if(tool==='div')  return `${cfg.n} : ${cfg.d}`;
+  if(tool==='eq')   return cfg.text;
+  if(tool==='frac') return `${cfg.a}/${cfg.b} ${cfg.op} ${cfg.c}/${cfg.d}`;
+  if(tool==='prop') return `${cfg.a} : ${cfg.b} = ${cfg.c} : ${cfg.d}`;
+  if(tool==='dvk')  return `число ${cfg.n}`;
+  return '';
+}
+
+/* ---- редагування / додавання завдання вчителем ---- */
+function taskEditorFields(tool,cfg){
+  cfg=cfg||{};
+  if(tool==='mult') return `
+    <div class="row">
+      <div class="field" style="flex:1"><label class="fl">Перший множник</label><input id="f_a" type="number" value="${cfg.a||''}"></div>
+      <div class="field" style="flex:1"><label class="fl">Другий множник</label><input id="f_b" type="number" value="${cfg.b||''}"></div>
+    </div>`;
+  if(tool==='div') return `
+    <div class="row">
+      <div class="field" style="flex:1"><label class="fl">Ділене</label><input id="f_n" type="number" value="${cfg.n||''}"></div>
+      <div class="field" style="flex:1"><label class="fl">Дільник</label><input id="f_d" type="number" value="${cfg.d||''}"></div>
+    </div>`;
+  if(tool==='eq') return `
+    <div class="field"><label class="fl">Рівняння (наприклад 3x + 5 = 20)</label><input id="f_text" value="${cfg.text||''}"></div>
+    <p class="helper">Підтримуються лінійні рівняння з x з обох боків.</p>`;
+  if(tool==='prop') return `
+    <div class="row">
+      <div class="field" style="flex:1"><label class="fl">a</label><input id="f_a" value="${cfg.a||''}"></div>
+      <div class="field" style="flex:1"><label class="fl">b</label><input id="f_b" value="${cfg.b||''}"></div>
+      <div class="field" style="flex:1"><label class="fl">c</label><input id="f_c" value="${cfg.c||''}"></div>
+      <div class="field" style="flex:1"><label class="fl">d</label><input id="f_d" value="${cfg.d||''}"></div>
+    </div>
+    <p class="helper">Пропорція a : b = c : d. Кожна частина — число або доданок з x (напр. 5x, 4).</p>`;
+  if(tool==='dvk') return `
+    <div class="field"><label class="fl">Число (2–30)</label><input id="f_n" type="number" min="2" max="30" value="${cfg.n||''}"></div>
+    <p class="helper">Учень побачить порівняння дільників і кратних цього числа.</p>`;
+  if(tool==='frac') return `
+    <div class="row">
+      <div class="field" style="flex:1"><label class="fl">Чисельник 1</label><input id="f_a" type="number" value="${cfg.a||''}"></div>
+      <div class="field" style="flex:1"><label class="fl">Знаменник 1</label><input id="f_b" type="number" value="${cfg.b||''}"></div>
+      <div class="field" style="width:80px"><label class="fl">Дія</label>
+        <select id="f_op"><option ${cfg.op==='+'?'selected':''}>+</option><option ${cfg.op==='-'?'selected':''}>-</option></select></div>
+      <div class="field" style="flex:1"><label class="fl">Чисельник 2</label><input id="f_c" type="number" value="${cfg.c||''}"></div>
+      <div class="field" style="flex:1"><label class="fl">Знаменник 2</label><input id="f_d" type="number" value="${cfg.d||''}"></div>
+    </div>`;
+}
+function readEditor(tool){
+  const v=id=>document.getElementById(id).value;
+  if(tool==='mult') return {a:+v('f_a'),b:+v('f_b')};
+  if(tool==='div')  return {n:+v('f_n'),d:+v('f_d')};
+  if(tool==='eq')   return {text:v('f_text')};
+  if(tool==='prop') return {a:v('f_a'),b:v('f_b'),c:v('f_c'),d:v('f_d')};
+  if(tool==='dvk')  return {n:+v('f_n')};
+  if(tool==='frac') return {a:+v('f_a'),b:+v('f_b'),op:v('f_op'),c:+v('f_c'),d:+v('f_d')};
+}
+let editCtx=null;
+function editTask(topicId,taskId){
+  const t=DB.topics.find(x=>x.id===topicId); const k=t.tasks.find(x=>x.id===taskId);
+  editCtx={topicId,taskId,tool:k.tool};
+  showModal(`Редагувати завдання`, `
+    <p class="sub" style="margin-bottom:16px">${DB.tools[k.tool].icon} ${DB.tools[k.tool].name}</p>
+    <div class="field"><label class="fl">Назва завдання (бачить учень)</label><input id="f_title" value="${esc(k.title)}"></div>
+    ${taskEditorFields(k.tool,k.cfg)}
+    <div class="row" style="justify-content:flex-end;margin-top:8px">
+      <button class="btn gray" onclick="closeModal()">Скасувати</button>
+      <button class="btn" onclick="saveTask()">💾 Зберегти</button>
+    </div>`);
+}
+function addTask(topicId){
+  showModal('Додати завдання',`
+    <div class="field"><label class="fl">Інструмент</label>
+      <select id="f_tool" onchange="switchAddTool('${topicId}')">
+        ${Object.keys(DB.tools).map(tl=>`<option value="${tl}">${DB.tools[tl].name}</option>`).join('')}
+      </select></div>
+    <div class="field"><label class="fl">Назва завдання</label><input id="f_title" placeholder="Напр. Обчисли 123 × 45"></div>
+    <div id="addFields">${taskEditorFields('mult',{})}</div>
+    <div class="row" style="justify-content:flex-end;margin-top:8px">
+      <button class="btn gray" onclick="closeModal()">Скасувати</button>
+      <button class="btn" onclick="createTask('${topicId}')">➕ Створити</button>
+    </div>`);
+  editCtx={topicId,taskId:null,tool:'mult'};
+}
+function switchAddTool(topicId){
+  const tool=document.getElementById('f_tool').value; editCtx.tool=tool;
+  document.getElementById('addFields').innerHTML=taskEditorFields(tool,{});
+}
+function saveTask(){
+  const t=DB.topics.find(x=>x.id===editCtx.topicId); const k=t.tasks.find(x=>x.id===editCtx.taskId);
+  k.title=document.getElementById('f_title').value; k.cfg=readEditor(editCtx.tool);
+  closeModal(); toast('Завдання оновлено ✓'); render();
+}
+function createTask(topicId){
+  const t=DB.topics.find(x=>x.id===topicId);
+  const tool=editCtx.tool;
+  t.tasks.push({id:'k'+Math.round(performance.now()), tool, title:document.getElementById('f_title').value||'Нове завдання', cfg:readEditor(tool), done:false});
+  closeModal(); toast('Завдання створено ✓'); render();
+}
+
+/* =========================================================
+   КАБІНЕТ АДМІНІСТРАТОРА
+   ========================================================= */
+function renderAdmin(){
+  app.innerHTML = `
+    <h1 class="page">Панель адміністратора</h1>
+    <p class="sub">Керування структурою порталу: класи, предмети, програма та користувачі.</p>
+    <div class="stat" style="margin-bottom:24px">
+      <div class="box"><div class="n">${DB.classes.length}</div><div class="l">класів</div></div>
+      <div class="box"><div class="n">${DB.subjects.length}</div><div class="l">предметів</div></div>
+      <div class="box"><div class="n">${DB.topics.length}</div><div class="l">тем у програмі</div></div>
+      <div class="box"><div class="n">3</div><div class="l">ролі користувачів</div></div>
+    </div>
+
+    <div class="grid c2">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <h3>🏫 Класи</h3><button class="btn ghost sm" onclick="adminAddClass()">➕ Додати</button>
+        </div>
+        <table class="tbl">
+          <tr><th>Клас</th><th>Тем</th></tr>
+          ${DB.classes.map(c=>`<tr><td><b>${esc(c.name)}</b></td><td>${DB.topics.filter(t=>t.cls===c.id).length}</td></tr>`).join('')}
+        </table>
+      </div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <h3>📚 Предмети</h3><button class="btn ghost sm" onclick="toast('Демо: додавання предмета')">➕ Додати</button>
+        </div>
+        <table class="tbl">
+          <tr><th>Предмет</th><th>Статус</th></tr>
+          ${DB.subjects.map(s=>`<tr><td>${s.icon} <b>${esc(s.name)}</b></td><td>${s.active?'<span class="badge ok">активний</span>':'<span class="badge new">у розробці</span>'}</td></tr>`).join('')}
+        </table>
+      </div>
+    </div>
+
+    <div class="section-title">📖 Навчальна програма (математика)</div>
+    <div class="card">
+      <table class="tbl">
+        <tr><th>Тема</th><th>Клас</th><th>Матеріалів</th><th>Завдань</th><th>Інструменти</th></tr>
+        ${DB.topics.filter(t=>t.subject==='math').map(t=>`
+          <tr><td><b>${esc(t.title)}</b></td><td>${DB.classes.find(c=>c.id===t.cls).name}</td>
+          <td>${t.materials.length}</td><td>${t.tasks.length}</td>
+          <td>${[...new Set(t.tasks.map(x=>x.tool))].map(tl=>DB.tools[tl].icon).join(' ')}</td></tr>`).join('')}
+      </table>
+    </div>
+
+    <div class="section-title">👥 Користувачі та ролі</div>
+    <div class="card">
+      <table class="tbl">
+        <tr><th>Ім’я</th><th>Роль</th><th>Доступ</th></tr>
+        <tr><td><b>Олег Петренко</b></td><td>🎒 Учень</td><td>5-А клас · перегляд матеріалів, розв’язування завдань</td></tr>
+        <tr><td><b>Марія Іванівна</b></td><td>👩‍🏫 Вчитель</td><td>Математика · створення й налаштування завдань</td></tr>
+        <tr><td><b>Адміністратор школи</b></td><td>🛠️ Адміністратор</td><td>Повний доступ до структури порталу</td></tr>
+      </table>
+    </div>`;
+}
+function adminAddClass(){
+  showModal('Додати клас',`
+    <div class="field"><label class="fl">Назва класу</label><input id="f_cls" placeholder="Напр. 6-Б"></div>
+    <div class="row" style="justify-content:flex-end">
+      <button class="btn gray" onclick="closeModal()">Скасувати</button>
+      <button class="btn" onclick="doAddClass()">Додати</button>
+    </div>`);
+}
+function doAddClass(){
+  const n=document.getElementById('f_cls').value.trim(); if(!n) return;
+  DB.classes.push({id:'c'+Math.round(performance.now()),name:n});
+  closeModal(); toast('Клас додано ✓'); render();
+}
+
+/* =========================================================
+   МОДАЛКА
+   ========================================================= */
+function showModal(title,body){
+  const d=document.createElement('div'); d.className='modal-bg'; d.id='modalBg';
+  d.innerHTML=`<div class="modal"><h2>${esc(title)}</h2>${body}</div>`;
+  d.addEventListener('click',e=>{if(e.target===d)closeModal();});
+  document.body.appendChild(d);
+}
+function closeModal(){ const m=document.getElementById('modalBg'); if(m)m.remove(); }
+
+/* =========================================================
+   ІНТЕРАКТИВНІ ІНСТРУМЕНТИ
+   ========================================================= */
+function openTool(tool,cfg,taskId){
+  S.tool=tool; S.toolCfg=cfg; S.toolTaskId=taskId||null; S.step=0;
+  buildSteps();
+  render();
+}
+function closeTool(){ S.tool=null; S.toolCfg=null; S.steps=[]; S.step=0; render(); }
+
+function buildSteps(){
+  const c=S.toolCfg;
+  try{
+    if(S.tool==='mult') S.steps = c? multSteps(c.a,c.b) : [];
+    if(S.tool==='div')  S.steps = c? divSteps(c.n,c.d) : [];
+    if(S.tool==='eq'){ if(c){ S.eqModel=buildEqModel(c.text); S.steps=S.eqModel.rows.map(r=>({text:r.text, eq:true})); } else { S.eqModel=null; S.steps=[]; } }
+    if(S.tool==='prop'){ if(c){ S.eqModel=buildProportion(c.a,c.b,c.c,c.d); S.steps=S.eqModel.rows.map(r=>({text:r.text, eq:true})); } else { S.eqModel=null; S.steps=[]; } }
+    if(S.tool==='frac'){ if(c){ S.fracModel=buildFracModel(c.a,c.b,c.op,c.c,c.d); S.steps=S.fracModel.steps.map(s=>({text:s.text, frac:true})); } else { S.fracModel=null; S.steps=[]; } }
+    if(S.tool==='dvk'){ if(c){ S.dvkModel=buildDvkModel(c.n); S.steps=S.dvkModel.steps.map(s=>({text:s.text, dvk:true, phase:s.phase})); } else { S.dvkModel=null; S.steps=[]; } }
+  }catch(e){
+    const msg = (typeof e==='string' && e!=='bad') ? e
+      : (S.tool==='eq' ? 'Не вдалося прочитати рівняння. Приклад: 3x + 5 = 20 або 5x − 4 = 2x + 11.' : 'Перевірте введені значення.');
+    S.steps=[{html:`<div class="empty">${esc(msg)}</div>`, text:msg}];
+  }
+}
+
+function renderTool(){
+  const meta=DB.tools[S.tool];
+  const hasData = S.steps.length>0;
+  app.innerHTML = `
+    <div class="crumbs"><a onclick="closeTool()">← Назад</a></div>
+    <h1 class="page">${meta.icon} ${meta.name}</h1>
+    <p class="sub">Покроковий інтерактивний розбір. Натискай «Далі», щоб побачити кожен крок.</p>
+    <div class="tool-shell">
+      <div class="panel cfg">
+        <h3>⚙️ Умова</h3>
+        <div id="toolInputs">${toolInputs()}</div>
+        <button class="btn" style="width:100%;margin-top:4px" onclick="applyTool()">▶ Показати розв’язання</button>
+        ${S.toolTaskId?`<button class="btn green sm" style="width:100%;margin-top:8px" onclick="markDone()">✓ Позначити виконаним</button>`:''}
+        <p class="helper">Можна ввести свої значення і натиснути «Показати розв’язання».</p>
+      </div>
+      <div class="panel stage">
+        ${hasData?stageHtml():'<div class="empty">Введи умову ліворуч і натисни «Показати розв’язання», щоб побачити покроковий розбір 👈</div>'}
+      </div>
+    </div>`;
+  if((S.tool==='eq'||S.tool==='prop') && S.eqAnim){ requestAnimationFrame(()=>requestAnimationFrame(runEqAnim)); }
+  if(S.tool==='frac'){ requestAnimationFrame(()=>requestAnimationFrame(()=>{ runFracMulAnim(); runFracFlip(); })); }
+}
+
+function toolInputs(){
+  const c=S.toolCfg||{};
+  if(S.tool==='mult') return `
+    <div class="field"><label class="fl">Перший множник</label><input id="i_a" type="number" value="${c.a??284}"></div>
+    <div class="field"><label class="fl">Другий множник</label><input id="i_b" type="number" value="${c.b??36}"></div>`;
+  if(S.tool==='div') return `
+    <div class="field"><label class="fl">Ділене</label><input id="i_n" type="number" value="${c.n??7256}"></div>
+    <div class="field"><label class="fl">Дільник</label><input id="i_d" type="number" value="${c.d??8}"></div>`;
+  if(S.tool==='eq') return `
+    <div class="field"><label class="fl">Рівняння</label><input id="i_text" value="${c.text??'3x + 5 = 20'}"></div>`;
+  if(S.tool==='prop') return `
+    <div class="field"><label class="fl">Пропорція (a : b = c : d)</label>
+      <div class="row"><input id="i_a" value="${c.a??'x'}" style="flex:1"><span style="align-self:center">:</span><input id="i_b" value="${c.b??'3'}" style="flex:1"></div></div>
+    <div class="field"><label class="fl">=</label>
+      <div class="row"><input id="i_c" value="${c.c??'4'}" style="flex:1"><span style="align-self:center">:</span><input id="i_d" value="${c.d??'6'}" style="flex:1"></div></div>
+    <p class="helper">Кожна частина — число або доданок з x (напр. 5x, 4). Пропорція зводиться навхрест до лінійного рівняння.</p>`;
+  if(S.tool==='frac') return `
+    <div class="field"><label class="fl">Перший дріб</label>
+      <div class="row"><input id="i_a" type="number" value="${c.a??1}" style="flex:1"><span style="align-self:center">/</span><input id="i_b" type="number" value="${c.b??4}" style="flex:1"></div></div>
+    <div class="field"><label class="fl">Дія</label>
+      <select id="i_op"><option ${c.op==='-'?'':'selected'}>+</option><option ${c.op==='-'?'selected':''}>-</option></select></div>
+    <div class="field"><label class="fl">Другий дріб</label>
+      <div class="row"><input id="i_c" type="number" value="${c.c??1}" style="flex:1"><span style="align-self:center">/</span><input id="i_d" type="number" value="${c.d??6}" style="flex:1"></div></div>`;
+  if(S.tool==='dvk') return `
+    <div class="field"><label class="fl">Число</label><input id="i_n" type="number" min="2" max="30" value="${c.n??12}"></div>
+    <p class="helper">Порівняємо дільники і кратні цього числа. Найкраще працює для чисел від 2 до 30.</p>`;
+}
+function applyTool(){
+  const v=id=>document.getElementById(id).value;
+  if(S.tool==='mult') S.toolCfg={a:+v('i_a'),b:+v('i_b')};
+  if(S.tool==='div')  S.toolCfg={n:+v('i_n'),d:+v('i_d')};
+  if(S.tool==='eq')   S.toolCfg={text:v('i_text')};
+  if(S.tool==='prop') S.toolCfg={a:v('i_a'),b:v('i_b'),c:v('i_c'),d:v('i_d')};
+  if(S.tool==='frac') S.toolCfg={a:+v('i_a'),b:+v('i_b'),op:v('i_op'),c:+v('i_c'),d:+v('i_d')};
+  if(S.tool==='dvk')  S.toolCfg={n:+v('i_n')};
+  S.step=0; buildSteps(); render();
+}
+function markDone(){
+  for(const t of DB.topics){ const k=t.tasks.find(x=>x.id===S.toolTaskId); if(k){k.done=true;} }
+  toast('Завдання виконано! 🎉');
+}
+function stageHtml(){
+  const st=S.steps[S.step];
+  const last=S.step===S.steps.length-1;
+  let contentHtml;
+  if(st.eq) contentHtml=eqStageInner();
+  else if(st.frac) contentHtml=fracStageInner();
+  else if(st.dvk) contentHtml=dvkView(S.dvkModel, st.phase);
+  else contentHtml=st.html;
+  const inner = `<div class="paper sheet">${contentHtml}</div>`;
+  return `
+    <div class="stage-head">
+      <span class="step-count">Крок ${S.step+1} з ${S.steps.length}</span>
+      <div>
+        <button class="btn gray sm" onclick="stepTo(0)" ${S.step===0?'disabled style=opacity:.4':''}>⟲ Спочатку</button>
+      </div>
+    </div>
+    <div class="calc">${inner}</div>
+    <div class="explain ${last?'done':''}"><span>${last?'🎉 ':''}${st.text}</span></div>
+    <div class="step-nav">
+      <button class="btn gray" onclick="stepTo(${S.step-1})" ${S.step===0?'disabled style=opacity:.4':''}>← Назад</button>
+      <button class="btn" onclick="stepTo(${S.step+1})" ${last?'disabled style=opacity:.4':''}>Далі →</button>
+    </div>`;
+}
+function stepTo(i){ if(i<0||i>=S.steps.length) return; if(S.tool==='eq'||S.tool==='prop') prepareEqAnim(i); if(S.tool==='frac') prepareFracAnim(i); S.step=i; render(); }
+
+/* ---------- helpers для колонкового рендера ---------- */
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){[a,b]=[b,a%b];}return a||1;}
+// Відмальовка колонкового обчислення на клітинковій сітці.
+// rows: [{cells:[...]}] або {line:true, span?:[from,to]} — лінія підкреслює попередній рядок.
+function colGrid(rows, width){
+  const content=[];
+  for(const r of rows){
+    if(r.line){
+      if(content.length){
+        const prev=content[content.length-1];
+        if(r.span) prev.ulSpan=r.span; else prev.ulFull=true;
+      }
+    } else content.push({cells:r.cells, anim:r.anim});
+  }
+  const ctx={writing:true, order:0};                 // спільний лічильник для послідовного «письма»
+  let h=`<div class="notebook" style="grid-template-columns:repeat(${width},var(--cell))">`;
+  for(const r of content){
+    for(let i=0;i<width;i++){
+      const c=r.cells[i];
+      let cls='nk'+(c?(' '+(c.cls||'')):' e');
+      if(r.ulFull || (r.ulSpan && i>=r.ulSpan[0] && i<=r.ulSpan[1])) cls+=' ul';
+      let inner='';
+      if(c){ inner = (r.anim||c.anim) ? hwGlyphs(c.ch, ctx) : hwGlyphs(c.ch, {writing:false}); }
+      h+=`<div class="${cls}">${inner}</div>`;
+    }
+  }
+  return h+'</div>';
+}
+function mkRow(str,endCol,width,cls){
+  const cells=Array(width).fill('');
+  str=String(str);
+  for(let k=0;k<str.length;k++){ const c=endCol-(str.length-1)+k; if(c>=0&&c<width) cells[c]={ch:str[k],cls}; }
+  return {cells};
+}
+
+/* ---------- 1) МНОЖЕННЯ В СТОВПЧИК ---------- */
+function multSteps(a,b){
+  a=Math.abs(Math.trunc(a)); b=Math.abs(Math.trunc(b));
+  if(!a||!b||a>999999||b>9999) throw 'bad';
+  const total=a*b;
+  const B=String(b);
+  const width=String(total).length+1;
+  const partials=[]; // {val, shift, digit}
+  for(let i=B.length-1;i>=0;i--){ const digit=+B[i]; const shift=B.length-1-i; partials.push({val:a*digit, shift, digit}); }
+  const steps=[];
+  // базовий макет
+  const rowA=()=>mkRow(a, width-1, width);
+  const rowB=()=>{ const r=mkRow(b, width-1, width); const c=width-String(b).length-1; if(c>=0) r.cells[c]={ch:'×',cls:'op'}; return r; };
+
+  // крок 0 — пишемо обидва множники
+  const a0=rowA(); a0.anim=true; const b0=rowB(); b0.anim=true;
+  steps.push({ html: colGrid([a0, b0, {line:true}], width),
+    text:`Записуємо числа у стовпчик, вирівнюючи за розрядами. Множимо ${a} на ${b}.` });
+
+  // кроки-часткові добутки (пишеться лише новий частковий добуток)
+  const shownPartials=[];
+  partials.forEach((p,idx)=>{
+    const pr=mkRow(p.val, width-1-p.shift, width);
+    shownPartials.push(pr);
+    const rows=[rowA(), rowB(), {line:true}, ...shownPartials.map((x,i)=>({cells:x.cells, anim:i===idx}))];
+    steps.push({ html: colGrid(rows, width),
+      text: partials.length===1
+        ? `Множимо ${a} × ${p.digit} = ${p.val}. Це і є відповідь.`
+        : `Множимо ${a} на ${p.digit} (розряд ${p.shift===0?'одиниць':p.shift===1?'десятків':'сотень'}): ${a} × ${p.digit} = ${p.val}${p.shift?`, записуємо зі зсувом на ${p.shift} ${p.shift===1?'розряд':'розряди'} вліво`:''}.` });
+  });
+
+  // додавання часткових добутків — пишеться підсумок
+  if(partials.length>1){
+    const sum=mkRow(total, width-1, width, 'res'); sum.anim=true;
+    const rows=[rowA(), rowB(), {line:true}, ...shownPartials.map(x=>({cells:x.cells})), {line:true}, sum];
+    steps.push({ html: colGrid(rows, width),
+      text:`Додаємо часткові добутки стовпчиком і отримуємо результат: ${total}.` });
+  }
+  // фінал
+  steps.push({ html:hwEqline([{t:String(a)},{t:'×',cls:'op'},{t:String(b)},{t:'=',cls:'op'},{t:String(total),cls:'res'}]),
+    text:`Готово! ${a} × ${b} = ${total}.` });
+  return steps;
+}
+
+/* ---------- 2) ДІЛЕННЯ В СТОВПЧИК ---------- */
+function divSteps(N,D){
+  N=Math.abs(Math.trunc(N)); D=Math.abs(Math.trunc(D));
+  if(!N||!D||D>N||D>9999) throw 'bad';
+  const ds=String(N).split('').map(Number);
+  const n=ds.length;
+  const steps=[];
+  // повна частка наперед — щоб ширина правого блоку не «стрибала»
+  const fullQ=(()=>{let r=0,q='',st=false;for(const d of ds){const cur=r*10+d;const dq=Math.floor(cur/D);if(dq>0)st=true;if(st)q+=dq;r=cur-dq*D;}return q||'0';})();
+  const dW=Math.max(String(D).length, fullQ.length);
+  // заголовок «куточком»: ділене | дільник над часткою
+  function header(work, quotient, opts={}){
+    const dividend=mkRow(N,n-1,n); if(opts.animHead) dividend.anim=true;
+    const left=colGrid([dividend, ...work], n);
+    const divRow=mkRow(D, dW-1, dW); if(opts.animHead) divRow.anim=true;
+    const quoRow=quotient? mkRow(quotient, dW-1, dW, 'res') : {cells:Array(dW).fill('')};
+    if(opts.animQuot && quotient){ for(let k=quoRow.cells.length-1;k>=0;k--){ if(quoRow.cells[k]){ quoRow.cells[k].anim=true; break; } } }
+    const right=colGrid([divRow, {line:true}, quoRow], dW);
+    return `<div class="divwrap">${left}<div class="divbar"></div>${right}</div>`;
+  }
+  steps.push({ html:header([],'', {animHead:true}), text:`Ділимо ${N} на ${D} «куточком». Дільник ${D} записуємо праворуч, частку будемо писати під ним.` });
+
+  const work=[];
+  let r=0, quotient='', started=false;
+  for(let i=0;i<n;i++){
+    const cur=r*10+ds[i];
+    const q=Math.floor(cur/D); const prod=q*D; const rem=cur-prod;
+    if(q>0) started=true;
+    if(started){
+      quotient+=q;
+      // рядок зменшуваного (поточний шматок) — end col = i
+      const curRow=mkRow(cur, i, n, 'muted'); work.push(curRow);
+      // добуток з мінусом
+      const prow=mkRow(prod, i, n);
+      const minusCol=i-String(prod).length; if(minusCol>=0) prow.cells[minusCol]={ch:'−',cls:'op'};
+      work.push(prow);
+      work.push({line:true, span:[Math.max(0,minusCol), i]});
+      curRow.anim=true; prow.anim=true;                    // «пишемо» лише новий шматок і добуток + нову цифру частки
+      steps.push({ html:header(work.slice(), quotient, {animQuot:true}),
+        text:`${cur} : ${D} = ${q}, бо ${q} × ${D} = ${prod}. Віднімаємо: ${cur} − ${prod} = ${rem}${i<n-1?`, зносимо наступну цифру`:''}.` });
+      curRow.anim=false; prow.anim=false;                  // далі показуємо їх статично
+      // рядок остачі (буде основою наступного шматка)
+      work.push(mkRow(rem, i, n, rem===0?'':'muted'));
+      r=rem;
+    } else {
+      r=cur; // провідні нулі частки пропускаємо
+    }
+  }
+  const finalRem=r;
+  const parts=[{t:String(N)},{t:':',cls:'op'},{t:String(D)},{t:'=',cls:'op'},{t:quotient,cls:'res'}];
+  if(finalRem){ parts.push({t:'('},{t:'ост. '+finalRem}); parts.push({t:')'}); }
+  steps.push({ html:hwEqline(parts),
+    text:`Готово! ${N} : ${D} = ${quotient}${finalRem?`, остача ${finalRem}`:', ділиться націло'}.` });
+  return steps;
+}
+
+/* ---------- 3) РОЗВ'ЯЗУВАННЯ РІВНЯНЬ ---------- */
+function parseSide(s){
+  s=s.replace(/\s+/g,'').replace(/-/g,'+-').replace(/^\+/,'');
+  const numRe=/^-?\d+(\.\d+)?$/;              // допускаємо лише чисті числа-коефіцієнти
+  let a=0,b=0;
+  for(const t of s.split('+')){
+    if(t==='') continue;
+    if(t.includes('x')){ let co=t.replace('x',''); if(co===''||co==='+')co='1'; if(co==='-')co='-1'; if(!numRe.test(co)) throw 'bad'; a+=parseFloat(co); }
+    else { if(!numRe.test(t)) throw 'bad'; b+=parseFloat(t); }
+  }
+  return {a,b};
+}
+function fmtNum(x){ if(Number.isInteger(x)) return String(x); const g=gcd(Math.round(x*1000000),1000000); return String(Math.round(x*100)/100); }
+function signed(x){ return x<0?`− ${Math.abs(x)}`:`+ ${x}`; }
+const EQ_STEP=0.16; // затримка між появою сусідніх доданків при «написанні», с
+function fmtX(c){ c=+c; const a=Math.abs(c); const s=c<0?'−':''; const cc=(a===1?'':fmtNum(a)); return s+cc+'x'; }
+// Будуємо структуровану модель розв'язання: рядки з токенами, кожен токен має стійкий id
+// (щоб анімувати переліт цифри зі старої позиції на нову), і тип переходу для кожного рядка.
+// Тонка обгортка: розбирає текст рівняння й делегує лінійному ядру
+function buildEqModel(text){
+  if(!text||!text.includes('=')) throw 'Введіть рівняння зі знаком «=». Приклад: 3x + 5 = 20.';
+  if(/[:/]/.test(text)) throw 'Цей інструмент поки розв’язує лінійні рівняння виду ax + b = cx + d (напр. 3x + 5 = 20). Для пропорцій є окремий інструмент «Пропорції».';
+  if(text.split('=').length!==2) throw 'У рівнянні має бути один знак «=». Приклад: 5x − 4 = 2x + 11.';
+  if(!/x/i.test(text)) throw 'У рівнянні має бути змінна x. Приклад: 3x + 5 = 20.';
+  const [L,R]=text.split('=');
+  return {rows: buildLinearRows(parseSide(L), parseSide(R))};
+}
+// ЛІНІЙНЕ ЯДРО (перевикористовується рівняннями і пропорціями):
+// приймає коефіцієнти ls={a,b}, rs={a,b} і будує кроки «записуємо → перенос → зведення → ділимо → відповідь».
+function buildLinearRows(ls, rs){
+  const A=ls.a-rs.a, B=rs.b-ls.b;
+  const EQ=()=>({id:'eq', t:'=', cls:'eq-eq'});
+  const rows=[];
+  // будуємо сторону з доданків: перший — зі своїм знаком (без окремого токена),
+  // наступні — окремий знак 's'+id + модуль значення. Записуємо і опис одиниць.
+  function emitSide(list, units){
+    const t=[];
+    list.forEach((u,i)=>{
+      const fmt = u.xf? fmtX : fmtNum;               // формат визначає сам доданок (x-член чи число)
+      if(i===0){ t.push({id:u.id, t:fmt(u.coef), from:u.from}); units && units.push({valId:u.id, signId:null, cross:!!u.cross}); }
+      else { const sid='s'+u.id; t.push({id:sid, t:(u.coef<0?'−':'+'), cls:'op'}); t.push({id:u.id, t:fmt(Math.abs(u.coef)), from:u.from}); units && units.push({valId:u.id, signId:sid, cross:!!u.cross}); }
+    });
+    if(!list.length) t.push({id:'z', t:'0'});
+    return t;
+  }
+
+  // 1) початкове рівняння
+  const oL=[]; if(ls.a!==0) oL.push({id:'LX',coef:ls.a,xf:true}); if(ls.b!==0) oL.push({id:'LC',coef:ls.b,xf:false}); if(!oL.length) oL.push({id:'LC',coef:0,xf:false});
+  const oR=[]; if(rs.a!==0) oR.push({id:'RX',coef:rs.a,xf:true}); if(rs.b!==0) oR.push({id:'RC',coef:rs.b,xf:false}); if(!oR.length) oR.push({id:'RC',coef:0,xf:false});
+  rows.push({tokens:[...emitSide(oL), EQ(), ...emitSide(oR)],
+    type:'write', text:'Записуємо рівняння. Наша мета — знайти x.'});
+
+  const needMove = rs.a!==0 || ls.b!==0;
+  if(needMove){
+    // 2) перенос: x — ліворуч, числа — праворуч. Число летить РАЗОМ зі знаком; знак
+    //    змінюється в момент приземлення (бо перейшло через «=»).
+    const leftX=[]; if(ls.a!==0) leftX.push({id:'LX',coef:ls.a,xf:true,cross:false}); if(rs.a!==0) leftX.push({id:'RX',coef:-rs.a,xf:true,cross:true});
+    const rightC=[]; if(rs.b!==0) rightC.push({id:'RC',coef:rs.b,xf:false,cross:false}); if(ls.b!==0) rightC.push({id:'LC',coef:-ls.b,xf:false,cross:true});
+    const units=[];
+    const mtoks=[...emitSide(leftX,units), EQ(), ...emitSide(rightC,units)];
+    rows.push({tokens:mtoks, type:'move', note:'переносимо', moveUnits:units,
+      text:'Переносимо доданки з x у ліву частину, а числа — у праву. Число летить разом зі своїм знаком, і коли приземляється по інший бік «=», його знак змінюється на протилежний.'});
+
+    // 3) зводимо подібні: x-члени злітаються в A·x, числа — в B
+    const axFrom=leftX.map(t=>t.id), bcFrom=rightC.map(t=>t.id);
+    const rc=[{id:'ACX', t:(A===0?'0':fmtX(A)), from:axFrom}, EQ(), {id:'BCC', t:fmtNum(B), from:bcFrom}];
+    const doneCombine = A===0;
+    rows.push({tokens:rc, type:'combine', note: doneCombine?undefined:'зводимо подібні', done:doneCombine,
+      text: doneCombine
+        ? (B===0?'Цифри злітаються: ліворуч і праворуч виходить однаково — рівняння є тотожністю, розв’язків безліч.':'Цифри злітаються: ліворуч виходить 0, а праворуч інше число — рівняння не має розв’язків.')
+        : `Додаємо однакові доданки: цифри злітаються разом. Ліворуч ${fmtNum(ls.a)} − ${fmtNum(rs.a)} = ${fmtNum(A)} перед x, праворуч ${fmtNum(rs.b)} − ${fmtNum(ls.b)} = ${fmtNum(B)}.`});
+    if(A===0) return rows;
+  } else if(A===0){
+    rows.push({tokens:[{id:'z',t:'0'}, EQ(), {id:'RC',t:fmtNum(B)}], type:'write', done:true,
+      text: B===0?'Рівняння є тотожністю — розв’язків безліч.':'Рівняння не має розв’язків.'});
+    return rows;
+  }
+
+  const x=B/A;
+  // 4) ділимо на коефіцієнт біля x
+  rows.push({tokens:[{id:'x1',t:'x'}, EQ(), {id:'bdiv',t:fmtNum(B)}, {id:'od',t:':',cls:'op'}, {id:'adiv',t:fmtNum(A)}],
+    type:'write', note:`ділимо на ${fmtNum(A)}`,
+    text:`Щоб знайти x, ділимо обидві частини рівняння на коефіцієнт біля x, тобто на ${fmtNum(A)}.`});
+  // 5) відповідь: виконуємо ділення — цифри злітаються в результат (як при додаванні/відніманні)
+  rows.push({tokens:[{id:'x1',t:'x'}, EQ(), {id:'ans',t:fmtNum(x),cls:'res', from:['bdiv','adiv']}], type:'combine', done:true,
+    text:`Виконуємо ділення: ${fmtNum(B)} : ${fmtNum(A)} = ${fmtNum(x)}. Цифри злітаються в результат. Отже, x = ${fmtNum(x)}.`});
+
+  return rows;
+}
+// ПРОПОРЦІЯ: своя частина (записати → навхрест → перемножити) + делегування лінійному ядру.
+function mulLin(u,v){ if(u.a && v.a) return null; return {a:u.a*v.b + v.a*u.b, b:u.b*v.b}; } // (лінійне × лінійне), null якщо x²
+function buildProportion(nA,dA,nC,dC){
+  const clean=s=>String(s==null?'':s).trim();
+  nA=clean(nA); dA=clean(dA); nC=clean(nC); dC=clean(dC);
+  if(!nA||!dA||!nC||!dC) throw 'Заповніть усі чотири частини пропорції. Приклад: x : 3 = 4 : 6.';
+  let A,Bd,C,Dd;
+  try{ A=parseSide(nA); Bd=parseSide(dA); C=parseSide(nC); Dd=parseSide(dC); }
+  catch(e){ throw 'Кожна частина має бути числом або доданком з x (напр. 5x, 4, 2x). Приклад: x : 3 = 4 : 6.'; }
+  // a:b = c:d  ⇒  добуток крайніх = добуток середніх:  a·d = c·b
+  const P1=mulLin(A,Dd), P2=mulLin(C,Bd);
+  if(!P1||!P2) throw 'Тут x множиться на x — виходить квадратне рівняння, а не лінійне. Такі поки не підтримуються.';
+  let pid=0; const T=(t,cls)=>({id:'p'+(pid++), t, cls}); const OP=t=>T(t,'op'); const EQ=()=>({id:'p'+(pid++), t:'=', cls:'eq-eq'});
+  const rows=[];
+  // 1) сама пропорція:  nA : dA = nC : dC
+  rows.push({tokens:[T(nA), OP(':'), T(dA), EQ(), T(nC), OP(':'), T(dC)], type:'write',
+    text:'Записуємо пропорцію. Головна властивість: добуток крайніх членів дорівнює добутку середніх.'});
+  // 2) множимо навхрест:  nA · dC = nC · dA
+  rows.push({tokens:[T(nA), OP('·'), T(dC), EQ(), T(nC), OP('·'), T(dA)], type:'write', note:'навхрест',
+    text:`Множимо навхрест: крайні ${nA} і ${dC}, середні ${dA} і ${nC}. Отримуємо ${nA}·${dC} = ${nC}·${dA}.`});
+  // 3) далі — звичайне лінійне рівняння (перевикористовуємо лінійне ядро)
+  const lin=buildLinearRows(P1,P2);
+  lin[0].text='Перемножуємо — і виходить звичайне лінійне рівняння. Далі розв’язуємо його як завжди.';
+  return {rows:[...rows, ...lin]};
+}
+
+// Рендер сцени рівняння: усі рядки 0..S.step; поточний рядок «пишеться» або анімується (перенос/зведення)
+// ---- Рукописні гліфи: одноштрихові SVG-контури, що «малюються» пером (stroke-dashoffset) ----
+const HW_STEP=0.2, HW_DUR=0.34;
+const HW={
+  '0':["M30,10 C13,10 13,90 30,90 C47,90 47,10 30,10"],
+  '1':["M15,32 L31,12 L31,90"],
+  '2':["M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88"],
+  '3':["M14,22 C28,6 52,14 45,36 C41,50 27,49 27,49 C50,49 53,78 37,88 C24,96 12,86 12,72"],
+  '4':["M44,90 L44,10 L9,66 L55,66"],
+  '5':["M48,12 L20,12 L16,46 C31,38 50,45 48,66 C46,90 17,92 11,74"],
+  '6':["M47,15 C27,10 14,42 14,63 C14,88 49,88 49,63 C49,47 18,45 15,60"],
+  '7':["M11,14 L52,14 L25,90"],
+  '8':["M30,47 C11,47 13,13 30,13 C47,13 49,47 30,47 C9,47 8,90 30,90 C52,90 51,47 30,47"],
+  '9':["M47,55 C27,61 14,42 16,27 C18,11 48,11 46,38 C44,74 40,85 21,90"],
+  'x':["M14,34 L46,72","M46,34 L14,72"],
+  '×':["M16,36 L44,70","M44,36 L16,70"],
+  '=':["M12,42 L52,42","M12,64 L52,64"],
+  '+':["M32,28 L32,76","M12,52 L52,52"],
+  '−':["M12,52 L52,52"],
+  '-':["M12,52 L52,52"],
+  ':':["M30,34 L30,40","M30,62 L30,68"],
+  '.':["M29,84 L31,84"],
+  '·':["M29,52 L31,52"],
+};
+// text -> послідовність намальованих гліфів. opts.writing=true — малюємо по черзі; order — лічильник гліфів.
+function hwGlyphs(text, opts){
+  const writing = opts && opts.writing;
+  let html='';
+  for(const ch of String(text)){
+    const strokes=HW[ch];
+    if(!strokes){ html+=`<span class="hwt">${ch}</span>`; continue; }
+    const o = writing ? (opts.order++) : 0;
+    let paths='';
+    strokes.forEach((d,si)=>{
+      if(writing){
+        const dl=(o*HW_STEP + si*(HW_DUR*0.55)).toFixed(2);
+        paths+=`<path d="${d}" pathLength="100" style="stroke-dasharray:100;stroke-dashoffset:100;animation:hwdraw ${HW_DUR}s ease ${dl}s forwards"/>`;
+      } else {
+        paths+=`<path d="${d}" pathLength="100"/>`;
+      }
+    });
+    html+=`<svg class="hwg" viewBox="0 0 60 100">${paths}</svg>`;
+  }
+  return html;
+}
+// підсумковий рядок (напр. «284 × 36 = 10224») рукописними гліфами, послідовно
+function hwEqline(parts){
+  const ctx={writing:true, order:0};
+  let h='<div class="eqline">';
+  for(const p of parts){ h+=`<span class="${p.cls||''}">${hwGlyphs(p.t, ctx)}</span>`; }
+  return h+'</div>';
+}
+// рукописний рядок без обгортки-центрування (для вбудованих у макет виразів)
+function hwInline(parts){
+  const ctx={writing:true, order:0};
+  return parts.map(p=>`<span class="${p.cls||''}">${hwGlyphs(p.t, ctx)}</span>`).join('');
+}
+
+/* =========================================================
+   ДІЛЬНИКИ І КРАТНІ — інструмент-контраст (чому це різне)
+   ========================================================= */
+function buildDvkModel(N){
+  N = Math.max(2, Math.min(30, Math.round(N)||12));
+  const divs=[]; for(let d=1; d<=N; d++) if(N%d===0) divs.push(d);
+  const mult=[]; for(let k=1;k<=6;k++) mult.push(N*k);
+  const isPrime = divs.length===2;
+  // «міст»: одна дія читається двома мовами. Для складеного — менший дільник; для простого — власне кратне.
+  let bridge;
+  if(!isPrime){ const b=divs[1]; bridge={a:N, b, q:N/b}; }        // N : b = q
+  else { bridge={a:N*2, b:N, q:2}; }                              // 2N : N = 2
+  const steps=[
+    {phase:'intro', text:`Візьмемо число <b>${N}</b>. У нього є <b>дільники</b> і є <b>кратні</b> — це зовсім різні речі. Порівняймо їх поруч.`},
+    {phase:'div',   text:`<b>Дільники</b> — числа, на які ${N} ділиться <b>націло</b>. Вони «вкладаються» всередину числа, тому <b>не більші за ${N}</b>, і їх <b>скінченна</b> кількість — ось усі ${divs.length}.`},
+    {phase:'mult',  text:`<b>Кратні</b> — числа, які самі діляться на ${N} націло (це ${N}, взяте 1, 2, 3… рази). Вони <b>не менші за ${N}</b> і тягнуться <b>без кінця</b> — кратних <b>нескінченно</b>.`},
+    {phase:'bridge',text:`Обидва поняття — про одну дію. ${bridge.a} : ${bridge.b} = ${bridge.q} (остача 0) читається двома мовами: <b>${bridge.b}</b> — дільник ${bridge.a}, а <b>${bridge.a}</b> — кратне ${bridge.b}.`},
+    {phase:'summary',text:`Головне: <b>дільник менший</b> — його «ділять на»; <b>кратне більше</b> — його «отримують». Дільників скінченно, кратних — нескінченно.`},
+  ];
+  return {N, divs, mult, isPrime, bridge, steps};
+}
+
+function dvkView(m, phase){
+  // накопичувальний показ — як у зошиті нічого не зникає: секція зʼявляється на своєму кроці й лишається
+  const ord={intro:0, div:1, mult:2, bridge:3, summary:4};
+  const cur=ord[phase];
+  const N=m.N, shown={div:cur>=ord.div, mult:cur>=ord.mult, bridge:cur>=ord.bridge, summary:cur>=ord.summary};
+  let h='<div class="dvk">';
+  // центральне число
+  h+=`<div class="dvk-num"><div class="nbig">${N}</div><div class="ncap">наше число</div></div>`;
+
+  // ЛАНА ДІЛЬНИКІВ — обмежена лінійка, що закінчується на N
+  if(shown.div){
+    const showStalk = N<=16;
+    let posts='';
+    for(let i=0;i<=N;i++){
+      const on = m.divs.includes(i);
+      const left=(i/N)*100;
+      if(on){
+        const idx=m.divs.indexOf(i);
+        const pop = phase==='div' ? `class="post on pop" style="left:${left}%;animation-delay:${idx*0.09}s"` : `class="post on" style="left:${left}%"`;
+        posts+=`<div ${pop}><span class="dot"></span><span class="lab">${i}</span></div>`;
+      } else if(showStalk){
+        posts+=`<div class="post" style="left:${left}%"><span class="stalk"></span><span class="lab">${i}</span></div>`;
+      }
+    }
+    h+=`<div class="dlane d">
+      <div class="dlane-hd"><span class="lt">🟢 Дільники</span><span class="lsub">на них ділиться ${N}</span>
+        <span class="cnt">скінченно: ${m.divs.length}</span></div>
+      <div class="ruler">${posts}</div>
+      <div class="note">${m.divs.map(d=>d).join(', ')} — усі <b>≤ ${N}</b>. Вони йдуть парами: ${pairsText(m)}. Далі дільників немає.</div>
+    </div>`;
+  }
+
+  // ЛАНА КРАТНИХ — відкритий ланцюг до ∞
+  if(shown.mult){
+    let stops='';
+    m.mult.forEach((v,j)=>{
+      const pop = phase==='mult' ? ` pop" style="animation-delay:${j*0.09}s` : '';
+      stops+=`<span class="kstop${j===0?' first':''}${pop}"><span class="kv">${v}</span><span class="kk">${N}·${j+1}</span></span>`;
+      stops+=`<span class="kdash"></span>`;
+    });
+    h+=`<div class="dlane k">
+      <div class="dlane-hd"><span class="lt">🟡 Кратні</span><span class="lsub">самі діляться на ${N}</span>
+        <span class="cnt">нескінченно ∞</span></div>
+      <div class="ktrack">${stops}<span class="kinf">∞</span></div>
+      <div class="note">${m.mult.join(', ')}, … — усі <b>≥ ${N}</b> і ланцюг <b>не закінчується</b>.</div>
+    </div>`;
+  }
+
+  // МІСТ — одна дія, два прочитання
+  if(shown.bridge){
+    const B=m.bridge;
+    const popcls = phase==='bridge' ? ' pop' : '';
+    h+=`<div class="dvk-bridge${popcls}">
+      <div class="bridge-eq" style="font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:800;color:var(--graphite)">
+        ${B.a} <span style="color:var(--pink)">:</span> ${B.b} <span style="color:var(--pink)">=</span> ${B.q}<span class="rem">остача 0 ✓</span></div>
+      <div class="bridge-reads">
+        <div class="bread d"><span class="arw">↙︎</span><span class="big">${B.b} — ДІЛЬНИК ${B.a}</span><span class="sml">менше число, «залазить» усередину</span></div>
+        <div class="bread k"><span class="arw">↗︎</span><span class="big">${B.a} — КРАТНЕ ${B.b}</span><span class="sml">більше число, «виходить» назовні</span></div>
+      </div>
+    </div>`;
+  }
+
+  // ПІДСУМОК — таблиця-контраст
+  if(shown.summary){
+    const dvExample = m.divs.length>6 ? m.divs.slice(0,6).join(', ')+' …' : m.divs.join(', ');
+    h+=`<div class="dvk-sum"><table>
+      <tr><th></th><th class="cd">🟢 Дільник</th><th class="ck">🟡 Кратне</th></tr>
+      <tr><td class="rl">Приклади для ${N}</td><td class="cd">${dvExample}</td><td class="ck">${m.mult.slice(0,4).join(', ')}, … ∞</td></tr>
+      <tr><td class="rl">Що це за число</td><td>вкладається в ${N}</td><td>містить ${N}</td></tr>
+      <tr><td class="rl">Розмір</td><td class="cd">≤ ${N}</td><td class="ck">≥ ${N}</td></tr>
+      <tr><td class="rl">Скільки їх</td><td class="cd">скінченно (${m.divs.length})</td><td class="ck">нескінченно (∞)</td></tr>
+      <tr><td class="rl">Як питаємо</td><td>«${N} ділиться на&nbsp;?»</td><td>«? ділиться на&nbsp;${N}»</td></tr>
+    </table></div>
+    <div class="dvk-verdict">🔑 <b>Дільник менший</b> — на нього ділять число. <b>Кратне більше</b> — його отримують, повторюючи число.
+      ${m.isPrime?`До речі, ${N} — <b>просте</b> число: у нього лише 2 дільники (1 і ${N}).`:''}</div>`;
+  }
+
+  return h+'</div>';
+}
+// пари дільників d × (N/d) — показуємо, що дільники йдуть парами
+function pairsText(m){
+  const seen=new Set(), out=[];
+  for(const d of m.divs){ const p=m.N/d; const key=Math.min(d,p)+'x'+Math.max(d,p); if(seen.has(key))continue; seen.add(key); out.push(`${d}·${p}`); }
+  return out.join(', ');
+}
+function eqStageInner(){
+  const m=S.eqModel, cur=S.step;
+  const animating = S.eqAnim && S.eqAnim.toStep===cur;
+  let html='<div class="eqsolve" id="eqsolve">';
+  for(let i=0;i<=cur;i++){
+    const row=m.rows[i];
+    const isCur=i===cur;
+    const writing = isCur && row.type==='write' && !animating;
+    let cls='eqrow'+(isCur?(row.done?' done-row':' cur'):'')+(writing?' writing':'');
+    html+=`<div class="${cls}" data-row="${i}">`;
+    const eqIdx = writing? row.tokens.findIndex(t=>t.cls&&t.cls.indexOf('eq-eq')>-1) : -1;
+    // порядок «написання» — природний, зліва направо; лічильник — по гліфах
+    let startOrder={}, total=0;
+    if(writing){
+      row.tokens.forEach((tk,ti)=>{ startOrder[ti]=total; total+=String(tk.t).length; });
+    }
+    row.tokens.forEach((tk,ti)=>{
+      let style='';
+      if(!writing && animating && isCur) style=' style="opacity:0"';
+      const from = tk.from? ` data-from="${tk.from.join('|')}"`:'';
+      const inner = writing ? hwGlyphs(tk.t, {writing:true, order:startOrder[ti]}) : hwGlyphs(tk.t, {writing:false});
+      html+=`<span class="tok ${tk.cls||''}" data-id="${tk.id}"${from}${style}>${inner}</span>`;
+    });
+    if(row.note){
+      let style=''; if(writing) style=` style="animation-delay:${(total*HW_STEP).toFixed(2)}s"`; else if(animating&&isCur) style=' style="opacity:0"';
+      html+=`<span class="note tok" data-note="1"${style}>${row.note}</span>`;
+    }
+    html+='</div>';
+  }
+  return html+'</div>';
+}
+
+// Зчитуємо позиції токенів поточного (старого) рядка перед перемальовуванням
+function captureEqRects(rowIndex){
+  const solve=document.getElementById('eqsolve'); const map={};
+  if(!solve) return map;
+  const c=solve.getBoundingClientRect();
+  const row=solve.querySelector(`.eqrow[data-row="${rowIndex}"]`); if(!row) return map;
+  row.querySelectorAll('.tok[data-id]').forEach(el=>{
+    const r=el.getBoundingClientRect();
+    map[el.dataset.id]={left:r.left-c.left, top:r.top-c.top, w:r.width, h:r.height, text:el.innerHTML, cls:el.className};
+  });
+  return map;
+}
+// Готуємо анімацію ПЕРЕД зміною кроку (лише вперед на 1, лише для переносу/зведення)
+function prepareEqAnim(to){
+  S.eqAnim=null;
+  if((S.tool!=='eq'&&S.tool!=='prop')||!S.eqModel) return;
+  if(to!==S.step+1) return;
+  const type=S.eqModel.rows[to] && S.eqModel.rows[to].type;
+  if(type!=='move' && type!=='combine') return;
+  if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  S.eqAnim={type, toStep:to, srcRects:captureEqRects(S.step)};
+}
+// Виконуємо FLIP-анімацію: цифри летять зі старих позицій на нові / злітаються в результат
+function runEqAnim(){
+  const anim=S.eqAnim; S.eqAnim=null; if(!anim) return;
+  const solve=document.getElementById('eqsolve'); if(!solve) return;
+  solve.style.position='relative';
+  const c=solve.getBoundingClientRect();
+  const rel=el=>{const r=el.getBoundingClientRect();return{left:r.left-c.left,top:r.top-c.top,w:r.width,h:r.height};};
+  const newRow=solve.querySelector(`.eqrow[data-row="${anim.toStep}"]`); if(!newRow) return;
+  const toks=[...newRow.querySelectorAll('.tok[data-id]')];
+  const note=newRow.querySelector('[data-note]');
+  solve.querySelectorAll('.eqclone').forEach(c=>c.remove());
+  const DUR=1.0; // ~1 секунда на цифру
+  let totalMs=0;
+
+  if(anim.type==='move'){
+    const units = (S.eqModel.rows[anim.toStep].moveUnits)||[];
+    const unitByVal={}, signIds=new Set();
+    units.forEach(u=>{ unitByVal[u.valId]=u; if(u.signId) signIds.add(u.signId); });
+    // хелпери
+    const fly=(el,src,tgt,dur,start)=>{
+      const dx=src.left-tgt.left, dy=src.top-tgt.top;
+      el.style.transition='none'; el.style.transform=`translate(${dx}px,${dy}px)`; el.style.opacity='0';
+      requestAnimationFrame(()=>requestAnimationFrame(()=>{
+        el.style.transition=`transform ${dur}s cubic-bezier(.45,.02,.25,1) ${start.toFixed(2)}s, opacity .12s ease ${start.toFixed(2)}s`;
+        el.style.transform='translate(0,0)'; el.style.opacity='1';
+      }));
+    };
+    const fade=(el,start,dur)=>{ el.style.opacity='0'; requestAnimationFrame(()=>requestAnimationFrame(()=>{ el.style.transition=`opacity ${dur}s ease ${start.toFixed(2)}s`; el.style.opacity='1'; })); };
+    // СТРОГО ПОСЛІДОВНО, доданок за доданком (знак — частина свого доданка)
+    let cursor=0;
+    toks.forEach(el=>{
+      const id=el.dataset.id;
+      if(signIds.has(id)) return;                 // знаки анімуються разом зі своїм числом
+      const src=anim.srcRects[id], tgt=rel(el);
+      const unit=unitByVal[id];
+      const dur=(unit&&unit.cross)?DUR:0.4;
+      const start=cursor; cursor+=dur+0.08;
+      totalMs=Math.max(totalMs,(start+dur)*1000+350);
+      if(src) fly(el,src,tgt,dur,start); else fade(el,start,0.2);
+      // знак цього доданка
+      if(unit&&unit.signId){
+        const sEl=newRow.querySelector(`.tok[data-id="${unit.signId}"]`);
+        if(sEl){
+          const newSign=sEl.innerHTML;
+          const ssrc=anim.srcRects[unit.signId];
+          if(ssrc){ // знак був явно написаний — летить разом із числом, показуючи старий знак…
+            sEl.innerHTML=ssrc.text;
+            fly(sEl, ssrc, rel(sEl), dur, start);
+            setTimeout(()=>{ sEl.innerHTML=newSign; sEl.style.animation='signFlip .38s ease-out'; }, (start+dur)*1000); // …і перевертається на посадці
+          } else { // знака раніше не було — з'являється у момент приземлення
+            sEl.style.opacity='0';
+            setTimeout(()=>{ sEl.style.opacity='1'; sEl.style.animation='signFlip .38s ease-out'; }, (start+dur)*1000);
+          }
+        }
+      }
+    });
+  } else if(anim.type==='combine'){
+    let order=0;
+    toks.forEach(el=>{
+      const id=el.dataset.id, tgt=rel(el);
+      const from=el.dataset.from? el.dataset.from.split('|').filter(Boolean):[];
+      if(from.length){
+        el.style.opacity='0';
+        const delay=order*DUR; order++;
+        from.forEach((sid,si)=>{
+          const src=anim.srcRects[sid]; if(!src) return;
+          const clone=document.createElement('span');
+          clone.className='eqclone '+(src.cls||'tok');
+          clone.innerHTML=src.text;
+          clone.style.left=src.left+'px'; clone.style.top=src.top+'px';
+          clone.style.transition=`transform ${DUR}s cubic-bezier(.45,.02,.25,1) ${(delay+si*0.1).toFixed(2)}s, opacity .3s ease ${(delay+DUR-0.25).toFixed(2)}s`;
+          solve.appendChild(clone);
+          const dx=(tgt.left+tgt.w/2)-(src.left+src.w/2), dy=(tgt.top+tgt.h/2)-(src.top+src.h/2);
+          requestAnimationFrame(()=>requestAnimationFrame(()=>{ clone.style.transform=`translate(${dx}px,${dy}px)`; clone.style.opacity='0'; }));
+        });
+        setTimeout(()=>{ el.style.opacity='1'; el.style.animation='tokPop .4s ease-out'; }, (delay+DUR)*1000);
+        totalMs=Math.max(totalMs,(delay+DUR)*1000+400);
+      } else {
+        const src=anim.srcRects[id];
+        if(src){ const dx=src.left-tgt.left, dy=src.top-tgt.top;
+          el.style.transition='none'; el.style.transform=`translate(${dx}px,${dy}px)`; el.style.opacity='1';
+          requestAnimationFrame(()=>requestAnimationFrame(()=>{ el.style.transition='transform .5s ease'; el.style.transform='translate(0,0)'; }));
+        } else { el.style.opacity='1'; }
+      }
+    });
+  }
+  if(note){ note.style.opacity='0'; note.style.transition='opacity .5s ease'; setTimeout(()=>note.style.opacity='1', totalMs+150); }
+}
+
+/* ---------- 4) ДІЇ З ДРОБАМИ ----------
+   Розв'язання йде в ОДНОМУ рядку: кожен крок дописує «= <новий вигляд>».
+   Коли рядок заповнюється — сегмент автоматично переноситься на новий (flex-wrap). */
+function buildFracModel(a,b,op,c,d){
+  a=Math.trunc(a);b=Math.trunc(b);c=Math.trunc(c);d=Math.trunc(d);
+  if(!b||!d) throw 'bad';
+  const plus = op!=='-';
+  const sign = plus?'+':'−';
+  const F=(n,dd)=>({type:'frac',n,d:dd});
+  const O=()=>({type:'op',t:sign});
+  const N=(n)=>({type:'num',t:fmtNum(n)});
+  const segs=[];          // сегменти ланцюжка (горизонтально)
+  const steps=[];         // кроки: {chainUpto, newSeg, denom, text}
+  segs.push({units:[F(a,b), O(), F(c,d)]});
+  steps.push({chainUpto:1, newSeg:true, text:`Записуємо вираз. Потрібно ${plus?'додати':'відняти'} два дроби.`});
+
+  let L,na,nc;
+  if(b!==d){
+    // ІТЕРАТИВНИЙ пошук НСК: по черзі відкриваємо наступне кратне кожного знаменника
+    // й після кожного перевіряємо збіг. Перший збіг — це НСК.
+    const multsB=[], multsD=[];
+    const denSnap=(newSide, matchVal, showMult, ka, kc, Lv)=>({b,d, multsB:multsB.slice(), multsD:multsD.slice(), bShown:multsB.length, dShown:multsD.length, newSide, matchVal:matchVal||null, showMult:!!showMult, ka, kc, L:Lv});
+    let k=1, match=null;
+    while(!match && k<=200){
+      const vb=k*b; multsB.push(vb);
+      const mb = multsD.includes(vb);
+      steps.push({chainUpto:1, denom:denSnap('b', mb?vb:null),
+        text: mb ? `Наступне кратне ${b}: ${k}×${b} = ${vb}. А ${vb} вже є серед кратних ${d}! Отже, ${vb} — найменше спільне кратне: НСК(${b}, ${d}) = ${vb}.`
+                 : `Наступне кратне ${b}: ${k}×${b} = ${vb}.`});
+      if(mb){ match=vb; break; }
+      const vd=k*d; multsD.push(vd);
+      const md = multsB.includes(vd);
+      steps.push({chainUpto:1, denom:denSnap('d', md?vd:null),
+        text: md ? `Наступне кратне ${d}: ${k}×${d} = ${vd}. А ${vd} вже є серед кратних ${b}! Отже, ${vd} — найменше спільне кратне: НСК(${b}, ${d}) = ${vd}.`
+                 : `Наступне кратне ${d}: ${k}×${d} = ${vd}. Спільного числа ще немає — беремо наступні кратні.`});
+      if(md){ match=vd; break; }
+      k++;
+    }
+    L = match || (b/gcd(b,d)*d);
+    const ka=L/b, kc=L/d; na=a*ka; nc=c*kc;
+    // 1) множення показуємо прямо в дробах: 7·3/10·3 + 2·2/15·2 (множник — маркер «·» → окремий стиль)
+    const mul=(base,k)=>`${base}·${k}`;
+    segs.push({units:[F(mul(a,ka),mul(b,ka)), O(), F(mul(c,kc),mul(d,kc))], note:'домножуємо чисельник і знаменник'});
+    steps.push({chainUpto:segs.length, newSeg:true, denom:denSnap('', L, true, ka, kc, L),
+      text:`Скільки разів кожен знаменник уміщається в ${L}? ${b}×${ka}=${L} і ${d}×${kc}=${L}. Множимо і чисельник, і знаменник кожного дробу на цей множник — значення дробу не зміниться.`});
+    // 2) обчислений результат: 21/30 + 4/30 (7·3 вилітає й перетворюється на 21)
+    segs.push({units:[F(na,L), O(), F(nc,L)], note:`спільний знаменник ${L}`});
+    steps.push({chainUpto:segs.length, newSeg:true, flip:'morph',
+      text:`Перемножуємо: ${a}·${ka}=${na} над ${b}·${ka}=${L}, і ${c}·${kc}=${nc} над ${d}·${kc}=${L}. Дроби зведені до спільного знаменника ${L}.`});
+  } else { L=b; na=a; nc=c; }
+
+  const num = plus? na+nc : na-nc;
+  segs.push({units:[F(num,L)], note:plus?'додаємо чисельники':'віднімаємо чисельники', done:true});
+  steps.push({chainUpto:segs.length, newSeg:true, flip:'add',
+    text:`${plus?'Додаємо':'Віднімаємо'} чисельники, знаменник лишається спільним: ${na} ${sign} ${nc} = ${num}. Отримали ${num}/${L}.`});
+
+  // скорочення
+  const g=gcd(Math.abs(num),L);
+  let fn=num, fd=L;
+  if(g>1 && num!==0){ fn=num/g; fd=L/g;
+    segs[segs.length-1].done=false;
+    segs.push({units:[F(fn,fd)], note:`скорочуємо на ${g}`, done:true});
+    steps.push({chainUpto:segs.length, newSeg:true, flip:'morph', text:`Чисельник і знаменник діляться на ${g}: скорочуємо дріб — ${num}:${g}=${fn}, ${L}:${g}=${fd}.`});
+  }
+  // ціле або мішане число
+  if(fd===1){
+    segs[segs.length-1].done=false;
+    segs.push({units:[N(fn)], done:true});
+    steps.push({chainUpto:segs.length, newSeg:true, text:`Знаменник дорівнює 1 — це ціле число ${fn}.`});
+  } else if(Math.abs(fn)>=fd){
+    const whole=Math.trunc(fn/fd), rest=Math.abs(fn%fd);
+    if(rest!==0){ segs[segs.length-1].done=false;
+      segs.push({units:[{type:'mixed',whole,n:rest,d:fd}], note:'мішане число', done:true});
+      steps.push({chainUpto:segs.length, newSeg:true, text:`Дріб неправильний: виділяємо цілу частину — ${whole} цілих і ${rest}/${fd}.`});
+    }
+  }
+  return {segments:segs, steps};
+}
+const FRAC_STEP=0.36;
+// число рукописними гліфами; якщо є маркер «·» (множник) — частину «·k» виділяємо стилем .fmul
+function hwNum(value, ctx){
+  const s=String(value); const dot=s.indexOf('·');
+  if(dot<0) return hwGlyphs(s, ctx);
+  return hwGlyphs(s.slice(0,dot), ctx) + `<span class="fmul">${hwGlyphs('·'+s.slice(dot+1), ctx)}</span>`;
+}
+// риска дробу отримує «такт» у послідовності письма (малюється між чисельником і знаменником)
+function fbar(ctx){ let d=''; if(ctx.writing){ d=` style="animation-delay:${(ctx.order*HW_STEP).toFixed(2)}s"`; ctx.order++; } return `<span class="fbar"${d}></span>`; }
+function renderFUnit(u, ctx){
+  if(u.type==='frac') return `<span class="funit"><span class="frac"><span class="fn">${hwNum(u.n,ctx)}</span>${fbar(ctx)}<span class="fd">${hwNum(u.d,ctx)}</span></span></span>`;
+  if(u.type==='op')   return `<span class="funit fop">${hwGlyphs(String(u.t),ctx)}</span>`;
+  if(u.type==='mixed')return `<span class="funit"><span class="fmix">${hwGlyphs(String(u.whole),ctx)}</span><span class="frac"><span class="fn">${hwNum(u.n,ctx)}</span>${fbar(ctx)}<span class="fd">${hwNum(u.d,ctx)}</span></span></span>`;
+  return `<span class="funit">${hwGlyphs(String(u.t),ctx)}</span>`;
+}
+// Робоча область пошуку НСК: кожен чип підписаний номером кратного (×1, ×2 …).
+// Номер, на якому стоїть НСК, — це і є множник для того дробу.
+function renderDenom(dn){
+  const row=(label, arr, side)=>{
+    let s=`<div class="denrow"><span class="denlbl">${label}</span>`;
+    for(let i=0;i<arr.length;i++){
+      const v=arr[i];
+      const hl = dn.matchVal && v===dn.matchVal;
+      const isNew = (i===arr.length-1) && dn.newSide===side;
+      const isMul = dn.showMult && hl;                 // на кроці множників підсвічуємо номер
+      s+=`<span class="denchip${hl?' hl':''}${isNew?' chipnew':''}${isMul?' mul':''}"><span class="chipk">×${i+1}</span><span class="chipv">${v}</span></span>`;
+    }
+    return s+'</div>';
+  };
+  let h=`<div class="denbox"><div class="denttl">🔍 Шукаємо спільний знаменник — НСК(${dn.b}, ${dn.d})</div>`;
+  h+=row(`Кратні ${dn.b}:`, dn.multsB, 'b');
+  h+=row(`Кратні ${dn.d}:`, dn.multsD, 'd');
+  if(dn.matchVal && !dn.showMult) h+=`<div class="denres">Спільне кратне знайдено → НСК(${dn.b}, ${dn.d}) = <b>${dn.matchVal}</b></div>`;
+  if(dn.showMult) h+=`<div class="denres">Дивимось, котре це кратне: ${dn.L} — це <b class="mk">×${dn.ka}</b> кратне ${dn.b} і <b class="mk">×${dn.kc}</b> кратне ${dn.d}. Це і є множники для дробів!</div>`;
+  return h+'</div>';
+}
+// Рендер сцени дробів: горизонтальний ланцюжок + робоча область НСК (за потреби)
+function fracStageInner(){
+  const m=S.fracModel, st=m.steps[S.step];
+  let html='<div class="fracwork"><div class="fracsolve">';
+  for(let i=0;i<st.chainUpto;i++){
+    const seg=m.segments[i], isCur=(i===st.chainUpto-1) && st.newSeg;
+    const isFlip = isCur && st.flip;                          // крок-обчислення: числа прилітають зі старого сегмента
+    const isWrite = isCur && !st.flip;                        // звичайний послідовний запис
+    const flymul = isCur && st.denom && st.denom.showMult;    // множники прилетять із блоку НСК
+    const ctx = isWrite ? {writing:true, order:0} : {writing:false};   // рукописне письмо, глиф за гліфом
+    html+=`<span class="fseg${seg.done?' fdone':''}${isWrite?' writing':''}${isFlip?' morphing':''}${flymul?' flymul':''}"><span class="fseg-math">`;
+    if(i>0) html+=`<span class="funit feq">${hwGlyphs('=',ctx)}</span>`;
+    seg.units.forEach(u=>{ html+=renderFUnit(u, ctx); });      // чисельник → риска → знаменник → знак → …
+    html+='</span>';
+    if(seg.note){ const d=isWrite?` style="animation-delay:${(ctx.order*HW_STEP).toFixed(2)}s"`:''; html+=`<span class="fnote"${d}>${seg.note}</span>`; }
+    html+='</span>';
+  }
+  html+='</div>';
+  if(st.denom) html+=renderDenom(st.denom);
+  return html+'</div>';
+}
+// Анімація: множники (×3, ×2) вилітають із чипів НСК і летять у дроби (в чисельник і знаменник)
+function runFracMulAnim(){
+  const st = S.fracModel && S.fracModel.steps[S.step];
+  if(!(st && st.denom && st.denom.showMult)) return;
+  const work=document.querySelector('.fracwork'); if(!work) return;
+  const seg=work.querySelector('.fseg.flymul'); if(!seg) return;
+  const fmuls=[...seg.querySelectorAll('.fmul')]; if(!fmuls.length) return;
+  const reveal=()=>fmuls.forEach(t=>{t.style.opacity='1';});
+  if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches){ reveal(); return; }
+  const sources=[...work.querySelectorAll('.denchip.mul .chipk')];
+  if(sources.length<2){ reveal(); return; }
+  work.style.position='relative';
+  const wr=work.getBoundingClientRect();
+  const rel=el=>{const r=el.getBoundingClientRect();return{left:r.left-wr.left,top:r.top-wr.top,w:r.width,h:r.height};};
+  work.querySelectorAll('.fmulclone').forEach(c=>c.remove());
+  // fmuls у порядку: [чисельник1, знаменник1, чисельник2, знаменник2]
+  // СТРОГО ПОСЛІДОВНО — кожен наступний стартує лише коли попередній приземлився,
+  // і лише після того, як базовий дріб уже дописано (рахуємо намальовані гліфи)
+  const baseGlyphs = seg.querySelectorAll('.fseg-math .hwg').length - seg.querySelectorAll('.fmul .hwg').length;
+  const bars = seg.querySelectorAll('.fbar').length;
+  const half=Math.ceil(fmuls.length/2), DUR=0.55, GAP=0.16, START=(baseGlyphs+bars)*HW_STEP + HW_DUR + 0.2;
+  fmuls.forEach((tgt,idx)=>{
+    const src = idx<half? sources[0] : sources[1];   // 1-й дріб ← множник знаменника b, 2-й ← d
+    const sR=rel(src), tR=rel(tgt);
+    const clone=document.createElement('span');
+    clone.className='fmulclone'; clone.innerHTML=tgt.innerHTML;
+    clone.style.left=sR.left+'px'; clone.style.top=sR.top+'px'; clone.style.opacity='0';
+    work.appendChild(clone);
+    const dx=(tR.left+tR.w/2)-(sR.left+sR.w/2), dy=(tR.top+tR.h/2)-(sR.top+sR.h/2);
+    const delay=START+idx*(DUR+GAP);
+    clone.style.transition=`transform ${DUR}s cubic-bezier(.4,.05,.2,1) ${delay.toFixed(2)}s, opacity .12s ease ${delay.toFixed(2)}s`;
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{ clone.style.opacity='1'; clone.style.transform=`translate(${dx}px,${dy}px)`; }));
+    setTimeout(()=>{ tgt.style.opacity='1'; tgt.style.animation='fmulPop .32s ease-out'; clone.remove(); }, (delay+DUR)*1000);
+  });
+}
+
+// Готуємо FLIP перед зміною кроку (лише вперед, лише для кроків-обчислень).
+// Джерело лишається на екрані (попередній сегмент), тож позиції читаємо вже після рендера.
+function prepareFracAnim(to){
+  S.fracFlip=null;
+  if(S.tool!=='frac'||!S.fracModel) return;
+  if(to!==S.step+1) return;
+  const st=S.fracModel.steps[to]; if(!st||!st.flip) return;
+  if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  S.fracFlip={kind:st.flip, newIdx:st.chainUpto-1};
+}
+// Виконуємо FLIP: число ВИЛІТАЄ зі старого місця (оригінал ховаємо, щоб не було здвоєння)
+// і перетворюється на результат у новому.
+function runFracFlip(){
+  const flip=S.fracFlip; S.fracFlip=null; if(!flip) return;
+  const work=document.querySelector('.fracwork'); if(!work) return;
+  work.style.position='relative';
+  const cont=work.getBoundingClientRect();
+  const rel=el=>{const r=el.getBoundingClientRect();return{left:r.left-cont.left,top:r.top-cont.top,w:r.width,h:r.height};};
+  const segEls=work.querySelectorAll('.fracsolve .fseg');
+  const newSeg=segEls[flip.newIdx], srcSeg=segEls[flip.newIdx-1];
+  if(!newSeg||!srcSeg) return;
+  const newFracs=[...newSeg.querySelectorAll('.frac')];
+  const srcFracs=[...srcSeg.querySelectorAll('.frac')];
+  work.querySelectorAll('.fracmorph').forEach(c=>c.remove());
+  const DUR=0.62, GAP=0.18;
+  // один елемент-джерело летить у ціль і перетворюється на неї.
+  // keep=true — оригінал НЕ ховаємо (лишається на місці як запис кроку)
+  const flyOne=(srcEl, tgtEl, delay, keep)=>{
+    const sR=rel(srcEl), tR=rel(tgtEl);
+    tgtEl.style.opacity='0'; if(!keep) srcEl.style.visibility='hidden';
+    const c=document.createElement('span'); c.className='fracmorph'; c.innerHTML=srcEl.innerHTML;
+    c.style.left=sR.left+'px'; c.style.top=sR.top+'px';
+    work.appendChild(c);
+    const dx=(tR.left+tR.w/2)-(sR.left+sR.w/2), dy=(tR.top+tR.h/2)-(sR.top+sR.h/2);
+    c.style.transition=`transform ${DUR}s cubic-bezier(.4,.05,.2,1) ${delay.toFixed(2)}s`;
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{ c.style.transform=`translate(${dx}px,${dy}px)`; }));
+    setTimeout(()=>{ tgtEl.style.opacity='1'; tgtEl.style.animation='fmulPop .32s ease-out'; if(!keep) srcEl.style.visibility='visible'; c.remove(); }, (delay+DUR)*1000);
+  };
+  if(flip.kind==='morph'){
+    // 1-до-1, ПОСЛІДОВНО: чисельник1 → знаменник1 → чисельник2 → …
+    let t=0.15;
+    newFracs.forEach((fr,i)=>{
+      const s=srcFracs[i]; if(!s) return;
+      flyOne(s.querySelector('.fn'), fr.querySelector('.fn'), t); t+=DUR+GAP;
+      flyOne(s.querySelector('.fd'), fr.querySelector('.fd'), t); t+=DUR+GAP;
+    });
+  } else if(flip.kind==='add'){
+    const fr=newFracs[0]; if(!fr) return;
+    const newFn=fr.querySelector('.fn'), newFd=fr.querySelector('.fd');
+    const fn0=srcFracs[0].querySelector('.fn'), fn1=srcFracs[1]?srcFracs[1].querySelector('.fn'):null;
+    const opEl=srcSeg.querySelector('.fseg-math .fop'); const opHtml=opEl?opEl.innerHTML:hwGlyphs('+',{writing:false});
+    // ЄДИНИЙ напис "21 + 4" — злітає з чисельників (оригінали лишаються) і зводиться в новий чисельник
+    const label=document.createElement('span'); label.className='fracmorph fmlabel';
+    label.innerHTML = fn1 ? `${fn0.innerHTML}<span class="fmop">${opHtml}</span>${fn1.innerHTML}` : fn0.innerHTML;
+    work.appendChild(label);
+    const lw=label.getBoundingClientRect().width, lh=label.getBoundingClientRect().height;
+    const r0=rel(fn0), r1=fn1?rel(fn1):r0;
+    const startCX=((r0.left+r0.w/2)+(r1.left+r1.w/2))/2, startTop=r0.top-4;
+    label.style.left=(startCX-lw/2)+'px'; label.style.top=startTop+'px'; label.style.opacity='0';
+    const tR=rel(newFn); newFn.style.opacity='0';
+    const dx=(tR.left+tR.w/2)-startCX, dy=(tR.top+tR.h/2)-(startTop+lh/2);
+    const delay=0.25, D2=0.8;
+    label.style.transition=`transform ${D2}s cubic-bezier(.4,.05,.2,1) ${delay}s, opacity .18s ease ${delay}s`;
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{ label.style.opacity='1'; label.style.transform=`translate(${dx}px,${dy}px)`; }));
+    // на посадці напис стискається й зникає, а на його місці з'являється сума
+    setTimeout(()=>{ label.style.transition='transform .22s ease, opacity .22s ease'; label.style.transform=`translate(${dx}px,${dy}px) scale(.4)`; label.style.opacity='0'; }, (delay+D2-0.02)*1000);
+    setTimeout(()=>{ newFn.style.opacity='1'; newFn.style.animation='fmulPop .42s ease-out'; label.remove(); }, (delay+D2+0.18)*1000);
+    // спільний знаменник переноситься вниз (оригінал лишається)
+    flyOne(srcFracs[0].querySelector('.fd'), newFd, delay+D2+0.26, true);
+  }
+}
+
+/* ---- старт ---- */
+render();
+</script>
+</body>
+</html>
