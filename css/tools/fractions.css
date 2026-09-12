@@ -1,0 +1,58 @@
+/* ---------- Дії з дробами (frac) ---------- */
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 4px;font-size:21px;font-family:'JetBrains Mono',monospace;color:var(--graphite)}
+.frac .fn{padding:0 6px}
+.frac .fd{padding:0 6px}
+.frac .fbar{align-self:stretch;height:2px;background:var(--graphite);margin:2px 0;border-radius:1px}
+
+/* ланцюжок дробів в один рядок з переносом (flex-wrap) */
+.fracsolve{display:flex;flex-wrap:wrap;align-items:flex-start;gap:6px 10px;font-family:'JetBrains Mono',monospace;color:var(--graphite);max-width:100%}
+.fseg{display:inline-flex;flex-direction:column;align-items:center;white-space:nowrap}
+.fseg-math{display:inline-flex;align-items:center;gap:7px}
+.fseg .funit{display:inline-flex;align-items:center}
+.fseg .feq,.fseg .fop{color:var(--pink);font-weight:700;font-size:22px}
+.fseg .fmix{font-size:21px;margin-right:4px}
+.fmul{color:var(--primary);font-weight:700}
+.fseg.flymul .fmul{opacity:0}
+.fmulclone{position:absolute;font-family:'JetBrains Mono',monospace;font-size:21px;color:var(--primary);font-weight:700;pointer-events:none;will-change:transform;z-index:6}
+@keyframes fmulPop{0%{transform:scale(.4)}60%{transform:scale(1.35)}100%{transform:scale(1)}}
+/* крок-обчислення: числа приховані, поки не прилетять і не перетворяться на результат */
+.fseg.morphing .fn,.fseg.morphing .fd{opacity:0}
+.fseg.morphing .feq,.fseg.morphing .fop,.fseg.morphing .fmix{animation:fracIn .3s ease-out both}
+.fseg.morphing .fbar{animation:barDraw .3s ease-out both;transform-origin:left}
+.fracmorph{position:absolute;font-family:'JetBrains Mono',monospace;font-size:21px;color:var(--graphite);pointer-events:none;will-change:transform;z-index:6;white-space:nowrap;padding:0 6px;line-height:1}
+.fracmorph.fmlabel{padding:0;background:rgba(255,255,255,.65);border-radius:6px}
+.fracmorph .fmop{color:var(--pink);font-weight:700;margin:0 5px}
+.fnote{font-size:11px;color:var(--muted);font-family:'Segoe UI',sans-serif;text-align:center;line-height:1.15;margin-top:2px;max-width:140px;white-space:normal}
+.fdone .fn,.fdone .fd,.fdone .fmix{color:var(--green);font-weight:700}
+.fdone .fbar{background:var(--green)}
+@keyframes fracIn{0%{opacity:0;transform:scale(.5) translateY(-4px)}100%{opacity:1;transform:none}}
+@keyframes barDraw{0%{opacity:0;transform:scaleX(0)}100%{opacity:1;transform:scaleX(1)}}
+/* послідовний рукописний запис: цифри малюються штрихами (hwdraw), риска — окремим тактом, підпис — плавно */
+.fseg.writing .fnote{animation:fracIn .3s ease-out both}
+.fseg.writing .fbar{animation:barDraw .28s ease-out both;transform-origin:left}
+@media(prefers-reduced-motion:reduce){.fseg.writing .fnote,.fseg.writing .fbar{animation:none!important}}
+
+/* робоча область пошуку спільного знаменника (НСК) */
+.fracwork{display:flex;flex-direction:column;gap:18px}
+.denbox{background:rgba(91,75,230,.05);border:1.5px dashed #cfc8f5;border-radius:12px;padding:12px 14px;max-width:560px;font-family:'Segoe UI',sans-serif}
+.denttl{font-size:13px;font-weight:700;color:var(--primary);margin-bottom:10px}
+.denrow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:7px}
+.denlbl{font-size:13px;color:var(--muted);min-width:96px;font-weight:600}
+.denchip{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;min-width:34px;padding:2px 7px 3px;background:#fff;border:1px solid var(--line);border-radius:8px;font-family:'JetBrains Mono',monospace;line-height:1.05}
+.denchip .chipk{font-size:10px;color:#a8adc4;font-weight:700}
+.denchip .chipv{font-size:15px;color:var(--graphite)}
+.denchip.hl{background:var(--green-l);border-color:var(--green);transform:scale(1.06)}
+.denchip.hl .chipv{color:var(--green);font-weight:700}
+.denchip.mul{box-shadow:0 0 0 2px var(--primary)}
+.denchip.mul .chipk{color:var(--primary);font-size:12px}
+.denres .mk{color:var(--primary)}
+.denchip.chipnew{animation:chipPop .32s ease-out}
+.denchip.hl.chipnew{animation:chipMatch .5s ease-out}
+@keyframes chipPop{0%{opacity:0;transform:scale(.3) translateY(-8px)}70%{transform:scale(1.15)}100%{opacity:1;transform:scale(1)}}
+@keyframes chipMatch{0%{opacity:0;transform:scale(.3)}50%{transform:scale(1.5)}75%{transform:scale(1.05)}100%{opacity:1;transform:scale(1.06)}}
+.denres{font-size:15px;color:var(--graphite);margin-top:2px}
+.denres b{color:var(--green);font-size:17px}
+.denmul{font-size:14px;color:var(--graphite);margin-top:8px;font-family:'JetBrains Mono',monospace}
+.denmul b{color:var(--primary)}
+.denhint{font-family:'Segoe UI',sans-serif;font-size:12px;color:var(--muted);margin-left:4px}
+@keyframes denIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}

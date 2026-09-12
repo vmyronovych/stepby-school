@@ -1,0 +1,61 @@
+/* ---------- Дільники і кратні (dvk) — контраст ---------- */
+.dvk{display:flex;flex-direction:column;gap:15px;font-family:'Segoe UI',sans-serif;max-width:660px}
+.dvk-num{align-self:center;display:flex;flex-direction:column;align-items:center;gap:2px}
+.dvk-num .nbig{font-size:40px;font-weight:800;color:var(--graphite);font-family:'JetBrains Mono',monospace;line-height:1;
+  width:74px;height:74px;display:grid;place-items:center;background:transparent;border:2.5px solid var(--primary);border-radius:16px}
+.dvk-num .ncap{font-size:12px;color:var(--muted)}
+.dlane{border-radius:14px;padding:12px 14px 14px;border:1.5px solid}
+.dlane.d{background:transparent;border-color:#8fd0ad}
+.dlane.k{background:transparent;border-color:#e6c583}
+.dlane-hd{display:flex;align-items:center;gap:9px;margin-bottom:4px}
+.dlane-hd .lt{font-size:15px;font-weight:800}
+.dlane.d .lt{color:var(--green)} .dlane.k .lt{color:#b5852a}
+.dlane-hd .lsub{font-size:12px;color:var(--muted);font-weight:600}
+.dlane-hd .cnt{margin-left:auto;font-size:12px;font-weight:800;padding:3px 10px;border-radius:20px;font-family:'JetBrains Mono',monospace}
+.dlane.d .cnt{background:transparent;color:var(--green);border:1px solid #8fd0ad}
+.dlane.k .cnt{background:transparent;color:#b5852a;border:1px solid #e6c583}
+/* ланцюг кратних — відкритий, тягнеться до ∞ */
+.ktrack{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin:12px 6px 4px}
+.kstop{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:40px;padding:5px 8px;background:transparent;border:1.5px solid #e0be79;border-radius:10px}
+.kstop .kv{font-size:16px;font-weight:800;color:#b5852a;font-family:'JetBrains Mono',monospace;line-height:1}
+.kstop .kk{font-size:9px;color:#c2a25f;font-weight:700;margin-top:1px}
+.kstop.first{border-color:var(--amber);border-width:2.5px}
+.kdash{width:26px;height:3px;background:linear-gradient(90deg,#d9bd7a 60%,transparent 0) repeat-x;background-size:8px 3px;margin:0 1px}
+.kinf{font-size:24px;font-weight:800;color:#b5852a;padding-left:6px;font-family:'JetBrains Mono',monospace}
+/* ланцюг дільників — той самий вигляд, але ділення й закритий кінець */
+.dlane.d .ktrack{row-gap:24px;margin-bottom:18px}
+.kstop{position:relative}
+.dlane.d .kstop{border-color:#a8dcc0;min-width:54px}
+.dlane.d .kstop .kv{color:var(--green)}
+.dlane.d .kstop .kk{color:#5fae87}
+.dlane.d .kstop.first,.dlane.d .kstop.last{border-color:var(--green);border-width:2.5px}
+.dlane.d .kdash{background:linear-gradient(90deg,#8fd0ad 60%,transparent 0) repeat-x;background-size:8px 3px}
+.kcap{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:4px;font-size:9.5px;font-weight:800;
+  letter-spacing:.2px;white-space:nowrap;color:var(--green)}
+.kend{width:4px;height:30px;background:var(--green);border-radius:2px;margin-left:9px}
+.dlane .note{font-size:12.5px;color:var(--graphite);margin-top:9px;line-height:1.45}
+.dlane.d .note b{color:var(--green)} .dlane.k .note b{color:#b5852a}
+/* міст: одна дія — два прочитання */
+.dvk-bridge{border:1.5px dashed var(--pink);background:transparent;border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:12px;align-items:center}
+.bridge-eq{display:flex;align-items:center;gap:5px}
+.bridge-eq .rem{font-size:13px;color:var(--green);font-weight:700;margin-left:6px}
+.bridge-reads{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;width:100%}
+.bread{flex:1;min-width:180px;display:flex;flex-direction:column;align-items:center;gap:3px;background:transparent;border-radius:11px;padding:10px 12px;border:1px solid #cfd8ea}
+.bread .arw{font-size:18px;line-height:1}
+.bread .big{font-size:15px;font-weight:800;text-align:center}
+.bread .sml{font-size:11.5px;color:var(--muted);text-align:center}
+.bread.d{border-color:#bfe6cf} .bread.d .big{color:var(--green)} .bread.d .arw{color:var(--green)}
+.bread.k{border-color:#f2e0b6} .bread.k .big{color:#b5852a} .bread.k .arw{color:#b5852a}
+/* підсумкова таблиця-контраст */
+.dvk-sum{border:1px solid #cfd8ea;border-radius:14px;overflow:hidden}
+.dvk-sum table{width:100%;border-collapse:collapse;font-size:13.5px}
+.dvk-sum td,.dvk-sum th{padding:9px 12px;border-bottom:1px solid #dfe6f3;text-align:left}
+.dvk-sum th{font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);background:transparent}
+.dvk-sum tr:last-child td{border-bottom:none}
+.dvk-sum .cd{color:var(--green);font-weight:700} .dvk-sum .ck{color:#b5852a;font-weight:700}
+.dvk-sum td.rl{color:var(--muted);font-weight:600;width:150px;background:transparent}
+.dvk-verdict{font-size:13.5px;color:var(--graphite);background:transparent;border:1px solid #cfd8ea;border-radius:11px;padding:11px 14px;line-height:1.5}
+.dvk-verdict b{color:var(--primary)}
+@keyframes dvkpop{0%{opacity:0;transform:translateY(7px) scale(.6)}70%{transform:translateY(0) scale(1.14)}100%{opacity:1;transform:scale(1)}}
+.dvk .pop{animation:dvkpop .34s ease backwards}
+@media(prefers-reduced-motion:reduce){.dvk .pop{animation:none!important}}
