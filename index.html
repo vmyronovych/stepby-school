@@ -22,18 +22,20 @@
 <div class="toast" id="toast"></div>
 
 <!-- Звичайні <script> без модулів: файл відкривається і через file://, і з GitHub Pages.
-     Порядок важливий: дані → спільне ядро → інструменти → UI → роутер.
-     (Порядок відображення інструментів задає порядок ключів DB.tools у data.js.) -->
+     Порядок важливий: дані → ядро → реєстр → інструменти → UI → роутер. -->
 <script src="js/data.js"></script>
 <script src="js/core/util.js"></script>
+<script src="js/core/registry.js"></script>
 <script src="js/core/handwriting.js"></script>
 <script src="js/core/notebook.js"></script>
 
+<!-- Інструменти. ПОРЯДОК ЦИХ РЯДКІВ = ПОРЯДОК ВІДОБРАЖЕННЯ в списках.
+     linear.js — спільне ядро (не інструмент), тому йде першим. -->
 <script src="js/tools/linear.js"></script>
-<script src="js/tools/equation.js"></script>
-<script src="js/tools/proportion.js"></script>
 <script src="js/tools/dvk.js"></script>
 <script src="js/tools/fractions.js"></script>
+<script src="js/tools/equation.js"></script>
+<script src="js/tools/proportion.js"></script>
 <script src="js/tools/mult.js"></script>
 <script src="js/tools/div.js"></script>
 

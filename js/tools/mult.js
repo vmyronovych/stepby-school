@@ -1,4 +1,6 @@
-/* ---------- 1) МНОЖЕННЯ В СТОВПЧИК ---------- */
+/* =========================================================
+   МНОЖЕННЯ В СТОВПЧИК
+   ========================================================= */
 function multSteps(a,b){
   a=Math.abs(Math.trunc(a)); b=Math.abs(Math.trunc(b));
   if(!a||!b||a>999999||b>9999) throw 'bad';
@@ -41,3 +43,20 @@ function multSteps(a,b){
     text:`Готово! ${a} × ${b} = ${total}.` });
   return steps;
 }
+
+registerTool('mult', {
+  name:'Множення в стовпчик', icon:'✖️', color:'var(--primary)', bg:'var(--primary-l)',
+  build: cfg => ({steps: multSteps(cfg.a, cfg.b)}),
+  view:  (model, ctx) => ctx.step.html,
+  inputs: c => `
+    <div class="field"><label class="fl">Перший множник</label><input id="i_a" type="number" value="${c.a??284}"></div>
+    <div class="field"><label class="fl">Другий множник</label><input id="i_b" type="number" value="${c.b??36}"></div>`,
+  read: v => ({a:+v('i_a'), b:+v('i_b')}),
+  summary: cfg => `${cfg.a} × ${cfg.b}`,
+  editorFields: cfg => `
+    <div class="row">
+      <div class="field" style="flex:1"><label class="fl">Перший множник</label><input id="f_a" type="number" value="${cfg.a||''}"></div>
+      <div class="field" style="flex:1"><label class="fl">Другий множник</label><input id="f_b" type="number" value="${cfg.b||''}"></div>
+    </div>`,
+  readEditor: v => ({a:+v('f_a'), b:+v('f_b')}),
+});

@@ -1,4 +1,10 @@
-/* ---------- 3) РОЗВ'ЯЗУВАННЯ РІВНЯНЬ ---------- */
+/* =========================================================
+   ЛІНІЙНЕ ЯДРО — спільна логіка і спільний рендер для всього,
+   що зводиться до рівняння ax + b = cx + d.
+   Перевикористовують: tools/equation.js (парсить текст) і
+   tools/proportion.js (зводить навхрест). Нову таку задачу роби
+   тонким адаптером поверх buildLinearRows, а не копією.
+   ========================================================= */
 function parseSide(s){
   s=s.replace(/\s+/g,'').replace(/-/g,'+-').replace(/^\+/,'');
   const numRe=/^-?\d+(\.\d+)?$/;              // допускаємо лише чисті числа-коефіцієнти
@@ -10,8 +16,8 @@ function parseSide(s){
   }
   return {a,b};
 }
-const EQ_STEP=0.16; // затримка між появою сусідніх доданків при «написанні», с
 function fmtX(c){ c=+c; const a=Math.abs(c); const s=c<0?'−':''; const cc=(a===1?'':fmtNum(a)); return s+cc+'x'; }
+
 // ЛІНІЙНЕ ЯДРО (перевикористовується рівняннями і пропорціями):
 // приймає коефіцієнти ls={a,b}, rs={a,b} і будує кроки «записуємо → перенос → зведення → ділимо → відповідь».
 function buildLinearRows(ls, rs){
@@ -75,10 +81,11 @@ function buildLinearRows(ls, rs){
   return rows;
 }
 
-// Рендер сцени рівняння: усі рядки 0..S.step; поточний рядок «пишеться» або анімується (перенос/зведення)
-function eqStageInner(){
-  const m=S.eqModel, cur=S.step;
-  const animating = S.eqAnim && S.eqAnim.toStep===cur;
+/* ---------- Спільний рендер і польоти рядків рівняння ---------- */
+// Рендер сцени: усі рядки 0..ctx.index; поточний «пишеться» або анімується (перенос/зведення).
+function eqStageInner(model, ctx){
+  const m=model, cur=ctx.index;
+  const animating = ctx.anim && ctx.anim.toStep===cur;
   let html='<div class="eqsolve" id="eqsolve">';
   for(let i=0;i<=cur;i++){
     const row=m.rows[i];
@@ -120,19 +127,17 @@ function captureEqRects(rowIndex){
   });
   return map;
 }
-// Готуємо анімацію ПЕРЕД зміною кроку (лише вперед на 1, лише для переносу/зведення)
-function prepareEqAnim(to){
-  S.eqAnim=null;
-  if((S.tool!=='eq'&&S.tool!=='prop')||!S.eqModel) return;
-  if(to!==S.step+1) return;
-  const type=S.eqModel.rows[to] && S.eqModel.rows[to].type;
-  if(type!=='move' && type!=='combine') return;
-  if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  S.eqAnim={type, toStep:to, srcRects:captureEqRects(S.step)};
+// Готуємо анімацію ПЕРЕД зміною кроку (лише вперед на 1, лише для переносу/зведення).
+// Повертаємо «посилку» для animate() або null, якщо цей перехід не анімується.
+function prepareEqAnim(model, from, to){
+  if(to!==from+1) return null;
+  const type=model.rows[to] && model.rows[to].type;
+  if(type!=='move' && type!=='combine') return null;
+  return {type, toStep:to, srcRects:captureEqRects(from)};
 }
 // Виконуємо FLIP-анімацію: цифри летять зі старих позицій на нові / злітаються в результат
-function runEqAnim(){
-  const anim=S.eqAnim; S.eqAnim=null; if(!anim) return;
+function runEqAnim(model, ctx){
+  const anim=ctx.anim; if(!anim) return;
   const solve=document.getElementById('eqsolve'); if(!solve) return;
   solve.style.position='relative';
   const c=solve.getBoundingClientRect();
@@ -145,7 +150,7 @@ function runEqAnim(){
   let totalMs=0;
 
   if(anim.type==='move'){
-    const units = (S.eqModel.rows[anim.toStep].moveUnits)||[];
+    const units = (model.rows[anim.toStep].moveUnits)||[];
     const unitByVal={}, signIds=new Set();
     units.forEach(u=>{ unitByVal[u.valId]=u; if(u.signId) signIds.add(u.signId); });
     // хелпери
@@ -218,3 +223,15 @@ function runEqAnim(){
   }
   if(note){ note.style.opacity='0'; note.style.transition='opacity .5s ease'; setTimeout(()=>note.style.opacity='1', totalMs+150); }
 }
+
+/* ---------- База для будь-якого «лінійного» інструмента ----------
+   Рендер рядків і польоти доданків однакові — різниться лише спосіб
+   дістати коефіцієнти. Тому view/prepare/animate беруться звідси,
+   а інструмент додає лише свої build/inputs/read/summary/editorFields. */
+const linearToolBase = {
+  view:    eqStageInner,
+  prepare: prepareEqAnim,
+  animate: runEqAnim,
+};
+// рядки моделі → кроки навігації
+function linearSteps(rows){ return rows.map(r=>({text:r.text})); }

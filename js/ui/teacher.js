@@ -1,5 +1,8 @@
 /* =========================================================
-   КАБІНЕТ ВЧИТЕЛЯ
+   КАБІНЕТ ВЧИТЕЛЯ — код живий, але ВІД'ЄДНАНИЙ від UI:
+   render() на нього не маршрутизує (ролей в інтерфейсі немає).
+   Тримаємо цілим, бо контракт реєстру (summary/editorFields/readEditor)
+   під нього заточений.
    ========================================================= */
 function renderTeacher(){
   if(S.topic){
@@ -55,69 +58,12 @@ function renderTeacherTopic(){
       ${t.tasks.map(k=>`
         <div class="list-item">
           <div class="ic" style="background:${DB.tools[k.tool].bg}">${DB.tools[k.tool].icon}</div>
-          <div class="txt"><b>${esc(k.title)}</b><small>${DB.tools[k.tool].name} · параметри: ${esc(cfgSummary(k.tool,k.cfg))}</small></div>
+          <div class="txt"><b>${esc(k.title)}</b><small>${DB.tools[k.tool].name} · параметри: ${esc(toolDef(k.tool).summary(k.cfg))}</small></div>
           <button class="btn ghost sm" onclick="editTask('${t.id}','${k.id}')">✏️ Змінити</button>
           <button class="btn gray sm" onclick="openTool('${k.tool}',${JSON.stringify(k.cfg).replace(/"/g,'&quot;')},null)">👁 Перегляд</button>
         </div>`).join('')}
       <button class="btn" style="margin-top:8px" onclick="addTask('${t.id}')">➕ Додати завдання</button>
     </div>`;
-}
-
-function cfgSummary(tool,cfg){
-  if(tool==='mult') return `${cfg.a} × ${cfg.b}`;
-  if(tool==='div')  return `${cfg.n} : ${cfg.d}`;
-  if(tool==='eq')   return cfg.text;
-  if(tool==='frac') return `${cfg.a}/${cfg.b} ${cfg.op} ${cfg.c}/${cfg.d}`;
-  if(tool==='prop') return `${cfg.a} : ${cfg.b} = ${cfg.c} : ${cfg.d}`;
-  if(tool==='dvk')  return `число ${cfg.n}`;
-  return '';
-}
-
-/* ---- редагування / додавання завдання вчителем ---- */
-function taskEditorFields(tool,cfg){
-  cfg=cfg||{};
-  if(tool==='mult') return `
-    <div class="row">
-      <div class="field" style="flex:1"><label class="fl">Перший множник</label><input id="f_a" type="number" value="${cfg.a||''}"></div>
-      <div class="field" style="flex:1"><label class="fl">Другий множник</label><input id="f_b" type="number" value="${cfg.b||''}"></div>
-    </div>`;
-  if(tool==='div') return `
-    <div class="row">
-      <div class="field" style="flex:1"><label class="fl">Ділене</label><input id="f_n" type="number" value="${cfg.n||''}"></div>
-      <div class="field" style="flex:1"><label class="fl">Дільник</label><input id="f_d" type="number" value="${cfg.d||''}"></div>
-    </div>`;
-  if(tool==='eq') return `
-    <div class="field"><label class="fl">Рівняння (наприклад 3x + 5 = 20)</label><input id="f_text" value="${cfg.text||''}"></div>
-    <p class="helper">Підтримуються лінійні рівняння з x з обох боків.</p>`;
-  if(tool==='prop') return `
-    <div class="row">
-      <div class="field" style="flex:1"><label class="fl">a</label><input id="f_a" value="${cfg.a||''}"></div>
-      <div class="field" style="flex:1"><label class="fl">b</label><input id="f_b" value="${cfg.b||''}"></div>
-      <div class="field" style="flex:1"><label class="fl">c</label><input id="f_c" value="${cfg.c||''}"></div>
-      <div class="field" style="flex:1"><label class="fl">d</label><input id="f_d" value="${cfg.d||''}"></div>
-    </div>
-    <p class="helper">Пропорція a : b = c : d. Кожна частина — число або доданок з x (напр. 5x, 4).</p>`;
-  if(tool==='dvk') return `
-    <div class="field"><label class="fl">Число (2–30)</label><input id="f_n" type="number" min="2" max="30" value="${cfg.n||''}"></div>
-    <p class="helper">Учень побачить порівняння дільників і кратних цього числа.</p>`;
-  if(tool==='frac') return `
-    <div class="row">
-      <div class="field" style="flex:1"><label class="fl">Чисельник 1</label><input id="f_a" type="number" value="${cfg.a||''}"></div>
-      <div class="field" style="flex:1"><label class="fl">Знаменник 1</label><input id="f_b" type="number" value="${cfg.b||''}"></div>
-      <div class="field" style="width:80px"><label class="fl">Дія</label>
-        <select id="f_op"><option ${cfg.op==='+'?'selected':''}>+</option><option ${cfg.op==='-'?'selected':''}>-</option></select></div>
-      <div class="field" style="flex:1"><label class="fl">Чисельник 2</label><input id="f_c" type="number" value="${cfg.c||''}"></div>
-      <div class="field" style="flex:1"><label class="fl">Знаменник 2</label><input id="f_d" type="number" value="${cfg.d||''}"></div>
-    </div>`;
-}
-function readEditor(tool){
-  const v=id=>document.getElementById(id).value;
-  if(tool==='mult') return {a:+v('f_a'),b:+v('f_b')};
-  if(tool==='div')  return {n:+v('f_n'),d:+v('f_d')};
-  if(tool==='eq')   return {text:v('f_text')};
-  if(tool==='prop') return {a:v('f_a'),b:v('f_b'),c:v('f_c'),d:v('f_d')};
-  if(tool==='dvk')  return {n:+v('f_n')};
-  if(tool==='frac') return {a:+v('f_a'),b:+v('f_b'),op:v('f_op'),c:+v('f_c'),d:+v('f_d')};
 }
 let editCtx=null;
 function editTask(topicId,taskId){
@@ -126,7 +72,7 @@ function editTask(topicId,taskId){
   showModal(`Редагувати завдання`, `
     <p class="sub" style="margin-bottom:16px">${DB.tools[k.tool].icon} ${DB.tools[k.tool].name}</p>
     <div class="field"><label class="fl">Назва завдання (бачить учень)</label><input id="f_title" value="${esc(k.title)}"></div>
-    ${taskEditorFields(k.tool,k.cfg)}
+    ${toolDef(k.tool).editorFields(k.cfg||{})}
     <div class="row" style="justify-content:flex-end;margin-top:8px">
       <button class="btn gray" onclick="closeModal()">Скасувати</button>
       <button class="btn" onclick="saveTask()">💾 Зберегти</button>
@@ -139,7 +85,7 @@ function addTask(topicId){
         ${Object.keys(DB.tools).map(tl=>`<option value="${tl}">${DB.tools[tl].name}</option>`).join('')}
       </select></div>
     <div class="field"><label class="fl">Назва завдання</label><input id="f_title" placeholder="Напр. Обчисли 123 × 45"></div>
-    <div id="addFields">${taskEditorFields('mult',{})}</div>
+    <div id="addFields">${toolDef('mult').editorFields({})}</div>
     <div class="row" style="justify-content:flex-end;margin-top:8px">
       <button class="btn gray" onclick="closeModal()">Скасувати</button>
       <button class="btn" onclick="createTask('${topicId}')">➕ Створити</button>
@@ -148,16 +94,16 @@ function addTask(topicId){
 }
 function switchAddTool(topicId){
   const tool=document.getElementById('f_tool').value; editCtx.tool=tool;
-  document.getElementById('addFields').innerHTML=taskEditorFields(tool,{});
+  document.getElementById('addFields').innerHTML=toolDef(tool).editorFields({});
 }
 function saveTask(){
   const t=DB.topics.find(x=>x.id===editCtx.topicId); const k=t.tasks.find(x=>x.id===editCtx.taskId);
-  k.title=document.getElementById('f_title').value; k.cfg=readEditor(editCtx.tool);
+  k.title=document.getElementById('f_title').value; k.cfg=toolDef(editCtx.tool).readEditor(readField);
   closeModal(); toast('Завдання оновлено ✓'); render();
 }
 function createTask(topicId){
   const t=DB.topics.find(x=>x.id===topicId);
   const tool=editCtx.tool;
-  t.tasks.push({id:'k'+Math.round(performance.now()), tool, title:document.getElementById('f_title').value||'Нове завдання', cfg:readEditor(tool), done:false});
+  t.tasks.push({id:'k'+Math.round(performance.now()), tool, title:document.getElementById('f_title').value||'Нове завдання', cfg:toolDef(tool).readEditor(readField), done:false});
   closeModal(); toast('Завдання створено ✓'); render();
 }

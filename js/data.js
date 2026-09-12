@@ -1,5 +1,6 @@
 /* =========================================================
-   ДЕМО-ДАНІ
+   ДЕМО-ДАНІ ТА СТАН ІНТЕРФЕЙСУ
+   Дані живуть у пам'яті: оновлення сторінки скидає прогрес.
    ========================================================= */
 const DB = {
   classes: [
@@ -89,18 +90,20 @@ const DB = {
        {id:'k11', tool:'prop', title:'Знайди x: 2x : 5 = 6 : 15', cfg:{a:'2x',b:'5',c:'6',d:'15'}, done:false},
      ]},
   ],
-  // довідник інструментів
-  tools:{
-    dvk:{name:'Дільники і кратні', icon:'↔️', color:'var(--green)', bg:'var(--green-l)'},
-    frac:{name:'Дії з дробами', icon:'½', color:'var(--amber)', bg:'var(--amber-l)'},
-    eq:{name:'Розв’язування рівнянь', icon:'🟰', color:'var(--pink)', bg:'var(--pink-l)'},
-    prop:{name:'Пропорції', icon:'⚖️', color:'var(--pink)', bg:'var(--pink-l)'},
-    mult:{name:'Множення в стовпчик', icon:'✖️', color:'var(--primary)', bg:'var(--primary-l)'},
-    div:{name:'Ділення в стовпчик', icon:'➗', color:'var(--green)', bg:'var(--green-l)'},
-  }
+  // Довідник інструментів наповнює js/core/registry.js — кожен інструмент
+  // реєструє себе сам. Порядок ключів (= порядок <script> у index.html)
+  // визначає порядок відображення.
+  tools:{}
 };
 
 /* =========================================================
    СТАН ІНТЕРФЕЙСУ
+   model — модель поточного інструмента (те, що повернув build)
+   anim  — «посилка» від prepare() до animate(): знімок позицій перед перемальовуванням
    ========================================================= */
-const S = { role:'student', view:'home', cls:null, subject:null, topic:null, tool:null, toolCfg:null, step:0, steps:[], eqModel:null, eqAnim:null, fracModel:null, fracFlip:null, dvkModel:null };
+const S = {
+  role:'student', view:'home',
+  cls:null, subject:null, topic:null,
+  tool:null, toolCfg:null, toolTaskId:null,
+  step:0, steps:[], model:null, anim:null,
+};

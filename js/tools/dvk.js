@@ -101,3 +101,18 @@ function pairsText(m){
   for(const d of m.divs){ const p=m.N/d; const key=Math.min(d,p)+'x'+Math.max(d,p); if(seen.has(key))continue; seen.add(key); out.push(`${d}·${p}`); }
   return out.join(', ');
 }
+
+registerTool('dvk', {
+  name:'Дільники і кратні', icon:'↔️', color:'var(--green)', bg:'var(--green-l)',
+  build: cfg => buildDvkModel(cfg.n),
+  view:  (model, ctx) => dvkView(model, ctx.step.phase),
+  inputs: c => `
+    <div class="field"><label class="fl">Число</label><input id="i_n" type="number" min="2" max="30" value="${c.n??12}"></div>
+    <p class="helper">Порівняємо дільники і кратні цього числа. Найкраще працює для чисел від 2 до 30.</p>`,
+  read: v => ({n:+v('i_n')}),
+  summary: cfg => `число ${cfg.n}`,
+  editorFields: cfg => `
+    <div class="field"><label class="fl">Число (2–30)</label><input id="f_n" type="number" min="2" max="30" value="${cfg.n||''}"></div>
+    <p class="helper">Учень побачить порівняння дільників і кратних цього числа.</p>`,
+  readEditor: v => ({n:+v('f_n')}),
+});

@@ -1,4 +1,7 @@
-// ПРОПОРЦІЯ: своя частина (записати → навхрест → перемножити) + делегування лінійному ядру.
+/* =========================================================
+   ПРОПОРЦІЇ — своя частина (записати → навхрест → перемножити),
+   далі делегування лінійному ядру (js/tools/linear.js).
+   ========================================================= */
 function mulLin(u,v){ if(u.a && v.a) return null; return {a:u.a*v.b + v.a*u.b, b:u.b*v.b}; } // (лінійне × лінійне), null якщо x²
 function buildProportion(nA,dA,nC,dC){
   const clean=s=>String(s==null?'':s).trim();
@@ -23,3 +26,25 @@ function buildProportion(nA,dA,nC,dC){
   lin[0].text='Перемножуємо — і виходить звичайне лінійне рівняння. Далі розв’язуємо його як завжди.';
   return {rows:[...rows, ...lin]};
 }
+
+registerTool('prop', Object.assign({}, linearToolBase, {
+  name:'Пропорції', icon:'⚖️', color:'var(--pink)', bg:'var(--pink-l)',
+  build(cfg){ const model=buildProportion(cfg.a, cfg.b, cfg.c, cfg.d); model.steps=linearSteps(model.rows); return model; },
+  inputs: c => `
+    <div class="field"><label class="fl">Пропорція (a : b = c : d)</label>
+      <div class="row"><input id="i_a" value="${c.a??'x'}" style="flex:1"><span style="align-self:center">:</span><input id="i_b" value="${c.b??'3'}" style="flex:1"></div></div>
+    <div class="field"><label class="fl">=</label>
+      <div class="row"><input id="i_c" value="${c.c??'4'}" style="flex:1"><span style="align-self:center">:</span><input id="i_d" value="${c.d??'6'}" style="flex:1"></div></div>
+    <p class="helper">Кожна частина — число або доданок з x (напр. 5x, 4). Пропорція зводиться навхрест до лінійного рівняння.</p>`,
+  read: v => ({a:v('i_a'), b:v('i_b'), c:v('i_c'), d:v('i_d')}),
+  summary: cfg => `${cfg.a} : ${cfg.b} = ${cfg.c} : ${cfg.d}`,
+  editorFields: cfg => `
+    <div class="row">
+      <div class="field" style="flex:1"><label class="fl">a</label><input id="f_a" value="${cfg.a||''}"></div>
+      <div class="field" style="flex:1"><label class="fl">b</label><input id="f_b" value="${cfg.b||''}"></div>
+      <div class="field" style="flex:1"><label class="fl">c</label><input id="f_c" value="${cfg.c||''}"></div>
+      <div class="field" style="flex:1"><label class="fl">d</label><input id="f_d" value="${cfg.d||''}"></div>
+    </div>
+    <p class="helper">Пропорція a : b = c : d. Кожна частина — число або доданок з x (напр. 5x, 4).</p>`,
+  readEditor: v => ({a:v('f_a'), b:v('f_b'), c:v('f_c'), d:v('f_d')}),
+}));

@@ -1,3 +1,6 @@
+/* =========================================================
+   ДІЇ З ДРОБАМИ
+   ========================================================= */
 /* ---------- 4) ДІЇ З ДРОБАМИ ----------
    Розв'язання йде в ОДНОМУ рядку: кожен крок дописує «= <новий вигляд>».
    Коли рядок заповнюється — сегмент автоматично переноситься на новий (flex-wrap). */
@@ -76,7 +79,7 @@ function buildFracModel(a,b,op,c,d){
   }
   return {segments:segs, steps};
 }
-const FRAC_STEP=0.36;
+
 // число рукописними гліфами; якщо є маркер «·» (множник) — частину «·k» виділяємо стилем .fmul
 function hwNum(value, ctx){
   const s=String(value); const dot=s.indexOf('·');
@@ -113,20 +116,23 @@ function renderDenom(dn){
   return h+'</div>';
 }
 // Рендер сцени дробів: горизонтальний ланцюжок + робоча область НСК (за потреби)
-function fracStageInner(){
-  const m=S.fracModel, st=m.steps[S.step];
+function fracStageInner(model, ctx){
+  const m=model, st=ctx.step;
   let html='<div class="fracwork"><div class="fracsolve">';
   for(let i=0;i<st.chainUpto;i++){
     const seg=m.segments[i], isCur=(i===st.chainUpto-1) && st.newSeg;
-    const isFlip = isCur && st.flip;                          // крок-обчислення: числа прилітають зі старого сегмента
+    // .morphing ховає числа до прильоту, тож ставимо його ЛИШЕ коли політ справді
+    // готується (ctx.anim). Інакше — стрибок через крок або «спокійний режим» —
+    // показуємо фінальний вигляд одразу, без руху.
+    const isFlip = isCur && st.flip && !!ctx.anim;
     const isWrite = isCur && !st.flip;                        // звичайний послідовний запис
     const flymul = isCur && st.denom && st.denom.showMult;    // множники прилетять із блоку НСК
-    const ctx = isWrite ? {writing:true, order:0} : {writing:false};   // рукописне письмо, глиф за гліфом
+    const pen = isWrite ? {writing:true, order:0} : {writing:false};   // рукописне письмо, глиф за гліфом
     html+=`<span class="fseg${seg.done?' fdone':''}${isWrite?' writing':''}${isFlip?' morphing':''}${flymul?' flymul':''}"><span class="fseg-math">`;
-    if(i>0) html+=`<span class="funit feq">${hwGlyphs('=',ctx)}</span>`;
-    seg.units.forEach(u=>{ html+=renderFUnit(u, ctx); });      // чисельник → риска → знаменник → знак → …
+    if(i>0) html+=`<span class="funit feq">${hwGlyphs('=',pen)}</span>`;
+    seg.units.forEach(u=>{ html+=renderFUnit(u, pen); });      // чисельник → риска → знаменник → знак → …
     html+='</span>';
-    if(seg.note){ const d=isWrite?` style="animation-delay:${(ctx.order*HW_STEP).toFixed(2)}s"`:''; html+=`<span class="fnote"${d}>${seg.note}</span>`; }
+    if(seg.note){ const d=isWrite?` style="animation-delay:${(pen.order*HW_STEP).toFixed(2)}s"`:''; html+=`<span class="fnote"${d}>${seg.note}</span>`; }
     html+='</span>';
   }
   html+='</div>';
@@ -134,14 +140,14 @@ function fracStageInner(){
   return html+'</div>';
 }
 // Анімація: множники (×3, ×2) вилітають із чипів НСК і летять у дроби (в чисельник і знаменник)
-function runFracMulAnim(){
-  const st = S.fracModel && S.fracModel.steps[S.step];
+function runFracMulAnim(model, ctx){
+  const st = ctx.step;
   if(!(st && st.denom && st.denom.showMult)) return;
   const work=document.querySelector('.fracwork'); if(!work) return;
   const seg=work.querySelector('.fseg.flymul'); if(!seg) return;
   const fmuls=[...seg.querySelectorAll('.fmul')]; if(!fmuls.length) return;
   const reveal=()=>fmuls.forEach(t=>{t.style.opacity='1';});
-  if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches){ reveal(); return; }
+  if(prefersReducedMotion()){ reveal(); return; }
   const sources=[...work.querySelectorAll('.denchip.mul .chipk')];
   if(sources.length<2){ reveal(); return; }
   work.style.position='relative';
@@ -171,18 +177,15 @@ function runFracMulAnim(){
 
 // Готуємо FLIP перед зміною кроку (лише вперед, лише для кроків-обчислень).
 // Джерело лишається на екрані (попередній сегмент), тож позиції читаємо вже після рендера.
-function prepareFracAnim(to){
-  S.fracFlip=null;
-  if(S.tool!=='frac'||!S.fracModel) return;
-  if(to!==S.step+1) return;
-  const st=S.fracModel.steps[to]; if(!st||!st.flip) return;
-  if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  S.fracFlip={kind:st.flip, newIdx:st.chainUpto-1};
+function prepareFracAnim(model, from, to){
+  if(to!==from+1) return null;
+  const st=model.steps[to]; if(!st||!st.flip) return null;
+  return {kind:st.flip, newIdx:st.chainUpto-1};
 }
 // Виконуємо FLIP: число ВИЛІТАЄ зі старого місця (оригінал ховаємо, щоб не було здвоєння)
 // і перетворюється на результат у новому.
-function runFracFlip(){
-  const flip=S.fracFlip; S.fracFlip=null; if(!flip) return;
+function runFracFlip(model, ctx){
+  const flip=ctx.anim; if(!flip) return;
   const work=document.querySelector('.fracwork'); if(!work) return;
   work.style.position='relative';
   const cont=work.getBoundingClientRect();
@@ -240,3 +243,32 @@ function runFracFlip(){
     flyOne(srcFracs[0].querySelector('.fd'), newFd, delay+D2+0.26, true);
   }
 }
+
+registerTool('frac', {
+  name:'Дії з дробами', icon:'½', color:'var(--amber)', bg:'var(--amber-l)',
+  build: cfg => buildFracModel(cfg.a, cfg.b, cfg.op, cfg.c, cfg.d),
+  view:  fracStageInner,
+  prepare: prepareFracAnim,
+  // два різні польоти на одному кроці: множники влітають із чипів НСК,
+  // а числа морфляться в результат. Обидва — послідовно, кожен своїм розкладом.
+  animate(model, ctx){ runFracMulAnim(model, ctx); runFracFlip(model, ctx); },
+  inputs: c => `
+    <div class="field"><label class="fl">Перший дріб</label>
+      <div class="row"><input id="i_a" type="number" value="${c.a??1}" style="flex:1"><span style="align-self:center">/</span><input id="i_b" type="number" value="${c.b??4}" style="flex:1"></div></div>
+    <div class="field"><label class="fl">Дія</label>
+      <select id="i_op"><option ${c.op==='-'?'':'selected'}>+</option><option ${c.op==='-'?'selected':''}>-</option></select></div>
+    <div class="field"><label class="fl">Другий дріб</label>
+      <div class="row"><input id="i_c" type="number" value="${c.c??1}" style="flex:1"><span style="align-self:center">/</span><input id="i_d" type="number" value="${c.d??6}" style="flex:1"></div></div>`,
+  read: v => ({a:+v('i_a'), b:+v('i_b'), op:v('i_op'), c:+v('i_c'), d:+v('i_d')}),
+  summary: cfg => `${cfg.a}/${cfg.b} ${cfg.op} ${cfg.c}/${cfg.d}`,
+  editorFields: cfg => `
+    <div class="row">
+      <div class="field" style="flex:1"><label class="fl">Чисельник 1</label><input id="f_a" type="number" value="${cfg.a||''}"></div>
+      <div class="field" style="flex:1"><label class="fl">Знаменник 1</label><input id="f_b" type="number" value="${cfg.b||''}"></div>
+      <div class="field" style="width:80px"><label class="fl">Дія</label>
+        <select id="f_op"><option ${cfg.op==='+'?'selected':''}>+</option><option ${cfg.op==='-'?'selected':''}>-</option></select></div>
+      <div class="field" style="flex:1"><label class="fl">Чисельник 2</label><input id="f_c" type="number" value="${cfg.c||''}"></div>
+      <div class="field" style="flex:1"><label class="fl">Знаменник 2</label><input id="f_d" type="number" value="${cfg.d||''}"></div>
+    </div>`,
+  readEditor: v => ({a:+v('f_a'), b:+v('f_b'), op:v('f_op'), c:+v('f_c'), d:+v('f_d')}),
+});

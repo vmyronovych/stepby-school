@@ -1,6 +1,10 @@
 /* =========================================================
-   РОУТЕР
+   РОУТЕР І СТАРТ
+   Завантажується останнім: на цей момент реєстр уже наповнений.
    ========================================================= */
+// повернення на головну (клік по лого)
+function goHome(){ S.view='home'; S.cls=null; S.subject=null; S.topic=null; S.tool=null; S.step=0; render(); }
+
 function render(){
   app.classList.toggle('wide', !!S.tool);   // ширша сторінка для інструмента (зошит займає більше місця)
   if(S.tool){ return renderTool(); }
@@ -14,10 +18,6 @@ function crumbs(parts){
     return `<span>${esc(p.t)}</span>${sep}`;
   }).join('')+'</div>';
 }
-
-/* Role switch */
-// повернення на головну (клік по лого)
-function goHome(){ S.view='home'; S.cls=null; S.subject=null; S.topic=null; S.tool=null; S.step=0; render(); }
 
 /* ---- старт ---- */
 render();

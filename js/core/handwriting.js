@@ -1,4 +1,8 @@
-// ---- Рукописні гліфи: одноштрихові SVG-контури, що «малюються» пером (stroke-dashoffset) ----
+/* =========================================================
+   РУКОПИСНЕ ПИСЬМО: одноштрихові SVG-контури, що «малюються» пером
+   (stroke-dashoffset). HW_STEP — такт між гліфами, HW_DUR — час штриха.
+   Порядок штрихів у мапі HW — зліва направо, зверху вниз.
+   ========================================================= */
 const HW_STEP=0.2, HW_DUR=0.34;
 const HW={
   '0':["M30,10 C13,10 13,90 30,90 C47,90 47,10 30,10"],
@@ -48,9 +52,4 @@ function hwEqline(parts){
   let h='<div class="eqline">';
   for(const p of parts){ h+=`<span class="${p.cls||''}">${hwGlyphs(p.t, ctx)}</span>`; }
   return h+'</div>';
-}
-// рукописний рядок без обгортки-центрування (для вбудованих у макет виразів)
-function hwInline(parts){
-  const ctx={writing:true, order:0};
-  return parts.map(p=>`<span class="${p.cls||''}">${hwGlyphs(p.t, ctx)}</span>`).join('');
 }
