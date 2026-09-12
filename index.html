@@ -235,58 +235,59 @@ table.tbl tr:last-child td{border-bottom:none}
 .dvk{display:flex;flex-direction:column;gap:15px;font-family:'Segoe UI',sans-serif;max-width:660px}
 .dvk-num{align-self:center;display:flex;flex-direction:column;align-items:center;gap:2px}
 .dvk-num .nbig{font-size:40px;font-weight:800;color:var(--graphite);font-family:'JetBrains Mono',monospace;line-height:1;
-  width:74px;height:74px;display:grid;place-items:center;background:#fff;border:2.5px solid var(--primary);border-radius:16px;box-shadow:var(--shadow)}
+  width:74px;height:74px;display:grid;place-items:center;background:transparent;border:2.5px solid var(--primary);border-radius:16px}
 .dvk-num .ncap{font-size:12px;color:var(--muted)}
 .dlane{border-radius:14px;padding:12px 14px 14px;border:1.5px solid}
-.dlane.d{background:var(--green-l);border-color:#bfe6cf}
-.dlane.k{background:var(--amber-l);border-color:#f2e0b6}
+.dlane.d{background:transparent;border-color:#8fd0ad}
+.dlane.k{background:transparent;border-color:#e6c583}
 .dlane-hd{display:flex;align-items:center;gap:9px;margin-bottom:4px}
 .dlane-hd .lt{font-size:15px;font-weight:800}
 .dlane.d .lt{color:var(--green)} .dlane.k .lt{color:#b5852a}
 .dlane-hd .lsub{font-size:12px;color:var(--muted);font-weight:600}
 .dlane-hd .cnt{margin-left:auto;font-size:12px;font-weight:800;padding:3px 10px;border-radius:20px;font-family:'JetBrains Mono',monospace}
-.dlane.d .cnt{background:#fff;color:var(--green);border:1px solid #bfe6cf}
-.dlane.k .cnt{background:#fff;color:#b5852a;border:1px solid #f2e0b6}
-/* лінійка дільників — обмежена, закінчується на N */
-.ruler{position:relative;height:50px;margin:14px 12px 2px}
-.ruler::before{content:'';position:absolute;left:0;right:14px;top:22px;height:3px;background:var(--graphite);border-radius:3px}
-.ruler .rcap{position:absolute;right:-2px;top:12px;font-size:11px;color:var(--muted);transform:translateX(100%)}
-.post{position:absolute;top:8px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:2px}
-.post .stalk{width:2px;height:14px;background:#a9b6d4}
-.post .lab{font-size:10px;color:#96a0bb;font-family:'JetBrains Mono',monospace}
-.post.on .stalk{display:none}
-.post.on .dot{width:12px;height:12px;border-radius:50%;background:var(--green);border:2.5px solid #fff;box-shadow:0 0 0 2px var(--green);margin-top:9px}
-.post.on .lab{color:var(--green);font-weight:800;font-size:13px}
+.dlane.d .cnt{background:transparent;color:var(--green);border:1px solid #8fd0ad}
+.dlane.k .cnt{background:transparent;color:#b5852a;border:1px solid #e6c583}
 /* ланцюг кратних — відкритий, тягнеться до ∞ */
 .ktrack{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin:12px 6px 4px}
-.kstop{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:40px;padding:5px 8px;background:#fff;border:1.5px solid #ecd9a6;border-radius:10px}
+.kstop{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:40px;padding:5px 8px;background:transparent;border:1.5px solid #e0be79;border-radius:10px}
 .kstop .kv{font-size:16px;font-weight:800;color:#b5852a;font-family:'JetBrains Mono',monospace;line-height:1}
 .kstop .kk{font-size:9px;color:#c2a25f;font-weight:700;margin-top:1px}
-.kstop.first{border-color:var(--amber);box-shadow:0 0 0 2px var(--amber-l)}
+.kstop.first{border-color:var(--amber);border-width:2.5px}
 .kdash{width:26px;height:3px;background:linear-gradient(90deg,#d9bd7a 60%,transparent 0) repeat-x;background-size:8px 3px;margin:0 1px}
 .kinf{font-size:24px;font-weight:800;color:#b5852a;padding-left:6px;font-family:'JetBrains Mono',monospace}
+/* ланцюг дільників — той самий вигляд, але ділення й закритий кінець */
+.dlane.d .ktrack{row-gap:24px;margin-bottom:18px}
+.kstop{position:relative}
+.dlane.d .kstop{border-color:#a8dcc0;min-width:54px}
+.dlane.d .kstop .kv{color:var(--green)}
+.dlane.d .kstop .kk{color:#5fae87}
+.dlane.d .kstop.first,.dlane.d .kstop.last{border-color:var(--green);border-width:2.5px}
+.dlane.d .kdash{background:linear-gradient(90deg,#8fd0ad 60%,transparent 0) repeat-x;background-size:8px 3px}
+.kcap{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:4px;font-size:9.5px;font-weight:800;
+  letter-spacing:.2px;white-space:nowrap;color:var(--green)}
+.kend{width:4px;height:30px;background:var(--green);border-radius:2px;margin-left:9px}
 .dlane .note{font-size:12.5px;color:var(--graphite);margin-top:9px;line-height:1.45}
 .dlane.d .note b{color:var(--green)} .dlane.k .note b{color:#b5852a}
 /* міст: одна дія — два прочитання */
-.dvk-bridge{border:1.5px dashed var(--pink);background:var(--pink-l);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:12px;align-items:center}
+.dvk-bridge{border:1.5px dashed var(--pink);background:transparent;border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:12px;align-items:center}
 .bridge-eq{display:flex;align-items:center;gap:5px}
 .bridge-eq .rem{font-size:13px;color:var(--green);font-weight:700;margin-left:6px}
 .bridge-reads{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;width:100%}
-.bread{flex:1;min-width:180px;display:flex;flex-direction:column;align-items:center;gap:3px;background:#fff;border-radius:11px;padding:10px 12px;border:1px solid var(--line)}
+.bread{flex:1;min-width:180px;display:flex;flex-direction:column;align-items:center;gap:3px;background:transparent;border-radius:11px;padding:10px 12px;border:1px solid #cfd8ea}
 .bread .arw{font-size:18px;line-height:1}
 .bread .big{font-size:15px;font-weight:800;text-align:center}
 .bread .sml{font-size:11.5px;color:var(--muted);text-align:center}
 .bread.d{border-color:#bfe6cf} .bread.d .big{color:var(--green)} .bread.d .arw{color:var(--green)}
 .bread.k{border-color:#f2e0b6} .bread.k .big{color:#b5852a} .bread.k .arw{color:#b5852a}
 /* підсумкова таблиця-контраст */
-.dvk-sum{border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.dvk-sum{border:1px solid #cfd8ea;border-radius:14px;overflow:hidden}
 .dvk-sum table{width:100%;border-collapse:collapse;font-size:13.5px}
-.dvk-sum td,.dvk-sum th{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left}
-.dvk-sum th{font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);background:#fafbff}
+.dvk-sum td,.dvk-sum th{padding:9px 12px;border-bottom:1px solid #dfe6f3;text-align:left}
+.dvk-sum th{font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);background:transparent}
 .dvk-sum tr:last-child td{border-bottom:none}
 .dvk-sum .cd{color:var(--green);font-weight:700} .dvk-sum .ck{color:#b5852a;font-weight:700}
-.dvk-sum td.rl{color:var(--muted);font-weight:600;width:150px;background:#fafbff}
-.dvk-verdict{font-size:13.5px;color:var(--graphite);background:#fff;border:1px solid var(--line);border-radius:11px;padding:11px 14px;line-height:1.5}
+.dvk-sum td.rl{color:var(--muted);font-weight:600;width:150px;background:transparent}
+.dvk-verdict{font-size:13.5px;color:var(--graphite);background:transparent;border:1px solid #cfd8ea;border-radius:11px;padding:11px 14px;line-height:1.5}
 .dvk-verdict b{color:var(--primary)}
 @keyframes dvkpop{0%{opacity:0;transform:translateY(7px) scale(.6)}70%{transform:translateY(0) scale(1.14)}100%{opacity:1;transform:scale(1)}}
 .dvk .pop{animation:dvkpop .34s ease backwards}
@@ -1228,7 +1229,7 @@ function buildDvkModel(N){
   else { bridge={a:N*2, b:N, q:2}; }                              // 2N : N = 2
   const steps=[
     {phase:'intro', text:`Візьмемо число <b>${N}</b>. У нього є <b>дільники</b> і є <b>кратні</b> — це зовсім різні речі. Порівняймо їх поруч.`},
-    {phase:'div',   text:`<b>Дільники</b> — числа, на які ${N} ділиться <b>націло</b>. Вони «вкладаються» всередину числа, тому <b>не більші за ${N}</b>, і їх <b>скінченна</b> кількість — ось усі ${divs.length}.`},
+    {phase:'div',   text:`<b>Дільники</b> — числа, на які ${N} ділиться <b>націло</b>. Шукаємо їх діленням: починаємо з <b>1</b> (найменший дільник) і закінчуємо самим <b>${N}</b> (найбільший). Вони «вкладаються» всередину числа, тому <b>не більші за ${N}</b>, і їх <b>скінченна</b> кількість — ось усі ${divs.length}.`},
     {phase:'mult',  text:`<b>Кратні</b> — числа, які самі діляться на ${N} націло (це ${N}, взяте 1, 2, 3… рази). Вони <b>не менші за ${N}</b> і тягнуться <b>без кінця</b> — кратних <b>нескінченно</b>.`},
     {phase:'bridge',text:`Обидва поняття — про одну дію. ${bridge.a} : ${bridge.b} = ${bridge.q} (остача 0) читається двома мовами: <b>${bridge.b}</b> — дільник ${bridge.a}, а <b>${bridge.a}</b> — кратне ${bridge.b}.`},
     {phase:'summary',text:`Головне: <b>дільник менший</b> — його «ділять на»; <b>кратне більше</b> — його «отримують». Дільників скінченно, кратних — нескінченно.`},
@@ -1245,26 +1246,22 @@ function dvkView(m, phase){
   // центральне число
   h+=`<div class="dvk-num"><div class="nbig">${N}</div><div class="ncap">наше число</div></div>`;
 
-  // ЛАНА ДІЛЬНИКІВ — обмежена лінійка, що закінчується на N
+  // ЛАНА ДІЛЬНИКІВ — той самий ланцюг, що й у кратних, але ділення; починається з 1, закінчується числом
   if(shown.div){
-    const showStalk = N<=16;
-    let posts='';
-    for(let i=0;i<=N;i++){
-      const on = m.divs.includes(i);
-      const left=(i/N)*100;
-      if(on){
-        const idx=m.divs.indexOf(i);
-        const pop = phase==='div' ? `class="post on pop" style="left:${left}%;animation-delay:${idx*0.09}s"` : `class="post on" style="left:${left}%"`;
-        posts+=`<div ${pop}><span class="dot"></span><span class="lab">${i}</span></div>`;
-      } else if(showStalk){
-        posts+=`<div class="post" style="left:${left}%"><span class="stalk"></span><span class="lab">${i}</span></div>`;
-      }
-    }
+    const last=m.divs.length-1;
+    let stops='';
+    m.divs.forEach((d,j)=>{
+      const pop = phase==='div' ? ` pop" style="animation-delay:${j*0.09}s` : '';
+      const edge = j===0 ? ' first' : (j===last ? ' last' : '');
+      const cap = j===0 ? '<span class="kcap">найменший</span>' : (j===last ? '<span class="kcap">найбільший</span>' : '');
+      stops+=`<span class="kstop${edge}${pop}"><span class="kv">${d}</span><span class="kk">${N}:${d}=${N/d}</span>${cap}</span>`;
+      if(j<last) stops+=`<span class="kdash"></span>`;
+    });
     h+=`<div class="dlane d">
       <div class="dlane-hd"><span class="lt">🟢 Дільники</span><span class="lsub">на них ділиться ${N}</span>
         <span class="cnt">скінченно: ${m.divs.length}</span></div>
-      <div class="ruler">${posts}</div>
-      <div class="note">${m.divs.map(d=>d).join(', ')} — усі <b>≤ ${N}</b>. Вони йдуть парами: ${pairsText(m)}. Далі дільників немає.</div>
+      <div class="ktrack">${stops}<span class="kend"></span></div>
+      <div class="note">${m.divs.join(', ')} — усі <b>≤ ${N}</b>. Починаємо завжди з <b>1</b> (найменший дільник будь-якого числа), закінчуємо самим <b>${N}</b> (найбільший). Вони йдуть парами: ${pairsText(m)}. Далі дільників немає — ланцюг <b>закінчується</b>.</div>
     </div>`;
   }
 
