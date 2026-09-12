@@ -1,0 +1,21 @@
+/* ---------- Рівняння і пропорції (eq / prop) ---------- */
+.eqstep{font-size:22px;font-family:'JetBrains Mono',monospace;text-align:center;color:var(--graphite);line-height:1.7}
+.eqsolve{display:flex;flex-direction:column;align-items:flex-start;font-family:'JetBrains Mono',monospace;color:var(--graphite);position:relative}
+.eqrow{font-size:20px;height:var(--cell);display:flex;align-items:center;gap:5px;padding:0 8px;border-radius:7px;white-space:nowrap;transition:background .2s}
+.eqrow.cur{background:rgba(224,152,42,.18)}
+.eqrow.done-row{background:var(--green-l)}
+.eqrow .res{color:var(--green);font-weight:700}
+.eqrow .op{color:var(--pink);font-weight:700}
+.eqrow .muted{color:#98a0bd}
+.eqrow .note{font-size:14px;color:var(--muted);margin-left:8px;font-family:'Segoe UI',sans-serif}
+/* поява символів: «write» — послідовне написання; «move/combine» — переліт цифр (керує JS) */
+.eqrow .eq-eq{color:var(--pink);font-weight:700}
+.eqrow .tok{display:inline-block}
+@keyframes tokWrite{0%{opacity:0;transform:translateY(-4px) scale(.75);filter:blur(.7px)}100%{opacity:1;transform:none;filter:none}}
+@keyframes tokPop{0%{transform:scale(.4);opacity:.3}70%{transform:scale(1.18)}100%{transform:scale(1);opacity:1}}
+@keyframes signFlip{0%{transform:scale(1)}45%{transform:scale(1.55) rotate(-8deg)}100%{transform:scale(1) rotate(0)}}
+.eqrow.writing .note{animation:tokWrite .3s ease-out both}
+.eqclone{position:absolute;font-family:'JetBrains Mono',monospace;font-size:20px;color:var(--graphite);pointer-events:none;will-change:transform}
+.eqclone.op{color:var(--pink);font-weight:700}
+.eqclone.res{color:var(--green);font-weight:700}
+@media(prefers-reduced-motion:reduce){.eqrow.writing .note{animation:none!important}}
