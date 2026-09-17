@@ -3,7 +3,8 @@
    ========================================================= */
 // Відмальовка колонкового обчислення на клітинковій сітці.
 // rows: [{cells:[...]}] або {line:true, span?:[from,to]} — лінія підкреслює попередній рядок.
-function colGrid(rows, width){
+// startOrder — з якого «такту» пера починати письмо (щоб дописувати після польоту/іншого рядка).
+function colGrid(rows, width, startOrder){
   const content=[];
   for(const r of rows){
     if(r.line){
@@ -13,7 +14,7 @@ function colGrid(rows, width){
       }
     } else content.push({cells:r.cells, anim:r.anim});
   }
-  const ctx={writing:true, order:0};                 // спільний лічильник для послідовного «письма»
+  const ctx={writing:true, order:startOrder||0};                 // спільний лічильник для послідовного «письма»
   let h=`<div class="notebook" style="grid-template-columns:repeat(${width},var(--cell))">`;
   for(const r of content){
     for(let i=0;i<width;i++){
