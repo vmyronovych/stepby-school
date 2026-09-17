@@ -1,0 +1,64 @@
+/* ---------- Розкладання на прості множники (factor) ---------- */
+.fac{position:relative;display:flex;flex-direction:column;gap:16px;max-width:660px}
+
+/* драбинка: число | риска | простий дільник | перекреслені кандидати */
+.flad{display:flex;flex-direction:column;align-items:flex-start}
+.flrow{display:flex;align-items:stretch}
+.flbar{width:3px;background:var(--graphite);border-radius:2px;margin:0 8px}
+.flleft,.flright{display:flex;align-items:center}
+.flright.flying{opacity:0}
+.flright.landed{animation:facPop .34s ease-out}
+.nk.pf{color:var(--primary);font-weight:700}
+.fltag{display:flex;align-items:center;gap:5px;padding-left:10px}
+.fltag .fx{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#9aa1bb;text-decoration:line-through;
+  border:1px solid #e0e4f0;border-radius:6px;padding:0 5px;line-height:1.5}
+/* шапка драбинки */
+.flrow.flhd{font-family:'Segoe UI',sans-serif;font-size:10.5px;letter-spacing:.3px;text-transform:uppercase;
+  color:var(--muted);height:var(--cell);align-items:flex-end;padding-bottom:5px}
+.flrow.flhd .hl{text-align:right;padding-right:4px}
+.flrow.flhd .hb{width:3px;margin:0 8px}
+.flrow.flhd .hr{padding-left:1px}
+
+/* клон дільника в польоті — той самий вміст і розмір, що й ціль */
+.facfly{position:absolute;pointer-events:none;will-change:transform;z-index:6;display:flex;align-items:center}
+
+/* робоча зона перебору */
+.fprobe{border:1.5px dashed #cfc8f5;background:rgba(91,75,230,.05);border-radius:12px;padding:11px 14px;
+  font-family:'Segoe UI',sans-serif;max-width:620px}
+.fprobe.good{border-color:#a8dcc0;background:rgba(18,163,107,.06)}
+.fpttl{font-size:12.5px;font-weight:700;color:var(--primary);margin-bottom:9px}
+.fprobe.good .fpttl{color:var(--green)}
+.fpchips{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:9px}
+.fchip{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;min-width:34px;
+  padding:2px 8px 3px;background:#fff;border:1.5px solid var(--line);border-radius:9px;
+  font-family:'JetBrains Mono',monospace;line-height:1.05}
+.fchip .cv{font-size:16px;font-weight:700;color:var(--graphite)}
+.fchip .cs{font-size:10px;font-weight:700;color:#aab0c8}
+.fchip.no{opacity:.55} .fchip.no .cv{text-decoration:line-through;color:#8f95ad} .fchip.no .cs{color:var(--pink)}
+.fchip.ok{border-color:var(--green);background:var(--green-l);animation:facPop .34s ease-out}
+.fchip.ok .cv,.fchip.ok .cs{color:var(--green)}
+.fchip.todo{border-style:dashed;opacity:.5}
+.fprule{font-size:13px;color:var(--graphite);line-height:1.5}
+.fprule .q{font-weight:700}
+.fprule .a{color:var(--muted)}
+.fprule b{color:var(--graphite)}
+
+/* пам'ятка ознак подільності — лишається на екрані завжди */
+.frules{display:flex;flex-wrap:wrap;gap:6px;font-family:'Segoe UI',sans-serif}
+.frule{font-size:11.5px;color:var(--muted);border:1px solid var(--line);border-radius:20px;padding:3px 10px;background:#fff}
+.frule b{color:var(--graphite)}
+.frule.on{border-color:var(--primary);color:var(--primary);background:var(--primary-l)}
+.frule.on b{color:var(--primary)}
+
+/* відповідь: розклад і канонічний (степеневий) запис */
+.fanswer{display:flex;flex-direction:column;gap:8px;align-items:flex-start;margin-top:4px}
+.fanswer .eqline{justify-content:flex-start}
+.fanswer .op{color:var(--pink)}
+.fanswer .res{color:var(--green);font-weight:700;position:relative}
+.fexp{font-size:.55em;color:var(--green);font-weight:700;vertical-align:super;margin-left:1px;
+  animation:facPop .3s ease-out backwards}
+
+@keyframes facPop{0%{opacity:0;transform:scale(.45)}65%{transform:scale(1.16)}100%{opacity:1;transform:scale(1)}}
+@media(prefers-reduced-motion:reduce){
+  .fchip.ok,.flright.landed,.fexp{animation:none!important}
+}
