@@ -9,7 +9,8 @@
      pts:   [{v, ast}]                 впорядковані точки
      marks: ['fill'|'hole', …]         зафарбована (входить) / виколота
      signs: ['+','−', …] | null        знаки на n+1 проміжках (з дугами)
-     hatch: [{l, r, level, cls}]       штрихування; l/r — точка з pts або null (∞)
+     hatch: [{l, r, li, ri, level, cls}]  штрихування; l/r — точка з pts або null (∞);
+                                       li/ri=false — межа не входить (розрив біля точки)
      res:   [{l, r}]                   підсумок — зелена смуга на осі
    }
    Порядок пера: вісь → точки з підписами зліва направо → дуги зі знаками →
@@ -64,7 +65,8 @@ function numLine(cfg, pen){
       seen.add(hc.level);
       defs += `<pattern id="${pid}" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(${hc.level%2?-45:45})"><path class="${hc.cls||''}" d="M0,0 L0,7"/></pattern>`;
     }
-    const a=xl(hc.l), b=xr(hc.r), h=hatchH(hc.level);
+    // біля виколотої точки штрихування переривається — умова там порушена
+    const GAP=7, a=xl(hc.l)+(hc.l && hc.li===false ? GAP : 0), b=xr(hc.r)-(hc.r && hc.ri===false ? GAP : 0), h=hatchH(hc.level);
     under += `<g class="nlh ${hc.cls||''} hwa"${hwTick(pen,'hwwipe',0.45,2)}><rect x="${a}" y="${Y-h}" width="${Math.max(0,b-a)}" height="${h}" fill="url(#${pid})"/><path d="M${a},${Y-h} L${b},${Y-h}"/></g>`;
   });
   // 5) підсумкова смуга на осі — перетин умов

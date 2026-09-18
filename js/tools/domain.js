@@ -145,7 +145,12 @@ function domQuad(p, rel){
     }
   }
   if(rel==='≠'){
-    rows.push(roots.length
+    // протилежні корені пишемо разом: x ≠ ±3
+    const opp = roots.length===2 && Math.abs(roots[0].v+roots[1].v)<D_EPS;
+    rows.push(opp
+      ? {parts:[{g:'x'},{g:'≠'},{g:'±'},{f:roots[1].ast}], res:true,
+         text:`Отже, вираз не дорівнює нулю при всіх x, крім ±${fmlText(roots[1].ast)}: x ≠ ±${fmlText(roots[1].ast)}.`}
+      : roots.length
       ? {parts:roots.flatMap((r,i)=>[...(i?[{g:';',c:'dsemi'}]:[]),{g:'x'},{g:'≠'},{f:r.ast}]), res:true,
          text:`Отже, вираз не дорівнює нулю при всіх x, крім ${roots.map(r=>fmlText(r.ast)).join(' і ')}.`}
       : {parts:[{w:'вираз ніколи не дорівнює 0 — обмежень немає'}], res:true,
@@ -214,6 +219,7 @@ function buildDomainModel(text){
       c.rows=buildLinearRows({a:qNum(c.poly[1]), b:qNum(c.poly[0])}, {a:0,b:0}, {rel:c.rel});
       c.rows.forEach(r=>{ r.done=false; });
       c.roots=[dRq(qDiv(qNeg(c.poly[0]), c.poly[1]))];
+      c.ready = c.rows.length===1;          // уже «x ≥ a» / «x ≠ a» — розв'язувати нічого
     } else {
       c.kind='quad';
       const q=domQuad(c.poly, c.rel); c.rows=q.rows; c.roots=q.roots;
@@ -223,7 +229,7 @@ function buildDomainModel(text){
     if(c.rel!=='≠'){
       const signs = c.kind==='quad' ? domSigns(c) : null;
       c.line={pts:c.pts, marks:c.pts.map(p=>c.sat(p.v)?'fill':'hole'), signs,
-        hatch:c.pieces.filter(pc=>!(pc.l&&pc.l===pc.r)).map(pc=>({l:pc.l, r:pc.r, level:0, cls:'lv'+ci}))};
+        hatch:domHatch(c.pieces, 0, ci)};
       c.resParts=[{g:'x'},{g:'∈'},...domIntervalParts(c.pieces)];
     }
   });
@@ -233,7 +239,7 @@ function buildDomainModel(text){
   const satAll=x=>conds.every(c=>c.sat(x));
   const ans=domPieces(all, satAll);
   m.finalLine={pts:all, marks:all.map(p=>satAll(p.v)?'fill':'hole'),
-    hatch:conds.flatMap((c,ci)=>domPieces(all,c.sat).filter(pc=>!(pc.l&&pc.l===pc.r)).map(pc=>({l:pc.l, r:pc.r, level:ci, cls:'lv'+ci}))),
+    hatch:conds.flatMap((c,ci)=>domHatch(domPieces(all,c.sat), ci, ci)),
     res:ans};
   m.ansParts=[{g:'D'},{g:'('},{g:'y'},{g:')'},{g:'='},...domIntervalParts(ans)];
   m.ansText=domIntervalText(ans);
@@ -244,22 +250,28 @@ function buildDomainModel(text){
   if(conds.length){
     m.sysStep=S_.length;
     const merged=conds.filter(c=>c.merged).map(c=>`${fmlText(c.expr)} > 0`);
+    const ready=conds.filter(c=>c.ready);
     S_.push({ph:'sys', text:(conds.length>1
       ? 'Усі умови мають виконуватися одночасно, тому записуємо їх системою. Кожен вираз переноситься з формули у свій рядок.'
       : 'Записуємо умову: вираз переноситься з формули.')
-      + (merged.length ? ` Той самий вираз трапився двічі (≥ 0 і ≠ 0) — разом це ${merged.join(', ')}.` : '')});
+      + (merged.length ? ` Той самий вираз трапився двічі (≥ 0 і ≠ 0) — разом це ${merged.join(', ')}.` : '')
+      + (ready.length && conds.length>1 ? ` ${ready.length>1?'Умови':'Умова'} ${ready.map(c=>D_CIRC[c.ci]).join(', ')} уже в готовому вигляді — окремо ${ready.length>1?'їх':'її'} розв’язувати не треба.` : '')});
     conds.forEach((c,ci)=>{
+      if(c.ready){ c.rowSteps=[]; return; }
       c.rowSteps=c.rows.map((r,j)=>{ S_.push({ph:'row', ci, j, text:(j===0?`Умова ${D_CIRC[ci]}. `:'')+r.text}); return S_.length-1; });
       if(c.line){
         c.lineStep=S_.length;
         S_.push({ph:'cline', ci, text:domLineText(c)});
       }
     });
-    if(conds.length>1 || !conds[0].line){
+    if(conds.length>1 || !conds[0].line || conds[0].ready){
       m.finalStep=S_.length;
-      S_.push({ph:'final', text: conds.length>1
+      const c0=conds[0];
+      S_.push({ph:'final', text: (conds.length>1
         ? 'Накладаємо розв’язки всіх умов на одну пряму. Підходять лише ті x, де є штрихування від кожної умови, — там проводимо зелену смугу.'
-        : 'Позначаємо на прямій: точки, де знаменник дорівнює нулю, виколюємо, а решта прямої підходить.'});
+        : c0.rel==='≠' ? 'Позначаємо на прямій: точки, де вираз дорівнює нулю, виколюємо, а решта прямої підходить.'
+        : `Позначаємо умову ${fmlText(c0.expr)} ${c0.rel} 0 на прямій: x ∈ ${domIntervalText(c0.pieces)}.`)
+        + domDroppedText(conds, all, satAll)});
     }
   }
   m.ansStep=S_.length;
@@ -267,6 +279,23 @@ function buildDomainModel(text){
     ? `Відповідь: D(y) = ${m.ansText}.`
     : `Обмежень немає — функцію можна обчислити при будь-якому x: D(y) = ${m.ansText}.`});
   return m;
+}
+// проміжки → шари штрихування (точки-одинаки не штрихуються); li/ri — для розриву біля виколотих точок
+function domHatch(pieces, level, ci){
+  return pieces.filter(pc=>!(pc.l && pc.l===pc.r)).map(pc=>({l:pc.l, r:pc.r, li:pc.li, ri:pc.ri, level, cls:'lv'+ci}));
+}
+// Точка, яку виключає одна умова, але яка й так випадає через іншу (там та умова
+// порушена не на межі, а всередині) — пояснюємо, чому її немає у відповіді.
+function domDroppedText(conds, all, satAll){
+  if(conds.length<2) return '';
+  const out=[];
+  all.forEach(p=>{
+    if(satAll(p.v)) return;
+    const own=conds.filter(c=>c.pts.some(q=>Math.abs(q.v-p.v)<D_EPS) && !c.sat(p.v));
+    const other=conds.find(c=>!c.sat(p.v) && !c.pts.some(q=>Math.abs(q.v-p.v)<D_EPS));
+    if(own.length && other) out.push(`Точка ${fmlText(p.ast)} і так не входить: там не виконується умова ${D_CIRC[other.ci]} (${fmlText(other.expr)} ${other.rel} 0).`);
+  });
+  return out.length ? ' '+out.join(' ') : '';
 }
 // знаки квадратного тричлена на проміжках між коренями
 function domSigns(c){
@@ -380,7 +409,7 @@ function domView(m, ctx){
   // розв'язок кожної умови — окремий блок
   let blocks='';
   m.conds.forEach((c,ci)=>{
-    if(i<c.rowSteps[0]) return;
+    if(!c.rowSteps.length || i<c.rowSteps[0]) return;
     let upto=-1, cur=-1;
     c.rowSteps.forEach((s,j)=>{ if(s<=i) upto=j; if(s===i) cur=j; });
     let b=`<div class="dblock"><div class="dbttl"><span class="dtag mk${ci}">${D_CIRC[ci]}</span> ${esc(fmlText(c.expr))} ${c.rel} 0</div>`;
