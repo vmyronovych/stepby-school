@@ -6,8 +6,13 @@
 function goHome(){ S.view='home'; S.cls=null; S.subject=null; S.topic=null; S.tool=null; S.step=0; render(); }
 
 function render(){
-  app.classList.toggle('wide', !!S.tool);   // ширша сторінка для інструмента (зошит займає більше місця)
+  // тема-документ (матеріали гуртка) показується власним переглядом
+  const topic = S.topic ? DB.topics.find(x=>x.id===S.topic) : null;
+  const isDoc = !S.tool && topic && topic.doc;
+  // ширша сторінка для інструмента (зошит) і для документа (схеми й таблиці)
+  app.classList.toggle('wide', !!S.tool || !!isDoc);
   if(S.tool){ return renderTool(); }
+  if(isDoc){ return renderDoc(topic); }
   return renderStudent();
 }
 

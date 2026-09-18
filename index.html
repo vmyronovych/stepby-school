@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="css/tools/fractions.css">
 <link rel="stylesheet" href="css/tools/dvk.css">
 <link rel="stylesheet" href="css/tools/factor.css">
+<link rel="stylesheet" href="css/robo.css">
 </head>
 <body>
 
@@ -41,9 +42,18 @@
 <script src="js/tools/mult.js"></script>
 <script src="js/tools/div.js"></script>
 
+<!-- Гурток робототехніки: матеріали-документи, а не покрокові інструменти.
+     robo.js оголошує простір імен, решта файлів наповнює ROBO.sections. -->
+<script src="js/robo/robo.js"></script>
+<script src="js/robo/sections.js"></script>
+<script src="js/robo/mod1.js"></script>
+<script src="js/robo/mod2.js"></script>
+<script src="js/robo/sim.js"></script>
+
 <script src="js/ui/modal.js"></script>
 <script src="js/ui/student.js"></script>
 <script src="js/ui/tool-shell.js"></script>
+<script src="js/ui/doc.js"></script>
 <!-- Кабінети вчителя та адміністратора: від'єднані від UI, render() на них не маршрутизує -->
 <script src="js/ui/teacher.js"></script>
 <script src="js/ui/admin.js"></script>
