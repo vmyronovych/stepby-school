@@ -335,7 +335,7 @@ function domView(m, ctx){
   const marks={};
   for(let k=0;k<shown;k++){
     const d=m.dangers[k], isNew = st.ph==='danger' && st.di===k;
-    marks[d.fid]={cls:dMk(d)+(isNew?' mnew':''), badge: d.ci!=null ? D_CIRC[d.ci] : '✓'};
+    marks[d.fid]={cls:dMk(d)+(isNew?' mnew':'')};      // номер — у підказці під рамкою, не в самій формулі
   }
   const p0=dPen(i===0);
   h+=`<div class="dline${i===0?' dcur':''}"><span class="fml dfx">${hwGlyphs('y',p0)}<span class="fo">${hwGlyphs('=',p0)}</span>${renderFormula(m.ast,p0,{marks})}</span></div>`;

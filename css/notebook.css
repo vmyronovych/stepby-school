@@ -47,7 +47,7 @@
 .fo{display:inline-flex;margin:0 .1em}
 .fpar{display:inline-flex}
 .ffrac{flex-direction:column;align-items:center;vertical-align:middle;margin:0 .1em}
-.ffn,.ffd{display:inline-flex;align-items:center;padding:0 .18em}
+.ffn,.ffd{display:inline-flex;align-items:center;padding:.1em .18em}
 .ffbar{align-self:stretch;height:2px;background:currentColor;margin:.16em 0;border-radius:1px;transform-origin:left}
 /* корінь: гачок тягнеться на всю висоту, дах — на всю ширину підкореневого виразу */
 .fx-root{align-items:stretch}
@@ -59,7 +59,8 @@
 .ridx{display:inline-flex;font-size:.5em;align-self:flex-start;margin:.3em -.5em 0 0;position:relative;z-index:1}
 .fpow{display:inline-flex;font-size:.62em;align-self:flex-start;margin:-.2em 0 0 -.14em}
 /* обведений підвираз («небезпечне місце») із номером умови */
-.fmark{border-radius:7px;background:rgba(224,152,42,.13);box-shadow:0 0 0 2px rgba(224,152,42,.6)}
+/* рамка — з просвітом (outline-offset), щоб не зливатися з дахом кореня чи рискою дробу */
+.fmark{border-radius:5px;background:rgba(224,152,42,.1);outline:2px solid var(--mk,rgba(224,152,42,.6));outline-offset:3px}
 .fbadge{position:absolute;right:-13px;top:-12px;font:700 11px/1 'Segoe UI',sans-serif;color:#fff;background:var(--amber);border-radius:9px;padding:2px 4px;z-index:2}
 
 /* такти пера для не-гліфових штрихів (hwTick) */
