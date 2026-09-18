@@ -3,15 +3,21 @@
    Дані живуть у пам'яті: оновлення сторінки скидає прогрес.
    ========================================================= */
 const DB = {
+  // label — повна назва, коли до неї не додається слово «клас» (гуртки).
   classes: [
-    {id:'5a', name:'5'},
-    {id:'6a', name:'6'},
+    {id:'5a', name:'5', icon:'🏫'},
+    {id:'6a', name:'6', icon:'🏫'},
+    {id:'robo', name:'Гурток робототехніки', icon:'🤖',
+     label:'Гурток робототехніки для 3-тіх та 4-тих класів',
+     note:'Позакласний курс на 32 заняття: електричні кола, Pico й MicroBlocks, робот-візок.'},
   ],
+  // cls — у яких класах предмет узагалі показувати
   subjects: [
-    {id:'math', name:'Математика', icon:'📐', color:'var(--primary)', bg:'var(--primary-l)', active:true},
-    {id:'ukr',  name:'Українська мова', icon:'📖', color:'var(--pink)', bg:'var(--pink-l)', active:false},
-    {id:'phys', name:'Фізика', icon:'⚛️', color:'var(--amber)', bg:'var(--amber-l)', active:false},
-    {id:'chem', name:'Хімія', icon:'🧪', color:'var(--green)', bg:'var(--green-l)', active:false},
+    {id:'math', name:'Математика', icon:'📐', color:'var(--primary)', bg:'var(--primary-l)', active:true,  cls:['5a','6a']},
+    {id:'ukr',  name:'Українська мова', icon:'📖', color:'var(--pink)', bg:'var(--pink-l)', active:false, cls:['5a','6a']},
+    {id:'phys', name:'Фізика', icon:'⚛️', color:'var(--amber)', bg:'var(--amber-l)', active:false, cls:['5a','6a']},
+    {id:'chem', name:'Хімія', icon:'🧪', color:'var(--green)', bg:'var(--green-l)', active:false, cls:['5a','6a']},
+    {id:'robot',name:'Робототехніка', icon:'🤖', color:'var(--green)', bg:'var(--green-l)', active:true,  cls:['robo']},
   ],
   users: {
     student:{name:'Олег Петренко', cls:'5a'},
@@ -101,6 +107,38 @@ const DB = {
        {id:'k10', tool:'prop', title:'Знайди x: x : 3 = 4 : 6', cfg:{a:'x',b:'3',c:'4',d:'6'}, done:false},
        {id:'k11', tool:'prop', title:'Знайди x: 2x : 5 = 6 : 15', cfg:{a:'2x',b:'5',c:'6',d:'15'}, done:false},
      ]},
+    /* --- Гурток робототехніки: тема = розділ курсу, показується документом
+           (поле doc -> ROBO.sections), а не списком завдань-інструментів --- */
+    {id:'r1', cls:'robo', subject:'robot', doc:'start', icon:'🤖',
+     title:'Про курс',
+     desc:'Що це за гурток, що є в порталі та як цим користуватися.'},
+    {id:'r2', cls:'robo', subject:'robot', doc:'ktp', icon:'📋',
+     title:'КТП для узгодження',
+     desc:'Календарно-тематичне планування на 64 год: пояснювальна записка, план на 32 заняття, очікувані результати. Поля заповнюються просто на сторінці й друкуються.'},
+    {id:'r3', cls:'robo', subject:'robot', doc:'rules', icon:'🦺',
+     title:'Правила безпеки',
+     desc:'Шість правил гуртка з поясненням «навіщо», плакат на стіну й картка на парту. Що робить учитель, а не діти.'},
+    {id:'r4', cls:'robo', subject:'robot', doc:'frame', icon:'🧰',
+     title:'Рамка курсу',
+     desc:'Структура заняття, набір деталей на пару, постійна розпіновка Pico й підготовка вчителя до старту.'},
+    {id:'r5', cls:'robo', subject:'robot', doc:'mod1', icon:'💡',
+     title:'Модуль 1 · заняття 1-5',
+     desc:'Електричне коло без мікроконтролера: перше коло, кнопка й Морзе, резистори, потенціометр і фоторезистор, проєкт «Нервовий дріт».'},
+    {id:'r6', cls:'robo', subject:'robot', doc:'mod2', icon:'🔌',
+     title:'Модуль 2 · заняття 6-12',
+     desc:'Pico і MicroBlocks: цикл, власні блоки, зумер і мелодії, ШІМ і змінна, RGB, проєкт «Перехрестя».'},
+    {id:'r7', cls:'robo', subject:'robot', doc:'later', icon:'🚗',
+     title:'Модулі 3-6 · заняття 13-32',
+     desc:'Короткі плани решти року: входи та умови, серво й мотори, сенсори робота, змагання й показ для батьків.'},
+    {id:'r8', cls:'robo', subject:'robot', doc:'morse', icon:'📡',
+     title:'Азбука Морзе',
+     desc:'Як вона працює, звідки взялася, де використовується зараз, українські літери та друкована картка.'},
+    {id:'r9', cls:'robo', subject:'robot', doc:'sim', icon:'⚡',
+     title:'Демонстрація кола',
+     desc:'Жива анімація для проєктора: електрони біжать дротами, резистор змінює яскравість, без резистора світлодіод згорає.'},
+    {id:'r10', cls:'robo', subject:'robot', doc:'risks', icon:'⏳',
+     title:'Резерв і ризики',
+     desc:'Що стискати, коли заняття випадають через свята чи карантин.'},
   ],
   // Довідник інструментів наповнює js/core/registry.js — кожен інструмент
   // реєструє себе сам. Порядок ключів (= порядок <script> у index.html)

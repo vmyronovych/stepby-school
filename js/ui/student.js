@@ -1,6 +1,11 @@
 /* =========================================================
    КАБІНЕТ УЧНЯ — основний потік: клас → предмет → тема → інструмент
    ========================================================= */
+// Назва класу: гуртки мають власну повну назву (label), звичайні класи — «5 клас».
+function clsTitle(c){ return c.label || c.name + ' клас'; }
+// Коротший варіант для крихт і заголовків.
+function clsCrumb(c){ return c.label ? c.name : c.name + ' клас'; }
+
 function renderStudent(){
   // home -> вибір класу; далі предмет; далі теми; далі тема
   if(!S.cls){
@@ -8,23 +13,27 @@ function renderStudent(){
       <h1 class="page">Оберіть клас 👋</h1>
       <p class="sub">Оберіть клас, щоб перейти до предметів і покрокових інтерактивних інструментів.</p>
       <div class="grid c3">
-        ${DB.classes.map(c=>`
-          <div class="card click" onclick="pick('cls','${c.id}')">
-            <div class="ico" style="background:var(--primary-l)">🏫</div>
-            <h3>${esc(c.name)} клас</h3>
-            <p class="d">${DB.topics.filter(t=>t.cls===c.id).length} навчальних тем</p>
-          </div>`).join('')}
+        ${DB.classes.map(c=>{
+          const n = DB.topics.filter(t=>t.cls===c.id).length;
+          return `<div class="card click" onclick="pick('cls','${c.id}')">
+            <div class="ico" style="background:${c.label?'var(--green-l)':'var(--primary-l)'}">${c.icon||'🏫'}</div>
+            <h3>${esc(clsTitle(c))}</h3>
+            <p class="d">${c.note?esc(c.note)+'<br>':''}${n} ${c.label?'розділів курсу':'навчальних тем'}</p>
+          </div>`;}).join('')}
       </div>`;
     return;
   }
-  const clsName = DB.classes.find(c=>c.id===S.cls).name;
+  const cls = DB.classes.find(c=>c.id===S.cls);
+  const clsName = cls.name;
   const subjName = S.subject ? ((DB.subjects.find(s=>s.id===S.subject)||{}).name || 'Предмет') : 'Предмет';
+  const subjects = DB.subjects.filter(s=>(s.cls||[]).includes(S.cls));
   if(!S.subject){
-    app.innerHTML = crumbs([{t:'Класи',go:"pick('cls',null)"},{t:clsName+' клас'}]) + `
-      <h1 class="page">Предмети — ${esc(clsName)} клас</h1>
-      <p class="sub">Оберіть предмет. Наразі наповнена математика — українська мова, фізика та хімія в розробці.</p>
+    const soon = subjects.filter(s=>!s.active).map(s=>s.name.toLowerCase());
+    app.innerHTML = crumbs([{t:'Класи',go:"pick('cls',null)"},{t:clsCrumb(cls)}]) + `
+      <h1 class="page">Предмети — ${esc(clsTitle(cls))}</h1>
+      <p class="sub">Оберіть предмет.${soon.length?' У розробці: '+esc(soon.join(', '))+'.':''}</p>
       <div class="grid c3">
-        ${DB.subjects.map(s=>`
+        ${subjects.map(s=>`
           <div class="card ${s.active?'click':''}" ${s.active?`onclick="pick('subject','${s.id}')"`:'style="opacity:.55"'}>
             <div class="ico" style="background:${s.bg}">${s.icon}</div>
             <h3>${esc(s.name)}</h3>
@@ -36,11 +45,20 @@ function renderStudent(){
   }
   if(!S.topic){
     const topics = DB.topics.filter(t=>t.cls===S.cls && t.subject===S.subject);
-    app.innerHTML = crumbs([{t:'Класи',go:"pick('cls',null)"},{t:clsName+' клас',go:"pick('subject',null)"},{t:subjName}]) + `
-      <h1 class="page">${esc(subjName)} — ${esc(clsName)} клас</h1>
-      <p class="sub">Оберіть тему навчальної програми.</p>
+    app.innerHTML = crumbs([{t:'Класи',go:"pick('cls',null)"},{t:clsCrumb(cls),go:"pick('subject',null)"},{t:subjName}]) + `
+      <h1 class="page">${esc(cls.label ? clsTitle(cls) : subjName+' — '+clsName+' клас')}</h1>
+      <p class="sub">${cls.label?'Оберіть розділ курсу.':'Оберіть тему навчальної програми.'}</p>
       <div class="grid c2">
         ${topics.map(t=>{
+          // тема-документ (гурток): відкривається матеріалом, а не списком завдань
+          if(t.doc) return `<div class="card click" onclick="openDoc('${t.id}')">
+            <div style="display:flex;justify-content:space-between;align-items:start">
+              <div class="ico" style="background:var(--green-l)">${t.icon||'📘'}</div>
+              <span class="pill">матеріал</span>
+            </div>
+            <h3>${esc(t.title)}</h3>
+            <p class="d">${esc(t.desc)}</p>
+          </div>`;
           const done=t.tasks.filter(x=>x.done).length;
           return `<div class="card click" onclick="pick('topic','${t.id}')">
             <div style="display:flex;justify-content:space-between;align-items:start">
@@ -60,7 +78,7 @@ function renderStudent(){
   // сторінка теми
   const t = DB.topics.find(x=>x.id===S.topic);
   const matIcon={video:'🎬',text:'📄',test:'✅'};
-  app.innerHTML = crumbs([{t:'Класи',go:"pick('cls',null)"},{t:clsName+' клас',go:"pick('subject',null)"},{t:subjName,go:"pick('topic',null)"},{t:t.title}]) + `
+  app.innerHTML = crumbs([{t:'Класи',go:"pick('cls',null)"},{t:clsCrumb(cls),go:"pick('subject',null)"},{t:subjName,go:"pick('topic',null)"},{t:t.title}]) + `
     <h1 class="page">${esc(t.title)}</h1>
     <p class="sub">${esc(t.desc)}</p>
 
