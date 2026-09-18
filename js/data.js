@@ -7,16 +7,17 @@ const DB = {
   classes: [
     {id:'5a', name:'5', icon:'🏫'},
     {id:'6a', name:'6', icon:'🏫'},
+    {id:'10a', name:'10', icon:'🏫'},
     {id:'robo', name:'Гурток робототехніки', icon:'🤖',
      label:'Гурток робототехніки для 3-тіх та 4-тих класів',
      note:'Позакласний курс на 32 заняття: електричні кола, Pico й MicroBlocks, робот-візок.'},
   ],
   // cls — у яких класах предмет узагалі показувати
   subjects: [
-    {id:'math', name:'Математика', icon:'📐', color:'var(--primary)', bg:'var(--primary-l)', active:true,  cls:['5a','6a']},
-    {id:'ukr',  name:'Українська мова', icon:'📖', color:'var(--pink)', bg:'var(--pink-l)', active:false, cls:['5a','6a']},
-    {id:'phys', name:'Фізика', icon:'⚛️', color:'var(--amber)', bg:'var(--amber-l)', active:false, cls:['5a','6a']},
-    {id:'chem', name:'Хімія', icon:'🧪', color:'var(--green)', bg:'var(--green-l)', active:false, cls:['5a','6a']},
+    {id:'math', name:'Математика', icon:'📐', color:'var(--primary)', bg:'var(--primary-l)', active:true,  cls:['5a','6a','10a']},
+    {id:'ukr',  name:'Українська мова', icon:'📖', color:'var(--pink)', bg:'var(--pink-l)', active:false, cls:['5a','6a','10a']},
+    {id:'phys', name:'Фізика', icon:'⚛️', color:'var(--amber)', bg:'var(--amber-l)', active:false, cls:['5a','6a','10a']},
+    {id:'chem', name:'Хімія', icon:'🧪', color:'var(--green)', bg:'var(--green-l)', active:false, cls:['5a','6a','10a']},
     {id:'robot',name:'Робототехніка', icon:'🤖', color:'var(--green)', bg:'var(--green-l)', active:true,  cls:['robo']},
   ],
   users: {
@@ -106,6 +107,21 @@ const DB = {
      tasks:[
        {id:'k10', tool:'prop', title:'Знайди x: x : 3 = 4 : 6', cfg:{a:'x',b:'3',c:'4',d:'6'}, done:false},
        {id:'k11', tool:'prop', title:'Знайди x: 2x : 5 = 6 : 15', cfg:{a:'2x',b:'5',c:'6',d:'15'}, done:false},
+     ]},
+    {id:'t9', cls:'10a', subject:'math', title:'Область визначення функції',
+     desc:'Знаменник ≠ 0, під коренем парного степеня ≥ 0, корінь у знаменнику > 0; система умов і числова пряма.',
+     materials:[
+       {type:'video', title:'Відео: де функцію не можна обчислити'},
+       {type:'text',  title:'Конспект: три «небезпечні місця» формули'},
+       {type:'test',  title:'Тест: знайди область визначення'},
+     ],
+     tasks:[
+       {id:'k17', tool:'domain', title:'Знайди D(y): y = √(x − 2)', cfg:{f:'sqrt(x - 2)'}, done:false},
+       {id:'k18', tool:'domain', title:'Знайди D(y): y = (x + 1)/(x² − 9)', cfg:{f:'(x + 1)/(x^2 - 9)'}, done:false},
+       {id:'k19', tool:'domain', title:'Знайди D(y): y = √(x² − 5x + 6)', cfg:{f:'sqrt(x^2 - 5x + 6)'}, done:false},
+       {id:'k20', tool:'domain', title:'Знайди D(y): y = √(4 − x)/(x − 1)', cfg:{f:'sqrt(4 - x)/(x - 1)'}, done:false},
+       {id:'k21', tool:'domain', title:'Знайди D(y): y = 1/√(x + 3) + x⁻²', cfg:{f:'1/sqrt(x + 3) + x^-2'}, done:false},
+       {id:'k22', tool:'domain', title:'Знайди D(y): y = ∛(x − 1)/(x² + 1)', cfg:{f:'root(3, x - 1)/(x^2 + 1)'}, done:false},
      ]},
     /* --- Гурток робототехніки: тема = розділ курсу, показується документом
            (поле doc -> ROBO.sections), а не списком завдань-інструментів --- */
