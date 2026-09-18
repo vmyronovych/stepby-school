@@ -339,12 +339,21 @@ function domView(m, ctx){
   }
   const p0=dPen(i===0);
   h+=`<div class="dline${i===0?' dcur':''}"><span class="fml dfx">${hwGlyphs('y',p0)}<span class="fo">${hwGlyphs('=',p0)}</span>${renderFormula(m.ast,p0,{marks})}</span></div>`;
+  // підказки — стовпчиком під формулою; з рамкою їх зв'язує колір і номер умови.
+  // Однакова підказка (той самий вираз, та сама причина) пишеться один раз.
   if(shown){
-    h+='<div class="dhints">';
+    const hints=[];
     for(let k=0;k<shown;k++){
-      const d=m.dangers[k], isNew = st.ph==='danger' && st.di===k;
-      h+=`<span class="dhint ${dMk(d)}${isNew?' hwa':''}" data-for="${d.fid}"${isNew?' style="animation:hwfade .4s ease .35s both"':''}><b>${d.ci!=null?D_CIRC[d.ci]:'✓'}</b> ${D_HINT[d.kind]}</span>`;
+      const d=m.dangers[k], key=(d.ci!=null?d.ci:'n')+d.kind, isNew = st.ph==='danger' && st.di===k;
+      const old=hints.find(x=>x.key===key);
+      if(old){ old.isNew = old.isNew || isNew; old.again = old.again || isNew; }
+      else hints.push({key, d, isNew});
     }
+    h+='<div class="dhints">';
+    hints.forEach(({d,isNew,again})=>{
+      const anim = isNew ? ` style="animation:${again?'hintAgain .6s ease .2s':'hwfade .4s ease .35s both'}"` : '';
+      h+=`<span class="dhint ${dMk(d)}${isNew?' hwa':''}"${anim}><b>${d.ci!=null?D_CIRC[d.ci]:'✓'}</b> ${D_HINT[d.kind]}</span>`;
+    });
     h+='</div>';
   }
 
@@ -444,25 +453,8 @@ function domFlySystem(m, sheet){
     setTimeout(()=>{ tgt.style.opacity='1'; clone.remove(); }, s.land*1000);
   });
 }
-// підказки стоять ПІД своїм підвиразом; якщо сусідні налазять — нижчим рядком
-function domPlaceHints(sheet){
-  const box=sheet.querySelector('.dhints'), fx=sheet.querySelector('.dfx');
-  if(!box||!fx) return;
-  const b=box.getBoundingClientRect(), ends=[], ROW=20;
-  let rowsUsed=1;
-  box.querySelectorAll('.dhint').forEach(hn=>{
-    const mk=fx.querySelector(`[data-fid="${hn.dataset.for}"]`); if(!mk) return;
-    const r=mk.getBoundingClientRect(), w=hn.offsetWidth;
-    const left=Math.max(0, r.left+r.width/2-b.left-w/2);
-    let row=0; while(ends[row]!=null && ends[row]>left-10) row++;
-    ends[row]=left+w; rowsUsed=Math.max(rowsUsed,row+1);
-    hn.style.left=left+'px'; hn.style.top=(row*ROW)+'px'; hn.style.visibility='visible';
-  });
-  box.style.height=(rowsUsed*ROW)+'px';
-}
 function domAnimate(m, ctx){
   const sheet=document.getElementById('dsheet'); if(!sheet) return;
-  domPlaceHints(sheet);
   const a=ctx.anim;
   if(a && a.kind==='sys') domFlySystem(m, sheet);
   if(a && a.kind==='lin') runEqAnim({rows:m.conds[a.ci].rows}, {anim:a}, sheet.querySelector(`.dlin[data-block="${a.ci}"]`));
