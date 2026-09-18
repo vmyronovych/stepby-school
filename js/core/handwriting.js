@@ -24,6 +24,26 @@ const HW={
   ':':["M30,34 L30,40","M30,62 L30,68"],
   '.':["M29,84 L31,84"],
   '·':["M29,52 L31,52"],
+  // формули й нерівності (10 клас): ОДЗ, проміжки, запис відповіді
+  'y':["M14,34 L32,70","M48,34 L28,82 C24,92 18,94 12,92"],
+  'D':["M14,12 L14,90","M14,12 C60,10 60,92 14,90"],
+  '(':["M40,8 C18,30 18,72 40,94"],
+  ')':["M20,8 C42,30 42,72 20,94"],
+  '[':["M40,8 L24,8 L24,94 L40,94"],
+  ']':["M20,8 L36,8 L36,94 L20,94"],
+  ';':["M30,34 L30,40","M31,64 L26,86"],
+  ',':["M31,78 L25,96"],
+  '/':["M46,10 L14,92"],
+  '<':["M46,32 L12,52 L46,72"],
+  '>':["M14,32 L48,52 L14,72"],
+  '≤':["M46,24 L12,42 L46,60","M12,76 L46,76"],
+  '≥':["M14,24 L48,42 L14,60","M14,76 L48,76"],
+  '≠':["M12,42 L52,42","M12,64 L52,64","M40,24 L22,84"],
+  '±':["M30,22 L30,58","M12,40 L48,40","M12,76 L48,76"],
+  '∞':["M30,52 C22,36 6,38 6,52 C6,66 22,68 30,52 C38,36 54,38 54,52 C54,66 38,68 30,52"],
+  '∪':["M14,30 L14,58 C14,84 46,84 46,58 L46,30"],
+  '∈':["M48,30 C20,28 12,42 12,52 C12,64 22,76 48,74","M12,52 L40,52"],
+  '∅':["M30,24 C12,24 12,84 30,84 C48,84 48,24 30,24","M46,14 L14,94"],
 };
 // text -> послідовність намальованих гліфів. opts.writing=true — малюємо по черзі; order — лічильник гліфів.
 function hwGlyphs(text, opts){
@@ -37,7 +57,7 @@ function hwGlyphs(text, opts){
     strokes.forEach((d,si)=>{
       if(writing){
         const dl=(o*HW_STEP + si*(HW_DUR*0.55)).toFixed(2);
-        paths+=`<path d="${d}" pathLength="100" style="stroke-dasharray:100;stroke-dashoffset:100;animation:hwdraw ${HW_DUR}s ease ${dl}s forwards"/>`;
+        paths+=`<path d="${d}" pathLength="100" style="stroke-dasharray:100 101;stroke-dashoffset:100;animation:hwdraw ${HW_DUR}s ease ${dl}s forwards"/>`;
       } else {
         paths+=`<path d="${d}" pathLength="100"/>`;
       }
@@ -52,4 +72,13 @@ function hwEqline(parts){
   let h='<div class="eqline">';
   for(const p of parts){ h+=`<span class="${p.cls||''}">${hwGlyphs(p.t, ctx)}</span>`; }
   return h+'</div>';
+}
+
+// Такт пера для не-гліфових штрихів (гачок кореня, дах, точка на прямій, підпис):
+// повертає inline-анімацію з затримкою за лічильником пера й займає ticks тактів.
+// Елемент, що це отримує, має мати клас .hwa — у «спокійному режимі» анімацію знято.
+function hwTick(pen, name, dur, ticks){
+  if(!pen || !pen.writing) return '';
+  const d=(pen.order*HW_STEP).toFixed(2); pen.order+=(ticks||1);
+  return ` style="animation:${name} ${dur||HW_DUR}s ease ${d}s both"`;
 }

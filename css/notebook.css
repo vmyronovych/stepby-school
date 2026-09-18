@@ -37,3 +37,58 @@
 .hwt{font-family:inherit}
 @keyframes hwdraw{to{stroke-dashoffset:0}}
 @media(prefers-reduced-motion:reduce){.hwg path{animation:none!important;stroke-dashoffset:0!important}}
+
+/* =========================================================
+   ФОРМУЛИ (js/core/formula.js): дроби з виразами, корені, степені.
+   Вкладені inline-flex span; розмір — від font-size обгортки.
+   ========================================================= */
+.fml{display:inline-flex;align-items:center;font-family:'JetBrains Mono','Consolas',monospace;color:var(--graphite);line-height:1}
+.fx{display:inline-flex;align-items:center;position:relative}
+.fo{display:inline-flex;margin:0 .1em}
+.fpar{display:inline-flex}
+.ffrac{flex-direction:column;align-items:center;vertical-align:middle;margin:0 .1em}
+.ffn,.ffd{display:inline-flex;align-items:center;padding:0 .18em}
+.ffbar{align-self:stretch;height:2px;background:currentColor;margin:.16em 0;border-radius:1px;transform-origin:left}
+/* корінь: гачок тягнеться на всю висоту, дах — на всю ширину підкореневого виразу */
+.fx-root{align-items:stretch}
+.rhook{position:relative;width:.6em;flex:none;margin-left:.04em}
+.rhook svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.rhook path{fill:none;stroke:currentColor;stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round}
+.rbody{display:inline-flex;align-items:center;position:relative;padding:.24em .12em .04em .1em}
+.rbar{position:absolute;left:-1px;right:0;top:0;height:2.3px;background:currentColor;border-radius:1px;transform-origin:left}
+.ridx{display:inline-flex;font-size:.5em;align-self:flex-start;margin:.3em -.5em 0 0;position:relative;z-index:1}
+.fpow{display:inline-flex;font-size:.62em;align-self:flex-start;margin:-.2em 0 0 -.14em}
+/* обведений підвираз («небезпечне місце») із номером умови */
+.fmark{border-radius:7px;background:rgba(224,152,42,.13);box-shadow:0 0 0 2px rgba(224,152,42,.6)}
+.fbadge{position:absolute;right:-13px;top:-12px;font:700 11px/1 'Segoe UI',sans-serif;color:#fff;background:var(--amber);border-radius:9px;padding:2px 4px;z-index:2}
+
+/* такти пера для не-гліфових штрихів (hwTick) */
+@keyframes hwwipe{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes hwwipeV{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes hwbar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes hwfade{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
+@keyframes hwpop{0%{opacity:0;transform:scale(.3)}70%{opacity:1;transform:scale(1.2)}100%{opacity:1;transform:scale(1)}}
+@media(prefers-reduced-motion:reduce){.hwa{animation:none!important}}
+
+/* числова пряма (js/core/numline.js) */
+.nl{position:relative;display:inline-block;flex:none}
+.nl>svg{position:absolute;left:0;top:0;overflow:visible}
+.nl>svg path{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+.nlaxis{color:var(--graphite);stroke-width:2}
+.nlarc{color:#98a0bd;stroke-width:1.5}
+.nlpt{stroke:var(--graphite);stroke-width:2;transform-box:fill-box;transform-origin:center}
+.nlpt.fill{fill:var(--graphite)}
+.nlpt.hole{fill:#fff}
+.nlh{opacity:.85}
+.nlh path{stroke-width:2}
+.nlh rect{stroke:none}
+.nlres{color:var(--green);stroke-width:5}
+.nllbl{position:absolute;transform:translateX(-50%);font-size:15px;white-space:nowrap;color:var(--graphite);line-height:1}
+.nllbl .hwg{height:1.02em}
+.nlsign{font-size:17px;color:var(--pink);font-weight:700}
+/* кольори умов ①②③④ — однакові в системі, блоках і на прямій */
+.lv0{color:var(--primary)} .lv1{color:var(--pink)} .lv2{color:var(--amber)} .lv3{color:#1596a8}
+pattern path{stroke-width:1.6;fill:none}
+pattern path.lv0{stroke:var(--primary)} pattern path.lv1{stroke:var(--pink)}
+pattern path.lv2{stroke:var(--amber)} pattern path.lv3{stroke:#1596a8}
+@keyframes hwdash{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
