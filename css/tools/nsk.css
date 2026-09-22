@@ -1,0 +1,40 @@
+/* ---------- Найменше спільне кратне (nsk) ---------- */
+/* усе стоїть на клітинках: відступи — цілі клітинки, щоб цифри лягали в сітку */
+.nsk{position:relative;display:flex;flex-direction:column;gap:var(--cell);align-items:flex-start}
+.nlads{display:flex;flex-wrap:wrap;gap:var(--cell) var(--cell)}
+.nlad{display:grid;position:relative}
+.nval,.nf{display:flex;position:relative}
+.nk.one{color:#98a0bd}
+
+/* риска драбинки — рівно по лінії сітки між числом і множником */
+.nbar{position:relative;pointer-events:none}
+.nbar>span{position:absolute;left:-1.5px;top:0;bottom:0;width:3px;background:var(--graphite);border-radius:2px}
+
+/* підписи над стовпчиком і підказки збоку — дрібно, не всередині запису */
+.ncap{display:flex;align-items:flex-end;padding:0 0 4px 3px;font:700 11px/1.1 'Segoe UI',sans-serif;color:var(--muted);white-space:nowrap}
+.ncap .main{color:var(--primary)}
+.ntag{display:flex;align-items:center;padding-left:6px;font:600 11px/1.1 'Segoe UI',sans-serif;color:#98a0bd;white-space:nowrap}
+.ntag.uni{color:var(--amber);font-weight:800}
+
+/* стовпчик найбільшого числа — у рамці, множники фіолетові: беремо всі */
+.nframe{position:relative;pointer-events:none}
+.nframe>span{position:absolute;inset:1px -2px 1px 2px;border:2px solid var(--primary);border-radius:7px;background:rgba(91,75,230,.06)}
+.nf.take .nk,.nsf.take .nk{color:var(--primary);font-weight:700}
+/* пара в стовпчику: підкреслено; наш множник, що вже є, — закреслено */
+.nf .nu{position:absolute;left:4px;right:4px;bottom:3px;height:2.5px;background:var(--pink);border-radius:2px;transform-origin:left}
+.nf.x .nk{color:#a8aec4}
+.nf .ns{position:absolute;left:3px;right:3px;top:50%;height:2.5px;margin-top:-1px;background:var(--pink);border-radius:2px;
+  transform:rotate(-22deg);transform-origin:left}
+/* множника бракує — обводимо: саме він полетить у НСК */
+.nf.uni .nk,.nsf.uni .nk{color:var(--amber);font-weight:700}
+.nf .no{position:absolute;inset:2px 1px;border:2px solid var(--amber);border-radius:50%}
+@keyframes nskstrike{from{transform:rotate(-22deg) scaleX(0)}to{transform:rotate(-22deg) scaleX(1)}}
+
+/* рядок НСК: групи клітинок, переноситься лише між множниками */
+.nans{display:flex;flex-wrap:wrap;row-gap:0}
+.ngrp{display:flex}
+.nslot.fly{visibility:hidden}
+.nslot.landed .nsf{animation:nskland .3s ease-out}
+.nskfly{position:absolute;display:flex;pointer-events:none;will-change:transform;z-index:6}
+@keyframes nskland{0%{transform:scale(1.25)}100%{transform:scale(1)}}
+@media(prefers-reduced-motion:reduce){.nslot.landed .nsf{animation:none!important}}
