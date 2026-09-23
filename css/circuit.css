@@ -108,6 +108,26 @@
 .bb-ring.ok{stroke:#2f9e44}
 .bb-ring.bad{stroke:#e03131}
 .cb-part.bad{opacity:.5}
+/* модуль живлення MB102 і кабель від павербанка */
+.bb-cable{stroke:#868e96;stroke-width:16;stroke-linecap:round;fill:none}
+.bb-plug{fill:#ced4da;stroke:#868e96;stroke-width:1.5}
+.bb-pcb{fill:#1f2327;stroke:#0b0d0f;stroke-width:2}
+.bb-usb{fill:#dee2e6;stroke:#868e96;stroke-width:2}
+.bb-usb-in{fill:#495057}
+.bb-dc{fill:#101214;stroke:#343a40;stroke-width:2}
+.bb-dc-in{fill:#343a40;stroke:#868e96;stroke-width:2}
+.bb-btn{cursor:pointer}
+.bb-btn-base{fill:#343a40;stroke:#0b0d0f;stroke-width:1.5}
+.bb-btn-cap{fill:#f1f3f5;stroke:#adb5bd;stroke-width:1.5}
+.bb-btn:hover .bb-btn-cap{fill:#fff;stroke:#4dabf7}
+.bb-led{fill:#1e4d2b;stroke:#0b2e13;stroke-width:1.5}
+.bb-led.on{fill:#8ce99a;stroke:#2f9e44}
+.bb-glow{fill:#69db7c;opacity:.45;pointer-events:none}
+.bb-mtext{fill:#adb5bd;font-size:12px;font-weight:700;letter-spacing:1px;text-anchor:middle}
+.bb-jmp{fill:#fcc419;stroke:#b08900;stroke-width:1.5}
+.bb-mv{fill:#fcc419;font-size:10px;font-weight:700;text-anchor:middle}
+.bb-pin{fill:#e9c46a;stroke:#9c7a1c;stroke-width:1}
+.bb-trace{fill:none;stroke:#c08a4a;stroke-width:2.5;stroke-linejoin:round;pointer-events:none}
 .bb-body{fill:#f4f4f1;stroke:#d6d8dc;stroke-width:2}
 .bb-groove{fill:#e4e6e9}
 .bb-seam{stroke:#e2e4e8;stroke-width:1.5}

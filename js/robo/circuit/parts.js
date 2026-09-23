@@ -23,7 +23,9 @@
      toggle / hold     — клік перемикає / деталь працює, поки її тримають
      init()            — початкові властивості й стан {props, s}
      params            — властивості у вікні після подвійного кліку:
-                         [{key, label, options:[[значення, 'підпис'], …]}]
+                         [{key, label, options:[[значення, 'підпис'], …], when?(p)}]
+                         (when — показувати лише тоді, коли повертає true)
+   title(p)          — заголовок вікна, якщо він залежить від властивостей
      actions(p)        — додаткові кнопки у вікні [{id, t}], act(p, id) їх виконує
      elec(p)           — електричний елемент для solver.js
      draw(p)           — SVG у локальних координатах (без підписів)
@@ -86,12 +88,21 @@ function circHeat(s, k, dt, sec, cool){
 const FRESH = () => ({heat:0, dead:false, t:0});
 const FIX = {id:'fix', t:'🔧 Замінити на нову'};
 
-/* ---------------- батарейка ---------------- */
+/* ---------------- живлення: батарейка або павербанк з модулем ---------------- */
 // Скільки електронів уміщує кімната. Запасу має вистачати щонайменше на
 // одне коло, інакше дитина не побачить повного шляху електрона.
 const BAT_CAP = {small:20, mid:35, big:50};
+// На гуртку коло живить павербанк через модуль живлення макетки MB102 (5 В або 3,3 В);
+// пальчикові батарейки лишаються для заняття «чому одна не засвітить світлодіод».
+// Кімнати з електронами — ті самі в обох: це запас, який тане.
+const isPB = p => p.props.src === 'mb';
+const BAT_SAY = {
+  aa:'Батарейка зіпсувалась. Плюс і мінус з\'єднали майже навпростець: електрони помчали з усієї сили, і вся енергія батарейки пішла в тепло всередині неї самої. Вона розігрілась, здулась і потекла. Насправді так можна обпекти пальці. Правило 3: плюс і мінус ніколи не з\'єднуємо напряму.',
+  mb:'Павербанк вимкнувся: спрацював захист. Плюс і мінус з\'єднали навпростець, струм вийшов завеликий, і модуль живлення розігрівся так, що його можна було б зіпсувати. Справжній павербанк теж так вимикається. Правило 3: плюс і мінус ніколи не з\'єднуємо напряму.',
+};
 CIRC.parts.battery = {
-  name:'Батарейка', pal:6, rotatable:false, single:true, rooms:true,
+  name:'Живлення', pal:6, rotatable:false, single:true, rooms:true,
+  title: p => isPB(p) ? 'Павербанк і модуль живлення' : 'Батарейка',
   terms:[[100,-40],[100,40]], norms:[[1,0],[1,0]], box:[-86,-86,96,164],
   path:null,
   // Доріжки всередині батарейки: від краю купки в кімнаті «−» до клеми і
@@ -99,19 +110,29 @@ CIRC.parts.battery = {
   // кожній завжди видно електрон, який саме виходить або заходить.
   ramps:[[[62,64],[100,64],[100,40]], [[100,-40],[100,-64],[62,-64]]],
   cap: p => BAT_CAP[p.props.cap],
-  init: () => ({props:{cells:3, cap:'mid'}, s:Object.assign(FRESH(), {m:BAT_CAP.mid, charging:false, acc:0})}),
+  init: () => ({props:{src:'mb', volt:5, cells:3, cap:'mid'}, s:Object.assign(FRESH(), {m:BAT_CAP.mid, charging:false, acc:0, off:false})}),
   params:[
-    {key:'cells', label:'Скільки пальчикових', options:[[1,'одна'],[2,'дві'],[3,'три']]},
+    {key:'src',   label:'Живлення',            options:[['mb','павербанк і модуль'],['aa','пальчикові батарейки']]},
+    {key:'volt',  label:'Напруга модуля',      options:[[5,'5 В'],[3.3,'3,3 В']], when:isPB},
+    {key:'cells', label:'Скільки пальчикових', options:[[1,'одна'],[2,'дві'],[3,'три']], when:p => !isPB(p)},
     {key:'cap',   label:'Ємність',             options:[['small','мала'],['mid','середня'],['big','велика']]},
   ],
-  actions: p => p.s.dead ? [FIX] : (p.s.m < BAT_CAP[p.props.cap] && !p.s.charging ? [{id:'charge', t:'🔋 Поставити в зарядне'}] : []),
-  onParam(p, key){ if (key === 'cap') p.s.m = BAT_CAP[p.props.cap]; },   // інша батарейка — повна
+  actions: p => (isPB(p) && !p.s.dead ? [{id:'power', t:p.s.off ? '⏻ Увімкнути модуль' : '⏻ Вимкнути модуль'}] : [])
+    .concat(p.s.dead ? [isPB(p) ? {id:'fix', t:'🔌 Увімкнути павербанк знову'} : FIX]
+      : p.s.m < BAT_CAP[p.props.cap] && !p.s.charging ? [{id:'charge', t:isPB(p) ? '🔋 Поставити заряджатися' : '🔋 Поставити в зарядне'}] : []),
+  onParam(p, key){ if (key === 'cap' || key === 'src') p.s.m = BAT_CAP[p.props.cap]; },   // інше джерело — повне
   act(p, id){
     if (id === 'charge') p.s.charging = true;
     if (id === 'fix') p.s = CIRC.parts.battery.init().s;
+    if (id === 'power') p.s.off = !p.s.off;
   },
-  // поки стоїть у зарядному, до кола вона не під'єднана
-  elec: p => (p.s.dead || p.s.m <= 0 || p.s.charging) ? {kind:'open'} : {kind:'V', v:1.5 * p.props.cells, r:0.17 * p.props.cells},
+  // клік по білій кнопці модуля на макетці
+  tap(p){ if (isPB(p) && !p.s.dead) p.s.off = !p.s.off; },
+  // поки стоїть на зарядці чи вимкнена кнопкою модуля, до кола вона не під'єднана
+  elec: p => (p.s.dead || p.s.m <= 0 || p.s.charging || (isPB(p) && p.s.off)) ? {kind:'open'}
+    : isPB(p) ? {kind:'V', v:p.props.volt, r:0.2} : {kind:'V', v:1.5 * p.props.cells, r:0.17 * p.props.cells},
+  // модуль світить зеленим, коли дає живлення
+  powered: p => isPB(p) && !p.s.off && !p.s.dead && !p.s.charging && p.s.m > 0,
   // Місце електрона в кімнаті: 10 у ряд, до п'яти рядів, дрібніші, ніж у дроті.
   // Черга в «−» закінчується біля дверей, тож іде той, хто до них найближче;
   // у «+» перший прибулий стає теж біля дверей, а наступні тісняться далі.
@@ -119,36 +140,40 @@ CIRC.parts.battery = {
   slot: (room, i) => room === 'minus'
     ? {x: -46 + (i % 10) * 12, y:  12 + Math.floor(i / 10) * 13}
     : {x:  62 - (i % 10) * 12, y: -64 + Math.floor(i / 10) * 13},
-  draw: () => `
+  draw: p => `
     <g class="bat-heat" opacity="0">
       <path d="M-50,-100 q8,-10 0,-20 q-8,-10 0,-20 M0,-100 q8,-10 0,-20 q-8,-10 0,-20 M50,-100 q8,-10 0,-20 q-8,-10 0,-20"
         fill="none" stroke="#f76707" stroke-width="4" stroke-linecap="round"/></g>
     <g class="bat-swell">
-      <rect class="bat-shell" x="-83" y="-83" width="166" height="166" rx="14" fill="#2b2f36"/>
+      <rect class="bat-shell" x="-83" y="-83" width="166" height="166" rx="${isPB(p) ? 30 : 14}" fill="#2b2f36"/>
       <rect x="-71" y="-71" width="142" height="142" rx="10" fill="#3a3f47"/>
       <line x1="-71" y1="0" x2="71" y2="0" stroke="#5c636d" stroke-width="2" stroke-dasharray="6 5"/>
       <path d="M62,64 H100 V40 M100,-40 V-64 H62" fill="none" stroke="#5c636d" stroke-width="2" stroke-dasharray="4 4"/>
       <text x="-59" y="-17" text-anchor="middle" font-size="30" fill="#ff8787" font-weight="bold">+</text>
       <text x="-59" y="53" text-anchor="middle" font-size="32" fill="#74c0fc" font-weight="bold">−</text>
-      <rect x="77" y="-52" width="22" height="24" rx="4" fill="#e03131"/>
-      <rect x="77" y="28" width="22" height="24" rx="4" fill="#1c7ed6"/>
+      ${isPB(p) ? `<rect x="80" y="-56" width="20" height="112" rx="4" fill="#ced4da" stroke="#868e96" stroke-width="2"/>
+      <rect x="84" y="-48" width="8" height="96" rx="2" fill="#495057"/>
+      <g class="pb-lvl">${[0, 1, 2, 3].map(i => `<circle cx="${-27 + i * 18}" cy="-76" r="4" fill="#51cf66"/>`).join('')}</g>`
+      : `<rect x="77" y="-52" width="22" height="24" rx="4" fill="#e03131"/>
+      <rect x="77" y="28" width="22" height="24" rx="4" fill="#1c7ed6"/>`}
     </g>
     <path class="bat-leak" d="M-68,83 q-6,14 0,22 q6,-8 0,-22 z" fill="#c5e063" stroke="#8fa832" stroke-width="2" opacity="0"/>
     <g class="charger" opacity="0">
       <path d="M0,-83 V-104" fill="none" stroke="#495057" stroke-width="7" stroke-linecap="round"/>
       <rect x="-70" y="-176" width="140" height="74" rx="12" fill="#343a40" stroke="#212529" stroke-width="3"/>
       <circle class="ch-lamp" cx="-52" cy="-158" r="7" fill="#51cf66"/>
-      <text x="6" y="-150" text-anchor="middle" font-size="18" fill="#f8f9fa" font-weight="bold">ЗАРЯДНЕ</text>
+      <text x="6" y="-150" text-anchor="middle" font-size="18" fill="#f8f9fa" font-weight="bold">${isPB(p) ? 'ЗАРЯДКА' : 'ЗАРЯДНЕ'}</text>
       <text x="0" y="-122" text-anchor="middle" font-size="12" fill="#adb5bd">жене електрони в «−»</text>
     </g>
     ${smokeSvg(-104)}`,
   labels: p => [
     {x:107, y:-58, t:'+', cls:'pol plus'},
     {x:107, y:74,  t:'−', cls:'pol minus'},
-    {x:0, y:108, t:'БАТАРЕЙКА', cls:'name strong'},
-    {x:0, y:132, t:['', 'одна пальчикова', 'дві пальчикові', 'три пальчикові'][p.props.cells], cls:'name'},
-    {x:0, y:156, t: p.s.dead ? 'зіпсувалась' : p.s.charging ? 'заряджається' : p.s.m <= 0 ? 'розрядилась'
-                  : p.s.heat > 0.6 ? 'гаряча! не чіпай' : p.s.heat > 0.25 ? 'гріється' : '', cls:'word'},
+    {x:0, y:108, t:isPB(p) ? 'ПАВЕРБАНК' : 'БАТАРЕЙКА', cls:'name strong'},
+    {x:0, y:132, t:isPB(p) ? 'модуль живлення · ' + String(p.props.volt).replace('.', ',') + ' В'
+                  : ['', 'одна пальчикова', 'дві пальчикові', 'три пальчикові'][p.props.cells], cls:'name'},
+    {x:0, y:156, t: p.s.dead ? (isPB(p) ? 'спрацював захист' : 'зіпсувалась') : p.s.charging ? 'заряджається' : p.s.m <= 0 ? (isPB(p) ? 'розрядився' : 'розрядилась')
+                  : isPB(p) && p.s.off ? 'модуль вимкнений' : p.s.heat > 0.6 ? 'гаряч' + (isPB(p) ? 'ий' : 'а') + '! не чіпай' : p.s.heat > 0.25 ? 'гріється' : '', cls:'word'},
   ],
   paint(p, g, env){
     const h = p.s.dead ? 1 : p.s.heat;
@@ -157,8 +182,11 @@ CIRC.parts.battery = {
     const wave = g.querySelector('.bat-heat');
     wave.setAttribute('opacity', p.s.dead ? 0 : Math.min(1, p.s.heat * 1.6));
     wave.setAttribute('transform', 'translate(0,' + (env.still ? 0 : -((env.t * 30) % 20)) + ')');
-    g.querySelector('.bat-swell').setAttribute('transform', p.s.dead ? 'scale(1.07,1.04)' : '');
-    g.querySelector('.bat-leak').setAttribute('opacity', p.s.dead ? 1 : 0);
+    // батарейка здувається й тече; павербанк лише вимикається захистом
+    g.querySelector('.bat-swell').setAttribute('transform', p.s.dead && !isPB(p) ? 'scale(1.07,1.04)' : '');
+    g.querySelector('.bat-leak').setAttribute('opacity', p.s.dead && !isPB(p) ? 1 : 0);
+    const lvl = g.querySelector('.pb-lvl');                 // вогники заряду павербанка
+    if (lvl) [...lvl.children].forEach((c, i) => c.setAttribute('opacity', p.s.m > i * BAT_CAP[p.props.cap] / 4 ? 1 : 0.15));
     g.querySelector('.charger').setAttribute('opacity', p.s.charging ? 1 : 0);
     g.querySelector('.ch-lamp').setAttribute('opacity', (Math.floor(env.t / 0.42) % 2) ? 1 : 0.25);
     paintSmoke(g, p.s.dead ? p.s.t : 99);
@@ -166,13 +194,13 @@ CIRC.parts.battery = {
   // безпечно до ~1 А; коротке замикання (~9 А) псує за ~2 с — раніше, ніж вона розрядиться
   tick(p, dt){
     const s = p.s, N = BAT_CAP[p.props.cap];
-    if (circHeat(s, Math.abs(p.rt.I), dt, 6, 6)) return {resolve:true, say:CIRC.parts.battery.say};
+    if (circHeat(s, Math.abs(p.rt.I), dt, 6, 6)) return {resolve:true, say:CIRC.parts.battery.say(p)};
     if (!s.charging) return null;
     s.acc += 8 * dt;                                     // зарядне: запас повертається в кімнату «−»
     while (s.acc >= 1 && s.m < N){ s.acc -= 1; s.m++; }
     if (s.m < N) return null;
     s.charging = false; s.acc = 0;
-    return {resolve:true, say:'Зарядили! Кімната «−» знову повна, батарейка повернулась у коло.'};
+    return {resolve:true, say:'Зарядили! Кімната «−» знову повна, ' + (isPB(p) ? 'павербанк повернувся' : 'батарейка повернулась') + ' у коло.'};
   },
   // Розряд іде рівно за потоком: скільки електронів вийшло доріжкою в дріт,
   // на стільки й зменшилась купка в кімнаті «−». dist — скільки пройшов ланцюг.
@@ -184,8 +212,9 @@ CIRC.parts.battery = {
     return s.m <= 0;
   },
   warn: p => Math.abs(p.rt.I) > 1
-    ? 'Коротке замикання! Між плюсом і мінусом немає деталі, яка б стримувала електрони: вони мчать з усієї сили, кімната «−» порожніє на очах, а батарейка гріється. Швидше розірви коло: прибери дріт або розімкни вимикач. Правило 3.' : '',
-  say: 'Батарейка зіпсувалась. Плюс і мінус з\'єднали майже навпростець: електрони помчали з усієї сили, і вся енергія батарейки пішла в тепло всередині неї самої. Вона розігрілась, здулась і потекла. Насправді так можна обпекти пальці. Правило 3: плюс і мінус ніколи не з\'єднуємо напряму.',
+    ? 'Коротке замикання! Між плюсом і мінусом немає деталі, яка б стримувала електрони: вони мчать з усієї сили, кімната «−» порожніє на очах, а ' +
+      (isPB(p) ? 'модуль живлення гріється' : 'батарейка гріється') + '. Швидше розірви коло: прибери дріт або розімкни вимикач. Правило 3.' : '',
+  say: p => BAT_SAY[isPB(p) ? 'mb' : 'aa'],
 };
 
 /* ---------------- резистор ---------------- */

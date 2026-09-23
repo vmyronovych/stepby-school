@@ -12,7 +12,10 @@
                          ніжка в стовпчику c ряду r, права через 4
                          отвори; flip — ніжка 0 праворуч;
      B.bb.jumps        — перемички {id, a:{c,r}, b:{c,r}, pts?, color}.
-   Батарейка стоїть поза платою й з'єднана з верхніми шинами.
+   Живлення стоїть поза платою. Павербанк (як на гуртку) з'єднаний
+   кабелем USB–USB із модулем MB102, що встромлений у лівий край
+   плати й живить обидві пари шин; пальчикові батарейки — двома
+   дротами у верхні шини. Куди саме встромлене — bbLeads(B).
 
    Правка на макетці → cbSchemFromBoard: дроти схеми
    переписуються так, щоб з'єднання збіглися (зайві дроти
@@ -29,13 +32,12 @@
    струм у кожному з них, а електрони біжать тим самим ланцюжком.
    ========================================================= */
 const BB = {
-  P:16, X0:150, COLS:63, W:1200, H:400, K:32 / 60,        // K: ніжки ±60 стають рівно через 4 отвори
+  P:16, X0:300, COLS:63, W:1360, H:400, K:32 / 60,        // K: ніжки ±60 стають рівно через 4 отвори
   ROW:{tp:90, tm:106, j:140, i:156, h:172, g:188, f:204, e:240, d:256, c:272, b:288, a:304, bp:338, bm:354},
-  BAT:{x:62, y:150, k:0.5},
+  BAT:{aa:{x:150, y:150, k:0.5}, mb:{x:70, y:220, k:0.5}},   // де стоїть батарейка чи павербанк
 };
 const BB_UP = ['j', 'i', 'h', 'g', 'f'], BB_DN = ['e', 'd', 'c', 'b', 'a'];
 const BB_JUMP = ['#2f9e44', '#f59f00', '#7048e8', '#e8590c', '#1098ad'];
-const BB_LEADS = [{c:2, r:'tp'}, {c:2, r:'tm'}];          // куди встромлені дроти батарейки: «+» і «−»
 const bbX = c => BB.X0 + (c - 1) * BB.P;
 const bbRailHole = c => c >= 2 && c <= 61 && (c - 2) % 6 < 5;
 const bbIsRail = r => r === 'tp' || r === 'tm' || r === 'bp' || r === 'bm';   // і ряд, і смужка-шина
@@ -58,11 +60,18 @@ function cbSchemNets(B){
   return (id, t) => u.root(id + ':' + t);
 }
 function bbBattery(B){ return B.parts.find(p => p.type === 'battery'); }
+const bbPB = bat => bat.props.src === 'mb';
+// які отвори шин займає живлення і яким контактом: модуль MB102 — усі чотири шини, батарейки — верхні
+function bbLeads(B){
+  const bat = bbBattery(B); if (!bat) return [];
+  const top = [{h:{c:2, r:'tp'}, t:0}, {h:{c:2, r:'tm'}, t:1}];
+  return bbPB(bat) ? top.concat({h:{c:2, r:'bp'}, t:0}, {h:{c:2, r:'bm'}, t:1}) : top;
+}
 
 // хто займає отвори: ніжки, кінці перемичок, дроти батарейки. skip — не рахувати цю деталь чи перемичку
 function bbOcc(B, skip){
   const occ = new Map(), bat = bbBattery(B);
-  if (bat) BB_LEADS.forEach((h, t) => occ.set(bbKey(h), {p:bat.id, t, lead:true, h}));
+  for (const {h, t} of bbLeads(B)) occ.set(bbKey(h), {p:bat.id, t, lead:true, h});
   for (const p of B.parts){
     const pl = B.bb.place[p.id];
     if (pl && p.id !== skip) bbLegs(pl).forEach((h, t) => occ.set(bbKey(h), {p:p.id, t, h}));
@@ -74,7 +83,7 @@ function bbOcc(B, skip){
 // з'єднання, як їх бачить макетка: смужки, шини, перемички
 function bbBoardNets(B){
   const u = cbUF(), bat = bbBattery(B);
-  if (bat) BB_LEADS.forEach((h, t) => u.join(bat.id + ':' + t, bbStrip(h)));
+  for (const {h, t} of bbLeads(B)) u.join(bat.id + ':' + t, bbStrip(h));
   for (const p of B.parts){
     const pl = B.bb.place[p.id];
     if (pl) bbLegs(pl).forEach((h, t) => u.join(p.id + ':' + t, bbStrip(h)));
@@ -116,10 +125,12 @@ function cbSchemFromBoard(B){
 /* ---------- схема → макетка: полагодити розкладку ---------- */
 function cbBoardFromSchem(B){
   const bb = B.bb, sn = cbSchemNets(B), bat = bbBattery(B), ids = new Set(B.parts.map(p => p.id));
-  const railNet = r => bat && (r === 'tp' ? sn(bat.id, 0) : r === 'tm' ? sn(bat.id, 1) : null);
+  const leads = bbLeads(B);
+  const railNet = r => { const l = leads.find(q => q.h.r === r); return l ? sn(bat.id, l.t) : null; };
+  railNet.rails = leads.map(l => l.h.r);
 
   // 1. деталі, яких уже немає, і ті, що стоять поза отворами чи на зайнятих
-  const taken = new Set(bat ? BB_LEADS.map(bbKey) : []);
+  const taken = new Set(leads.map(l => bbKey(l.h)));
   for (const id in bb.place) if (!ids.has(id) || (bat && id === bat.id)) delete bb.place[id];
   for (const p of B.parts){
     const pl = bb.place[p.id]; if (!pl) continue;
@@ -135,7 +146,7 @@ function cbBoardFromSchem(B){
   // чиї смужки: вузли схеми, чиї ніжки в них стоять (і шини батарейки)
   const stripNets = () => {
     const m = new Map(), add = (s, n) => { if (!m.has(s)) m.set(s, new Map()); m.get(s).set(n, (m.get(s).get(n) || 0) + 1); };
-    if (bat){ add('tp', railNet('tp')); add('tm', railNet('tm')); }
+    for (const r of railNet.rails) add(r, railNet(r));
     for (const p of B.parts){ const pl = bb.place[p.id]; if (pl) bbLegs(pl).forEach((h, t) => add(bbStrip(h), sn(p.id, t))); }
     return m;
   };
@@ -200,8 +211,7 @@ function bbAutoPlace(B, p, tin, sn, railNet, netOf){
   const bb = B.bb, occ = bbOcc(B), nets = [sn(p.id, 0), sn(p.id, 1)];
   const present = new Set();                              // вузли, які вже десь є на платі
   for (const q of B.parts){ const pl = bb.place[q.id]; if (pl) [0, 1].forEach(t => present.add(sn(q.id, t))); }
-  if (railNet('tp')) present.add(railNet('tp'));
-  if (railNet('tm')) present.add(railNet('tm'));
+  for (const r of railNet.rails) present.add(railNet(r));
   const spans = B.parts.filter(q => bb.place[q.id]).map(q => bb.place[q.id]);
   let best = null;
   for (const half of ['U', 'D']){
@@ -237,8 +247,9 @@ function bbConnect(B, sn, railNet){
   const bb = B.bb;
   for (let guard = 0; guard < 60; guard++){
     const u = cbUF(); for (const j of bb.jumps) u.join(bbStrip(j.a), bbStrip(j.b));
+    for (const r of railNet.rails) u.join(r, 'живлення:' + railNet(r));   // шини, які живить модуль, уже з'єднані ним
     const byNet = new Map(), add = (n, s) => { if (!byNet.has(n)) byNet.set(n, new Set()); byNet.get(n).add(s); };
-    for (const r of ['tp', 'tm']) if (railNet(r)) add(railNet(r), r);
+    for (const r of railNet.rails) add(railNet(r), r);
     for (const p of B.parts){ const pl = bb.place[p.id]; if (pl) bbLegs(pl).forEach((h, t) => add(sn(p.id, t), bbStrip(h))); }
     let job = null;
     for (const [, ss] of byNet){
@@ -268,9 +279,12 @@ function bbJoin(B, A, Z){
                     : (toward === 'bp' || toward === 'bm' ? ['a', 'b', 'c', 'd', 'e'] : ['e', 'd', 'c', 'b', 'a']);
     return pref.map(r => ({c, r})).filter(free);
   };
+  // верхні шини ближчі до верхньої половини, нижні — до нижньої: через усю плату дріт не тягнемо
+  const side = s => s === 'tp' || s === 'tm' || s[0] === 'U' ? 0 : 1;
   let best = null;
   for (const s of A) for (const z of Z){
-    const cs = colOf(s), cz = colOf(z), d = cs === null || cz === null ? 0 : Math.abs(cs - cz);
+    const cs = colOf(s), cz = colOf(z), rail = bbIsRail(s) || bbIsRail(z);
+    const d = (cs === null || cz === null ? 0 : Math.abs(cs - cz)) + (side(s) !== side(z) ? (rail ? 40 : 2) : 0);
     if (!best || d < best.d) best = {s, z, d};
   }
   const cs = colOf(best.s), cz = colOf(best.z);
@@ -331,12 +345,23 @@ function cbBreadboard(B){
   const node = h => ({p:'H' + bbKey(h), t:0});
   const use = h => { const s = bbStrip(h); if (!L.used.has(s)) L.used.set(s, []); L.used.get(s).push(h); };
   const bat = bbBattery(B);
-  if (bat){                                              // батарейка ліворуч, дроти від неї — у перші отвори верхніх шин
-    L.place.set(bat.id, {x:BB.BAT.x, y:BB.BAT.y, rot:0, mx:1, k:BB.BAT.k});
-    const tx = BB.BAT.x + 100 * BB.BAT.k, ty = [BB.BAT.y - 40 * BB.BAT.k, BB.BAT.y + 40 * BB.BAT.k];
-    wire({p:bat.id, t:0}, node(BB_LEADS[0]), [[tx, ty[0]], [125, ty[0]], [125, 90], bbPt(BB_LEADS[0])], 'lead', '#e03131');
-    wire({p:bat.id, t:1}, node(BB_LEADS[1]), [[tx, ty[1]], [137, ty[1]], [137, 106], bbPt(BB_LEADS[1])], 'lead', '#212529');
-    BB_LEADS.forEach(use);
+  if (bat){
+    const pb = bbPB(bat), at = BB.BAT[pb ? 'mb' : 'aa'];
+    L.place.set(bat.id, {x:at.x, y:at.y, rot:0, mx:1, k:at.k});
+    const tx = at.x + 100 * at.k, ty = [at.y - 40 * at.k, at.y + 40 * at.k], [x2] = bbPt({c:2, r:'tp'});
+    const R = r => BB.ROW[r];
+    if (pb){
+      // павербанк → кабель USB–USB → модуль; у модулі «+» і «−» розходяться на обидві пари шин
+      L.module = true;
+      const M = [{p:'M', t:0}, {p:'M', t:1}], mx = [246, 262], my = [216, 224];
+      wire({p:bat.id, t:0}, M[0], [[tx, ty[0]], [132, ty[0]], [132, my[0]], [mx[0], my[0]]], 'lead');
+      wire({p:bat.id, t:1}, M[1], [[tx, ty[1]], [132, ty[1]], [132, my[1]], [mx[1], my[1]]], 'lead');
+      for (const {h, t} of bbLeads(B)) wire(M[t], node(h), [[mx[t], my[t]], [mx[t], R(h.r)], [x2, R(h.r)]], 'trace');
+    } else {                                             // батарейки: два дроти у верхні шини
+      wire({p:bat.id, t:0}, node({c:2, r:'tp'}), [[tx, ty[0]], [240, ty[0]], [240, R('tp')], [x2, R('tp')]], 'lead', '#e03131');
+      wire({p:bat.id, t:1}, node({c:2, r:'tm'}), [[tx, ty[1]], [252, ty[1]], [252, R('tm')], [x2, R('tm')]], 'lead', '#212529');
+    }
+    bbLeads(B).forEach(l => use(l.h));
   }
   for (const p of B.parts){
     if (p === bat) continue;
@@ -361,8 +386,29 @@ function cbBreadboard(B){
   return L;
 }
 
+// Модуль живлення MB102 на лівому краї плати: кабель від павербанка, біла кнопка
+// (data-mbtn — її натискають), зелений вогник, перемикачі напруги, штирі в шинах.
+function bbModuleSvg(bat){
+  const on = CIRC.parts.battery.powered(bat), v = String(bat.props.volt).replace('.', ',') + ' В';
+  const [x2] = bbPt({c:2, r:'tp'}), pin = r => `<rect x="${x2 - 3.5}" y="${BB.ROW[r] - 3.5}" width="7" height="7" class="bb-pin"/>`;
+  return `<g class="bb-module">
+    <path d="M112,220 H170" class="bb-cable"/>
+    <rect x="156" y="210" width="18" height="20" rx="3" class="bb-plug"/>
+    <rect x="176" y="64" width="${x2 + 12 - 176}" height="310" rx="8" class="bb-pcb"/>
+    <rect x="168" y="194" width="40" height="52" rx="4" class="bb-usb"/><rect x="176" y="204" width="24" height="32" rx="2" class="bb-usb-in"/>
+    <rect x="184" y="282" width="40" height="48" rx="8" class="bb-dc"/><circle cx="204" cy="306" r="9" class="bb-dc-in"/>
+    <g data-mbtn class="bb-btn${on || bat.s.off ? '' : ' dim'}"><rect x="186" y="116" width="34" height="34" rx="5" class="bb-btn-base"/>
+      <rect x="${bat.s.off ? 192 : 194}" y="${bat.s.off ? 122 : 124}" width="${bat.s.off ? 22 : 18}" height="${bat.s.off ? 22 : 18}" rx="3" class="bb-btn-cap"/></g>
+    <circle cx="203" cy="174" r="${on ? 11 : 0}" class="bb-glow"/><circle cx="203" cy="174" r="6" class="bb-led${on ? ' on' : ''}"/>
+    <text x="232" y="220" class="bb-mtext" transform="rotate(-90 232 220)">MB102</text>
+    <rect x="278" y="118" width="16" height="30" rx="3" class="bb-jmp"/><text x="286" y="160" class="bb-mv">${v}</text>
+    <rect x="278" y="292" width="16" height="30" rx="3" class="bb-jmp"/><text x="286" y="286" class="bb-mv">${v}</text>
+    ${['tp', 'tm', 'bp', 'bm'].map(pin).join('')}
+  </g>`;
+}
+
 // підсвічені смужки й шини (метал, що з'єднує отвори), перемички й дроти батарейки
-function bbCircuitSvg(L, isSel){
+function bbCircuitSvg(L, isSel, B){
   let h = '';
   for (const [s, hs] of L.used){
     if (bbIsRail(s)){
@@ -374,7 +420,12 @@ function bbCircuitSvg(L, isSel){
       h += `<rect x="${x - 6}" y="${BB.ROW[rows[0]] - 7}" width="12" height="${BB.ROW[rows[4]] - BB.ROW[rows[0]] + 14}" rx="4" class="bb-strip"/>`;
     }
   }
+  if (L.module) h += bbModuleSvg(bbBattery(B));
   for (const w of L.wires){
+    if (L.module && (w.kind === 'lead' || w.kind === 'trace')){   // у кабелі й доріжками модуля — тонка мідь
+      h += `<polyline points="${w.pts.map(q => q.join(',')).join(' ')}" class="bb-trace"/>`;
+      continue;
+    }
     if (w.kind !== 'jump' && w.kind !== 'lead') continue;
     const d = w.pts.map(q => q.join(',')).join(' '), a = w.pts[0], z = w.pts[w.pts.length - 1];
     const color = w.color || BB_JUMP[0];

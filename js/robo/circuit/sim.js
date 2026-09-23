@@ -326,7 +326,7 @@ function initRoboSim(){
       layout = cbBreadboard(B); bbCurrents();
       svg.setAttribute('viewBox', `0 0 ${BB.W} ${layout.h}`);
       for (const w of layout.wires) conductors.push({obj:w, poly:cbPoly(w.pts), ends:[w.a.p + ':' + w.a.t, w.b.p + ':' + w.b.t]});
-      gW.innerHTML = bbBoardSvg() + bbCircuitSvg(layout, isSel);
+      gW.innerHTML = bbBoardSvg() + bbCircuitSvg(layout, isSel, B);
     } else gW.innerHTML = B.wires.map(w => {
       const pts = cbRoute(cbTerm(byId.get(w.a.p), w.a.t), cbTerm(byId.get(w.b.p), w.b.t), obst);
       conductors.push({obj:w, poly:cbPoly(pts), ends:[w.a.p + ':' + w.a.t, w.b.p + ':' + w.b.t]});
@@ -442,8 +442,8 @@ function initRoboSim(){
         <div class="cb-pop-acts"><button class="sec" data-act="del">🗑 Прибрати</button></div>`;
     } else {
       const d = CIRC.parts[p.type];
-      h = `<div class="cb-pop-h"><b>${d.name}</b><button class="x" data-act="close" aria-label="Закрити">✕</button></div>`;
-      for (const prm of d.params || []){
+      h = `<div class="cb-pop-h"><b>${d.title ? d.title(p) : d.name}</b><button class="x" data-act="close" aria-label="Закрити">✕</button></div>`;
+      for (const prm of (d.params || []).filter(q => !q.when || q.when(p))){
         h += `<div class="cb-pop-row"><span>${prm.label}</span><div class="cb-seg">` +
           prm.options.map((o, i) => `<button class="rb${p.props[prm.key] === o[0] ? ' on' : ''}" data-key="${prm.key}" data-i="${i}">${o[1]}</button>`).join('') +
           `</div></div>`;
@@ -452,7 +452,8 @@ function initRoboSim(){
       if (d.rotatable) acts.push({id:'rot', t:'↻ Повернути'});   // на макетці — розвернути ніжками навпаки
       if (!bbMode() && cbInCircuit(B, p.id)) acts.push({id:'out', t:'✂ Вийняти з кола'});
       if (!bbMode() || p.type !== 'battery') acts.push({id:'del', t:'🗑 Прибрати'});
-      h += `<div class="cb-pop-acts">${acts.map(a => `<button class="${a.id === 'fix' || a.id === 'charge' ? 'warn' : 'sec'}" data-act="${a.id}">${a.t}</button>`).join('')}</div>`;
+      const warn = {fix:1, charge:1};
+      h += `<div class="cb-pop-acts">${acts.map(a => `<button class="${warn[a.id] ? 'warn' : 'sec'}" data-act="${a.id}">${a.t}</button>`).join('')}</div>`;
     }
     if (h !== lastPop){ popEl.innerHTML = h; lastPop = h; }
     popEl.hidden = false;
@@ -535,12 +536,20 @@ function initRoboSim(){
     if (dropWire) return 'Відпусти, і дріт розріжеться: деталь стане в коло між його кінцями.';
     if (note && clock < note.until) return note.t;
     if (B.sticky) return B.sticky;
-    if (!B.parts.length) return 'Поле порожнє. Перетягни батарейку з панелі ліворуч, а тоді додай деталі.';
+    if (!B.parts.length) return 'Поле порожнє. Перетягни живлення з панелі ліворуч, а тоді додай деталі.';
     const bat = battery();
-    if (!bat) return 'На полі немає батарейки, тож штовхати електрони нікому. Перетягни її з панелі.';
-    if (bat.s.charging) return 'Батарейка в зарядному: воно жене електрони у зворотний бік, з кімнати «+» назад у кімнату «−». Поки вона заряджається, до кола її не під\'єднано.';
-    if (bat.s.dead) return CIRC.parts.battery.say;
-    if (bat.s.m <= 0) return 'Усі електрони з кімнати «−» перейшли в кімнату «+». Батарейка розрядилась: електрони в дротах є, але штовхати їх більше нікому. Двічі клацни на батарейку й постав її в зарядне.';
+    if (!bat) return 'На полі немає живлення, тож штовхати електрони нікому. Перетягни його з панелі.';
+    const pb = bat.props.src === 'mb';                   // павербанк з модулем чи пальчикові батарейки
+    if (bat.s.charging) return pb
+      ? 'Павербанк заряджається: зарядка жене електрони у зворотний бік, з кімнати «+» назад у кімнату «−». Поки він заряджається, до кола його не під\'єднано.'
+      : 'Батарейка в зарядному: воно жене електрони у зворотний бік, з кімнати «+» назад у кімнату «−». Поки вона заряджається, до кола її не під\'єднано.';
+    if (bat.s.dead) return CIRC.parts.battery.say(bat);
+    if (bat.s.m <= 0) return pb
+      ? 'Усі електрони з кімнати «−» перейшли в кімнату «+». Павербанк розрядився: електрони в дротах є, але штовхати їх більше нікому. Двічі клацни на павербанк і постав його заряджатися.'
+      : 'Усі електрони з кімнати «−» перейшли в кімнату «+». Батарейка розрядилась: електрони в дротах є, але штовхати їх більше нікому. Двічі клацни на батарейку й постав її в зарядне.';
+    if (pb && bat.s.off) return bbMode()
+      ? 'Модуль живлення вимкнений, тож на шинах макетки немає напруги. Натисни на модулі білу кнопку: засвітиться зелений вогник.'
+      : 'Модуль живлення вимкнений, тож електрони стоять. Двічі клацни на павербанк і увімкни модуль.';
     for (const p of B.parts){                           // деталь у небезпеці — найважливіше
       const w = CIRC.parts[p.type].warn && CIRC.parts[p.type].warn(p);
       if (w) return w + (p.type === 'battery' && bypassed().length ? ' І подивись: світлодіод не світить, бо весь потік іде дротом в обхід нього.' : '');
@@ -550,11 +559,12 @@ function initRoboSim(){
       if (leds.concat(buzz).some(p => p.rt.vrev > 0.3))
         return 'Коло замкнене, а електрони стоять. Світлодіод і пищалка пропускають струм тільки в один бік, а зараз деталь стоїть навпаки: для струму це те саме, що розрив. Двічі клацни на неї й переверни ніжки.';
       if (leds.some(p => p.rt.vfw > 0.3))
-        return 'Коло замкнене, а електрони стоять: батарейка заслабка, щоб проштовхнути їх крізь світлодіод. Двічі клацни на батарейку й додай ще пальчикову. Будь-якому світлодіоду треба щонайменше дві.';
+        return pb ? 'Коло замкнене, а електрони стоять: 3,3 вольта замало, щоб проштовхнути їх крізь світлодіоди, що стоять підряд. Двічі клацни на павербанк і постав модуль на 5 В.'
+          : 'Коло замкнене, а електрони стоять: батарейка заслабка, щоб проштовхнути їх крізь світлодіод. Двічі клацни на батарейку й додай ще пальчикову. Будь-якому світлодіоду треба щонайменше дві.';
       if (B.parts.some(p => p.type === 'button' && !p.s.pressed)) return 'Електрони стоять: кнопка розриває коло, поки її не тримають. Натисни й тримай кнопку.';
       if (B.parts.some(p => p.type === 'switch' && !p.s.on)) return 'Електрони стоять: вимикач розриває коло. Натисни на вимикач.';
       if (B.parts.some(p => p.s.dead)) return 'Електрони стоять: зіпсована деталь розриває коло. Двічі клацни на неї й заміни на нову.';
-      return 'Електрони стоять: коло десь розірване. Шлях від «−» батарейки до «+» має бути суцільним, без жодної щілини.';
+      return 'Електрони стоять: коло десь розірване. Шлях від «−» ' + (pb ? 'живлення' : 'батарейки') + ' до «+» має бути суцільним, без жодної щілини.';
     }
     const lit = leds.filter(l => Math.abs(l.rt.I) > 1e-5), beep = buzz.filter(z => CIRC.parts.buzzer.sounding(z));
     let t = 'Коло замкнене: електрони рушили всі одночасно, по всьому колу, від кімнати «−» до кімнати «+».';
@@ -749,6 +759,9 @@ function initRoboSim(){
     closePop(); bbCommit();
   }
   function bbDown(e, x, y, pEl){
+    if (e.target.closest('[data-mbtn]')){                     // біла кнопка модуля живлення
+      const bat = battery(); CIRC.parts.battery.tap(bat); changed(); return;
+    }
     const hole = bbHoleAt(x, y), jEl = e.target.closest('[data-jump]');
     const jAt = hole && B.bb.jumps.find(j => bbKey(j.a) === bbKey(hole) || bbKey(j.b) === bbKey(hole));
     const jHit = jAt || (jEl && B.bb.jumps.find(j => j.id === jEl.dataset.jump));
