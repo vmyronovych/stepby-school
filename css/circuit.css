@@ -67,7 +67,9 @@
 .cb-part{cursor:move}
 .cb-part.press{cursor:pointer}
 .cb-part.press:hover .hit{fill:rgba(77,171,247,.12)}
-.cb-part .selbox{fill:rgba(77,171,247,.08);stroke:#4dabf7;stroke-width:3;stroke-dasharray:8 6}
+/* світіння, дим, хвилі, зарядне — лише картинка: невидимі, вони не мають перехоплювати клацання */
+.cb-part :is(.glow,.glowOut,.smoke,.waves,.blocked,.crack,.bat-heat,.bat-leak,.charger){pointer-events:none}
+.cb-part .selbox{pointer-events:none;fill:rgba(77,171,247,.08);stroke:#4dabf7;stroke-width:3;stroke-dasharray:8 6}
 
 .cb-term{fill:#fff;stroke:var(--accent);stroke-width:3;cursor:crosshair;transition:r .12s}
 .cb-term:hover,.cb-term.hot{r:13px;fill:var(--accent)}
@@ -97,6 +99,55 @@
 .cb-seg{display:flex;flex-wrap:wrap;gap:5px}
 #circuit .cb-pop button{min-height:36px;padding:6px 11px;font-size:14px}
 .cb-pop-acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
+
+/* ---- вигляд «Макетка» ---- */
+.cb-view{flex-wrap:nowrap}
+#cbHover{pointer-events:none}
+.bb-ring{fill:none;stroke-width:2.5;pointer-events:none}
+.bb-ring.hover{stroke:#4dabf7}
+.bb-ring.ok{stroke:#2f9e44}
+.bb-ring.bad{stroke:#e03131}
+.cb-part.bad{opacity:.5}
+/* модуль живлення MB102 і кабель від павербанка */
+.bb-cable{stroke:#868e96;stroke-width:16;stroke-linecap:round;fill:none}
+.bb-plug{fill:#ced4da;stroke:#868e96;stroke-width:1.5}
+.bb-pcb{fill:#1f2327;stroke:#0b0d0f;stroke-width:2}
+.bb-usb{fill:#dee2e6;stroke:#868e96;stroke-width:2}
+.bb-usb-in{fill:#495057}
+.bb-dc{fill:#101214;stroke:#343a40;stroke-width:2}
+.bb-dc-in{fill:#343a40;stroke:#868e96;stroke-width:2}
+.bb-btn{cursor:pointer}
+.bb-btn-base{fill:#343a40;stroke:#0b0d0f;stroke-width:1.5}
+.bb-btn-cap{fill:#f1f3f5;stroke:#adb5bd;stroke-width:1.5}
+.bb-btn:hover .bb-btn-cap{fill:#fff;stroke:#4dabf7}
+.bb-led{fill:#1e4d2b;stroke:#0b2e13;stroke-width:1.5}
+.bb-led.on{fill:#8ce99a;stroke:#2f9e44}
+.bb-glow{fill:#69db7c;opacity:.45;pointer-events:none}
+.bb-mtext{fill:#adb5bd;font-size:12px;font-weight:700;letter-spacing:1px;text-anchor:middle}
+.bb-jmp{fill:#fcc419;stroke:#b08900;stroke-width:1.5}
+.bb-mv{fill:#fcc419;font-size:10px;font-weight:700;text-anchor:middle}
+.bb-pin{fill:#e9c46a;stroke:#9c7a1c;stroke-width:1}
+.bb-trace{fill:none;stroke:#c08a4a;stroke-width:2.5;stroke-linejoin:round;pointer-events:none}
+.bb-body{fill:#f4f4f1;stroke:#d6d8dc;stroke-width:2}
+.bb-groove{fill:#e4e6e9}
+.bb-seam{stroke:#e2e4e8;stroke-width:1.5}
+.bb-line{stroke-width:2}
+.bb-line.plus{stroke:#f06595}
+.bb-line.minus{stroke:#4dabf7}
+.bb-sign{font-size:16px;font-weight:700;text-anchor:middle}
+.bb-sign.plus{fill:#f06595}
+.bb-sign.minus{fill:#4dabf7}
+.bb-holes rect{fill:#5c636d}
+.bb-num{font-size:9px;fill:#9aa1ab;text-anchor:middle}
+.bb-strip{fill:rgba(250,176,5,.2);stroke:rgba(230,150,0,.55);stroke-width:1.2}
+.bb-jump polyline{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.bb-jump{cursor:grab}
+.bb-jump .hit{stroke:transparent;stroke-width:14}
+.bb-jump .halo{stroke:transparent;stroke-width:11}
+.bb-jump.sel .halo{stroke:#74c0fc}
+.bb-jump .edge{stroke:rgba(0,0,0,.25);stroke-width:6.5}
+.bb-jump .core{stroke-width:4.5}
+.bb-jump .plug{fill:#adb5bd;stroke:#495057;stroke-width:1}
 
 /* ---- повідомлення ---- */
 #circuit .msg{
