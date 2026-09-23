@@ -11,6 +11,13 @@
    змінити її властивості. Коло живе завжди: щойно воно
    замкнулось, електрони біжать.
 
+   Правка — як у звичних редакторах схем: деталь, кинута на
+   дріт, розрізає його й стає в коло; «Вийняти з кола» (чи
+   Alt+перетягнути), Ctrl+X і Delete забирають деталь, а її
+   сусідів з'єднують напряму. Рамка й Shift виділяють кілька деталей;
+   Ctrl+Z/Ctrl+Shift+Z, Ctrl+C/V/D, Delete, R, стрілки. Кінець
+   вибраного дроту можна перетягнути на інший контакт.
+
    Дроти й деталі завжди рівно заповнені електронами. Коли йде
    струм, рушають усі одразу, швидкість у кожній гілці ∝ струму.
    Кімнати батарейки — запас: кожен електрон, що зайшов у «+»,
@@ -105,7 +112,7 @@ function cbRouteCost(pts, parts){
 /* ---------- поле: деталі й дроти ---------- */
 // на старті — перше коло із заняття 1, щоб поле не було порожнім
 function cbNewBoard(starter){
-  const B = {parts:[], wires:[], next:1, sel:null, pop:null, sticky:null};
+  const B = {parts:[], wires:[], next:1, sel:[], pop:null, sticky:null, undo:[], redo:[]};
   if (starter){
     const b = cbAddPart(B, 'battery', 180, 340).id, r = cbAddPart(B, 'resistor', 600, 120).id;
     const l = cbAddPart(B, 'led', 1000, 340, 1).id, s = cbAddPart(B, 'switch', 600, 560).id;
@@ -126,6 +133,94 @@ function cbAddWire(B, a, b){
   const w = {id:'w' + B.next++, a, b, rt:{I:0}, ph:0};
   B.wires.push(w);
   return w;
+}
+
+/* ---------- правки схеми: вставити в дріт, вийняти з кола ---------- */
+// дроти деталі: яким контактом вони до неї йдуть і де їхній дальній кінець
+function cbLinks(B, id){
+  const out = [];
+  for (const w of B.wires){
+    if (w.a.p === id) out.push({w, t:w.a.t, far:w.b});
+    if (w.b.p === id) out.push({w, t:w.b.t, far:w.a});
+  }
+  return out;
+}
+// деталь стоїть у колі: до обох її контактів іде дріт від іншої деталі
+function cbInCircuit(B, id){
+  const l = cbLinks(B, id).filter(x => x.far.p !== id);
+  return l.some(x => x.t === 0) && l.some(x => x.t === 1);
+}
+// Вийняти деталь: її дроти зникають, а сусіди з'єднуються напряму,
+// так ніби на її місці тепер шматок дроту. Коло лишається цілим.
+function cbExtract(B, id){
+  const ends = [];
+  for (const x of cbLinks(B, id))
+    if (x.far.p !== id && !ends.some(e => e.p === x.far.p && e.t === x.far.t)) ends.push(x.far);
+  B.wires = B.wires.filter(w => w.a.p !== id && w.b.p !== id);
+  for (let i = 1; i < ends.length; i++) cbAddWire(B, ends[0], ends[i]);
+}
+// Вставити вільну деталь у дріт: дріт розрізається, і деталь стає між його
+// кінцями. Ближчий до кожного кінця контакт і з'єднуємо з ним.
+function cbInsert(B, p, w){
+  B.wires = B.wires.filter(x => x !== w);
+  const at = e => cbTerm(B.parts.find(q => q.id === e.p), e.t);
+  const A = at(w.a), Z = at(w.b), t0 = cbTerm(p, 0), t1 = cbTerm(p, 1);
+  const d = (u, v) => Math.abs(u.x - v.x) + Math.abs(u.y - v.y);
+  const k = d(A, t0) + d(Z, t1) <= d(A, t1) + d(Z, t0) ? 0 : 1;
+  cbAddWire(B, w.a, {p:p.id, t:k});
+  cbAddWire(B, {p:p.id, t:1 - k}, w.b);
+}
+
+/* ---------- скасування: знімки схеми ---------- */
+// У знімку лише те, що склав учень: деталі, їхні місця й властивості, дроти.
+// Стан деталей (згорів, розряджена, увімкнений) скасуванням не повертається —
+// спалений резистор так і лишається спаленим.
+function cbSnap(B){
+  return JSON.stringify({next:B.next,
+    parts:B.parts.map(p => ({id:p.id, type:p.type, x:p.x, y:p.y, rot:p.rot, props:p.props, s:p.s})),
+    wires:B.wires.map(w => ({id:w.id, a:w.a, b:w.b}))});
+}
+function cbRestore(B, snap){
+  const o = JSON.parse(snap), now = new Map(B.parts.map(p => [p.id, p]));
+  B.parts = o.parts.map(q => Object.assign(q, {s:now.has(q.id) ? now.get(q.id).s : q.s, rt:{I:0, vrev:0, vfw:0}, ph:0, ramp:[0, 0]}));
+  B.wires = o.wires.map(w => Object.assign(w, {rt:{I:0}, ph:0}));
+  B.next = Math.max(B.next, o.next);
+  const ids = new Set(B.parts.map(p => p.id).concat(B.wires.map(w => w.id)));
+  B.sel = B.sel.filter(id => ids.has(id));
+  B.pop = null;
+}
+
+/* ---------- буфер обміну (у пам'яті, як і решта даних) ---------- */
+let CB_CLIP = null;          // {parts:[{type,x,y,rot,props}], wires:[{a:{i,t}, b:{i,t}}]}, n — скільки разів вставлено
+function cbCopy(B, ids){
+  const parts = B.parts.filter(p => ids.includes(p.id));
+  if (!parts.length) return false;
+  const idx = new Map(parts.map((p, i) => [p.id, i]));
+  CB_CLIP = {n:0,
+    parts:parts.map(p => ({type:p.type, x:p.x, y:p.y, rot:p.rot, props:JSON.parse(JSON.stringify(p.props))})),
+    wires:B.wires.filter(w => idx.has(w.a.p) && idx.has(w.b.p))
+      .map(w => ({a:{i:idx.get(w.a.p), t:w.a.t}, b:{i:idx.get(w.b.p), t:w.b.t}}))};
+  return true;
+}
+// Вставляє копію навколо точки at (або зі зсувом від оригіналу). Повертає id нових деталей.
+function cbPaste(B, at){
+  if (!CB_CLIP) return [];
+  const src = CB_CLIP.parts, g = v => Math.round(v / CB_GRID) * CB_GRID;
+  const cx = src.reduce((s, q) => s + q.x, 0) / src.length, cy = src.reduce((s, q) => s + q.y, 0) / src.length;
+  CB_CLIP.n++;
+  let dx = at ? g(at[0] - cx) : 40 * CB_CLIP.n, dy = at ? g(at[1] - cy) : 40 * CB_CLIP.n;
+  const xs = src.map(q => q.x + dx), ys = src.map(q => q.y + dy);          // увесь гурт лишається на полі
+  dx += Math.max(0, 60 - Math.min(...xs)) - Math.max(0, Math.max(...xs) - (CB_W - 60));
+  dy += Math.max(0, 60 - Math.min(...ys)) - Math.max(0, Math.max(...ys) - (CB_H - 60));
+  const made = src.map(q => {
+    if (CIRC.parts[q.type].single && B.parts.some(p => p.type === q.type)) return null;
+    const p = cbAddPart(B, q.type, q.x + dx, q.y + dy, q.rot);
+    p.props = JSON.parse(JSON.stringify(q.props));
+    return p;
+  });
+  for (const w of CB_CLIP.wires)
+    if (made[w.a.i] && made[w.b.i]) cbAddWire(B, {p:made[w.a.i].id, t:w.a.t}, {p:made[w.b.i].id, t:w.b.t});
+  return made.filter(Boolean).map(p => p.id);
 }
 
 /* ---------- звук пищалок (Web Audio, без файлів) ---------- */
@@ -162,8 +257,12 @@ function initRoboSim(){
   const palette = Object.keys(CIRC.parts).filter(k => CIRC.parts[k].pal).sort((a, b) => CIRC.parts[a].pal - CIRC.parts[b].pal);
   root.innerHTML = `
     <div class="cb-bar">
-      <span class="cb-hint">Тягни деталі з панелі на поле. З'єднуй дротом: від кружечка до кружечка. <b>Двічі клацни</b> на деталь, щоб змінити її властивості.</span>
+      <span class="cb-hint">Тягни деталі з панелі на поле, а можна <b>просто на дріт</b>: деталь розріже його й стане в коло. З'єднуй дротом: від кружечка до кружечка. <b>Двічі клацни</b> на деталь, щоб змінити її властивості або вийняти з кола.</span>
       <label class="speed">швидкість <input id="cbSpeed" type="range" min="1" max="6" step="1" value="3"></label>
+      <span class="cb-hist">
+        <button class="sec icon" id="cbUndo" title="Скасувати (Ctrl+Z)" aria-label="Скасувати"><svg viewBox="0 0 24 24"><path d="M9 14 4 9l5-5M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg></button>
+        <button class="sec icon" id="cbRedo" title="Повернути (Ctrl+Shift+Z)" aria-label="Повернути"><svg viewBox="0 0 24 24"><path d="m15 14 5-5-5-5M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/></svg></button>
+      </span>
       <button class="sec" id="cbClear">Очистити поле</button>
     </div>
     <div class="cb-main">
@@ -180,6 +279,7 @@ function initRoboSim(){
           <rect x="0" y="0" width="${CB_W}" height="${CB_H}" fill="url(#cbCell)"/>
           <g id="cbWires"></g><g id="cbParts"></g><g id="cbTerms"></g><g id="cbDots"></g><g id="cbLabels"></g>
           <path id="cbRubber" d="" fill="none" stroke="#4dabf7" stroke-width="6" stroke-dasharray="10 8" stroke-linecap="round"/>
+          <rect id="cbMarq" class="cb-marq" x="0" y="0" width="0" height="0" rx="6" hidden/>
         </svg>
         <div class="cb-pop" id="cbPop" hidden></div>
       </div>
@@ -188,21 +288,26 @@ function initRoboSim(){
 
   const $ = id => document.getElementById(id);
   const svg = $('cbSvg'), stage = $('cbStage'), gW = $('cbWires'), gP = $('cbParts'), gD = $('cbDots'), gL = $('cbLabels'), gT = $('cbTerms');
-  const rubber = $('cbRubber'), msgEl = $('cbMsg'), popEl = $('cbPop'), speedEl = $('cbSpeed');
+  const rubber = $('cbRubber'), msgEl = $('cbMsg'), popEl = $('cbPop'), speedEl = $('cbSpeed'), marq = $('cbMarq');
 
   let conductors = [];          // [{obj, poly, gap}] — дроти й деталі, якими біжать електрони
   let lastLabels = '', lastMsg = '', lastPop = '', drag = null, pending = null, hoverTerm = null;
   let clock = 0, note = null, chainDirty = true, lastDown = {id:null, t:-1};
+  let floating = null;          // вільна деталь у руці: дроти її не оминають, щоб її можна було кинути на дріт
+  let dropWire = null;          // дріт, на який деталь стане, якщо зараз її відпустити
+  let lastPt = null;            // де вказівник на полі — туди вставляємо скопійоване
+  const isSel = id => B.sel.includes(id);
 
   /* ---------- малювання поля ---------- */
   function renderStatic(){
     const byId = new Map(B.parts.map(p => [p.id, p]));
+    const obst = floating ? B.parts.filter(p => p !== floating) : B.parts;
     conductors = [];
     gW.innerHTML = B.wires.map(w => {
-      const pts = cbRoute(cbTerm(byId.get(w.a.p), w.a.t), cbTerm(byId.get(w.b.p), w.b.t), B.parts);
+      const pts = cbRoute(cbTerm(byId.get(w.a.p), w.a.t), cbTerm(byId.get(w.b.p), w.b.t), obst);
       conductors.push({obj:w, poly:cbPoly(pts), ends:[w.a.p + ':' + w.a.t, w.b.p + ':' + w.b.t]});
       const d = pts.map(q => q.join(',')).join(' ');
-      return `<g data-wire="${w.id}" class="cb-wire${B.sel === w.id ? ' sel' : ''}">
+      return `<g data-wire="${w.id}" class="cb-wire${isSel(w.id) ? ' sel' : ''}${dropWire === w.id ? ' drop' : ''}">
         <polyline points="${d}" class="hitw"/><polyline points="${d}" class="halo"/><polyline points="${d}" class="core"/></g>`;
     }).join('');
     gP.innerHTML = B.parts.map(p => {
@@ -214,7 +319,7 @@ function initRoboSim(){
         obj:{get rt(){ return p.rt; }, get ph(){ return p.ramp[i]; }, set ph(v){ p.ramp[i] = v; }},
         poly:cbPoly(r.map(local)), ends: i ? [p.id + ':0', null] : [null, p.id + ':1'], ramp:i ? 'in' : 'out', part:p,
       }));
-      const cls = 'cb-part' + (d.toggle || d.hold ? ' press' : '') + (B.sel === p.id ? ' sel' : '');
+      const cls = 'cb-part' + (d.toggle || d.hold ? ' press' : '') + (isSel(p.id) ? ' sel' : '');
       return `<g data-part="${p.id}" class="${cls}" transform="translate(${p.x},${p.y}) rotate(${p.rot * 90})">${d.draw(p)}</g>`;
     }).join('');
     for (const g of gP.querySelectorAll('.cb-part.sel')){              // рамка вибраної деталі
@@ -227,10 +332,20 @@ function initRoboSim(){
     gT.innerHTML = B.parts.map(p => [0, 1].map(t => {
       const q = cbTerm(p, t);
       return `<circle data-term="${p.id}:${t}" cx="${q.x}" cy="${q.y}" r="9" class="cb-term"/>`;
-    }).join('')).join('');
+    }).join('')).join('') + selWireEnds();
     lastLabels = ''; lastPop = ''; chainDirty = true;
-    renderLabels(); renderPalette(); renderPop();
+    renderLabels(); renderPalette(); renderPop(); renderHist();
   }
+  // кінці вибраного дроту — ручки: їх можна перетягнути на інший контакт
+  function selWireEnds(){
+    const w = B.sel.length === 1 && B.wires.find(x => x.id === B.sel[0]);
+    if (!w) return '';
+    return [w.a, w.b].map(e => {
+      const q = cbTerm(B.parts.find(p => p.id === e.p), e.t);
+      return `<circle cx="${q.x}" cy="${q.y}" r="12" class="cb-wend"/>`;
+    }).join('');
+  }
+  function renderHist(){ $('cbUndo').disabled = !B.undo.length; $('cbRedo').disabled = !B.redo.length; }
 
   // Ланцюг: електрони мають стояти рівно по всьому колу, а не мати власну
   // фазу в кожному дроті, інакше на стиках крапки зникають і з'являються.
@@ -305,6 +420,7 @@ function initRoboSim(){
       }
       const acts = (d.actions ? d.actions(p) : []).slice();
       if (d.rotatable) acts.push({id:'rot', t:'↻ Повернути'});
+      if (cbInCircuit(B, p.id)) acts.push({id:'out', t:'✂ Вийняти з кола'});
       acts.push({id:'del', t:'🗑 Прибрати'});
       h += `<div class="cb-pop-acts">${acts.map(a => `<button class="${a.id === 'fix' || a.id === 'charge' ? 'warn' : 'sec'}" data-act="${a.id}">${a.t}</button>`).join('')}</div>`;
     }
@@ -322,7 +438,7 @@ function initRoboSim(){
     const y = Math.max(6, Math.min(sr.height - ph - 6, r.top - sr.top + r.height / 2 - ph / 2));
     popEl.style.left = x + 'px'; popEl.style.top = y + 'px';
   }
-  function openPop(id){ B.pop = id; B.sel = id; renderStatic(); }
+  function openPop(id){ B.pop = id; B.sel = [id]; renderStatic(); }
   function closePop(){ if (B.pop){ B.pop = null; renderPop(); } }
 
   popEl.addEventListener('pointerdown', e => e.stopPropagation());
@@ -330,8 +446,10 @@ function initRoboSim(){
     const b = e.target.closest('button'); if (!b) return;
     const p = B.parts.find(x => x.id === B.pop);
     if (b.dataset.key && p){
-      const prm = CIRC.parts[p.type].params.find(q => q.key === b.dataset.key);
-      p.props[prm.key] = prm.options[+b.dataset.i][0];
+      const prm = CIRC.parts[p.type].params.find(q => q.key === b.dataset.key), v = prm.options[+b.dataset.i][0];
+      if (p.props[prm.key] === v) return;
+      mark();
+      p.props[prm.key] = v;
       if (CIRC.parts[p.type].onParam) CIRC.parts[p.type].onParam(p, prm.key);
       changed();
     } else if (b.dataset.act) act(b.dataset.act);
@@ -347,7 +465,7 @@ function initRoboSim(){
     const r = solveCircuit(B), V = (id, t) => r.V[r.node.get(id + ':' + t)] || 0;
     for (const p of B.parts){
       p.rt.I = r.I[p.id] || 0;
-      if (p.props.flipped !== undefined){               // клапан: пряма й зворотна напруга на ньому
+      if (p.props.flipped !== undefined && looped(p)){  // клапан: пряма й зворотна напруга на ньому
         const a = p.props.flipped ? 1 : 0;
         p.rt.vfw = V(p.id, a) - V(p.id, 1 - a);
         p.rt.vrev = -p.rt.vfw;
@@ -357,12 +475,25 @@ function initRoboSim(){
     chainDirty = true;
   }
 
+  // Чи є навколо деталі замкнений шлях: від одного її контакту до другого
+  // дротами й іншими деталями, крім розривів. Без нього напруга на клапані —
+  // лише наслідок крихітного витоку в розв'язувачі, а не справжня.
+  function looped(p){
+    const up = new Map(), root = k => { while (up.has(k)) k = up.get(k); return k; };
+    const join = (a, b) => { a = root(a); b = root(b); if (a !== b) up.set(a, b); };
+    for (const w of B.wires) join(w.a.p + ':' + w.a.t, w.b.p + ':' + w.b.t);
+    for (const q of B.parts)
+      if (q !== p && CIRC.parts[q.type].elec(q).kind !== 'open') join(q.id + ':0', q.id + ':1');
+    return root(p.id + ':0') === root(p.id + ':1');
+  }
+
   // світлодіод, який цілий і стоїть як слід, але струм іде повз нього
   function bypassed(){
     return B.parts.filter(p => p.type === 'led' && !p.s.dead && Math.abs(p.rt.I) <= 1e-5 && Math.abs(p.rt.vfw) < 0.3);
   }
 
   function status(){
+    if (dropWire) return 'Відпусти, і дріт розріжеться: деталь стане в коло між його кінцями.';
     if (note && clock < note.until) return note.t;
     if (B.sticky) return B.sticky;
     if (!B.parts.length) return 'Поле порожнє. Перетягни батарейку з панелі ліворуч, а тоді додай деталі.';
@@ -408,20 +539,96 @@ function initRoboSim(){
   // будь-яка зміна схеми: перерахувати струми й перемалювати
   function changed(){ note = null; B.sticky = null; resolve(); renderStatic(); say(); }
 
+  /* ---------- історія: скасувати / повернути ---------- */
+  // mark() — перед кожною правкою схеми. Серія однакових дрібних правок
+  // (стрілками) іде одним кроком скасування.
+  let lastMark = {tag:null, t:0};
+  function mark(tag){
+    const now = performance.now();
+    if (tag && lastMark.tag === tag && now - lastMark.t < 800){ lastMark.t = now; return; }
+    lastMark = {tag, t:now};
+    B.undo.push(cbSnap(B));
+    if (B.undo.length > 100) B.undo.shift();
+    B.redo = [];
+  }
+  function undo(){
+    if (!B.undo.length) return;
+    B.redo.push(cbSnap(B)); cbRestore(B, B.undo.pop());
+    lastMark = {tag:null, t:0}; closePop(); changed();
+  }
+  function redo(){
+    if (!B.redo.length) return;
+    B.undo.push(cbSnap(B)); cbRestore(B, B.redo.pop());
+    lastMark = {tag:null, t:0}; closePop(); changed();
+  }
+
   /* ---------- дії ---------- */
-  function remove(id){
-    B.parts = B.parts.filter(p => p.id !== id);
-    B.wires = B.wires.filter(w => w.id !== id && w.a.p !== id && w.b.p !== id);
-    if (B.sel === id) B.sel = null;
-    if (B.pop === id) B.pop = null;
+  function removeIds(ids){                   // прибрати деталі разом з їхніми дротами, а також вибрані дроти
+    B.parts = B.parts.filter(p => !ids.includes(p.id));
+    B.wires = B.wires.filter(w => !ids.includes(w.id) && !ids.includes(w.a.p) && !ids.includes(w.b.p));
+    B.sel = B.sel.filter(id => !ids.includes(id));
+    if (ids.includes(B.pop)) B.pop = null;
+  }
+  // Прибрати з поля: деталь виходить з кола так само, як при вирізанні, —
+  // її сусіди з'єднуються напряму. Вибраний дріт просто зникає.
+  function discard(ids){
+    for (const id of ids) if (B.parts.some(p => p.id === id)) cbExtract(B, id);
+    removeIds(ids);
+  }
+  function removeSel(){
+    if (!B.sel.length) return;
+    mark(); discard(B.sel.slice()); changed();
+  }
+  // відсунути вийняту деталь убік, щоб видно було, що дріт знову суцільний
+  function moveAside(p){
+    for (const [dx, dy] of [[0, -120], [0, 120], [-160, 0], [160, 0], [0, -200], [0, 200]]){
+      const x = p.x + dx, y = p.y + dy;
+      if (x < 60 || x > CB_W - 60 || y < 60 || y > CB_H - 60) continue;
+      if (B.parts.every(q => q === p || Math.abs(q.x - x) > 130 || Math.abs(q.y - y) > 100)){ p.x = x; p.y = y; return; }
+    }
+  }
+  function extract(p){
+    mark(); cbExtract(B, p.id); moveAside(p); B.pop = null;
+    note = {t:'Деталь вийнято, а дріт знову суцільний: її сусіди тепер з\'єднані напряму. Кинь її на інший дріт, щоб вставити деінде.', until:clock + 5};
+    resolve(); renderStatic(); say();
+  }
+  function rotateSel(){
+    const ps = B.parts.filter(p => isSel(p.id) && CIRC.parts[p.type].rotatable);
+    if (!ps.length) return;
+    mark();
+    for (const p of ps) p.rot = (p.rot + 1) % 4;
     changed();
+  }
+  function nudge(dx, dy){
+    const ps = B.parts.filter(p => isSel(p.id));
+    if (!ps.length) return;
+    dx = Math.max(dx, ...ps.map(p => 60 - p.x)); dx = Math.min(dx, ...ps.map(p => CB_W - 60 - p.x));
+    dy = Math.max(dy, ...ps.map(p => 60 - p.y)); dy = Math.min(dy, ...ps.map(p => CB_H - 60 - p.y));
+    if (!dx && !dy) return;
+    mark('nudge');
+    for (const p of ps){ p.x += dx; p.y += dy; }
+    closePop(); renderStatic();
+  }
+  function copySel(){ return cbCopy(B, B.sel); }
+  function cutSel(){                         // вирізати: у буфер і прибрати
+    if (!copySel()) return;
+    mark(); discard(B.sel.slice()); changed();
+  }
+  function paste(){
+    if (!CB_CLIP) return;
+    mark();
+    const ids = cbPaste(B, lastPt);
+    if (!ids.length){ B.undo.pop(); return; }
+    B.sel = ids; closePop(); changed();
   }
   function act(a){
     if (a === 'close') return closePop();
-    const id = B.pop || B.sel;
-    if (a === 'del' && id) return remove(id);
+    const id = B.pop || (B.sel.length === 1 ? B.sel[0] : null);
+    if (a === 'del' && id){ mark(); discard([id]); return changed(); }
     const p = B.parts.find(x => x.id === id); if (!p) return;
     const d = CIRC.parts[p.type];
+    if (a === 'out') return extract(p);
+    mark();
     if (a === 'rot'){ if (d.rotatable) p.rot = (p.rot + 1) % 4; }
     else if (d.act) d.act(p, a);
     changed();
@@ -474,6 +681,41 @@ function initRoboSim(){
     return dbl ? prev : null;
   }
 
+  // дріт під точкою: найближчий відрізок ламаної, не далі за maxD
+  function wireAt(x, y, maxD){
+    let best = null, bd = maxD;
+    for (const c of conductors){
+      if (!B.wires.includes(c.obj)) continue;
+      const pts = c.poly.pts;
+      for (let i = 1; i < pts.length; i++){
+        const a = pts[i-1], b = pts[i];
+        const qx = clamp(x, Math.min(a[0], b[0]), Math.max(a[0], b[0])), qy = clamp(y, Math.min(a[1], b[1]), Math.max(a[1], b[1]));
+        const d = Math.hypot(x - qx, y - qy);
+        if (d < bd){ bd = d; best = {w:c.obj, a, b}; }
+      }
+    }
+    return best;
+  }
+  // Вільна деталь над дротом: дріт підсвічується, деталь стає вздовж нього
+  // й на його лінію — так, як стоятиме, коли її відпустять.
+  function aim(p, rot0){
+    p.rot = rot0;
+    const hit = wireAt(p.x, p.y, 28);
+    dropWire = hit ? hit.w.id : null;
+    if (!hit || !CIRC.parts[p.type].rotatable) return;
+    const vert = hit.a[0] === hit.b[0];
+    if ((p.rot % 2 === 1) !== vert) p.rot = vert ? 1 : 0;
+    if (vert) p.x = hit.a[0]; else p.y = hit.a[1];
+  }
+  function drop(p){                                  // відпустили вільну деталь: над дротом — стає в коло
+    const w = dropWire && B.wires.find(x => x.id === dropWire);
+    floating = null; dropWire = null;
+    if (w){
+      cbInsert(B, p, w);
+      note = {t:'Деталь розрізала дріт і стала в коло.', until:clock + 3};
+    }
+  }
+
   svg.addEventListener('pointerdown', e => {
     if (e.button > 0) return;
     const [x, y] = svgPt(e);
@@ -481,8 +723,15 @@ function initRoboSim(){
     const near = termAt(x, y);
 
     if (pending){                                             // другий клік режиму «клік — клік»
-      if (near && !(near.p === pending.p && near.t === pending.t)) cbAddWire(B, pending, near);
+      if (near && !(near.p === pending.p && near.t === pending.t)){ mark(); if (!cbAddWire(B, pending, near)) B.undo.pop(); }
       pending = null; rubber.setAttribute('d', ''); markHover(null); changed(); return;
+    }
+    const wSel = near && B.sel.length === 1 && B.wires.find(w => w.id === B.sel[0]);
+    const end = wSel && ['a', 'b'].find(k => wSel[k].p === near.p && wSel[k].t === near.t);
+    if (end){                                                 // кінець вибраного дроту — перечіпляємо
+      closePop();
+      drag = {kind:'rewire', w:wSel, end, fixed:wSel[end === 'a' ? 'b' : 'a'], from:near, x0:x, y0:y, moved:false};
+      startTrack(); return;
     }
     if (near){                                                // від контакту тягнемо дріт
       closePop();
@@ -491,6 +740,11 @@ function initRoboSim(){
     }
     if (pEl){
       const p = B.parts.find(q => q.id === pEl.dataset.part), d = CIRC.parts[p.type];
+      if (e.shiftKey){                                        // Shift — додати до вибраного чи прибрати з нього
+        closePop();
+        B.sel = isSel(p.id) ? B.sel.filter(id => id !== p.id) : B.sel.concat(p.id);
+        renderStatic(); return;
+      }
       const prev = secondClick(p.id);
       if (prev){
         if (d.toggle && prev.toggled) p.s.on = !p.s.on;       // подвійний клік вимикач не перемикає
@@ -498,26 +752,37 @@ function initRoboSim(){
       }
       if (B.pop !== p.id) closePop();
       if (d.hold){ p.s.pressed = true; changed(); }
-      drag = {kind:'move', p, dx:x - p.x, dy:y - p.y, x0:x, y0:y, moved:false};
-      if (B.sel !== p.id){ B.sel = p.id; renderStatic(); }
+      if (!isSel(p.id)){ B.sel = [p.id]; renderStatic(); }
+      const group = B.parts.filter(q => isSel(q.id));
+      drag = {kind:'move', p, group, start:group.map(q => [q.x, q.y]), dx:x - p.x, dy:y - p.y, x0:x, y0:y, moved:false, alt:e.altKey};
       startTrack(); return;
     }
     if (wEl){
       const id = wEl.dataset.wire;
-      if (secondClick(id)){ openPop(id); return; }
       closePop();
-      B.sel = id; renderStatic(); return;
+      if (e.shiftKey){ B.sel = isSel(id) ? B.sel.filter(s => s !== id) : B.sel.concat(id); renderStatic(); return; }
+      if (secondClick(id)){ openPop(id); return; }
+      B.sel = [id]; renderStatic(); return;
     }
-    closePop();
-    if (B.sel){ B.sel = null; renderStatic(); }
+    closePop();                                               // порожнє місце: рамка виділення
+    drag = {kind:'marq', x0:x, y0:y, keep:e.shiftKey ? B.sel.slice() : [], moved:false};
+    if (!e.shiftKey && B.sel.length){ B.sel = []; renderStatic(); }
+    startTrack();
+  });
+
+  svg.addEventListener('contextmenu', e => {                  // права кнопка — те саме вікно, що й подвійний клік
+    const el = e.target.closest('[data-part],[data-wire]'); if (!el) return;
+    e.preventDefault(); resolve(); openPop(el.dataset.part || el.dataset.wire); say();
   });
 
   svg.addEventListener('pointermove', e => {
-    if (drag) return;
     const [x, y] = svgPt(e);
+    lastPt = [x, y];
+    if (drag) return;
     if (pending){ showRubber(pending, x, y); markHover(termAt(x, y, pending)); return; }
     markHover(termAt(x, y));
   });
+  svg.addEventListener('pointerleave', () => { if (!drag) lastPt = null; });
 
   // перетягування з панелі деталей
   $('cbPal').addEventListener('pointerdown', e => {
@@ -541,22 +806,56 @@ function initRoboSim(){
   function onMove(e){
     if (!drag || gen !== ROBO.simGen) return;
     const [x, y] = svgPt(e);
-    if (drag.kind === 'wire'){
+    if (drag.kind === 'wire' || drag.kind === 'rewire'){
       if (far(drag, x, y)) drag.moved = true;
-      showRubber(drag.from, x, y); markHover(termAt(x, y, drag.from));
+      if (drag.kind === 'rewire' && !drag.moved) return;
+      const from = drag.kind === 'wire' ? drag.from : drag.fixed;
+      showRubber(from, x, y); markHover(termAt(x, y, from));
     } else if (drag.kind === 'move'){
       if (!drag.moved && far(drag, x, y)){
-        drag.moved = true; closePop();
+        drag.moved = true; closePop(); lastDown = {id:null, t:-1};     // перетягування — не половина подвійного кліку
         if (drag.p.s.pressed){ drag.p.s.pressed = false; changed(); }   // кнопку потягли — це не натискання
+        mark();
+        if (drag.alt && drag.group.length === 1 && cbInCircuit(B, drag.p.id)){   // Alt — витягти з кола
+          cbExtract(B, drag.p.id); resolve();
+        }
+        // вільну деталь (без жодного дроту) можна кинути на дріт
+        if (drag.group.length === 1 && !cbLinks(B, drag.p.id).length){ floating = drag.p; drag.rot0 = drag.p.rot; }
       }
       if (!drag.moved) return;
-      const nx = clamp(snap(x - drag.dx), 60, CB_W - 60), ny = clamp(snap(y - drag.dy), 60, CB_H - 60);
-      if (nx !== drag.p.x || ny !== drag.p.y){ drag.p.x = nx; drag.p.y = ny; renderStatic(); }
+      const i = drag.group.indexOf(drag.p);
+      let ddx = snap(x - drag.dx) - drag.start[i][0], ddy = snap(y - drag.dy) - drag.start[i][1];
+      for (const [sx, sy] of drag.start){                     // увесь гурт лишається на полі
+        ddx = clamp(ddx, 60 - sx, CB_W - 60 - sx); ddy = clamp(ddy, 60 - sy, CB_H - 60 - sy);
+      }
+      drag.group.forEach((q, k) => { q.x = drag.start[k][0] + ddx; q.y = drag.start[k][1] + ddy; });
+      if (floating) aim(drag.p, drag.rot0);
+      renderStatic(); say();
     } else if (drag.kind === 'palette'){
       if (Math.abs(e.clientX - drag.cx) + Math.abs(e.clientY - drag.cy) > 8) drag.moved = true;
       if (!drag.moved) return;
-      if (insideSvg(e) && !drag.p){ drag.p = cbAddPart(B, drag.type, snap(x), snap(y)); B.sel = drag.p.id; }
-      if (drag.p){ drag.p.x = clamp(snap(x), 60, CB_W - 60); drag.p.y = clamp(snap(y), 60, CB_H - 60); renderStatic(); }
+      if (insideSvg(e) && !drag.p){
+        mark();
+        drag.p = cbAddPart(B, drag.type, snap(x), snap(y)); B.sel = [drag.p.id];
+        floating = drag.p; drag.rot0 = 0;
+      }
+      if (drag.p){
+        drag.p.x = clamp(snap(x), 60, CB_W - 60); drag.p.y = clamp(snap(y), 60, CB_H - 60);
+        aim(drag.p, drag.rot0); renderStatic(); say();
+      }
+    } else if (drag.kind === 'marq'){
+      if (far(drag, x, y)) drag.moved = true;
+      if (!drag.moved) return;
+      const r = {x0:Math.min(x, drag.x0), y0:Math.min(y, drag.y0), x1:Math.max(x, drag.x0), y1:Math.max(y, drag.y0)};
+      marq.setAttribute('x', r.x0); marq.setAttribute('y', r.y0);
+      marq.setAttribute('width', r.x1 - r.x0); marq.setAttribute('height', r.y1 - r.y0);
+      marq.removeAttribute('hidden');
+      // деталь вибрана, якщо рамка захопила її середину; дріт — якщо обидві його деталі
+      const ps = B.parts.filter(p => p.x >= r.x0 && p.x <= r.x1 && p.y >= r.y0 && p.y <= r.y1).map(p => p.id);
+      const all = new Set(drag.keep.concat(ps));
+      const ws = B.wires.filter(w => all.has(w.a.p) && all.has(w.b.p)).map(w => w.id);
+      const sel = [...new Set([...all, ...ws])];
+      if (sel.join() !== B.sel.join()){ B.sel = sel; renderStatic(); }
     }
   }
   function onUp(e){
@@ -567,9 +866,20 @@ function initRoboSim(){
     if (d.kind === 'wire'){
       const to = termAt(x, y, d.from);
       rubber.setAttribute('d', '');
-      if (to && d.moved){ cbAddWire(B, d.from, to); changed(); }
+      if (to && d.moved){ mark(); if (!cbAddWire(B, d.from, to)) B.undo.pop(); changed(); }
       else if (!d.moved){ pending = d.from; showRubber(d.from, x, y); }   // клік по контакту: далі клік по другому
       markHover(null);
+    } else if (d.kind === 'rewire'){
+      rubber.setAttribute('d', ''); markHover(null);
+      if (!d.moved){ pending = d.from; showRubber(d.from, x, y); return; }
+      const to = termAt(x, y, d.fixed);
+      if (!to || (to.p === d.from.p && to.t === d.from.t)) return renderStatic();   // не на контакт — дріт лишається, як був
+      mark();
+      const same = (u, v) => u.p === v.p && u.t === v.t;
+      d.w[d.end] = to;
+      if (B.wires.some(w => w !== d.w && ((same(w.a, d.w.a) && same(w.b, d.w.b)) || (same(w.a, d.w.b) && same(w.b, d.w.a)))))
+        removeIds([d.w.id]);                                   // такий дріт уже є — зайвий прибираємо
+      changed();
     } else if (d.kind === 'move'){
       const def = CIRC.parts[d.p.type];
       if (def.hold) d.p.s.pressed = false;
@@ -577,31 +887,55 @@ function initRoboSim(){
         d.p.s.on = !d.p.s.on;
         if (lastDown.id === d.p.id) lastDown.toggled = true;
       }
+      if (floating) drop(d.p);
       changed();
+      if (d.moved && !note && d.alt) note = {t:'Деталь вийнято з кола, а її сусіди з\'єднались напряму.', until:clock + 3};
     } else if (d.kind === 'palette'){
       if (!d.moved){                                           // простий клік — ставимо на вільне місце
-        const [fx, fy] = freeSpot(); B.sel = cbAddPart(B, d.type, fx, fy).id;
-      } else if (d.p && !insideSvg(e)){ remove(d.p.id); return; }
+        mark();
+        const [fx, fy] = freeSpot(); B.sel = [cbAddPart(B, d.type, fx, fy).id];
+      } else if (d.p && !insideSvg(e)){                       // винесли за поле — передумали
+        floating = null; dropWire = null; removeIds([d.p.id]); B.undo.pop();
+      } else if (d.p) drop(d.p);
       changed();
+    } else if (d.kind === 'marq'){
+      marq.setAttribute('hidden', '');
     }
   }
 
   function onKey(e){
     if (gen !== ROBO.simGen || !root.isConnected){ document.removeEventListener('keydown', onKey); return; }
     if (e.target.closest && e.target.closest('input,textarea,[contenteditable]')) return;
-    if (e.key === 'Escape'){
-      if (pending){ pending = null; rubber.setAttribute('d', ''); markHover(null); }
-      closePop(); return;
+    if (drag) return;
+    const mod = e.ctrlKey || e.metaKey, c = e.code;          // e.code: однаково на українській і англійській розкладці
+    if (mod){
+      const fn = {KeyZ:e.shiftKey ? redo : undo, KeyY:redo, KeyC:copySel, KeyX:cutSel, KeyV:paste,
+        KeyD:() => { if (copySel()){ CB_CLIP.n = 0; lastPt = null; paste(); } },
+        KeyA:() => { B.sel = B.parts.map(p => p.id).concat(B.wires.map(w => w.id)); closePop(); renderStatic(); }}[c];
+      if (fn){ e.preventDefault(); fn(); }
+      return;
     }
-    if (!B.sel) return;
-    if (e.key === 'Delete' || e.key === 'Backspace'){ e.preventDefault(); remove(B.sel); }
-    else if ('rRкК'.includes(e.key)) act('rot');
+    if (e.key === 'Escape'){
+      if (pending){ pending = null; rubber.setAttribute('d', ''); markHover(null); return; }
+      if (B.pop) return closePop();
+      if (B.sel.length){ B.sel = []; renderStatic(); }
+      return;
+    }
+    if (!B.sel.length) return;
+    const step = e.shiftKey ? CB_GRID * 3 : CB_GRID;
+    const arrows = {ArrowLeft:[-step, 0], ArrowRight:[step, 0], ArrowUp:[0, -step], ArrowDown:[0, step]}[e.key];
+    if (e.key === 'Delete' || e.key === 'Backspace'){ e.preventDefault(); removeSel(); }
+    else if (c === 'KeyR'){ e.preventDefault(); rotateSel(); }
+    else if (arrows){ e.preventDefault(); nudge(arrows[0], arrows[1]); }
   }
   document.addEventListener('keydown', onKey);
 
+  $('cbUndo').onclick = undo;
+  $('cbRedo').onclick = redo;
   $('cbClear').onclick = () => {
-    const bat = battery();
+    const bat = battery(), hist = B.undo.concat(cbSnap(B));
     B = ROBO.circuit = cbNewBoard(false);
+    B.undo = hist.slice(-100);
     if (bat){ const nb = cbAddPart(B, 'battery', 180, 340); nb.props = bat.props; nb.s = bat.s; }   // та сама батарейка
     changed();
   };
