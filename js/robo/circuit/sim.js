@@ -13,8 +13,8 @@
 
    Правка — як у звичних редакторах схем: деталь, кинута на
    дріт, розрізає його й стає в коло; «Вийняти з кола» (чи
-   Alt+перетягнути, Ctrl+X) забирає деталь, а її сусідів
-   з'єднує напряму. Рамка й Shift виділяють кілька деталей;
+   Alt+перетягнути), Ctrl+X і Delete забирають деталь, а її
+   сусідів з'єднують напряму. Рамка й Shift виділяють кілька деталей;
    Ctrl+Z/Ctrl+Shift+Z, Ctrl+C/V/D, Delete, R, стрілки. Кінець
    вибраного дроту можна перетягнути на інший контакт.
 
@@ -569,9 +569,15 @@ function initRoboSim(){
     B.sel = B.sel.filter(id => !ids.includes(id));
     if (ids.includes(B.pop)) B.pop = null;
   }
+  // Прибрати з поля: деталь виходить з кола так само, як при вирізанні, —
+  // її сусіди з'єднуються напряму. Вибраний дріт просто зникає.
+  function discard(ids){
+    for (const id of ids) if (B.parts.some(p => p.id === id)) cbExtract(B, id);
+    removeIds(ids);
+  }
   function removeSel(){
     if (!B.sel.length) return;
-    mark(); removeIds(B.sel.slice()); changed();
+    mark(); discard(B.sel.slice()); changed();
   }
   // відсунути вийняту деталь убік, щоб видно було, що дріт знову суцільний
   function moveAside(p){
@@ -604,12 +610,9 @@ function initRoboSim(){
     closePop(); renderStatic();
   }
   function copySel(){ return cbCopy(B, B.sel); }
-  function cutSel(){                         // вирізати: у буфер, а коло за деталлю з'єднується
+  function cutSel(){                         // вирізати: у буфер і прибрати
     if (!copySel()) return;
-    mark();
-    const ids = B.sel.slice();
-    for (const id of ids) if (B.parts.some(p => p.id === id)) cbExtract(B, id);
-    removeIds(ids); changed();
+    mark(); discard(B.sel.slice()); changed();
   }
   function paste(){
     if (!CB_CLIP) return;
@@ -621,7 +624,7 @@ function initRoboSim(){
   function act(a){
     if (a === 'close') return closePop();
     const id = B.pop || (B.sel.length === 1 ? B.sel[0] : null);
-    if (a === 'del' && id){ mark(); removeIds([id]); return changed(); }
+    if (a === 'del' && id){ mark(); discard([id]); return changed(); }
     const p = B.parts.find(x => x.id === id); if (!p) return;
     const d = CIRC.parts[p.type];
     if (a === 'out') return extract(p);
