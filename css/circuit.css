@@ -67,7 +67,9 @@
 .cb-part{cursor:move}
 .cb-part.press{cursor:pointer}
 .cb-part.press:hover .hit{fill:rgba(77,171,247,.12)}
-.cb-part .selbox{fill:rgba(77,171,247,.08);stroke:#4dabf7;stroke-width:3;stroke-dasharray:8 6}
+/* світіння, дим, хвилі, зарядне — лише картинка: невидимі, вони не мають перехоплювати клацання */
+.cb-part :is(.glow,.glowOut,.smoke,.waves,.blocked,.crack,.bat-heat,.bat-leak,.charger){pointer-events:none}
+.cb-part .selbox{pointer-events:none;fill:rgba(77,171,247,.08);stroke:#4dabf7;stroke-width:3;stroke-dasharray:8 6}
 
 .cb-term{fill:#fff;stroke:var(--accent);stroke-width:3;cursor:crosshair;transition:r .12s}
 .cb-term:hover,.cb-term.hot{r:13px;fill:var(--accent)}
@@ -100,8 +102,12 @@
 
 /* ---- вигляд «Макетка» ---- */
 .cb-view{flex-wrap:nowrap}
-.cb-main.bb{grid-template-columns:1fr}
-.cb-main.bb .cb-pal{display:none}
+#cbHover{pointer-events:none}
+.bb-ring{fill:none;stroke-width:2.5;pointer-events:none}
+.bb-ring.hover{stroke:#4dabf7}
+.bb-ring.ok{stroke:#2f9e44}
+.bb-ring.bad{stroke:#e03131}
+.cb-part.bad{opacity:.5}
 .bb-body{fill:#f4f4f1;stroke:#d6d8dc;stroke-width:2}
 .bb-groove{fill:#e4e6e9}
 .bb-seam{stroke:#e2e4e8;stroke-width:1.5}
@@ -115,6 +121,10 @@
 .bb-num{font-size:9px;fill:#9aa1ab;text-anchor:middle}
 .bb-strip{fill:rgba(250,176,5,.2);stroke:rgba(230,150,0,.55);stroke-width:1.2}
 .bb-jump polyline{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.bb-jump{cursor:pointer}
+.bb-jump .hit{stroke:transparent;stroke-width:14}
+.bb-jump .halo{stroke:transparent;stroke-width:11}
+.bb-jump.sel .halo{stroke:#74c0fc}
 .bb-jump .edge{stroke:rgba(0,0,0,.25);stroke-width:6.5}
 .bb-jump .core{stroke-width:4.5}
 .bb-jump .plug{fill:#adb5bd;stroke:#495057;stroke-width:1}
