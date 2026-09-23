@@ -18,6 +18,10 @@
    Ctrl+Z/Ctrl+Shift+Z, Ctrl+C/V/D, Delete, R, стрілки. Кінець
    вибраного дроту можна перетягнути на інший контакт.
 
+   Вигляд «Макетка» (breadboard.js) показує те саме коло на
+   макетній платі: tf(p) дає місце деталі в поточному вигляді,
+   а провідниками стають смужки, шини й перемички макетки.
+
    Дроти й деталі завжди рівно заповнені електронами. Коли йде
    струм, рушають усі одразу, швидкість у кожній гілці ∝ струму.
    Кімнати батарейки — запас: кожен електрон, що зайшов у «+»,
@@ -257,7 +261,10 @@ function initRoboSim(){
   const palette = Object.keys(CIRC.parts).filter(k => CIRC.parts[k].pal).sort((a, b) => CIRC.parts[a].pal - CIRC.parts[b].pal);
   root.innerHTML = `
     <div class="cb-bar">
-      <span class="cb-hint">Тягни деталі з панелі на поле, а можна <b>просто на дріт</b>: деталь розріже його й стане в коло. З'єднуй дротом: від кружечка до кружечка. <b>Двічі клацни</b> на деталь, щоб змінити її властивості або вийняти з кола.</span>
+      <div class="cb-seg cb-view" role="group" aria-label="Вигляд">
+        <button class="rb" data-view="schem">Схема</button><button class="rb" data-view="bb">Макетка</button>
+      </div>
+      <span class="cb-hint" id="cbHint">Тягни деталі з панелі на поле, а можна <b>просто на дріт</b>: деталь розріже його й стане в коло. З'єднуй дротом: від кружечка до кружечка. <b>Двічі клацни</b> на деталь, щоб змінити її властивості або вийняти з кола.</span>
       <label class="speed">швидкість <input id="cbSpeed" type="range" min="1" max="6" step="1" value="3"></label>
       <span class="cb-hist">
         <button class="sec icon" id="cbUndo" title="Скасувати (Ctrl+Z)" aria-label="Скасувати"><svg viewBox="0 0 24 24"><path d="M9 14 4 9l5-5M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg></button>
@@ -265,7 +272,7 @@ function initRoboSim(){
       </span>
       <button class="sec" id="cbClear">Очистити поле</button>
     </div>
-    <div class="cb-main">
+    <div class="cb-main" id="cbMain">
       <div class="cb-pal" id="cbPal">
         <div class="cb-pal-t">Деталі</div>
         ${palette.map(k => `<button class="cb-item" data-add="${k}">
@@ -276,7 +283,7 @@ function initRoboSim(){
         <svg id="cbSvg" viewBox="0 0 ${CB_W} ${CB_H}" role="img" aria-label="Поле для складання електричного кола">
           <defs><pattern id="cbCell" width="40" height="40" patternUnits="userSpaceOnUse">
             <path d="M40,0 H0 V40" fill="none" stroke="var(--cb-cell)" stroke-width="1.5"/></pattern></defs>
-          <rect x="0" y="0" width="${CB_W}" height="${CB_H}" fill="url(#cbCell)"/>
+          <rect id="cbGrid" x="0" y="0" width="${CB_W}" height="${CB_H}" fill="url(#cbCell)"/>
           <g id="cbWires"></g><g id="cbParts"></g><g id="cbTerms"></g><g id="cbDots"></g><g id="cbLabels"></g>
           <path id="cbRubber" d="" fill="none" stroke="#4dabf7" stroke-width="6" stroke-dasharray="10 8" stroke-linecap="round"/>
           <rect id="cbMarq" class="cb-marq" x="0" y="0" width="0" height="0" rx="6" hidden/>
@@ -297,13 +304,26 @@ function initRoboSim(){
   let dropWire = null;          // дріт, на який деталь стане, якщо зараз її відпустити
   let lastPt = null;            // де вказівник на полі — туди вставляємо скопійоване
   const isSel = id => B.sel.includes(id);
+  let layout = null;            // розкладка кола на макетці (cbBreadboard), лише у вигляді «Макетка»
+  const bbMode = () => ROBO.cbView === 'bb';
+  // де й як стоїть деталь у поточному вигляді: на схемі — як її поставили, на макетці — за розкладкою
+  const tf = p => (bbMode() && layout && layout.place.get(p.id)) || {x:p.x, y:p.y, rot:p.rot, mx:1, k:1};
+  const HINT = {
+    schem: '',                  // підказку схеми беремо з розмітки
+    bb: 'Те саме коло, зібране на макетці. Отвори одного стовпчика з\'єднані металевою смужкою всередині (вона підсвічена), а довгі ряди «+» і «−» — це шини живлення. Змінюй коло на схемі; тут можна натискати вимикач і кнопку, а подвійний клік відкриває властивості деталі.',
+  };
 
   /* ---------- малювання поля ---------- */
   function renderStatic(){
     const byId = new Map(B.parts.map(p => [p.id, p]));
     const obst = floating ? B.parts.filter(p => p !== floating) : B.parts;
     conductors = [];
-    gW.innerHTML = B.wires.map(w => {
+    if (bbMode()){
+      layout = cbBreadboard(B); bbCurrents();
+      svg.setAttribute('viewBox', `0 0 ${BB.W} ${layout.h}`);
+      for (const w of layout.wires) conductors.push({obj:w, poly:cbPoly(w.pts), ends:[w.a.p + ':' + w.a.t, w.b.p + ':' + w.b.t]});
+      gW.innerHTML = bbBoardSvg() + bbCircuitSvg(layout);
+    } else gW.innerHTML = B.wires.map(w => {
       const pts = cbRoute(cbTerm(byId.get(w.a.p), w.a.t), cbTerm(byId.get(w.b.p), w.b.t), obst);
       conductors.push({obj:w, poly:cbPoly(pts), ends:[w.a.p + ':' + w.a.t, w.b.p + ':' + w.b.t]});
       const d = pts.map(q => q.join(',')).join(' ');
@@ -311,29 +331,30 @@ function initRoboSim(){
         <polyline points="${d}" class="hitw"/><polyline points="${d}" class="halo"/><polyline points="${d}" class="core"/></g>`;
     }).join('');
     gP.innerHTML = B.parts.map(p => {
-      const d = CIRC.parts[p.type];
-      const local = q => { const [x, y] = cbRot(p.rot, q[0], q[1]); return [p.x + x, p.y + y]; };
-      if (d.path) conductors.push({obj:p, gap:d.gap, poly:cbPoly(d.path.map(local)), ends:[p.id + ':0', p.id + ':1']});
+      const d = CIRC.parts[p.type], T = tf(p);
+      const local = q => { const [x, y] = cbRot(T.rot, q[0] * T.mx * T.k, q[1] * T.k); return [T.x + x, T.y + y]; };
+      if (d.path) conductors.push({obj:p, gap:d.gap, k:T.k, poly:cbPoly(d.path.map(local)), ends:[p.id + ':0', p.id + ':1']});
       // доріжки всередині батарейки: видно, як електрон виходить із кімнати й заходить у неї
       (d.ramps || []).forEach((r, i) => conductors.push({
         obj:{get rt(){ return p.rt; }, get ph(){ return p.ramp[i]; }, set ph(v){ p.ramp[i] = v; }},
         poly:cbPoly(r.map(local)), ends: i ? [p.id + ':0', null] : [null, p.id + ':1'], ramp:i ? 'in' : 'out', part:p,
       }));
       const cls = 'cb-part' + (d.toggle || d.hold ? ' press' : '') + (isSel(p.id) ? ' sel' : '');
-      return `<g data-part="${p.id}" class="${cls}" transform="translate(${p.x},${p.y}) rotate(${p.rot * 90})">${d.draw(p)}</g>`;
+      const sc = T.k !== 1 || T.mx !== 1 ? ` scale(${T.mx * T.k},${T.k})` : '';
+      return `<g data-part="${p.id}" class="${cls}" transform="translate(${T.x},${T.y}) rotate(${T.rot * 90})${sc}">${d.draw(p)}</g>`;
     }).join('');
     for (const g of gP.querySelectorAll('.cb-part.sel')){              // рамка вибраної деталі
-      const bb = g.getBBox(), r = document.createElementNS(SVGNS, 'rect');
-      r.setAttribute('x', bb.x - 10); r.setAttribute('y', bb.y - 10);
-      r.setAttribute('width', bb.width + 20); r.setAttribute('height', bb.height + 20);
+      const bb = g.getBBox(), r = document.createElementNS(SVGNS, 'rect'), m = bbMode() ? 18 : 10;
+      r.setAttribute('x', bb.x - m); r.setAttribute('y', bb.y - m);
+      r.setAttribute('width', bb.width + 2 * m); r.setAttribute('height', bb.height + 2 * m);
       r.setAttribute('rx', 14); r.setAttribute('class', 'selbox');
       g.insertBefore(r, g.firstChild);
     }
-    gT.innerHTML = B.parts.map(p => [0, 1].map(t => {
+    gT.innerHTML = bbMode() ? '' : B.parts.map(p => [0, 1].map(t => {
       const q = cbTerm(p, t);
       return `<circle data-term="${p.id}:${t}" cx="${q.x}" cy="${q.y}" r="9" class="cb-term"/>`;
     }).join('')).join('') + selWireEnds();
-    lastLabels = ''; lastPop = ''; chainDirty = true;
+    lastLabels = null; lastPop = ''; chainDirty = true;
     renderLabels(); renderPalette(); renderPop(); renderHist();
   }
   // кінці вибраного дроту — ручки: їх можна перетягнути на інший контакт
@@ -377,7 +398,7 @@ function initRoboSim(){
 
   function renderLabels(){
     let html = '';
-    for (const p of B.parts){
+    if (!bbMode()) for (const p of B.parts){
       const odd = p.rot % 2 === 1;
       let k = 0;
       for (const L of CIRC.parts[p.type].labels(p)){
@@ -407,6 +428,7 @@ function initRoboSim(){
     const p = B.parts.find(x => x.id === B.pop), w = !p && B.wires.find(x => x.id === B.pop);
     if (!p && !w){ popEl.hidden = true; lastPop = ''; return; }
     let h;
+    if (w && bbMode()){ popEl.hidden = true; lastPop = ''; return; }
     if (w){
       h = `<div class="cb-pop-h"><b>Дріт</b><button class="x" data-act="close" aria-label="Закрити">✕</button></div>
         <div class="cb-pop-acts"><button class="sec" data-act="del">🗑 Прибрати</button></div>`;
@@ -419,9 +441,11 @@ function initRoboSim(){
           `</div></div>`;
       }
       const acts = (d.actions ? d.actions(p) : []).slice();
-      if (d.rotatable) acts.push({id:'rot', t:'↻ Повернути'});
-      if (cbInCircuit(B, p.id)) acts.push({id:'out', t:'✂ Вийняти з кола'});
-      acts.push({id:'del', t:'🗑 Прибрати'});
+      if (!bbMode()){                                  // на макетці коло лише дивляться, правлять на схемі
+        if (d.rotatable) acts.push({id:'rot', t:'↻ Повернути'});
+        if (cbInCircuit(B, p.id)) acts.push({id:'out', t:'✂ Вийняти з кола'});
+        acts.push({id:'del', t:'🗑 Прибрати'});
+      }
       h += `<div class="cb-pop-acts">${acts.map(a => `<button class="${a.id === 'fix' || a.id === 'charge' ? 'warn' : 'sec'}" data-act="${a.id}">${a.t}</button>`).join('')}</div>`;
     }
     if (h !== lastPop){ popEl.innerHTML = h; lastPop = h; }
@@ -472,6 +496,15 @@ function initRoboSim(){
       }
     }
     for (const w of B.wires) w.rt.I = r.I[w.id] || 0;
+    bbCurrents();
+    chainDirty = true;
+  }
+  // На макетці ті самі деталі з'єднані смужками, шинами й перемичками: рахуємо
+  // струм у кожному з цих провідників, щоб електрони бігли саме ними.
+  function bbCurrents(){
+    if (!bbMode() || !layout || !B.parts.length) return;
+    const r = solveCircuit({parts:B.parts, wires:layout.wires});
+    for (const w of layout.wires) w.rt.I = r.I[w.id] || 0;
     chainDirty = true;
   }
 
@@ -720,7 +753,7 @@ function initRoboSim(){
     if (e.button > 0) return;
     const [x, y] = svgPt(e);
     const pEl = e.target.closest('[data-part]'), wEl = e.target.closest('[data-wire]');
-    const near = termAt(x, y);
+    const near = bbMode() ? null : termAt(x, y);
 
     if (pending){                                             // другий клік режиму «клік — клік»
       if (near && !(near.p === pending.p && near.t === pending.t)){ mark(); if (!cbAddWire(B, pending, near)) B.undo.pop(); }
@@ -740,7 +773,7 @@ function initRoboSim(){
     }
     if (pEl){
       const p = B.parts.find(q => q.id === pEl.dataset.part), d = CIRC.parts[p.type];
-      if (e.shiftKey){                                        // Shift — додати до вибраного чи прибрати з нього
+      if (e.shiftKey && !bbMode()){                           // Shift — додати до вибраного чи прибрати з нього
         closePop();
         B.sel = isSel(p.id) ? B.sel.filter(id => id !== p.id) : B.sel.concat(p.id);
         renderStatic(); return;
@@ -757,6 +790,7 @@ function initRoboSim(){
       drag = {kind:'move', p, group, start:group.map(q => [q.x, q.y]), dx:x - p.x, dy:y - p.y, x0:x, y0:y, moved:false, alt:e.altKey};
       startTrack(); return;
     }
+    if (bbMode()){ closePop(); if (B.sel.length){ B.sel = []; renderStatic(); } return; }
     if (wEl){
       const id = wEl.dataset.wire;
       closePop();
@@ -780,7 +814,7 @@ function initRoboSim(){
     lastPt = [x, y];
     if (drag) return;
     if (pending){ showRubber(pending, x, y); markHover(termAt(x, y, pending)); return; }
-    markHover(termAt(x, y));
+    if (!bbMode()) markHover(termAt(x, y));
   });
   svg.addEventListener('pointerleave', () => { if (!drag) lastPt = null; });
 
@@ -812,6 +846,7 @@ function initRoboSim(){
       const from = drag.kind === 'wire' ? drag.from : drag.fixed;
       showRubber(from, x, y); markHover(termAt(x, y, from));
     } else if (drag.kind === 'move'){
+      if (bbMode()) return;                                   // на макетці деталі стоять там, куди їх поклала розкладка
       if (!drag.moved && far(drag, x, y)){
         drag.moved = true; closePop(); lastDown = {id:null, t:-1};     // перетягування — не половина подвійного кліку
         if (drag.p.s.pressed){ drag.p.s.pressed = false; changed(); }   // кнопку потягли — це не натискання
@@ -908,6 +943,7 @@ function initRoboSim(){
     if (e.target.closest && e.target.closest('input,textarea,[contenteditable]')) return;
     if (drag) return;
     const mod = e.ctrlKey || e.metaKey, c = e.code;          // e.code: однаково на українській і англійській розкладці
+    if (bbMode() && !(mod && (c === 'KeyZ' || c === 'KeyY')) && e.key !== 'Escape') return;   // на макетці — лише скасування
     if (mod){
       const fn = {KeyZ:e.shiftKey ? redo : undo, KeyY:redo, KeyC:copySel, KeyX:cutSel, KeyV:paste,
         KeyD:() => { if (copySel()){ CB_CLIP.n = 0; lastPt = null; paste(); } },
@@ -929,6 +965,21 @@ function initRoboSim(){
     else if (arrows){ e.preventDefault(); nudge(arrows[0], arrows[1]); }
   }
   document.addEventListener('keydown', onKey);
+
+  // Вигляд: схема чи макетка. Коло одне й те саме, тож перемикання нічого в ньому не міняє.
+  function setView(v){
+    ROBO.cbView = v;
+    const bb = v === 'bb';
+    for (const b of root.querySelectorAll('[data-view]')) b.classList.toggle('on', b.dataset.view === v);
+    $('cbMain').classList.toggle('bb', bb);
+    $('cbGrid').style.display = bb ? 'none' : '';
+    $('cbHint').innerHTML = HINT[v];
+    if (!bb){ layout = null; svg.setAttribute('viewBox', `0 0 ${CB_W} ${CB_H}`); }
+    pending = null; rubber.setAttribute('d', ''); B.pop = null;
+    resolve(); renderStatic(); say();
+  }
+  HINT.schem = $('cbHint').innerHTML;
+  for (const b of root.querySelectorAll('[data-view]')) b.onclick = () => { if (ROBO.cbView !== b.dataset.view) setView(b.dataset.view); };
 
   $('cbUndo').onclick = undo;
   $('cbRedo').onclick = redo;
@@ -967,7 +1018,9 @@ function initRoboSim(){
   function frame(ts){
     if (gen !== ROBO.simGen || !root.isConnected){ cbSound([]); return; }   // сторінку перемальовано чи покинуто
     const dt = last ? Math.min(0.064, (ts - last) / 1000) : 0; last = ts; clock += dt;
-    const base = Number(speedEl.value) * 34;    // одиниць за секунду — темп, за яким око встигає
+    const bb = bbMode(), sc = bb ? BB.K : 1;   // на макетці все дрібніше: і крок, і швидкість, і електрони
+    const base = Number(speedEl.value) * 34 * sc;    // одиниць за секунду — темп, за яким око встигає
+    const SP = CIRC.SPACING * sc, er = 7 * sc;
 
     // тепло, розряд, зарядка — кожна деталь сама знає свої
     let need = false;
@@ -982,21 +1035,22 @@ function initRoboSim(){
     for (const c of conductors){
       const len = c.poly.len, dist = circFlow(c.obj.rt.I) * base * dt;
       if (!still) c.obj.ph += dist;                        // фаза — пройдений шлях від входу в провідник
-      if (c.ramp === 'out' && CIRC.parts[c.part.type].drain(c.part, dist)) need = true;  // купка тане рівно за потоком
-      const gap = c.gap && c.gap(c.obj);
-      const ph = ((c.obj.ph % CIRC.SPACING) + CIRC.SPACING) % CIRC.SPACING;
-      for (let d = ph; d < len - 0.5; d += CIRC.SPACING){   // кінцева точка дістанеться сусідові
+      if (c.ramp === 'out' && CIRC.parts[c.part.type].drain(c.part, dist / sc)) need = true;  // купка тане рівно за потоком
+      const g = c.gap && c.gap(c.obj), gap = g && [g[0] * c.k, g[1] * c.k];
+      const ph = ((c.obj.ph % SP) + SP) % SP;
+      for (let d = ph; d < len - 0.5; d += SP){   // кінцева точка дістанеться сусідові
         const s = c.entry === 0 ? d : len - d;
         if (gap && s > gap[0] && s < gap[1]) continue;
-        const [x, y] = cbAt(c.poly, s); put(n++, x, y);
+        const [x, y] = cbAt(c.poly, s); put(n++, x, y, er);
       }
     }
     // кімнати батарейки: запас, який тане
     for (const p of B.parts){
       const d = CIRC.parts[p.type]; if (!d.rooms) continue;
+      const T = tf(p);
       for (let i = 0; i < d.cap(p); i++){
         const room = i < p.s.m ? 'minus' : 'plus', q = d.slot(room, room === 'minus' ? i : i - p.s.m);
-        put(n++, p.x + q.x, p.y + q.y, d.slotR);
+        put(n++, T.x + q.x * T.k, T.y + q.y * T.k, d.slotR * T.k);
       }
     }
     if (need){ resolve(); renderStatic(); }            // щось згоріло чи сіло: деталь виглядає інакше
@@ -1013,6 +1067,6 @@ function initRoboSim(){
     requestAnimationFrame(frame);
   }
 
-  changed();
+  setView(ROBO.cbView || 'schem');
   requestAnimationFrame(frame);
 }

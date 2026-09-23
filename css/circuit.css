@@ -98,6 +98,27 @@
 #circuit .cb-pop button{min-height:36px;padding:6px 11px;font-size:14px}
 .cb-pop-acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
 
+/* ---- вигляд «Макетка» ---- */
+.cb-view{flex-wrap:nowrap}
+.cb-main.bb{grid-template-columns:1fr}
+.cb-main.bb .cb-pal{display:none}
+.bb-body{fill:#f4f4f1;stroke:#d6d8dc;stroke-width:2}
+.bb-groove{fill:#e4e6e9}
+.bb-seam{stroke:#e2e4e8;stroke-width:1.5}
+.bb-line{stroke-width:2}
+.bb-line.plus{stroke:#f06595}
+.bb-line.minus{stroke:#4dabf7}
+.bb-sign{font-size:16px;font-weight:700;text-anchor:middle}
+.bb-sign.plus{fill:#f06595}
+.bb-sign.minus{fill:#4dabf7}
+.bb-holes rect{fill:#5c636d}
+.bb-num{font-size:9px;fill:#9aa1ab;text-anchor:middle}
+.bb-strip{fill:rgba(250,176,5,.2);stroke:rgba(230,150,0,.55);stroke-width:1.2}
+.bb-jump polyline{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.bb-jump .edge{stroke:rgba(0,0,0,.25);stroke-width:6.5}
+.bb-jump .core{stroke-width:4.5}
+.bb-jump .plug{fill:#adb5bd;stroke:#495057;stroke-width:1}
+
 /* ---- повідомлення ---- */
 #circuit .msg{
   margin:8px 0 0;padding:12px 14px;border-radius:12px;background:var(--panel);border:1px solid var(--line);
