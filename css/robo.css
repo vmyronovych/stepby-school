@@ -1,8 +1,8 @@
 /* =========================================================
    МАТЕРІАЛИ ГУРТКА РОБОТОТЕХНІКИ
    Оформлення документів: зміст ліворуч, текст праворуч,
-   схеми, таблиці КТП, картки правил, азбука Морзе,
-   демонстрація електричного кола.
+   схеми, таблиці КТП, картки правил, азбука Морзе.
+   Конструктор кола має власний файл css/circuit.css.
 
    Токени артефакту (--accent, --panel…) відображені на
    токени порталу, щоб матеріали виглядали частиною сайту.
@@ -110,44 +110,6 @@
 .robo-body table.morse th.ltr{background:var(--primary-l);text-align:center;width:42px;font-size:19px;padding:6px 4px}
 .robo-body table.morse td.code{font-family:var(--mono);font-size:19px;letter-spacing:2px;white-space:nowrap;padding:6px 10px}
 .robo-body table.morse th:empty,.robo-body table.morse td:empty{border:none;background:none}
-
-/* =========================================================
-   ДЕМОНСТРАЦІЯ ЕЛЕКТРИЧНОГО КОЛА
-   Власні токени: SVG написаний під них.
-   ========================================================= */
-#sim{
-  --panel:var(--card); --wire:#3f444d; --accent:var(--primary); --gold:#f6a609;
-  max-width:1000px;margin:0 auto;
-}
-#sim .stage{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:8px;box-shadow:var(--shadow)}
-#sim svg{display:block;width:100%;height:auto;max-width:100%}
-#sim .bar{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 6px;align-items:center}
-#sim button{
-  font:inherit;font-weight:600;cursor:pointer;border:2px solid transparent;border-radius:11px;
-  padding:10px 16px;background:var(--accent);color:#fff;min-height:44px;
-}
-#sim button.sec{background:var(--panel);color:var(--ink);border-color:var(--line)}
-#sim button.warn{background:var(--gold);color:#3d2a00}
-#sim button:disabled{opacity:.45;cursor:default}
-#sim button:active{transform:translateY(1px)}
-#sim #gSw.clickable{cursor:pointer}
-#sim #gSw.clickable:hover #swArm{stroke:#4dabf7}
-#sim #gSw.clickable:hover #swHit{fill:rgba(77,171,247,.12)}
-#sim .seg{margin-top:2px}
-#sim .segLab{color:var(--muted);font-size:15px;margin-right:2px}
-#sim button.rb{background:var(--panel);color:var(--ink);border-color:var(--line)}
-#sim button.rb.on{background:var(--accent);color:#fff;border-color:var(--accent)}
-#sim button.rb.danger{border-color:#e03131;color:#e03131}
-#sim button.rb.danger.on{background:#e03131;color:#fff;border-color:#e03131}
-#sim .speed{display:flex;align-items:center;gap:8px;margin-left:auto;color:var(--muted);font-size:15px}
-#sim input[type=range]{width:130px}
-#sim .msg{
-  margin:10px 0 0;padding:12px 14px;border-radius:12px;background:var(--panel);border:1px solid var(--line);
-  font-size:16px;min-height:56px;display:flex;align-items:center;
-}
-#sim details{margin-top:14px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
-#sim summary{cursor:pointer;font-weight:700}
-#sim details p{color:var(--muted);line-height:1.5}
 
 /* ===== друк ===== */
 @media print{
