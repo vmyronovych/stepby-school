@@ -121,7 +121,7 @@
 .bb-num{font-size:9px;fill:#9aa1ab;text-anchor:middle}
 .bb-strip{fill:rgba(250,176,5,.2);stroke:rgba(230,150,0,.55);stroke-width:1.2}
 .bb-jump polyline{fill:none;stroke-linecap:round;stroke-linejoin:round}
-.bb-jump{cursor:pointer}
+.bb-jump{cursor:grab}
 .bb-jump .hit{stroke:transparent;stroke-width:14}
 .bb-jump .halo{stroke:transparent;stroke-width:11}
 .bb-jump.sel .halo{stroke:#74c0fc}

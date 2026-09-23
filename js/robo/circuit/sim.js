@@ -322,7 +322,7 @@ function initRoboSim(){
     const obst = floating ? B.parts.filter(p => p !== floating) : B.parts;
     conductors = [];
     if (bbMode()){
-      if (!bbCarrying()) cbBoardFromSchem(B);                // поки деталь у руці, розкладку не лагодимо
+      if (!bbCarrying() && !bbWiring()) cbBoardFromSchem(B); // поки деталь чи дріт у руці, розкладку не лагодимо
       layout = cbBreadboard(B); bbCurrents();
       svg.setAttribute('viewBox', `0 0 ${BB.W} ${layout.h}`);
       for (const w of layout.wires) conductors.push({obj:w, poly:cbPoly(w.pts), ends:[w.a.p + ':' + w.a.t, w.b.p + ':' + w.b.t]});
@@ -683,6 +683,8 @@ function initRoboSim(){
   // Правка на макетці міняє лише B.bb, а схема підлаштовується до неї (bbCommit).
   const BB_ROWS_Y = Object.keys(BB.ROW).sort((a, b) => BB.ROW[a] - BB.ROW[b]);
   const bbCarrying = () => !!(drag && drag.moved && drag.p && (drag.kind === 'bbpart' || (drag.kind === 'palette' && drag.bb)));
+  const bbWiring = () => !!(drag && drag.moved && (drag.kind === 'bbjmove' || drag.kind === 'bbjend'));   // дріт у руці
+  const bbRowOf = y => BB_ROWS_Y.reduce((m, k) => Math.abs(BB.ROW[k] - y) < Math.abs(BB.ROW[m] - y) ? k : m);
   function bbHoleAt(x, y){
     const c = Math.round((x - BB.X0) / BB.P) + 1, r = BB_ROWS_Y.find(k => Math.abs(BB.ROW[k] - y) <= 8);
     const h = r && Math.abs(bbX(c) - x) <= 8 ? {c, r} : null;
@@ -694,8 +696,7 @@ function initRoboSim(){
   // деталь у руці: ліва ніжка — в отвір, найближчий до вказівника
   function bbAim(x, y){
     const pl0 = B.bb.place[drag.p.id] || drag.pl0 || {flip:false};
-    const r = BB_ROWS_Y.reduce((m, k) => Math.abs(BB.ROW[k] - y) < Math.abs(BB.ROW[m] - y) ? k : m);
-    const pl = {c:clamp(Math.round((x - BB.X0) / BB.P) + 1, 1, BB.COLS - 4), r, flip:pl0.flip};
+    const pl = {c:clamp(Math.round((x - BB.X0) / BB.P) + 1, 1, BB.COLS - 4), r:bbRowOf(y), flip:pl0.flip};
     B.bb.place[drag.p.id] = pl;
     drag.ok = bbFits(pl, drag.p.id);
     renderStatic(); say();
@@ -703,7 +704,9 @@ function initRoboSim(){
   // кільця там, куди стануть ніжки деталі в руці, і під вказівником
   function bbMarks(){
     let h = '<circle id="bbHover" r="7" class="bb-ring hover" cx="-99" cy="-99"/>';
-    if (bbCarrying()) for (const q of bbLegs(B.bb.place[drag.p.id])){
+    const at = bbCarrying() ? bbLegs(B.bb.place[drag.p.id]) : bbWiring() ? [drag.j.a, drag.j.b] : [];
+    for (const q of at){
+      if (!(q.r in BB.ROW)) continue;
       const [x, y] = bbPt(q);
       h += `<circle cx="${x}" cy="${y}" r="7" class="bb-ring ${drag.ok ? 'ok' : 'bad'}"/>`;
     }
@@ -747,11 +750,15 @@ function initRoboSim(){
   }
   function bbDown(e, x, y, pEl){
     const hole = bbHoleAt(x, y), jEl = e.target.closest('[data-jump]');
-    const jSel = hole && B.sel.length === 1 && B.bb.jumps.find(j => j.id === B.sel[0]);
-    const end = jSel && ['a', 'b'].find(k => bbKey(jSel[k]) === bbKey(hole));
-    if (end){                                                 // кінець вибраної перемички — переставляємо
+    const jAt = hole && B.bb.jumps.find(j => bbKey(j.a) === bbKey(hole) || bbKey(j.b) === bbKey(hole));
+    const jHit = jAt || (jEl && B.bb.jumps.find(j => j.id === jEl.dataset.jump));
+    if (jHit){                                                // дріт: за кінець — переставити кінець, за середину — увесь
       closePop();
-      drag = {kind:'bbjend', j:jSel, end, fixed:jSel[end === 'a' ? 'b' : 'a'], x0:x, y0:y, moved:false};
+      if (secondClick(jHit.id)){ openPop(jHit.id); return; }
+      if (!isSel(jHit.id)){ B.sel = [jHit.id]; renderStatic(); }
+      const end = jAt && (bbKey(jAt.a) === bbKey(hole) ? 'a' : 'b');
+      drag = {kind:end ? 'bbjend' : 'bbjmove', j:jHit, end, a0:Object.assign({}, jHit.a), b0:Object.assign({}, jHit.b), pts0:jHit.pts,
+        x0:x, y0:y, moved:false, ok:true};
       startTrack(); return;
     }
     if (pEl){
@@ -768,12 +775,6 @@ function initRoboSim(){
       drag = {kind:'bbpart', p, pl0:B.bb.place[p.id] ? Object.assign({}, B.bb.place[p.id]) : null, fixed:p.type === 'battery',
         dx:x - (T.x - 2 * BB.P), dy:y - T.y, x0:x, y0:y, moved:false, ok:true};
       startTrack(); return;
-    }
-    if (jEl){
-      const id = jEl.dataset.jump;
-      closePop();
-      if (secondClick(id)){ openPop(id); return; }
-      B.sel = [id]; renderStatic(); return;
     }
     closePop();
     if (hole && bbFree(hole)){                                // з вільного отвору тягнемо перемичку
@@ -971,11 +972,28 @@ function initRoboSim(){
         mark();
       }
       if (drag.moved) bbAim(x - drag.dx, y - drag.dy);
-    } else if (drag.kind === 'bbjump' || drag.kind === 'bbjend'){
+    } else if (drag.kind === 'bbjump'){
       if (far(drag, x, y)) drag.moved = true;
       if (!drag.moved) return;
-      bbRubber(drag.kind === 'bbjump' ? drag.from : drag.fixed, x, y);
-      const h = bbHoleAt(x, y); bbHover(h && bbFree(h, drag.j && drag.j.id) ? h : null);
+      bbRubber(drag.from, x, y);
+      const h = bbHoleAt(x, y); bbHover(h && bbFree(h) ? h : null);
+    } else if (drag.kind === 'bbjend' || drag.kind === 'bbjmove'){
+      if (!drag.moved && far(drag, x, y)){ drag.moved = true; lastDown = {id:null, t:-1}; mark(); }
+      if (!drag.moved) return;
+      const j = drag.j, col = v => Math.round((v - BB.X0) / BB.P) + 1;
+      if (drag.kind === 'bbjend'){                            // кінець іде за вказівником, з отвору в отвір
+        j[drag.end] = {c:col(x), r:bbRowOf(y)};
+      } else {                                                // увесь дріт: обидва кінці на той самий зсув
+        const dc = col(x) - col(drag.x0), dr = BB_ROWS_Y.indexOf(bbRowOf(y)) - BB_ROWS_Y.indexOf(bbRowOf(drag.y0));
+        const shift = h => ({c:h.c + dc, r:BB_ROWS_Y[BB_ROWS_Y.indexOf(h.r) + dr]});
+        const na = shift(drag.a0), nb = shift(drag.b0);
+        if (!na.r || !nb.r) return;                           // за верхній чи нижній край — далі не йде
+        j.a = na; j.b = nb;
+      }
+      j.pts = null;
+      drag.ok = bbKey(j.a) !== bbKey(j.b) && bbFree(j.a, j.id) && bbFree(j.b, j.id);
+      if (drag.ok && drag.pts0) j.pts = bbRoute(B, j.a, j.b);   // дріт, що клала розкладка, лишається «скобою»
+      bbHover(null); renderStatic(); say();
     } else if (drag.kind === 'move'){
       if (!drag.moved && far(drag, x, y)){
         drag.moved = true; closePop(); lastDown = {id:null, t:-1};     // перетягування — не половина подвійного кліку
@@ -1065,14 +1083,19 @@ function initRoboSim(){
       if (d.pl0) B.bb.place[d.p.id] = d.pl0; else delete B.bb.place[d.p.id];   // сюди не стане — повертаємо
       B.undo.pop(); changed();
       note = {t:'Сюди деталь не стане: отвір уже зайнятий або ніжка виходить за край плати.', until:clock + 3};
-    } else if (d.kind === 'bbjump' || d.kind === 'bbjend'){
+    } else if (d.kind === 'bbjump'){
       rubber.setAttribute('d', ''); bbHover(null);
-      const to = d.moved && bbHoleAt(x, y), other = d.kind === 'bbjump' ? d.from : d.fixed;
-      if (!to || bbKey(to) === bbKey(other) || !bbFree(to, d.j && d.j.id)) return renderStatic();
+      const to = d.moved && bbHoleAt(x, y);
+      if (!to || bbKey(to) === bbKey(d.from) || !bbFree(to)) return renderStatic();
       mark();
-      if (d.kind === 'bbjump') B.bb.jumps.push({id:'j' + B.next++, a:d.from, b:to, color:BB_JUMP[B.bb.jumps.length % BB_JUMP.length]});
-      else { d.j[d.end] = to; d.j.pts = null; }
+      B.bb.jumps.push({id:'j' + B.next++, a:d.from, b:to, color:BB_JUMP[B.bb.jumps.length % BB_JUMP.length]});
       bbCommit();
+    } else if (d.kind === 'bbjend' || d.kind === 'bbjmove'){
+      if (!d.moved) return;
+      if (d.ok) return bbCommit();
+      Object.assign(d.j, {a:d.a0, b:d.b0, pts:d.pts0});          // на зайняте чи за край — дріт повертається
+      B.undo.pop(); changed();
+      note = {t:'Сюди дріт не стане: отвір уже зайнятий або кінець виходить за край плати.', until:clock + 3};
     } else if (d.kind === 'move'){
       const def = CIRC.parts[d.p.type];
       if (def.hold) d.p.s.pressed = false;
