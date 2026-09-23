@@ -1,0 +1,102 @@
+/* =========================================================
+   КОНСТРУКТОР ЕЛЕКТРИЧНОГО КОЛА
+   Власні токени: SVG деталей написаний під них.
+   Панель деталей ліворуч вузька — поле є героєм сторінки.
+   ========================================================= */
+#circuit{
+  --panel:var(--card); --wire:#3f444d; --accent:var(--primary); --gold:#f6a609; --cb-cell:#e3ebfb;
+  max-width:1240px; margin:0 auto; user-select:none; -webkit-user-select:none;
+}
+#circuit button{
+  font:inherit;font-weight:600;cursor:pointer;border:2px solid transparent;border-radius:11px;
+  padding:9px 15px;background:var(--accent);color:#fff;min-height:42px;
+}
+#circuit button.sec{background:var(--panel);color:var(--ink);border-color:var(--line)}
+#circuit button.warn{background:var(--gold);color:#3d2a00}
+#circuit button:disabled{opacity:.45;cursor:default}
+#circuit button:active{transform:translateY(1px)}
+#circuit button.rb{background:var(--panel);color:var(--ink);border-color:var(--line)}
+#circuit button.rb.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* ---- верхня смуга: підказка, швидкість, очистити ---- */
+.cb-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:0 0 10px}
+.cb-hint{flex:1;min-width:260px;color:var(--muted);font-size:15px;line-height:1.4}
+.cb-hint b{color:var(--ink)}
+.cb-bar .speed{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:15px}
+.cb-bar input[type=range]{width:120px;padding:0;border:none}
+
+/* ---- панель деталей + поле ---- */
+.cb-main{display:grid;grid-template-columns:128px 1fr;gap:10px;align-items:start}
+.cb-pal{
+  background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:8px;box-shadow:var(--shadow);
+  display:flex;flex-direction:column;gap:6px;
+}
+.cb-pal-t{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);text-align:center}
+#circuit button.cb-item{
+  background:var(--panel);color:var(--ink);border:1.5px solid var(--line);padding:4px;min-height:0;
+  display:flex;flex-direction:column;align-items:center;gap:0;cursor:grab;touch-action:none;
+}
+#circuit button.cb-item:hover:not(:disabled){border-color:var(--accent);background:var(--primary-l)}
+.cb-item svg{width:100%;height:58px;display:block;pointer-events:none}
+.cb-item span{font-size:13px;pointer-events:none}
+@media(max-width:760px){
+  .cb-main{grid-template-columns:1fr}
+  .cb-pal{flex-direction:row;flex-wrap:wrap}
+  #circuit button.cb-item{width:92px}
+  .cb-pal-t{width:100%}
+}
+
+.cb-stage{position:relative;background:#fff;border:1px solid var(--line);border-radius:16px;padding:6px;box-shadow:var(--shadow);min-width:0}
+.cb-stage svg{display:block;width:100%;height:auto;touch-action:none}
+
+/* ---- деталі, дроти, контакти ---- */
+.cb-wire polyline{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.cb-wire .core{stroke:var(--wire);stroke-width:12}
+.cb-wire .halo{stroke:transparent;stroke-width:22}
+.cb-wire .hitw{stroke:transparent;stroke-width:28;cursor:pointer}
+.cb-wire.sel .halo{stroke:#74c0fc}
+.cb-part{cursor:move}
+.cb-part.press{cursor:pointer}
+.cb-part.press:hover .hit{fill:rgba(77,171,247,.12)}
+.cb-part .selbox{fill:rgba(77,171,247,.08);stroke:#4dabf7;stroke-width:3;stroke-dasharray:8 6}
+
+.cb-term{fill:#fff;stroke:var(--accent);stroke-width:3;cursor:crosshair;transition:r .12s}
+.cb-term:hover,.cb-term.hot{r:13px;fill:var(--accent)}
+
+.el{fill:#4dabf7;stroke:#1864ab;stroke-width:2;pointer-events:none}
+.elm{fill:#0b3d66;pointer-events:none}
+#cbDots,#cbLabels,#cbRubber{pointer-events:none}
+
+.cb-lab{font-size:17px;fill:var(--muted)}
+.cb-lab.strong{font-weight:700;font-size:18px}
+.cb-lab.word{font-weight:700;fill:#e03131}
+.cb-lab.pol{font-weight:700;font-size:20px}
+.cb-lab.pol.plus{fill:#ff8787}
+.cb-lab.pol.minus{fill:#74c0fc}
+
+/* ---- контекстне вікно властивостей (подвійний клік) ---- */
+.cb-pop{
+  position:absolute;z-index:5;width:max-content;max-width:min(360px,calc(100% - 12px));
+  background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px 12px;
+  box-shadow:0 12px 36px rgba(30,30,80,.22);
+}
+.cb-pop[hidden]{display:none}
+.cb-pop-h{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px;font-size:17px}
+#circuit .cb-pop button.x{background:none;color:var(--muted);min-height:0;padding:2px 8px;font-size:16px}
+.cb-pop-row{margin:8px 0}
+.cb-pop-row>span{display:block;font-size:13px;font-weight:700;color:var(--muted);margin-bottom:4px}
+.cb-seg{display:flex;flex-wrap:wrap;gap:5px}
+#circuit .cb-pop button{min-height:36px;padding:6px 11px;font-size:14px}
+.cb-pop-acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
+
+/* ---- повідомлення ---- */
+#circuit .msg{
+  margin:8px 0 0;padding:12px 14px;border-radius:12px;background:var(--panel);border:1px solid var(--line);
+  font-size:16px;min-height:56px;display:flex;align-items:center;
+}
+
+.cb-teacher{margin-top:14px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.cb-teacher summary{cursor:pointer;font-weight:700}
+.cb-teacher p{color:var(--muted);line-height:1.5}
+
+@media (prefers-reduced-motion: reduce){ .cb-term{transition:none} }
