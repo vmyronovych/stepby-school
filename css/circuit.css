@@ -24,6 +24,9 @@
 .cb-hint b{color:var(--ink)}
 .cb-bar .speed{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:15px}
 .cb-bar input[type=range]{width:120px;padding:0;border:none}
+.cb-hist{display:flex;gap:4px}
+#circuit button.icon{padding:6px 10px;display:grid;place-items:center}
+#circuit button.icon svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 
 /* ---- панель деталей + поле ---- */
 .cb-main{display:grid;grid-template-columns:128px 1fr;gap:10px;align-items:start}
@@ -54,7 +57,13 @@
 .cb-wire .core{stroke:var(--wire);stroke-width:12}
 .cb-wire .halo{stroke:transparent;stroke-width:22}
 .cb-wire .hitw{stroke:transparent;stroke-width:28;cursor:pointer}
+.cb-wire:hover .halo{stroke:rgba(116,192,252,.35)}
 .cb-wire.sel .halo{stroke:#74c0fc}
+.cb-wire.drop .halo{stroke:#8ce99a}
+.cb-wire.drop .core{stroke:#2f9e44}
+.cb-wend{fill:#4dabf7;stroke:#fff;stroke-width:3;pointer-events:none}
+.cb-marq[hidden]{display:none}
+.cb-marq{fill:rgba(77,171,247,.08);stroke:#4dabf7;stroke-width:2;stroke-dasharray:8 6;pointer-events:none}
 .cb-part{cursor:move}
 .cb-part.press{cursor:pointer}
 .cb-part.press:hover .hit{fill:rgba(77,171,247,.12)}
