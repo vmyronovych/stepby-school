@@ -1,0 +1,72 @@
+/* =========================================================
+   ІНФОРМАТИКА — схема «Клавіатура на проєктор»
+   (перенесено зі старого сайту уроків; спільне — у projector.css)
+   ========================================================= */
+.kbx{
+  --kb-let:#D3E2F8; --kb-let-l:#4F7FC8; --kb-num:#D2EDD9; --kb-num-l:#3F9A5A;
+  --kb-fn:#E6D8F5; --kb-fn-l:#8A5FC0; --kb-ctl:#F8DFC0; --kb-ctl-l:#CC7F2A;
+  --kb-nav:#F7D3DA; --kb-nav-l:#C9586B; --kb-ua:#B03A2E; --kb-led:#2FB35A;
+}
+.kbx .g-let{--kg:var(--kb-let);--kg-line:var(--kb-let-l)}
+.kbx .g-num{--kg:var(--kb-num);--kg-line:var(--kb-num-l)}
+.kbx .g-fn{--kg:var(--kb-fn);--kg-line:var(--kb-fn-l)}
+.kbx .g-ctl{--kg:var(--kb-ctl);--kg-line:var(--kb-ctl-l)}
+.kbx .g-nav{--kg:var(--kb-nav);--kg-line:var(--kb-nav-l)}
+.kbx .g-oth{--kg:var(--surface-2);--kg-line:var(--line-strong)}
+.kbx .kb-lang{font-family:var(--f-ui);font-size:clamp(16px,1.8vw,22px);font-weight:600;color:var(--ink-2);padding:5px 12px;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+.kbx .kb-lang b{color:var(--ink);font-weight:800}
+.kbx .kb-scroll{flex:none;overflow-x:auto;padding:4px 0}
+.kbx .kb{position:relative;container-type:inline-size;width:min(100%,calc((100dvh - 500px) * 3.54));min-width:680px;aspect-ratio:23/6.5;margin:0 auto}
+.kbx .key{
+  --u:calc(100cqw / 23);
+  position:absolute;left:calc(var(--u) * var(--x));top:calc(var(--u) * var(--y));
+  width:calc(var(--u) * var(--w) - var(--u) * .1);height:calc(var(--u) * var(--h) - var(--u) * .1);
+  padding:0;border-radius:calc(var(--u) * .12);border:1.5px solid var(--kg-line);border-bottom-width:calc(var(--u) * .07);
+  background:var(--kg);color:var(--ink);font-family:var(--f-ui);line-height:1;
+  transition:opacity .15s ease, transform .06s ease, background-color .06s ease;
+}
+.kbx .key span{position:absolute;white-space:nowrap}
+.kbx .key .en,.kbx .key .un{left:13%;font-size:calc(var(--u) * .36);font-weight:700}
+.kbx .key .en{top:9%}
+.kbx .key .un{bottom:10%}
+.kbx .key .sh{left:13%;top:8%;font-size:calc(var(--u) * .26);font-weight:600;color:var(--ink-2)}
+.kbx .key .ua{right:13%;bottom:10%;font-size:calc(var(--u) * .36);font-weight:700;color:var(--kb-ua)}
+.kbx .key .nm{left:10%;top:11%;font-size:calc(var(--u) * .23);font-weight:600;white-space:normal;text-align:left;right:6%}
+.kbx .key .nm.big{inset:0;display:flex;align-items:center;justify-content:center;font-size:calc(var(--u) * .36);font-weight:700;text-align:center}
+.kbx .key .nm.ctr{inset:0;display:flex;align-items:center;justify-content:center;text-align:center}
+.kbx .kb.focus .key:not(.on):not(.down){opacity:.18}
+.kbx .kb.focus .key.on{box-shadow:0 0 0 calc(var(--u) * .05) var(--kg-line)}
+.kbx .key.sel{outline:calc(var(--u) * .05) solid var(--ink);outline-offset:calc(var(--u) * .03)}
+.kbx .key.down{background:var(--ink);color:var(--bg);border-color:var(--ink);transform:translateY(calc(var(--u) * .04))}
+.kbx .key.down .ua,.kbx .key.down .sh{color:inherit}
+.kbx .kb-leds{
+  --u:calc(100cqw / 23);
+  position:absolute;left:calc(var(--u) * 19);top:0;width:calc(var(--u) * 3.9);height:calc(var(--u) * .9);
+  display:flex;flex-direction:column;justify-content:center;gap:calc(var(--u) * .1);
+  font-family:var(--f-ui);font-size:calc(var(--u) * .2);font-weight:600;color:var(--ink-3);
+}
+.kbx .led{display:flex;align-items:center;gap:.5em}
+.kbx .led i{width:.9em;height:.9em;border-radius:50%;background:var(--surface-3);border:1px solid var(--line-strong)}
+.kbx .led.on{color:var(--ink)}
+.kbx .led.on i{background:var(--kb-led);border-color:var(--kb-led);box-shadow:0 0 .7em var(--kb-led)}
+.kbx .kb-info{flex:none;display:grid;grid-template-columns:minmax(0,auto) 1fr;gap:8px 26px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 20px;min-height:96px;width:100%}
+.kbx .kb-combo{font-family:var(--f-ui);font-size:clamp(20px,2.6vw,34px);font-weight:700;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.kbx .kb-combo kbd{font-family:var(--f-ui);font-size:.8em;padding:2px 12px;border:1.5px solid var(--line-strong);border-bottom-width:4px;border-radius:7px;background:var(--surface-2)}
+.kbx .kb-combo .plus,.kbx .kb-combo .arr{color:var(--ink-3);font-weight:500}
+.kbx .kb-combo .res{font-size:1.5em;font-weight:800;color:var(--kb-ua);min-width:1ch}
+.kbx .kb-desc{font-family:var(--f-ui);font-size:clamp(16px,1.7vw,23px);line-height:1.4;color:var(--ink-2)}
+@media(max-width:700px){.kbx .kb-info{grid-template-columns:1fr}}
+.kbx .kb-typebar{flex:none;width:100%;display:flex;flex-direction:column;gap:6px}
+.kbx .kb-type{min-height:calc(2.7em + .7em);max-height:calc(4.05em + .7em);overflow:auto;background:var(--surface);border:2px solid var(--line-strong);border-radius:10px;padding:.35em .6em;
+  font-family:var(--f-mono);font-size:clamp(24px,3vw,46px);line-height:1.35;white-space:pre-wrap;word-break:break-all;tab-size:4;color:var(--ink);cursor:text}
+.kbx .kb-type .sel{background:#3B82C4;color:#FFFFFF}
+.kbx .kb-type .ph{color:var(--ink-3);font-family:var(--f-ui);font-size:.55em;vertical-align:.2em;margin-left:.4em}
+.kbx .kb-type .car{display:inline-block;width:0;height:1.2em;vertical-align:-.27em;position:relative}
+.kbx .kb-type .car::after{content:"";position:absolute;left:-.06em;top:0;width:.12em;height:100%;background:var(--kb-ua);animation:kbblink 1.06s steps(1) infinite}
+.kbx .kb-type .car.ovr::after{left:0;width:1ch;opacity:.4}
+@keyframes kbblink{50%{visibility:hidden}}
+.kbx .kb-type .ghost{display:inline-block;overflow:hidden;vertical-align:bottom;white-space:pre;color:var(--warn);text-decoration:line-through;text-decoration-thickness:.08em;animation:kbghost .8s ease-in forwards}
+@keyframes kbghost{0%,40%{opacity:1}100%{opacity:0;max-width:0}}
+.kbx .kb-tyctl{display:flex;justify-content:space-between;align-items:center;gap:10px;font-family:var(--f-ui);font-size:14px;color:var(--ink-3)}
+.kbx .kb-tyctl b{color:var(--warn)}
+

@@ -2,9 +2,15 @@
    ДЕМО-ДАНІ ТА СТАН ІНТЕРФЕЙСУ
    Дані живуть у пам'яті: оновлення сторінки скидає прогрес.
    ========================================================= */
+// Документи (тема з полем doc): id розділу -> {title, html, …}; контракт — у js/ui/doc.js.
+// Наповнюють матеріали гуртка (ROBO.sections — це він же) та js/info/sections.js.
+const DOCS = {};
+
 const DB = {
   // label — повна назва, коли до неї не додається слово «клас» (гуртки).
   classes: [
+    {id:'3a', name:'3', icon:'🏫'},
+    {id:'4a', name:'4', icon:'🏫'},
     {id:'5a', name:'5', icon:'🏫'},
     {id:'6a', name:'6', icon:'🏫'},
     {id:'10a', name:'10', icon:'🏫'},
@@ -19,6 +25,7 @@ const DB = {
     {id:'phys', name:'Фізика', icon:'⚛️', color:'var(--amber)', bg:'var(--amber-l)', active:false, cls:['5a','6a','10a']},
     {id:'chem', name:'Хімія', icon:'🧪', color:'var(--green)', bg:'var(--green-l)', active:false, cls:['5a','6a','10a']},
     {id:'robot',name:'Робототехніка', icon:'🤖', color:'var(--green)', bg:'var(--green-l)', active:true,  cls:['robo']},
+    {id:'info', name:'Інформатика', icon:'💻', color:'var(--amber)', bg:'var(--amber-l)', active:true,  cls:['3a','4a']},
   ],
   users: {
     student:{name:'Олег Петренко', cls:'5a'},
@@ -169,6 +176,35 @@ const DB = {
     {id:'r10', cls:'robo', subject:'robot', doc:'risks', icon:'⏳',
      title:'Резерв і ризики',
      desc:'Що стискати, коли заняття випадають через свята чи карантин.'},
+
+    /* --- Інформатика 3–4 (НУШ): КТП і конспекти для вчителя — документи
+           (розділи збирає js/info/sections.js з даних INFO). kind:'tool' —
+           схема на проєктор: окрема картка, на неї ведуть посилання з уроків.
+           Схема показується в тому класі, у конспектах якого її відкривають. --- */
+    {id:'kb3', cls:'3a', subject:'info', doc:'inf3-keyboard', kind:'tool', icon:'⌨️',
+     title:'Клавіатура на проєктор',
+     desc:'Уся клавіатура з українськими й англійськими літерами, п’ять груп клавіш кольорами. Клавіші на ПК учителя світяться на схемі, під нею — поле, куди друкується.'},
+    {id:'i3k', cls:'3a', subject:'info', doc:'inf3-ktp', icon:'📋',
+     title:'КТП на 2026/2027',
+     desc:'32 уроки, 1 година на тиждень, щопонеділка. Дати, теми, змістові лінії й файл для НІТ.'},
+    {id:'i3a', cls:'3a', subject:'info', doc:'inf3-s1', icon:'📘',
+     title:'Конспекти · І семестр',
+     desc:'Мета, етапи з таймінгом на 45 хв, що сказати класу, посилання на схеми для проєктора.'},
+    {id:'i3b', cls:'3a', subject:'info', doc:'inf3-s2', icon:'📗',
+     title:'Конспекти · ІІ семестр',
+     desc:'Уроки другого семестру: готові конспекти й каркаси з очікуваними результатами з КТП.'},
+    {id:'win4', cls:'4a', subject:'info', doc:'inf4-windows', kind:'tool', icon:'🪟',
+     title:'Windows на проєктор',
+     desc:'Навчальна копія Windows 10 і 11: робочий стіл, «Пуск», Провідник, файли й папки за правилами справжньої Windows.'},
+    {id:'i4k', cls:'4a', subject:'info', doc:'inf4-ktp', icon:'📋',
+     title:'КТП на 2026/2027',
+     desc:'32 уроки за документом школи, 1 година на тиждень, щопонеділка. Дати, теми, змістові лінії й файл для НІТ.'},
+    {id:'i4a', cls:'4a', subject:'info', doc:'inf4-s1', icon:'📘',
+     title:'Конспекти · І семестр',
+     desc:'Мета, етапи з таймінгом на 45 хв, що сказати класу, посилання на схеми для проєктора.'},
+    {id:'i4b', cls:'4a', subject:'info', doc:'inf4-s2', icon:'📗',
+     title:'Конспекти · ІІ семестр',
+     desc:'Уроки другого семестру: готові конспекти й каркаси з очікуваними результатами з КТП.'},
   ],
   // Довідник інструментів наповнює js/core/registry.js — кожен інструмент
   // реєструє себе сам. Порядок ключів (= порядок <script> у index.html)
@@ -181,9 +217,11 @@ const DB = {
    model — модель поточного інструмента (те, що повернув build)
    anim  — «посилка» від prepare() до animate(): знімок позицій перед перемальовуванням
    ========================================================= */
+// Стан виводиться з адреси сторінки (роутер у js/app.js): cls/subject/topic/sub/tool/toolCfg/toolTaskId.
+// sub — частина адреси після теми документа (якір або пресет); toolFrom — куди веде «← Назад» вільного інструмента.
 const S = {
   role:'student', view:'home',
-  cls:null, subject:null, topic:null,
-  tool:null, toolCfg:null, toolTaskId:null,
+  cls:null, subject:null, topic:null, sub:null,
+  tool:null, toolCfg:null, toolTaskId:null, toolFrom:null,
   step:0, steps:[], model:null, anim:null,
 };
