@@ -93,3 +93,38 @@ pattern path{stroke-width:1.6;fill:none}
 pattern path.lv0{stroke:var(--primary)} pattern path.lv1{stroke:var(--pink)}
 pattern path.lv2{stroke:var(--amber)} pattern path.lv3{stroke:#1596a8}
 @keyframes hwdash{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
+
+/* =========================================================
+   ОБЧИСЛЕННЯ СТОВПЧИКОМ (js/core/column.js): число «в умі», чернетка, польоти
+   ========================================================= */
+/* дрібна цифра в правому верхньому куті клітинки (colGrid: поле sup) — «в умі», «позичили» */
+.nk-sup{position:absolute;right:2px;top:1px;font-size:11px;line-height:1;color:var(--amber);display:flex;border-radius:3px}
+.nk-sup .hwg path{stroke-width:10}
+.nk-sup.used{color:#b3b9d0}
+.nk-sup.dot{font-size:14px;right:1px;top:-1px}          /* крапка «позичили» — жирна */
+.nk-sup.dot .hwg path{stroke-width:34}
+.nk-sup.hlc{background:var(--amber-l);box-shadow:0 0 0 2px var(--amber-l)}
+.nk-sup.out{animation:colOut .5s ease forwards}
+@keyframes colOut{to{opacity:0}}
+@media(prefers-reduced-motion:reduce){.nk-sup.out{visibility:hidden}}
+/* що саме зараз рахуємо */
+.nk.hl{background:var(--primary-l);border-radius:6px}
+/* знак дії (×, +, −) — на лінії сітки між двома операндами */
+.nk.mid>.hwg{transform:translateY(calc(var(--cell) * -.5))}
+/* вертикальна риска «куточка» ділення — по лівому краю клітинки */
+.nk.vl::before{content:"";position:absolute;left:-1px;top:0;bottom:0;width:2px;background:var(--graphite);border-radius:2px}
+/* чернетка кроку праворуч від стовпчика: жовте — «в умі», темне — те, що йде в стовпчик */
+.nk.sc{color:#98a0bd}
+.nk.sc.m{color:var(--amber);font-weight:700}
+.nk.sc.w{color:var(--graphite);font-weight:700}
+/* полотно стовпчика: підпис і клони польотів позиціонуються від нього */
+.col-wrap{position:relative;display:inline-block}
+.col-ann{position:absolute;height:var(--cell);display:flex;align-items:center;padding-left:6px;
+  white-space:nowrap;font-size:14px;color:var(--muted)}
+.col-ann b.w{color:var(--graphite)}
+.col-ann b.m{color:var(--amber)}
+.col-final{margin-top:var(--cell)}
+/* ціль польоту — схована до посадки: fw — головна цифра, fws — дрібна в куті */
+.nk.fw>.hwg,.nk.fws .nk-sup .hwg{visibility:hidden}
+.col-clone{position:absolute;transform-origin:0 0;pointer-events:none;display:flex}
+.col-clone .hwg{width:100%;height:100%;vertical-align:top}
