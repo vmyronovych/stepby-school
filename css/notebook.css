@@ -107,6 +107,11 @@ pattern path.lv2{stroke:var(--amber)} pattern path.lv3{stroke:#1596a8}
 .nk-sup.out{animation:colOut .5s ease forwards}
 @keyframes colOut{to{opacity:0}}
 @media(prefers-reduced-motion:reduce){.nk-sup.out{visibility:hidden}}
+/* нотатка на полях: посилання на урок, де крок розібрано докладно (lessonNote) — дрібно, не на письмі */
+.lnote{align-self:flex-start;max-width:calc(var(--cell)*7);padding:6px 10px;
+  border-left:3px solid var(--primary);background:rgba(91,75,230,.06);border-radius:0 8px 8px 0;
+  font:600 12px/1.4 'Segoe UI',sans-serif;color:var(--muted)}
+.lnote a{color:var(--primary);font-weight:700}
 /* що саме зараз рахуємо */
 .nk.hl{background:var(--primary-l);border-radius:6px}
 /* знак дії (×, +, −) — на лінії сітки між двома операндами */

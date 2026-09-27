@@ -43,3 +43,12 @@ function mkRow(str,endCol,width,cls){
   for(let k=0;k<str.length;k++){ const c=endCol-(str.length-1)+k; if(c>=0&&c<width) cells[c]={ch:str[k],cls}; }
   return {cells};
 }
+
+// Нотатка на полях аркуша: навичку з окремого уроку (напр. розклад на множники в НСК і НСД)
+// інструмент заново не пояснює, а посилається на урок. what — що саме там пояснено;
+// anim — такт пера (hwTick), коли нотатка з'являється. Немає уроку — нотатки немає.
+function lessonNote(toolId, what, anim){
+  const t=topicForTool(toolId);
+  if(!t) return '';
+  return `<div class="lnote hwa"${anim||''}>${what} — докладно в уроці <a href="${hrefTopic(t)}">«${esc(t.title)}»</a>.</div>`;
+}

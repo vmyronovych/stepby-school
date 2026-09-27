@@ -1,0 +1,13 @@
+/* ---------- Найбільший спільний дільник (nsd) ---------- */
+/* драбинки, клітинки, риска закреслення й рядок відповіді — з nsk.css; тут лише розклади рядками */
+.ndrows{display:flex;flex-direction:column}
+.ndrow{display:flex}
+/* множник, з яким зараз працюємо, — на тлі */
+.nsd .nf.cur{background:var(--primary-l);border-radius:6px}
+/* спільний: закреслено в обох рядках зеленим — він пішов у НСД */
+.nsd .nf.hit .ns{background:var(--green)}
+/* не спільний: закреслено сірим, цифра бліда */
+.nsd .nf.miss .ns{background:#a8aec4}
+.nsd .nf.miss .nk{color:#a8aec4}
+/* єдиний множник НСД і є відповіддю */
+.nsd .nsf.res .nk{color:var(--green);font-weight:700}

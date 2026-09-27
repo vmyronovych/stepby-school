@@ -8,6 +8,8 @@
         уже є в НСК і ще не має пари — підкреслюємо пару, а свій закреслюємо;
         якщо пари немає — множника бракує, він летить у НСК;
      3) перемножуємо — це і є НСК.
+   Як розкладати, тут не пояснюємо: праворуч від драбинок — lessonNote з посиланням
+   на урок розкладання.
    Уся розмітка — на клітинках зошита: цифра в клітинці, риска драбинки
    по лінії сітки, тож клон множника летить у рядок НСК без масштабування.
    ========================================================= */
@@ -248,6 +250,9 @@ function nskView(m, ctx){
   const fly=!!ctx.anim;
   let h='<div class="nsk"><div class="nlads">';
   m.cols.forEach((_,c)=>{ h+=nskLadderHtml(m, c, st, S, T, pen); });
+  // як розкладати — не пояснюємо, а посилаємось на урок; нотатка з'являється з першою драбинкою
+  if(st.lad) h+=lessonNote('factor', 'Як розкласти число на прості множники драбинкою',
+                           st.kind==='ladder' && st.lad===1 ? hwTick(pen,'hwfade') : '');
   h+='</div>';
   h+=nskAnswerHtml(m, st, pen, fly);
   return h+'</div>';
@@ -264,6 +269,11 @@ function prepareNskAnim(model, from, to){
 function runNskFly(model, ctx){
   if(!ctx.anim) return;
   const wrap=document.querySelector('.nsk'); if(!wrap) return;
+  nskFlySlots(wrap);
+}
+// слоти .nslot.fly у wrap: клон множника летить з елемента data-src у слот о data-t с
+// (спільне з НСД — js/tools/nsd.js)
+function nskFlySlots(wrap){
   wrap.querySelectorAll('.nslot.fly').forEach(slot=>{
     const src=document.getElementById(slot.dataset.src);
     const land=()=>{ slot.classList.remove('fly'); slot.classList.add('landed'); };
