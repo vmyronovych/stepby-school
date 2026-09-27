@@ -224,7 +224,8 @@ function colAddRun(sheet, ops, {nums, last, sumRow, topRow, total, first=[], int
 // Рендер і анімація для registerTool — однакові для всіх стовпчикових інструментів.
 const colToolBase={
   view:    (model, ctx) => (ctx.anim && ctx.step.htmlFly) || ctx.step.html,
-  prepare: (model, from, to) => model.steps[to].flights ? {fly:true} : null,
+  // лише крок уперед: стрибок через кроки чи назад — без польотів, крок видно одразу
+  prepare: (model, from, to) => to===from+1 && model.steps[to].flights ? {fly:true} : null,
   animate: (model, ctx) => { if(ctx.anim && ctx.step.flights) colFly(ctx.step); },
 };
 
