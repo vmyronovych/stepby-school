@@ -1,5 +1,5 @@
 /* =========================================================
-   ПЕРЕГЛЯД ДОКУМЕНТА (матеріали гуртка робототехніки)
+   ПЕРЕГЛЯД ДОКУМЕНТА (матеріали гуртка, інформатика)
    ---------------------------------------------------------
    Третій вид сторінки поряд із потоком учня та оболонкою
    інструмента. Тема, у якої є поле `doc`, показується не
@@ -7,29 +7,37 @@
    праворуч, схеми відкриваються на весь екран і друкуються.
 
    Оболонка не знає жодного розділу за іменем: усе, що вона
-   бере з даних, — це id розділу в ROBO.sections.
+   бере з даних, — це id розділу в DOCS. Розділ — це
+     {title, html}                 текст матеріалу
+     app:true                      інтерактивна сторінка (схема на проєктор):
+                                   без типографіки й змісту матеріалу
+     init(body, sub)               після рендера (змонтувати інтерактив)
+     onSub(sub)                    змінилась частина адреси після теми
+                                   (пресет); без нього sub — це якір
+     leave()                       перед переходом на іншу сторінку
    ========================================================= */
 
+let docLeave = null;   // leave() показаного розділу
+
 function openDoc(topicId){
-  S.topic = topicId; S.tool = null;
-  render();
-  window.scrollTo(0, 0);
+  const t = DB.topics.find(x=>x.id===topicId);
+  if(t) go(hrefTopic(t));
 }
 
 function renderDoc(topic){
-  const sec = ROBO.sections[topic.doc];
+  const sec = DOCS[topic.doc];
   if(!sec){ app.innerHTML = '<div class="empty">Розділ не знайдено</div>'; return; }
   const cls  = DB.classes.find(c=>c.id===topic.cls) || {name:''};
   const subj = DB.subjects.find(s=>s.id===topic.subject) || {name:'Предмет'};
   app.innerHTML = crumbs([
-      {t:'Класи',              go:"pick('cls',null)"},
-      {t:clsCrumb(cls),        go:"pick('subject',null)"},
-      {t:subj.name,            go:"pick('topic',null)"},
+      {t:'Класи',              href:hrefHome()},
+      {t:clsCrumb(cls),        href:hrefCls(topic.cls)},
+      {t:subj.name,            href:hrefSubj(topic.cls, topic.subject)},
       {t:topic.title},
     ]) + `
-    <div class="robo-doc">
-      <aside class="robo-toc" id="roboToc"></aside>
-      <div class="robo-body" id="roboBody">
+    <div class="robo-doc${sec.app?' no-toc':''}">
+      ${sec.app?'':'<aside class="robo-toc" id="roboToc"></aside>'}
+      <div class="${sec.app?'doc-app':'robo-body'}" id="roboBody">
         <h1 class="page">${esc(sec.title)}</h1>
         <p class="sub">${esc(topic.desc)}</p>
         ${sec.html}
@@ -37,20 +45,36 @@ function renderDoc(topic){
     </div>
     <div class="robo-lightbox" id="roboLightbox"><div class="box"></div></div>`;
 
-  buildRoboToc();
+  if(!sec.app) buildRoboToc(topic);
   restoreKtp();
   bindRoboDoc();
-  if(typeof initRoboSim === 'function') initRoboSim();
+  docLeave = sec.leave || null;
+  if(sec.init) sec.init(document.getElementById('roboBody'), S.sub);
+  if(S.sub && !sec.onSub) jumpTo(S.sub, true);
 }
 
-/* ---- зміст розділу: збирається з наявних <h2 id> ---- */
-function buildRoboToc(){
+// змінилась лише частина адреси після теми: пресет інтерактиву або якір
+function docSub(sub){
+  const t = DB.topics.find(x=>x.id===S.topic), sec = t && DOCS[t.doc];
+  if(sec && sec.onSub) return sec.onSub(sub);
+  if(sub) jumpTo(sub);
+  else window.scrollTo({top:0, behavior: prefersReducedMotion() ? 'auto' : 'smooth'});
+}
+// інтерактив сам міняє свій пресет — адреса наздоганяє без нового запису в історії
+function docReplaceSub(sub){
+  const t = DB.topics.find(x=>x.id===S.topic);
+  if(t) location.replace(hrefTopic(t, sub));
+}
+function leaveDoc(){ if(docLeave){ const f = docLeave; docLeave = null; f(); } }
+
+/* ---- зміст розділу: збирається з наявних <h2 id>, пункти — посилання з адресою ---- */
+function buildRoboToc(topic){
   const toc = document.getElementById('roboToc');
   const hs  = [...document.querySelectorAll('#roboBody h2[id]')];
   // розділ без <h2> (суцільний текст) — зміст непотрібен, документ іде на всю ширину
   if(!hs.length){ toc.remove(); document.querySelector('.robo-doc').classList.add('no-toc'); return; }
   toc.innerHTML = '<div class="tt">У цьому розділі</div>' +
-    hs.map(h=>`<a data-jump="${h.id}">${esc(h.textContent)}</a>`).join('');
+    hs.map(h=>`<a href="${hrefTopic(topic, h.id)}">${esc(h.textContent)}</a>`).join('');
 }
 
 /* ---- поля КТП живуть у пам'яті (як і решта даних порталу) ---- */
@@ -63,26 +87,13 @@ function restoreKtp(){
 
 function bindRoboDoc(){
   const body = document.getElementById('roboBody');
-  const toc  = document.getElementById('roboToc');
-
-  if(toc) toc.addEventListener('click', e=>{
-    const a = e.target.closest('a[data-jump]'); if(!a) return;
-    jumpTo(a.dataset.jump);
-  });
 
   for(const el of body.querySelectorAll('[contenteditable][data-k]')){
     el.addEventListener('blur', ()=>{ ROBO.ktp[el.dataset.k] = el.textContent.trim(); });
   }
 
-  // посилання всередині матеріалу: або інший розділ, або якір у цьому
-  body.addEventListener('click', e=>{
-    const a = e.target.closest('a[href^="#"]'); if(!a) return;
-    e.preventDefault();
-    const id = a.getAttribute('href').slice(1);
-    const topic = docTopicFor(id) || docTopicFor(id.split('-')[0]);
-    if(topic && topic.id !== S.topic){ openDoc(topic.id); return; }
-    jumpTo(id);
-  });
+  // Посилання всередині матеріалу — звичайні: канонічні (#/…) веде роутер,
+  // старі (#rules, #mod1-3) роутер переписує на канонічні (js/app.js).
 
   // схеми: клік розгортає на весь екран
   const lb = document.getElementById('roboLightbox');
@@ -112,9 +123,10 @@ function escCloseLightbox(e){
   if(lb) lb.classList.remove('on');
 }
 
-function jumpTo(id){
+// instant — одразу після рендера (відкрили адресу з якорем), інакше плавно
+function jumpTo(id, instant){
   const el = document.getElementById(id);
-  if(el) el.scrollIntoView({behavior: prefersReducedMotion() ? 'auto' : 'smooth', block:'start'});
+  if(el) el.scrollIntoView({behavior: instant || prefersReducedMotion() ? 'auto' : 'smooth', block:'start'});
 }
 
 // тема-документ за id розділу

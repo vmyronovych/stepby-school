@@ -1270,3 +1270,6 @@ function initRoboSim(){
   setView(ROBO.cbView || 'schem');
   requestAnimationFrame(frame);
 }
+
+// Розділ «sim» монтує конструктор після рендера документа (хук init, див. js/ui/doc.js).
+ROBO.sections['sim'].init = initRoboSim;

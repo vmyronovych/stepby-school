@@ -1,0 +1,44 @@
+/* =========================================================
+   ІНФОРМАТИКА — спільне для схем на проєктор (клавіатура, Windows)
+   ---------------------------------------------------------
+   Схеми перенесено зі старого сайту уроків разом із їхніми токенами.
+   Імена токенів (--bg, --ink, --line, --shadow) збігаються з порталом,
+   а значення — ні, тому токени оголошено на корені схеми (.proj),
+   а не на :root. Спільні імена класів (.chip, .nav) — лише всередині .proj.
+   На сторінці схема — картка; «На весь екран» розгортає її (:fullscreen).
+   ========================================================= */
+.proj{
+  --bg:#F5F7F9; --surface:#FFFFFF; --surface-2:#EDF0F4; --surface-3:#E4E8EE;
+  --ink:#161A22; --ink-2:#586173; --ink-3:#8B94A5;
+  --line:#DBE0E8; --line-strong:#C3CAD6;
+  --warn:#9E3626; --warn-soft:#FBEBE7;
+  --ok:#2C6E49; --ok-soft:#E3F0E7;
+  --f-ui:'Segoe UI',system-ui,-apple-system,sans-serif;
+  --f-mono:ui-monospace,'SF Mono',Consolas,'Liberation Mono',monospace;
+  position:relative; background:var(--bg); color:var(--ink);
+  display:flex; flex-direction:column; gap:14px;
+  padding:16px clamp(12px,2.5vw,28px);
+  border:1px solid var(--line); border-radius:var(--radius,16px);
+  font-family:var(--f-ui); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;
+}
+.proj:fullscreen{border:0;border-radius:0;overflow:auto;padding:16px clamp(12px,2.5vw,36px)}
+.proj h2{font-size:clamp(19px,3.6vw,24px);line-height:1.22;font-weight:700;letter-spacing:-.015em;margin:0}
+.proj p{margin:0}
+.proj button{color:inherit;font-size:inherit}
+.proj :focus-visible{outline:2px solid #0C6B63;outline-offset:2px;border-radius:3px}
+@media (prefers-reduced-motion: reduce){.proj *{animation:none!important;transition:none!important}}
+
+.proj-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.proj-bar h2{margin-right:auto}
+/* на сторінці назву вже показує заголовок; на весь екран — показуємо */
+.proj:not(:fullscreen) .proj-bar h2{display:none}
+.proj:not(:fullscreen) .proj-bar{justify-content:flex-end}
+.proj-chips{display:flex;flex-wrap:wrap;gap:7px;align-items:center}
+.proj .chip{font-family:var(--f-ui);font-size:14px;font-weight:600;padding:7px 12px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);display:inline-flex;align-items:center;gap:7px}
+.proj .chip i{width:13px;height:13px;border-radius:3px;background:var(--kg);border:1.5px solid var(--kg-line)}
+.proj .chip:hover{border-color:var(--line-strong);color:var(--ink)}
+.proj .chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.proj-sep{width:1px;height:24px;background:var(--line-strong);margin:0 4px}
+.proj .nav{font-family:var(--f-ui);font-size:13.5px;font-weight:600;color:var(--ink-2);border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:9px 13px}
+.proj .nav:hover{color:var(--ink);border-color:var(--line-strong)}
+.proj .nav[disabled]{opacity:.35;cursor:default}

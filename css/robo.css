@@ -23,7 +23,7 @@
 }
 @media(max-width:900px){ .robo-toc{position:static;max-height:none} }
 .robo-toc .tt{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin:2px 0 8px}
-.robo-toc a{display:block;padding:7px 10px;border-radius:9px;color:var(--ink);font-size:14px;cursor:pointer;line-height:1.35}
+.robo-toc a{display:block;padding:7px 10px;border-radius:9px;color:var(--ink);font-size:14px;cursor:pointer;line-height:1.35;text-decoration:none}
 .robo-toc a:hover{background:var(--primary-l);color:var(--primary)}
 
 /* ===== типографіка матеріалу ===== */

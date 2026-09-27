@@ -6,14 +6,20 @@
                → render() → def.view(...)  (малює новий крок)
                → rAF ×2 → def.animate(...) (запускає польоти)
    ========================================================= */
+// Інструмент відкривається адресою (див. js/app.js): завдання — #/клас/предмет/тема/завдання,
+// вільно — #/tool/<id>, власна умова — ?c=<JSON>. Самі стан і кроки будує роутер.
 function openTool(tool,cfg,taskId){
-  S.tool=tool; S.toolCfg=cfg; S.toolTaskId=taskId||null; S.step=0;
-  buildSteps();
-  render();
+  const t = taskId ? taskTopic(taskId) : null;
+  go(t ? hrefTopic(t, taskId) : hrefTool(tool, cfg));
 }
-function closeTool(){
-  S.tool=null; S.toolCfg=null; S.model=null; S.steps=[]; S.step=0; S.anim=null;
-  render();
+function closeTool(){ go(toolBackHref()); }
+
+// тема, у якій лежить завдання
+function taskTopic(taskId){ return DB.topics.find(t=>(t.tasks||[]).some(k=>k.id===taskId)) || null; }
+// «← Назад»: із завдання — до теми; вільний інструмент — туди, звідки прийшли
+function toolBackHref(){
+  const t = S.toolTaskId ? taskTopic(S.toolTaskId) : null;
+  return t ? hrefTopic(t) : (S.toolFrom || hrefHome());
 }
 
 // Будуємо модель поточного інструмента. Помилку умови інструмент кидає
@@ -37,7 +43,7 @@ function renderTool(){
   const def=toolDef();
   const hasData = S.steps.length>0;
   app.innerHTML = `
-    <div class="crumbs"><a onclick="closeTool()">← Назад</a></div>
+    <div class="crumbs"><a href="${toolBackHref()}">← Назад</a></div>
     <h1 class="page">${def.icon} ${def.name}</h1>
     <p class="sub">Покроковий інтерактивний розбір. Натискай «Далі», щоб побачити кожен крок.</p>
     <div class="tool-shell">
@@ -63,13 +69,17 @@ function renderTool(){
 // Те, що бачить рендер і анімація кроку.
 function stepCtx(){ return {step:S.steps[S.step], index:S.step, anim:S.anim}; }
 
+// Власна умова йде в адресу (?c=…) — таку сторінку можна відкрити в новій вкладці.
+// replace, а не новий запис: «Назад» не гортає кожне натискання кнопки.
 function applyTool(){
   const def=toolDef();
-  S.toolCfg = def.read(readField);
-  S.step=0; buildSteps(); render();
+  const cfg = def.read(readField);
+  const t = S.toolTaskId ? taskTopic(S.toolTaskId) : null;
+  const h = (t ? hrefTopic(t, S.toolTaskId) : '#/tool/'+S.tool) + cfgQuery(cfg);
+  if(location.hash === h) route(); else location.replace(h);
 }
 function markDone(){
-  for(const t of DB.topics){ const k=t.tasks.find(x=>x.id===S.toolTaskId); if(k){k.done=true;} }
+  for(const t of DB.topics){ const k=(t.tasks||[]).find(x=>x.id===S.toolTaskId); if(k){k.done=true;} }
   toast('Завдання виконано! 🎉');
 }
 

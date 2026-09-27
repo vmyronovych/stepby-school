@@ -15,11 +15,15 @@
 <link rel="stylesheet" href="css/tools/domain.css">
 <link rel="stylesheet" href="css/robo.css">
 <link rel="stylesheet" href="css/circuit.css">
+<link rel="stylesheet" href="css/info.css">
+<link rel="stylesheet" href="css/info/projector.css">
+<link rel="stylesheet" href="css/info/keyboard.css">
+<link rel="stylesheet" href="css/info/win.css">
 </head>
 <body>
 
 <header class="topbar">
-  <div class="logo" onclick="goHome()"><span class="mark">🧮</span><span class="brand"><span class="bn">StepBy <i>School</i></span><span class="bt">шкільні предмети крок за кроком</span></span></div>
+  <a class="logo" href="#/"><span class="mark">🧮</span><span class="brand"><span class="bn">StepBy <i>School</i></span><span class="bt">шкільні предмети крок за кроком</span></span></a>
 </header>
 
 <div class="wrap" id="app"></div>
@@ -59,6 +63,21 @@
 <script src="js/robo/circuit/solver.js"></script>
 <script src="js/robo/circuit/breadboard.js"></script>
 <script src="js/robo/circuit/sim.js"></script>
+
+<!-- Інформатика 3–4: дані (КТП, конспекти) → схеми на проєктор → розділи-документи.
+     info.js оголошує INFO і рахує дати з календаря; sections.js збирає DOCS. -->
+<script src="js/info/info.js"></script>
+<script src="js/info/ktp3.js"></script>
+<script src="js/info/ktp4.js"></script>
+<script src="js/info/plans3.js"></script>
+<script src="js/info/plans4.js"></script>
+<script src="js/info/nit.js"></script>
+<script src="js/info/show/keyboard.js"></script>
+<script src="js/info/show/win/10-model.js"></script>
+<script src="js/info/show/win/20-icons.js"></script>
+<script src="js/info/show/win/30-view.js"></script>
+<script src="js/info/show/win/40-input.js"></script>
+<script src="js/info/sections.js"></script>
 
 <script src="js/ui/modal.js"></script>
 <script src="js/ui/student.js"></script>
