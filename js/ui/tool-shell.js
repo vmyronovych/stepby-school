@@ -75,7 +75,7 @@ function applyTool(){
   const def=toolDef();
   const cfg = def.read(readField);
   const t = S.toolTaskId ? taskTopic(S.toolTaskId) : null;
-  const h = (t ? hrefTopic(t, S.toolTaskId) : '#/tool/'+S.tool) + cfgQuery(cfg);
+  const h = t ? hrefTopic(t, S.toolTaskId) + cfgQuery(cfg) : hrefTool(S.tool, cfg);
   if(location.hash === h) route(); else location.replace(h);
 }
 function markDone(){
