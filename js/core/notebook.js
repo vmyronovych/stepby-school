@@ -4,6 +4,10 @@
 // Відмальовка колонкового обчислення на клітинковій сітці.
 // rows: [{cells:[...]}] або {line:true, span?:[from,to]} — лінія підкреслює попередній рядок.
 // startOrder — з якого «такту» пера починати письмо (щоб дописувати після польоту/іншого рядка).
+// Клітинка з полем seq пишеться на такті startOrder+seq незалежно від рядка — так цифру
+// можна написати раніше за перенесення в рядку НАД нею (як пише людина).
+// Клітинка з полем sup:{ch, cls, seq?} має ще дрібну цифру в правому верхньому куті
+// (число «в умі» над цифрою, до якої його додаватимуть); main-гліф тоді може бути порожнім.
 function colGrid(rows, width, startOrder){
   const content=[];
   for(const r of rows){
@@ -22,7 +26,12 @@ function colGrid(rows, width, startOrder){
       let cls='nk'+(c?(' '+(c.cls||'')):' e');
       if(r.ulFull || (r.ulSpan && i>=r.ulSpan[0] && i<=r.ulSpan[1])) cls+=' ul';
       let inner='';
-      if(c){ inner = (r.anim||c.anim) ? hwGlyphs(c.ch, ctx) : hwGlyphs(c.ch, {writing:false}); }
+      if(c){
+        if(c.seq!=null) inner = hwGlyphs(c.ch, {writing:true, order:(startOrder||0)+c.seq});
+        else inner = (r.anim||c.anim) ? hwGlyphs(c.ch, ctx) : hwGlyphs(c.ch, {writing:false});
+        if(c.sup) inner+=`<span class="nk-sup ${c.sup.cls||''}">${hwGlyphs(c.sup.ch,
+          c.sup.seq!=null ? {writing:true, order:(startOrder||0)+c.sup.seq} : {writing:false})}</span>`;
+      }
       h+=`<div class="${cls}">${inner}</div>`;
     }
   }
