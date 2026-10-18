@@ -27,12 +27,14 @@ function fmtX(c){ c=+c; const a=Math.abs(c); const s=c<0?'−':''; const cc=(a==
 
 // ЛІНІЙНЕ ЯДРО (перевикористовується рівняннями, пропорціями й умовами ОДЗ):
 // приймає коефіцієнти ls={a,b}, rs={a,b} і будує кроки «записуємо → перенос → зведення → ділимо → відповідь».
+// opts.simplify — пропустити зведення одного доданка та ділення на 1.
 // opts.rel — знак відношення замість «=» ('≠', '≥', '>' …): режим нерівності. У ньому
 // пропускаються порожні кроки (зведення одного доданка, ділення на 1), при діленні на
 // від'ємне число знак перевертається, а відповідь — точний дріб (1/3), а не 0.33.
 const REL_FLIP={'≥':'≤','≤':'≥','>':'<','<':'>','≠':'≠','=':'='};
 function buildLinearRows(ls, rs, opts){
   const rel=(opts&&opts.rel)||'=', ineq=rel!=='=';
+  const compact=ineq || !!(opts&&opts.simplify);
   const A=ls.a-rs.a, B=rs.b-ls.b;
   const EQ=(t)=>({id:'eq', t:t||rel, cls:'eq-eq'});
   const rows=[];
@@ -68,7 +70,7 @@ function buildLinearRows(ls, rs, opts){
 
     // 3) зводимо подібні: x-члени злітаються в A·x, числа — в B
     const axFrom=leftX.map(t=>t.id), bcFrom=rightC.map(t=>t.id);
-    if(ineq && leftX.length===1 && rightC.length===1){       // зводити нічого — по доданку з кожного боку
+    if(compact && leftX.length===1 && rightC.length===1){       // зводити нічого — по доданку з кожного боку
       if(A===1) return rows;
     } else {
       const rc=[{id:'ACX', t:(A===0?'0':fmtX(A)), from:axFrom}, EQ(), {id:'BCC', t:fmtNum(B), from:bcFrom}];
@@ -78,10 +80,10 @@ function buildLinearRows(ls, rs, opts){
           ? (B===0?'Цифри злітаються: ліворуч і праворуч виходить однаково — рівняння є тотожністю, розв’язків безліч.':'Цифри злітаються: ліворуч виходить 0, а праворуч інше число — рівняння не має розв’язків.')
           : `Додаємо однакові доданки: цифри злітаються разом. Ліворуч ${fmtNum(ls.a)} − ${fmtNum(rs.a)} = ${fmtNum(A)} перед x, праворуч ${fmtNum(rs.b)} − ${fmtNum(ls.b)} = ${fmtNum(B)}.`});
       if(A===0) return rows;
-      if(ineq && A===1) return rows;
+      if(compact && A===1) return rows;
     }
-  } else if(ineq && A===1){
-    return rows;                                                // уже x ≠ 0 — ділити нічого
+  } else if(compact && A===1){
+    return rows;                                                // коефіцієнт при x вже 1 — ділити нічого
   } else if(A===0){
     rows.push({tokens:[{id:'z',t:'0'}, EQ(), {id:'RC',t:fmtNum(B)}], type:'write', done:true,
       text: B===0?'Рівняння є тотожністю — розв’язків безліч.':'Рівняння не має розв’язків.'});

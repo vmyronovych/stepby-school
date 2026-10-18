@@ -64,6 +64,7 @@ function renderStudent(){
     <h1 class="page">${esc(t.title)}</h1>
     <p class="sub">${esc(t.desc)}</p>
 
+    ${t.lesson?`<div class="card lesson-intro">${t.lesson}</div>`:''}
     <div class="section-title">🧩 Інтерактивні завдання від вчителя</div>
     <div class="grid c2">
       ${t.tasks.map(k=>`
@@ -80,7 +81,7 @@ function renderStudent(){
         </div>`).join('')}
     </div>
 
-    <div class="section-title">📚 Навчальні матеріали</div>
+    ${t.materials.length?`<div class="section-title">📚 Навчальні матеріали</div>
     <div class="card">
       ${t.materials.map(m=>`
         <div class="list-item">
@@ -90,6 +91,7 @@ function renderStudent(){
         </div>`).join('')}
     </div>
 
+    `:''}
     <div class="section-title">🛠️ Спробувати інструменти вільно</div>
     <div class="grid c2">
       ${[...new Set(t.tasks.map(x=>x.tool))].map(tl=>`

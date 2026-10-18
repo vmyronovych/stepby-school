@@ -1,0 +1,14 @@
+/* Урок та послідовний запис розв'язання. */
+.lesson-intro{margin-bottom:24px;line-height:1.65}
+.lesson-intro h2{font-size:20px;margin-bottom:10px}
+.lesson-intro ol{padding-left:24px}
+.lesson-intro li+li{margin-top:8px}
+.irsheet{display:flex;flex-direction:column;align-items:flex-start;gap:12px;color:var(--graphite)}
+.irrow{padding:6px 12px;border-radius:8px;max-width:100%;box-sizing:border-box}
+.ircurrent{background:rgba(224,152,42,.13)}
+.irlabel{font:600 13px/1.5 'Segoe UI',sans-serif;color:var(--muted);margin-bottom:5px}
+.irformula{display:flex;align-items:center;min-height:30px;font-size:22px}
+.iranswer .fml{color:var(--green)}
+.irrejected .irformula,.irrejected .irverdict{color:var(--pink)}
+.irverdict{font:600 13px/1.5 'Segoe UI',sans-serif;margin-top:6px}
+.irrow .lnote{margin:10px 0 0;position:static;max-width:320px}

@@ -1,0 +1,214 @@
+/* Ірраціональні рівняння: один квадратний або кубічний корінь у кожній частині
+   або один корінь і лінійний вираз. Корені й записи — зі спільних ядер. */
+const IR_FORM='Підтримуються квадратні та кубічні корені. Для квадратних: √P(x) = ax + b або √P(x) = √Q(x). Для кубічних: ∛P(x) = число або ∛P(x) = ∛Q(x). Під коренем — многочлен до x²; корінь можна відокремити перенесенням доданків.';
+const irSubPoly=(a,b)=>polyAdd(a,b.map(qNeg));
+const irEq=(a,b)=>[{f:a},{g:'='},{f:b}];
+
+// Відокремлюємо один корінь із коефіцієнтом +1; решта — лінійний вираз.
+function irSide(ast){
+  const n=fStrip(ast), p=toPoly(n);
+  if(p && polyDeg(p)<=1) return {p, root:null};
+  if(n.t==='root' && (n.n===2 || n.n===3)){
+    const rad=toPoly(n.a);
+    if(rad) return {p:[Q(0)], root:n, rad};
+  }
+  if(n.t==='add'||n.t==='sub'){
+    const a=irSide(n.a), b=irSide(n.b);
+    if(a.root && !b.root) return {p:polyAdd(a.p,n.t==='sub'?b.p.map(qNeg):b.p), root:a.root, rad:a.rad};
+    if(n.t==='add' && !a.root && b.root) return {p:polyAdd(a.p,b.p), root:b.root, rad:b.rad};
+  }
+  throw IR_FORM;
+}
+
+// Межі та інтервали ОДЗ використовують наявне ядро області визначення.
+function irCondition(p){
+  let roots=[];
+  if(polyDeg(p)===1) roots=[dRq(qDiv(qNeg(p[0]),p[1]))];
+  if(polyDeg(p)===2) roots=domQuad(p,'≥').roots;
+  return {poly:p, roots};
+}
+function irIntervals(conditions){
+  // Різні близькі межі не можна зливати за допуском EPS.
+  const pts=conditions.flatMap(c=>c.roots).sort((a,b)=>a.v-b.v)
+    .filter((p,i,all)=>i===0 || p.v!==all[i-1].v);
+  return domPieces(pts,x=>{
+    const boundary=pts.find(p=>p.v===x);
+    if(boundary){
+      const exact=irExactRoot(boundary.ast);
+      return conditions.every(c=>irPairSign(irExactPoly(c.poly,exact),exact.d)>=0);
+    }
+    return conditions.every(c=>polyEval(c.poly,x)>=0);
+  });
+}
+
+// Точна перевірка у Q(√d). BigInt-дроби не округлюють знак кандидата.
+const irRat=(n,d=1n)=>({n,d});
+const irFromQ=q=>irRat(BigInt(q.n),BigInt(q.d));
+const irAdd=(a,b)=>irRat(a.n*b.d+b.n*a.d,a.d*b.d);
+const irNeg=a=>irRat(-a.n,a.d);
+const irMul=(a,b)=>irRat(a.n*b.n,a.d*b.d);
+const irDiv=(a,b)=>{ if(b.n===0n) throw 'На нуль ділити не можна.'; return irRat(a.n*b.d*(b.n<0n?-1n:1n),a.d*(b.n<0n?-b.n:b.n)); };
+const irSign=a=>a.n<0n?-1:a.n>0n?1:0;
+const irPair=q=>({a:q,b:irRat(0n)});
+function irPairAdd(x,y){ return {a:irAdd(x.a,y.a),b:irAdd(x.b,y.b)}; }
+function irPairMul(x,y,d){ return {a:irAdd(irMul(x.a,y.a),irMul(irMul(x.b,y.b),d)),b:irAdd(irMul(x.a,y.b),irMul(x.b,y.a))}; }
+function irPairSign(x,d){
+  const a=irSign(x.a), b=irSign(x.b);
+  if(!b || !irSign(d)) return a;
+  if(!a || a===b) return b;
+  const diff=irAdd(irMul(x.a,x.a),irNeg(irMul(irMul(x.b,x.b),d)));
+  return irSign(diff)*a;
+}
+function irExactRoot(ast){
+  let d=irRat(0n);
+  (function find(n){ if(n.t==='root') d=irFromQ(toPoly(n.a)[0]); if(n.a) find(n.a); if(n.b) find(n.b); })(ast);
+  function read(n){
+    if(n.t==='root') return {a:irRat(0n),b:irRat(1n)};
+    if(n.t==='paren') return read(n.a);
+    if(n.t==='neg'){const x=read(n.a);return {a:irNeg(x.a),b:irNeg(x.b)};}
+    if(n.t==='add'||n.t==='sub'){ const x=read(n.a),y=read(n.b);return irPairAdd(x,n.t==='sub'?{a:irNeg(y.a),b:irNeg(y.b)}:y); }
+    if(n.t==='div'){ const x=read(n.a),y=read(n.b);return {a:irDiv(x.a,y.a),b:irDiv(x.b,y.a)}; }
+    return irPair(irFromQ(toPoly(n)[0]));
+  }
+  return {x:read(ast),d};
+}
+function irExactPoly(p,r){
+  return p.slice().reverse().reduce((v,c)=>irPairAdd(irPairMul(v,r.x,r.d),irPair(irFromQ(c))),irPair(irRat(0n)));
+}
+function irSubstitute(n,x){
+  if(n.t==='x') return F.paren(x);
+  const out=Object.assign({},n); delete out.fid;
+  for(const k of ['a','b','e']) if(n[k]) out[k]=irSubstitute(n[k],x);
+  return out;
+}
+
+function buildIrrationalModel(text){
+  if(typeof text!=='string'||text.split('=').length!==2) throw 'Введіть рівняння з одним знаком «=». Приклад: sqrt(x + 2) = x.';
+  const original=text.split('=').map(parseFormula);
+  if(!/x/i.test(text)) throw 'У рівнянні має бути змінна x.';
+  let [l,r]=original.map(irSide);
+  if(!l.root && r.root) [l,r]=[r,l];
+  if(!l.root) throw IR_FORM;
+  const right=irSubPoly(r.p,l.p);
+  const degree=l.root.n, cube=degree===3;
+  if(r.root && r.root.n!==degree) throw 'Використайте корені однакового степеня з обох боків: квадратні або кубічні. Змішані показники поки не підтримуються.';
+  if(r.root && right.some(q=>!qIsZero(q))) throw 'Для двох коренів використайте форму sqrt(P(x)) = sqrt(Q(x)) або root(3, P(x)) = root(3, Q(x)) без додаткових доданків.';
+  if(cube && !r.root && polyDeg(right)>0) throw 'Після піднесення лінійної правої частини до куба виникає рівняння третього степеня. Поки використайте сталу праву частину або кубічні корені з обох боків.';
+  const rhs=r.root||polyAst(right);
+  const m={steps:[],original,checks:[],roots:[],answer:[]};
+  const add=(title,text,parts,extra={})=>m.steps.push(Object.assign({title,text,parts},extra));
+  add('Ірраціональне рівняння','Ірраціональне рівняння містить змінну під знаком кореня. Записуємо початкову умову.',irEq(...original));
+  const conditions=cube?[]:[irCondition(l.rad),...(r.root?[irCondition(r.rad)]:[])];
+  if(cube) add('Що таке ОДЗ кубічного кореня','ОДЗ — область допустимих значень змінної. Кубічний корінь визначений для будь-якого дійсного підкореневого значення, зокрема від’ємного. Многочлени під цими коренями не обмежують ОДЗ.',[{g:'x'},{g:'∈'},...domIntervalParts(irIntervals([]))],{domainNote:true});
+  conditions.forEach((c,i)=>add(i?'ОДЗ: друга умова':'Що таке ОДЗ',
+    'ОДЗ — область допустимих значень змінної. За цих значень визначені обидві частини початкового рівняння. Під квадратним коренем має бути невід’ємний вираз.',
+    [{f:polyAst(c.poly)},{g:'≥'},{f:F.num(0)}],{domainNote:i===0}));
+  m.domain=irIntervals(conditions);
+  if(!cube) add('ОДЗ рівняння',`Усі умови мають виконуватися одночасно. ОДЗ: x ∈ ${domIntervalText(m.domain)}.`,[{g:'x'},{g:'∈'},...domIntervalParts(m.domain)]);
+  const finish=(parts,text)=>add('Відповідь',text,parts,{answer:true});
+  if(!m.domain.length){ finish([{g:'∅'}],'ОДЗ порожня. Рівняння не має розв’язків.'); return m; }
+  if(fmlText(original[0])!==fmlText(l.root)||fmlText(original[1])!==fmlText(rhs)){
+    add('Відокремлюємо корінь','Переносимо доданки без кореня в іншу частину, змінюючи їхні знаки. Корінь залишаємо ліворуч.',irEq(l.root,rhs));
+  }
+  if(!r.root && !cube){
+    add('Умова рівності','Квадратний корінь невід’ємний. Тому права частина також має бути ≥ 0. Це умова рівності, окрема від ОДЗ.',[{f:rhs},{g:'≥'},{f:F.num(0)}]);
+    if(polyDeg(right)===0 && right[0].n<0){ finish([{g:'∅'}],'Квадратний корінь не може дорівнювати від’ємному числу. Розв’язків немає.'); return m; }
+  }
+  add(cube?'Підносимо обидві частини до куба':'Підносимо обидві частини до квадрата',
+    cube?'Підносимо обидві частини до третього степеня. Це рівносильне перетворення для дійсних чисел: куб зберігає знак. Сторонні корені через це перетворення не виникають.'
+      :'Підносимо обидві частини до квадрата. Після цього можуть з’явитися сторонні корені, тому кожен кандидат потребує перевірки.',
+    irEq(F.pow(F.paren(l.root),degree),F.pow(F.paren(rhs),degree)));
+  const powered=r.root?r.rad:cube?[qMul(qMul(right[0],right[0]),right[0])]:polyMul(right,right);
+  add('Позбуваємося кореня',cube
+    ?'Куб кубічного кореня дорівнює підкореневому виразу для будь-якого дійсного значення. Обчислюємо куб правої частини.'
+    :'Квадрат квадратного кореня дорівнює підкореневому виразу на ОДЗ. Розкриваємо квадрат правої частини.',irEq(polyAst(l.rad),polyAst(powered)));
+  const p=irSubPoly(l.rad,powered);
+  const directLinear=polyDeg(p)===1 && polyDeg(l.rad)<=1 && polyDeg(powered)<=1;
+  if(!directLinear) add('Зводимо до рівняння','Переносимо всі доданки ліворуч та зводимо подібні.',irEq(polyAst(p),F.num(0)));
+  if(polyDeg(p)===0){
+    if(!qIsZero(p[0])) finish([{g:'∅'}],'Отримали хибну рівність. Рівняння не має розв’язків.');
+    else {
+      const valid=r.root||cube?conditions:[...conditions,irCondition(right)];
+      m.answerIntervals=irIntervals(valid);
+      finish([{g:'x'},{g:'∈'},...domIntervalParts(m.answerIntervals)],`Після піднесення отримали тотожність. Враховуємо ОДЗ${r.root||cube?'':' та невід’ємність правої частини'}. Відповідь: x ∈ ${domIntervalText(m.answerIntervals)}.`);
+    }
+    return m;
+  }
+  if(polyDeg(p)===1){
+    // Спільне лінійне ядро дає кроки; точну відповідь будуємо через Q.
+    // Ядро лінійних рівнянь форматує числа до сотих. Прибираємо
+    // знаменники, щоб у навчальних рядках не було округлених рівностей.
+    const sides=directLinear?[l.rad,powered]:[p,[Q(0)]];
+    const co=sides.flatMap(s=>[s[0],s[1]||Q(0)]);
+    const den=co.reduce((n,q)=>n/gcd(n,q.d)*q.d,1);
+    const ints=co.map(q=>q.n*(den/q.d));
+    const common=ints.reduce((g,n)=>gcd(g,n),0);
+    const [lb,la,rb,ra]=ints.map(n=>n/common);
+    if(![lb,la,rb,ra].every(Number.isSafeInteger)) throw 'Коефіцієнти надто великі для покрокового розбору. Використайте менші числа.';
+    const rows=buildLinearRows({a:la,b:lb},{a:ra,b:rb},{simplify:true});
+    const unit=la-ra===1;
+    m.linearRows=unit?rows:rows.slice(0,-1);
+    const same=co.every((q,i)=>qEq(q,Q([lb,la,rb,ra][i])));
+    if(same) m.steps[m.steps.length-1].linearIndex=0;
+    else add('Прибираємо дробові коефіцієнти','Множимо рівняння на спільний знаменник коефіцієнтів і скорочуємо спільний числовий множник. Отримуємо рівносильне рівняння з цілими коефіцієнтами.',null,{linearIndex:0});
+    m.linearRows.slice(1).forEach((row,i)=>add('Розв’язуємо лінійне рівняння',row.text,null,{linearIndex:i+1}));
+    m.roots=[dRq(qDiv(qNeg(p[0]),p[1]))];
+    const candidate=`Отримали x = ${fmlText(m.roots[0].ast)}. Перевіримо його в початковому рівнянні.`;
+    if(unit) m.steps[m.steps.length-1].text+=' '+candidate;
+    else add('Кандидат у корені',candidate,dRootsParts(m.roots));
+  } else {
+    const q=domQuad(p,'≥');
+    q.rows.slice(1).forEach(row=>add('Розв’язуємо квадратне рівняння',row.text,row.parts));
+    m.roots=q.roots;
+  }
+  for(const root of m.roots){
+    const exact=irExactRoot(root.ast);
+    const inDomain=conditions.every(c=>irPairSign(irExactPoly(c.poly,exact),exact.d)>=0);
+    const rightOK=cube || !!r.root || irPairSign(irExactPoly(right,exact),exact.d)>=0;
+    const equality=irPairSign(irExactPoly(p,exact),exact.d)===0;
+    const ok=inDomain && rightOK && equality;
+    m.checks.push({root,ok,inDomain,rightOK});
+    if(ok) m.answer.push(root);
+    const reason=!inDomain?'значення не належить ОДЗ':!rightOK?'права частина після відокремлення кореня від’ємна':'обидві частини початкового рівняння рівні';
+    add(`Перевірка: x = ${fmlText(root.ast)}`,`Підставляємо x = ${fmlText(root.ast)} у початкове рівняння: ${reason}. ${ok?'Корінь підходить.':'Це сторонній корінь. Відкидаємо його.'}`,
+      inDomain?[{f:irSubstitute(original[0],root.ast)},{g:ok?'=':'≠'},{f:irSubstitute(original[1],root.ast)}]:[{g:'x'},{g:'='},{f:root.ast},{w:'поза ОДЗ: підстановка не визначена'}],{verdict:ok?'Корінь підходить':'Сторонній корінь',rejected:!ok});
+  }
+  finish(m.answer.length?dRootsParts(m.answer):[{g:'∅'}],m.answer.length
+    ?`Відповідь: ${m.answer.map(x=>'x = '+fmlText(x.ast)).join('; ')}. Усі корені перевірено в початковому рівнянні.`
+    :'Рівняння не має розв’язків: допустимих коренів немає.');
+  return m;
+}
+
+function irView(m,ctx){
+  const writing=!!ctx.anim;
+  const linearSteps=m.steps.slice(0,ctx.index+1).filter(s=>s.linearIndex!=null);
+  const upto=linearSteps.length?linearSteps.at(-1).linearIndex:-1;
+  return '<div class="irsheet">'+m.steps.slice(0,ctx.index+1).map((s,i)=>{
+    if(s.linearIndex>0) return '';
+    const pen={writing:writing && i===ctx.index,order:0};
+    const current=ctx.step.linearIndex!=null && writing ? upto : -1;
+    const row=s.linearIndex===0?`<div class="eqsolve irlinear">${eqRowsHtml(m.linearRows,upto,current,ctx.anim?.kind==='linear')}</div>`:`<span class="fml">${domParts(s.parts,pen)}</span>`;
+    const note=s.domainNote?lessonNote('domain','Як знайти область визначення',pen.writing?hwTick(pen,'hwfade',.3,3):''):'';
+    return `<section class="irrow${s.answer?' iranswer':''}${s.rejected?' irrejected':''}${i===ctx.index?' ircurrent':''}"><div class="irlabel">${esc(s.title)}</div><div class="irformula">${row}</div>${s.verdict?`<div class="irverdict hwa"${hwTick(pen,'hwfade',.3,3)}>${esc(s.verdict)}</div>`:''}${note}</section>`;
+  }).join('')+'</div>';
+}
+registerTool('irrational',{
+  name:'Ірраціональні рівняння',icon:'√',color:'var(--primary)',bg:'var(--primary-l)',
+  build:c=>buildIrrationalModel(c.text),view:irView,
+  prepare(m,from,to){
+    if(to!==from+1) return null;
+    const j=m.steps[to].linearIndex, row=m.linearRows?.[j];
+    const block=document.querySelector('.irlinear');
+    if(j>0 && block && (row.type==='move'||row.type==='combine')) return {kind:'linear',type:row.type,toStep:j,srcRects:captureEqRects(j-1,block)};
+    return {writing:true};
+  },
+  animate(m,ctx){
+    if(ctx.anim?.kind==='linear') runEqAnim({rows:m.linearRows},ctx,document.querySelector('.irlinear'));
+    const current=document.querySelector('.irlinear .eqrow.cur') || document.querySelector('.irsheet .ircurrent');
+    if(current) current.scrollIntoView({block:'nearest'});
+  },
+  inputs:c=>`<div class="field"><label class="fl" for="i_irtext">Рівняння</label><input id="i_irtext" value="${esc(c.text??'sqrt(x + 2) = x')}" autocomplete="off" spellcheck="false"></div><p class="helper">Квадратний корінь: sqrt(x + 2) або √(x + 2). Кубічний: root(3, x − 1), cbrt(x − 1) або ∛(x − 1). Степінь: x^2. Для кубічного кореня справа має бути число або інший кубічний корінь після перенесення доданків.</p>`,
+  read:v=>({text:v('i_irtext')}),summary:c=>c.text,
+  editorFields:c=>`<div class="field"><label class="fl" for="f_irtext">Рівняння</label><input id="f_irtext" value="${esc(c.text||'')}"></div><p class="helper">${IR_FORM}</p>`,
+  readEditor:v=>({text:v('f_irtext')}),errorHint:IR_FORM,
+});
