@@ -335,7 +335,7 @@ function domLineText(c){
 function domParts(parts, pen){
   return parts.map(p=>{
     if(p.f) return `<span class="dp">${renderFormula(p.f,pen)}</span>`;
-    if(p.x) return `<span class="dp dxi">${hwGlyphs('x',pen)}<span class="dsub">${hwGlyphs(p.x,pen)}</span></span>`;
+    if(p.x) return `<span class="dp dxi">${hwGlyphs(p.symbol||'x',pen)}<span class="dsub">${hwGlyphs(p.x,pen)}</span></span>`;
     if(p.w) return `<span class="dp dword hwa"${hwTick(pen,'hwfade',0.3,3)}>${esc(p.w)}</span>`;
     return `<span class="dp${p.c?' '+p.c:''}">${hwGlyphs(p.g,pen)}</span>`;
   }).join('');

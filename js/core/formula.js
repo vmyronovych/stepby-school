@@ -38,9 +38,10 @@ function qSqrt(a){
 }
 
 /* ---------- Будівники вузлів (для формул, які складає сам інструмент) ---------- */
+// F.x(symbol): необов’язковий символ для показу нової змінної (наприклад t).
 const F={
   num:q=>({t:'num', q:typeof q==='number'?Q(q):q}),
-  x:()=>({t:'x'}),
+  x:symbol=>symbol?({t:'x',symbol}):({t:'x'}),
   add:(a,b)=>({t:'add',a,b}), sub:(a,b)=>({t:'sub',a,b}), pm:(a,b)=>({t:'pm',a,b}),
   mul:(a,b,imp)=>({t:'mul',a,b,imp:!!imp}), neg:a=>({t:'neg',a}), paren:a=>({t:'paren',a}),
   div:(a,b)=>({t:'div',a,b}), pow:(a,e)=>({t:'pow',a,e:typeof e==='number'?F.num(e):e}),
@@ -218,7 +219,7 @@ function fmlText(n){
   const T=fmlText, simple=x=>['num','x','paren','root','pow'].includes(x.t);
   switch(n.t){
     case 'num': return n.raw || (n.q.d===1 ? String(n.q.n) : `${n.q.n}/${n.q.d}`);
-    case 'x': return 'x';
+    case 'x': return n.symbol||'x';
     case 'add': return `${T(n.a)} + ${T(n.b)}`;
     case 'sub': return `${T(n.a)} − ${T(n.b)}`;
     case 'pm':  return `${T(n.a)} ± ${T(n.b)}`;
@@ -246,7 +247,7 @@ function renderFormula(n, pen, opt){
   let inner;
   switch(n.t){
     case 'num': inner=hwGlyphs(fmlText(n), pen); break;
-    case 'x':   inner=hwGlyphs('x', pen); break;
+    case 'x':   inner=hwGlyphs(n.symbol||'x', pen); break;
     case 'add': inner=R(n.a)+op('+')+R(n.b); break;
     case 'sub': inner=R(n.a)+op('−')+R(n.b); break;
     case 'pm':  inner=R(n.a)+op('±')+R(n.b); break;

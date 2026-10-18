@@ -1,5 +1,6 @@
 /* Ірраціональні рівняння: один квадратний або кубічний корінь у кожній частині
-   або один корінь і лінійний вираз. Корені й записи — зі спільних ядер. */
+   або один корінь і лінійний вираз; також заміна t = √x.
+   Корені й записи — зі спільних ядер. */
 const IR_FORM='Підтримуються квадратні та кубічні корені. Для квадратних: √P(x) = ax + b або √P(x) = √Q(x). Для кубічних: ∛P(x) = число або ∛P(x) = ∛Q(x). Під коренем — многочлен до x²; корінь можна відокремити перенесенням доданків.';
 const irSubPoly=(a,b)=>polyAdd(a,b.map(qNeg));
 const irEq=(a,b)=>[{f:a},{g:'='},{f:b}];
@@ -179,6 +180,91 @@ function buildIrrationalModel(text){
   return m;
 }
 
+// Метод заміни: вираз, квадратний відносно t = √x.
+function irReplacementPoly(ast){
+  let found=false;
+  function replace(n){
+    const v=fStrip(n);
+    if(v.t==='root'){
+      if(v.n!==2 || fStrip(v.a).t!=='x') throw 'Для цього методу використайте заміну t = √x. Приклад: x - 3sqrt(x) + 2 = 0.';
+      found=true; return F.x();
+    }
+    if(v.t==='x') return F.pow(F.x(),2);
+    const out=Object.assign({},v);
+    for(const k of ['a','b','e']) if(v[k]) out[k]=replace(v[k]);
+    return out;
+  }
+  const poly=toPoly(replace(ast));
+  return {poly,found};
+}
+function irRenameVariable(ast,symbol){
+  if(ast.t==='x') return F.x(symbol);
+  const out=Object.assign({},ast); delete out.fid;
+  for(const k of ['a','b','e']) if(ast[k]) out[k]=irRenameVariable(ast[k],symbol);
+  return out;
+}
+function irReplacementParts(parts){
+  return parts.map(p=>p.f?{...p,f:irRenameVariable(p.f,'t')}:p.x?{...p,symbol:'t'}:p.g==='x'?{g:'t'}:p);
+}
+function irRationalQ(r){
+  let a=r.n<0n?-r.n:r.n,b=r.d;
+  while(b){const next=a%b;a=b;b=next;}
+  const n=Number(r.n/(a||1n)),d=Number(r.d/(a||1n));
+  if(!Number.isSafeInteger(n)||!Number.isSafeInteger(d)) throw 'Числа надто великі для точного розбору. Використайте менші коефіцієнти.';
+  return Q(n,d);
+}
+// Повертаємо точний AST числа a + b√d; спільний знаменник лишається дробом.
+function irSurdAst(value,d){
+  const a=irRationalQ(value.a), b=irRationalQ(value.b);
+  if(qIsZero(b)||!irSign(d)) return qAst(a);
+  const den=a.d/gcd(a.d,b.d)*b.d;
+  const na=a.n*(den/a.d),nb=b.n*(den/b.d);
+  const root=F.root(2,qAst(irRationalQ(d)));
+  const term=Math.abs(nb)===1?root:F.mul(F.num(Math.abs(nb)),root);
+  const num=na===0?(nb<0?F.neg(term):term):nb<0?F.sub(qAst(Q(na)),term):F.add(qAst(Q(na)),term);
+  return den===1?num:F.div(num,F.num(den));
+}
+function buildSubstitutionModel(text){
+  if(typeof text!=='string'||text.split('=').length!==2) throw 'Введіть рівняння з одним знаком «=». Приклад: x - 3sqrt(x) + 2 = 0.';
+  const original=text.split('=').map(parseFormula);
+  const sides=original.map(irReplacementPoly);
+  if(!sides.some(s=>s.found)||sides.some(s=>!s.poly)) throw 'Після заміни t = √x рівняння має стати квадратним. Приклад: x - 3sqrt(x) + 2 = 0.';
+  const p=irSubPoly(sides[0].poly,sides[1].poly);
+  if(polyDeg(p)!==2) throw 'Цей метод розбирає квадратні рівняння відносно t = √x. Приклад: x - 3sqrt(x) + 2 = 0.';
+  const m={steps:[],original,roots:[],answer:[],checks:[],replacements:[],domain:irIntervals([irCondition([Q(0),Q(1)])])};
+  const add=(title,text,parts,extra={})=>m.steps.push({title,text,parts,...extra});
+  const T=F.x('t');
+  add('Рівняння для заміни','У рівнянні є x та √x. Оскільки x є квадратом √x на ОДЗ, введемо нову змінну.',irEq(...original));
+  add('ОДЗ рівняння','Квадратний корінь √x визначений, коли x ≥ 0. Це ОДЗ початкового рівняння.',[{g:'x'},{g:'≥'},{f:F.num(0)}],{domainNote:true});
+  add('Вводимо нову змінну','Позначаємо √x через t. Це заміна змінної.',irEq(T,F.root(2,F.x())));
+  add('Умова для нової змінної','Квадратний корінь невід’ємний, тому t ≥ 0. Від’ємні значення t не підходять.',[{g:'t'},{g:'≥'},{f:F.num(0)}]);
+  add('Виражаємо x через t','За заміною t = √x маємо x = t². У початковому рівнянні замінюємо x на t², а √x — на t.',irEq(F.x(),F.pow(T,2)));
+  add('Рівняння відносно t','Після заміни отримуємо квадратне рівняння відносно t. Переносимо доданки в одну частину та зводимо подібні.',irEq(irRenameVariable(polyAst(p),'t'),F.num(0)));
+  const quad=domQuad(p,'≥');
+  quad.rows.slice(1).forEach(row=>add('Розв’язуємо рівняння відносно t',row.text.replace(/\bx\b/g,'t'),irReplacementParts(row.parts)));
+  m.tRoots=quad.roots;
+  for(const t of quad.roots){
+    const exact=irExactRoot(t.ast),ok=irPairSign(exact.x,exact.d)>=0;
+    const replacement={t,ok}; m.replacements.push(replacement);
+    if(!ok){
+      add(`Відбір: t = ${fmlText(t.ast)}`,`t = ${fmlText(t.ast)} < 0. Це значення не задовольняє умову t ≥ 0. Відкидаємо його до повернення до x.`,[{g:'t'},{g:'='},{f:t.ast}],{verdict:'Не підходить: t < 0',rejected:true});
+      continue;
+    }
+    const squared=irPairMul(exact.x,exact.x,exact.d);
+    const x={v:t.v*t.v,ast:irSurdAst(squared,exact.d)};
+    replacement.x=x;
+    m.roots.push(x); m.answer.push(x);
+    add(`Повертаємося до x: t = ${fmlText(t.ast)}`,`t = ${fmlText(t.ast)} задовольняє умову t ≥ 0. Обчислюємо x = t² = ${fmlText(x.ast)}.`,[{g:'x'},{g:'='},{f:F.pow(F.paren(t.ast),2)},{g:'='},{f:x.ast}]);
+    // t ≥ 0 дає √(t²) = t, а p(t) = 0 підтверджує початкову рівність.
+    const equality=irPairSign(irExactPoly(p,exact),exact.d)===0;
+    if(!equality) throw 'Не вдалося точно перевірити корінь. Використайте менші коефіцієнти.';
+    m.checks.push({root:x,ok:true,inDomain:true,rightOK:true});
+    add(`Перевірка: x = ${fmlText(x.ast)}`,`Підставляємо x = ${fmlText(x.ast)} у початкове рівняння. Обидві частини рівні. Корінь підходить.`,irEq(irSubstitute(original[0],x.ast),irSubstitute(original[1],x.ast)),{verdict:'Корінь підходить'});
+  }
+  add('Відповідь',m.answer.length?`Відповідь: ${m.answer.map(x=>'x = '+fmlText(x.ast)).join('; ')}.`:'Рівняння не має розв’язків: допустимих значень t немає.',m.answer.length?dRootsParts(m.answer):[{g:'∅'}],{answer:true});
+  return m;
+}
+
 function irView(m,ctx){
   const writing=!!ctx.anim;
   const linearSteps=m.steps.slice(0,ctx.index+1).filter(s=>s.linearIndex!=null);
@@ -194,7 +280,7 @@ function irView(m,ctx){
 }
 registerTool('irrational',{
   name:'Ірраціональні рівняння',icon:'√',color:'var(--primary)',bg:'var(--primary-l)',
-  build:c=>buildIrrationalModel(c.text),view:irView,
+  build:c=>c.method==='substitution'?buildSubstitutionModel(c.text):buildIrrationalModel(c.text),view:irView,
   prepare(m,from,to){
     if(to!==from+1) return null;
     const j=m.steps[to].linearIndex, row=m.linearRows?.[j];
@@ -207,8 +293,8 @@ registerTool('irrational',{
     const current=document.querySelector('.irlinear .eqrow.cur') || document.querySelector('.irsheet .ircurrent');
     if(current) current.scrollIntoView({block:'nearest'});
   },
-  inputs:c=>`<div class="field"><label class="fl" for="i_irtext">Рівняння</label><input id="i_irtext" value="${esc(c.text??'sqrt(x + 2) = x')}" autocomplete="off" spellcheck="false"></div><p class="helper">Квадратний корінь: sqrt(x + 2) або √(x + 2). Кубічний: root(3, x − 1), cbrt(x − 1) або ∛(x − 1). Степінь: x^2. Для кубічного кореня справа має бути число або інший кубічний корінь після перенесення доданків.</p>`,
-  read:v=>({text:v('i_irtext')}),summary:c=>c.text,
-  editorFields:c=>`<div class="field"><label class="fl" for="f_irtext">Рівняння</label><input id="f_irtext" value="${esc(c.text||'')}"></div><p class="helper">${IR_FORM}</p>`,
-  readEditor:v=>({text:v('f_irtext')}),errorHint:IR_FORM,
+  inputs:c=>`<div class="field"><label class="fl" for="i_irmethod">Метод</label><select id="i_irmethod"><option value="power"${c.method!=='substitution'?' selected':''}>Піднесення до степеня</option><option value="substitution"${c.method==='substitution'?' selected':''}>Заміна t = √x</option></select></div><div class="field"><label class="fl" for="i_irtext">Рівняння</label><input id="i_irtext" value="${esc(c.text??'sqrt(x + 2) = x')}" autocomplete="off" spellcheck="false"></div><p class="helper">Квадратний корінь: sqrt(x + 2) або √(x + 2). Кубічний: root(3, x − 1), cbrt(x − 1) або ∛(x − 1). Степінь: x^2. Для кубічного кореня справа має бути число або інший кубічний корінь після перенесення доданків. Для методу заміни: x - 3sqrt(x) + 2 = 0.</p>`,
+  read:v=>({text:v('i_irtext'),method:v('i_irmethod')}),summary:c=>c.text,
+  editorFields:c=>`<div class="field"><label class="fl" for="f_irmethod">Метод</label><select id="f_irmethod"><option value="power"${c.method!=='substitution'?' selected':''}>Піднесення до степеня</option><option value="substitution"${c.method==='substitution'?' selected':''}>Заміна t = √x</option></select></div><div class="field"><label class="fl" for="f_irtext">Рівняння</label><input id="f_irtext" value="${esc(c.text||'')}"></div><p class="helper">${IR_FORM}</p>`,
+  readEditor:v=>({text:v('f_irtext'),method:v('f_irmethod')}),errorHint:IR_FORM,
 });

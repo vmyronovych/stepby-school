@@ -56,7 +56,7 @@ test('ідентифікатори тем і завдань унікальні; 
  const data=JSON.parse(vm.runInContext('JSON.stringify(DB.topics)',ctx));
  for(const ids of [data.map(t=>t.id),data.flatMap(t=>(t.tasks||[]).map(k=>k.id))]) assert.equal(new Set(ids).size,ids.length);
  assert.equal(data.findIndex(t=>t.id==='irrational'),data.findIndex(t=>t.id==='t9')+1);
- assert.equal(data.find(t=>t.id==='irrational').tasks.length,10);
+ assert.equal(data.find(t=>t.id==='irrational').tasks.length,11);
 });
 
 test('близькі межі ОДЗ не зливаються',()=>{
@@ -120,4 +120,39 @@ test('тотожність кубічних коренів має ОДЗ усі 
 });
 for(const equation of ['root(3,x)=x','root(3,x)=sqrt(x)','root(4,x)=2']){
  test('межі підтримки: '+equation,()=>assert.throws(()=>solve(equation),e=>typeof e==='string'));
+}
+
+function substitution(text){
+ return JSON.parse(vm.runInContext(`JSON.stringify((()=>{const m=toolDef('irrational').build({text:${JSON.stringify(text)},method:'substitution'});return {answer:m.answer.map(r=>fmlText(r.ast)),replacements:m.replacements.map(r=>({t:fmlText(r.t.ast),ok:r.ok})),steps:m.steps,checks:m.checks}})())`,ctx));
+}
+for(const [equation,answer] of [
+ ['x-3sqrt(x)+2=0',['1','4']],
+ ['x+sqrt(x)-2=0',['1']],
+ ['x-sqrt(x)=0',['0','1']],
+ ['x+sqrt(x)=0',['0']],
+ ['x-2sqrt(x)+1=0',['1']],
+ ['4x-4sqrt(x)-3=0',['9/4']],
+ ['x+sqrt(x)-1=0',['(3 − √5)/2']],
+ ['x-sqrt(x)-1=0',['(3 + √5)/2']],
+ ['x+sqrt(x)+1=0',[]],
+ ['x+3sqrt(x)+2=0',[]],
+ ['-x+3sqrt(x)-2=0',['1','4']],
+ ['3sqrt(x)=x+2',['1','4']],
+ ['x+0sqrt(x)-1=0',['1']],
+]) test('заміна: '+equation,()=>assert.deepEqual(substitution(equation).answer,answer));
+test('від’ємний t відкидаємо до повернення до x',()=>{
+ const m=substitution('x+sqrt(x)-2=0');
+ assert.deepEqual(m.replacements,[{t:'−2',ok:false},{t:'1',ok:true}]);
+ assert.equal(m.checks.length,1);
+ assert.equal(m.steps.filter(s=>s.title.startsWith('Повертаємося до x')).length,1);
+});
+test('символ t є у формулах та індексованих коренях',()=>{
+ const m=substitution('x-3sqrt(x)+2=0');
+ const rows=m.steps.filter(s=>s.title==='Розв’язуємо рівняння відносно t');
+ assert(rows.some(s=>s.parts.some(p=>p.x && p.symbol==='t')));
+ assert(rows.every(s=>!s.text.includes('x')));
+ assert.equal(vm.runInContext("fmlText(irRenameVariable(polyAst([Q(2),Q(-3),Q(1)]),'t'))",ctx),'t² − 3t + 2');
+});
+for(const text of ['x=1','sqrt(x)-2=0','x^2+sqrt(x)=0','x+sqrt(x+1)=0','x+root(3,x)=0','x+sqrt(x)=']){
+ test('межі методу заміни: '+text,()=>assert.throws(()=>substitution(text),e=>typeof e==='string'));
 }
