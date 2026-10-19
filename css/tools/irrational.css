@@ -12,3 +12,8 @@
 .irrejected .irformula,.irrejected .irverdict{color:var(--pink)}
 .irverdict{font:600 13px/1.5 'Segoe UI',sans-serif;margin-top:6px}
 .irrow .lnote{margin:10px 0 0;position:static;max-width:320px}
+
+/* Конспект: ті самі розміри та відступи формул, що й у rational-power. */
+.ir-lesson-formula{display:flex;align-items:center;gap:10px;overflow-x:auto;max-width:100%;padding:12px 0;font-size:21px}
+.ir-lesson-formula>.fml,.ir-lesson-equals{flex:none}
+.lesson-intro:has(.ir-lesson-formula) h3{margin-top:20px}

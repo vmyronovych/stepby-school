@@ -5,7 +5,7 @@ const fs=require('node:fs');
 const vm=require('node:vm');
 const path=require('node:path');
 const ctx=vm.createContext({document:{getElementById:()=>null}});
-for(const f of ['js/data.js','js/core/util.js','js/core/registry.js','js/core/formula.js','js/tools/linear.js','js/tools/domain.js','js/tools/irrational.js']){
+for(const f of ['js/data.js','js/core/util.js','js/core/registry.js','js/core/handwriting.js','js/core/formula.js','js/tools/linear.js','js/tools/domain.js','js/tools/irrational.js']){
  vm.runInContext(fs.readFileSync(path.join(__dirname,'..',f),'utf8'),ctx);
 }
 function solve(text){
