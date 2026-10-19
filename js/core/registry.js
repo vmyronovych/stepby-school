@@ -37,6 +37,7 @@
 
    Необов'язкове:
      errorHint  — текст, якщо build кинув 'bad'
+     inputHint, freeHint — підказки для умови та картки вільного інструмента
    ========================================================= */
 const TOOL_REQUIRED = ['name','icon','color','bg','build','view','inputs','read','summary','editorFields','readEditor'];
 

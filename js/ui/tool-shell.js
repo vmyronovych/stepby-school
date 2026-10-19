@@ -52,7 +52,7 @@ function renderTool(){
         <div id="toolInputs">${def.inputs(S.toolCfg||{})}</div>
         <button class="btn" style="width:100%;margin-top:4px" onclick="applyTool()">▶ Показати розв’язання</button>
         ${S.toolTaskId?`<button class="btn green sm" style="width:100%;margin-top:8px" onclick="markDone()">✓ Позначити виконаним</button>`:''}
-        <p class="helper">Можна ввести свої значення і натиснути «Показати розв’язання».</p>
+        <p class="helper">${esc(def.inputHint||'Можна ввести свої значення і натиснути «Показати розв’язання».')}</p>
       </div>
       <div class="panel stage">
         ${hasData?stageHtml():'<div class="empty">Введи умову ліворуч і натисни «Показати розв’язання», щоб побачити покроковий розбір 👈</div>'}

@@ -98,7 +98,7 @@ function renderStudent(){
         <a class="card click" href="${hrefTool(tl)}">
           <div class="ico" style="background:${DB.tools[tl].bg}">${DB.tools[tl].icon}</div>
           <h3>${DB.tools[tl].name}</h3>
-          <p class="d">Введи власні числа і розв’яжи крок за кроком</p>
+          <p class="d">${esc(DB.tools[tl].freeHint||'Введи власні числа і розв’яжи крок за кроком')}</p>
         </a>`).join('')}
     </div>`;
 }
