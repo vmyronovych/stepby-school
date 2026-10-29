@@ -1,0 +1,22 @@
+.vs-lesson{--vec-teal:#c73535}
+.vs-sliders{display:grid;gap:18px;padding:22px}
+.vs-sliders label{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px;font-size:14px;font-weight:600}
+.vs-sliders output{min-width:55px;text-align:center;background:var(--primary-l);color:var(--vec-purple);padding:5px 9px;border-radius:8px;font-size:17px}
+.vs-sliders input{grid-column:1/-1;padding:0;accent-color:var(--vec-purple);height:24px;cursor:pointer}
+.vs-sliders input:focus-visible{outline:3px solid #a89ce6;outline-offset:3px}
+.vs-board text{font:600 20px sans-serif;paint-order:stroke;stroke:#fafaff;stroke-width:4px;stroke-linejoin:round}
+.vs-formula{padding:16px;background:#fff1f1;color:var(--vec-teal);border-radius:12px;font-size:20px;line-height:1.9;margin-bottom:16px}
+.vs-grid-note{font-size:12px;margin-top:14px}
+.vs-theory{margin-top:28px}
+.vs-theory h2{font-size:23px;margin-bottom:16px}
+.vs-theory-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.vs-theory article{border:1px solid var(--line);border-radius:14px;padding:20px;background:#fff;font-size:14px;line-height:1.8}
+.vs-theory h3{margin:0 0 12px;font-size:17px}
+.vs-theory p{margin:8px 0}
+.vs-identities{font-size:17px;line-height:2.2}
+.vs-source{font-size:12px;color:var(--muted);margin-top:16px}
+.vs-quiz form{max-width:720px}
+.vs-quiz fieldset{border:0;padding:0;margin:0 0 16px;min-width:0}
+.vs-quiz h3{margin:12px 0;font-size:20px}
+@media(max-width:900px){.vs-theory-grid{grid-template-columns:1fr}}
+@media(max-width:480px){.vs-sliders{padding:16px}.vs-board text{font-size:25px}.vs-formula{font-size:18px}.vs-theory article{padding:16px}}
