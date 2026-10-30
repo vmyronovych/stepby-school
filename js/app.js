@@ -66,7 +66,7 @@ function resolveRoute(r){
   const t = DB.topics.find(x=>x.id===r.topic && x.cls===cls.id && x.subject===subj.id);
   if(!t) return {redirect: hrefSubj(cls.id, subj.id)};
   const st = {cls:cls.id, subject:subj.id, topic:t.id};
-  if(t.doc){ st.sub = r.sub; return {state:st}; }
+  if(t.doc && !(t.tasks||[]).some(k=>k.id===r.sub)){ st.sub = r.sub; return {state:st}; }
   if(!r.sub) return {state:st};
   const k = (t.tasks||[]).find(x=>x.id===r.sub);
   if(!k) return {redirect: hrefTopic(t)};
