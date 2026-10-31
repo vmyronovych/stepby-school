@@ -40,30 +40,8 @@ function buildSteps(){
 }
 
 function renderTool(){
-  const def=toolDef();
-  const hasData = S.steps.length>0;
-  app.innerHTML = `
-    <div class="crumbs"><a href="${toolBackHref()}">← Назад</a></div>
-    <h1 class="page">${def.icon} ${def.name}</h1>
-    <p class="sub">Покроковий інтерактивний розбір. Натискай «Далі», щоб побачити кожен крок.</p>
-    <div class="tool-shell">
-      <div class="panel cfg">
-        <h3>⚙️ Умова</h3>
-        <div id="toolInputs">${def.inputs(S.toolCfg||{})}</div>
-        <button class="btn" style="width:100%;margin-top:4px" onclick="applyTool()">▶ Показати розв’язання</button>
-        ${S.toolTaskId?`<button class="btn green sm" style="width:100%;margin-top:8px" onclick="markDone()">✓ Позначити виконаним</button>`:''}
-        <p class="helper">${esc(def.inputHint||'Можна ввести свої значення і натиснути «Показати розв’язання».')}</p>
-      </div>
-      <div class="panel stage">
-        ${hasData?stageHtml():'<div class="empty">Введи умову ліворуч і натисни «Показати розв’язання», щоб побачити покроковий розбір 👈</div>'}
-      </div>
-    </div>`;
-  // Політ запускаємо лише після того, як новий крок уже в DOM (позиції цілей відомі).
-  if(hasData && S.model && def.animate){
-    const ctx=stepCtx();
-    requestAnimationFrame(()=>requestAnimationFrame(()=>def.animate(S.model, ctx)));
-  }
-  S.anim=null;   // «посилка» одноразова
+  ReactUI.renderTool();
+  S.anim=null; // React captures the animation context during the synchronous commit.
 }
 
 // Те, що бачить рендер і анімація кроку.
@@ -81,27 +59,6 @@ function applyTool(){
 function markDone(){
   for(const t of DB.topics){ const k=(t.tasks||[]).find(x=>x.id===S.toolTaskId); if(k){k.done=true;} }
   toast('Завдання виконано! 🎉');
-}
-
-function stageHtml(){
-  const st=S.steps[S.step];
-  const last=S.step===S.steps.length-1;
-  const contentHtml = st.error
-    ? `<div class="empty">${esc(st.text)}</div>`
-    : toolDef().view(S.model, stepCtx());
-  return `
-    <div class="stage-head">
-      <span class="step-count">Крок ${S.step+1} з ${S.steps.length}</span>
-      <div>
-        <button class="btn gray sm" onclick="stepTo(0)" ${S.step===0?'disabled style=opacity:.4':''}>⟲ Спочатку</button>
-      </div>
-    </div>
-    <div class="calc"><div class="paper sheet">${contentHtml}</div></div>
-    <div class="explain ${last?'done':''}"><span>${last?'🎉 ':''}${st.text}</span></div>
-    <div class="step-nav">
-      <button class="btn gray" onclick="stepTo(${S.step-1})" ${S.step===0?'disabled style=opacity:.4':''}>← Назад</button>
-      <button class="btn" onclick="stepTo(${S.step+1})" ${last?'disabled style=opacity:.4':''}>Далі →</button>
-    </div>`;
 }
 
 function stepTo(i){

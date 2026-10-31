@@ -487,3 +487,74 @@ Chromium через file://: усі кроки шести прикладів, п
 Оновлено версії js/data.js та js/app.js. Посилання з параметром перед hash
 примусово завантажує документ замість самого переходу між розділами поточної сторінки.
 Три перевірки маршрутів і Chromium через HTTP пройдено. Помилок браузера немає.
+
+# React and TypeScript foundation
+
+Scope: migrate student navigation and the shared tool shell to strict TypeScript and React.
+Keep math engines, document hooks, hash URLs, styles, and animation contracts unchanged.
+Build a local classic-script bundle so checked-in `index.html` still works offline and on GitHub Pages.
+Use React components for Button, LinkButton, Card, Breadcrumbs, and Notebook.
+Keep trusted lesson HTML behind one explicit adapter. Unmount React before legacy document rendering.
+
+- [x] Inspect architecture, existing tests, and project lessons.
+- [x] Present migration scope before implementation.
+- [x] Add repeatable build, strict type checking, and dependency lockfile.
+- [x] Migrate student pages and tool shell to reusable React components.
+- [x] Preserve legacy routing and synchronous animation lifecycle at the bridge.
+- [x] Run existing tests and browser checks: navigation, documents, custom inputs, steps, reduced motion, mobile, and file URLs.
+- [x] Document development commands, migration boundary, and verification results.
+
+
+## Review and verification
+
+- Student pages and the shared tool shell now use React and strict TypeScript.
+- Shared components cover buttons, cards, breadcrumbs, headings, and the notebook surface.
+- Math engines, inline document APIs, document hooks, hash URLs, and existing styles remain compatible.
+- The bridge commits synchronously before animation measurements and cancels pending animation frames on unmount.
+- The production bundle and license notices are stored locally in `assets/`; no CDN is required.
+- Added build/dev commands, a lockfile, migration guidance, and CI checks for stale generated assets.
+- `npm run build`: passed, including strict TypeScript checking.
+- `npm test`: all 124 existing checks passed; baseline also had 124 passing checks.
+- `npm run test:browser`: all 7 Chromium tests passed. Coverage includes student navigation,
+  browser history, custom input, validation, completion, document state, each lesson tool,
+  animation timing, skipped steps, reduced motion, stale-frame cancellation, mobile layout, and `file://`.
+- The column animation test confirmed separate flights for the written digit and carry digit.
+- Desktop and 390 px notebook screenshots were inspected. No browser console errors occurred.
+- Read-only independent review found no blocking lifecycle or routing regressions.
+- `git diff --check`: passed.
+
+Migration boundary: legacy lesson engines, data, routing, and documents still use JavaScript.
+Their conversion can proceed one module at a time using the typed UI boundary.
+Changes are local and have not been committed or published.
+
+# Format React pages
+
+- [x] Inspect the page source and existing formatter configuration.
+- [x] Format `StudentPage.tsx` and `ToolPage.tsx` with consistent indentation and line breaks.
+- [x] Verify TypeScript and rebuild the offline bundle.
+
+Review: formatted both React pages with Prettier. TypeScript, production build, and `git diff --check` passed.
+
+# Feature folders and focused components
+
+Scope: organize React source under `src/features/student/` and `src/features/tools/`.
+Keep generic UI and notebook components in `src/components/`.
+StudentPage selects the current screen; each screen composes feature cards and sections with typed props.
+ToolPage composes configuration and notebook panels; isolate animation timing in a feature hook.
+Preserve DOM structure, text, routes, global bridge, and animation behavior.
+
+- [x] Inspect existing pages and identify feature boundaries.
+- [x] Present scope before implementation.
+- [x] Split student screens, cards, and topic sections into feature components.
+- [x] Split tool panels, step controls, and animation hook into feature components.
+- [x] Update imports and architecture documentation; format changed source.
+- [x] Run build, existing tests, browser tests, and diff checks.
+
+
+Review: student feature now has four screens and focused cards, grids, breadcrumbs, and topic sections.
+Tool feature now has configuration and stage panels, step controls, and `useToolAnimation`.
+Only feature entry pages read `DB` and `S`; child components receive typed props.
+Shared primitives remain in `src/components/`. Removed `src/pages/` and updated imports and documentation.
+Formatted all feature files and rebuilt the offline bundle; updated its resource version.
+Verification: strict TypeScript/build passed, 124 existing tests passed, 7 browser tests passed,
+and `git diff --check` passed. Navigation, document state, file URLs, and sequential column flights remain covered.

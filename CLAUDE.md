@@ -8,8 +8,15 @@
 
 ## Стек і як запускати
 
-- **Немає збірки, залежностей і бекенду** — відкрий `index.html` у браузері, і все працює (у т.ч. через `file://`).
-- Код розкладено по файлах, які підключає `index.html` звичайними `<link>`/`<script>`. **НЕ переходь на ES-модулі** (`type="module"`) — вони ламають відкриття через `file://`. Усі функції лишаються глобальними: inline-`onclick` у шаблонах — це і є публічний API.
+- **React + strict TypeScript для нового UI**, esbuild для локального бандла. `npm ci`, `npm run dev`, `npm run build`.
+- `index.html` використовує звичайні скрипти, включно зі зібраним `assets/app.js`: перегляд працює через `file://` і GitHub Pages.
+- ES-модулі дозволені у `src/`; збірка перетворює їх на IIFE. Не додавай `type="module"` у `index.html`.
+- Наявні дані, математичні ядра, роутер і документи лишаються в `js/`. Глобальні функції для inline-обробників збережено.
+- Новий UI додавай у `src/features/<feature>/`; спільні примітиви тримай у `src/components/`.
+- Сторінки складають екрани та компоненти. Передавай типізовані props; читай глобальний стан лише на межі функції.
+- Форматуй TSX перед review. Після збірки коміть `assets/` разом із джерелами.
+- React володіє потоком учня та оболонкою зошита. Перед рендером документа роутер викликає `ReactUI.unmount()`.
+- `LegacyHtml` — тимчасова межа для довіреної розмітки уроків, полів і формул. Не передавай неекрановане введення.
 - Дані демо (класи, предмети, теми, завдання) — **в пам'яті**, у об'єкті `DB`. Оновлення сторінки скидає прогрес — це нормально для прототипу.
 - **НЕ використовуй** `localStorage`/`sessionStorage` та зовнішні CDN (і Google Fonts) — жодних мережевих залежностей.
 - **Кожна сторінка має адресу** (`#/…`, див. «Адреси»): перехід — це `<a href>`, а не `onclick`.
@@ -52,15 +59,21 @@ js/info/nit.js        xlsx для НІТ (zip без стиснення, без 
 js/info/show/         схеми на проєктор: keyboard.js, win/10…40-*.js (копія Windows 10/11)
 css/info.css          КТП і конспект; css/info/projector.css, keyboard.css, win.css — схеми
 js/ui/modal.js        showModal / closeModal (для від'єднаних кабінетів)
-js/ui/tool-shell.js   оболонка кроків (не знає жодного інструмента за іменем)
+js/ui/tool-shell.js   стан кроків, підготовка анімації та міст до React ToolPage
 js/ui/doc.js          перегляд матеріалу-документа (теми з полем doc), хуки розділів
-js/ui/student.js      потік учня; ui/teacher.js, ui/admin.js — від'єднані кабінети
+src/components/       Button, LinkButton, Card, Breadcrumbs, Notebook та межа LegacyHtml
+src/features/student/ StudentPage + screens/ (екрани) + components/ (картки й секції)
+src/features/tools/   ToolPage + components/ (панелі й кроки) + hooks/ (анімація)
+src/main.tsx          ReactUI: синхронний рендер і демонтування перед документами
+js/ui/student.js      міст до React + глобальні допоміжні функції; ui/teacher.js, ui/admin.js — від'єднані кабінети
 js/app.js             роутер (адреса → S → render) + побудова адрес + старт
 ```
 
 ### Перевірка змін
 
-Немає юніт-тестів. Після будь-якої зміни в інструменті прогани сценарій у Playwright (headless Chromium) на `file://…/index.html`, керуючи внутрішніми функціями напряму, і роби скриншот панелі `.panel.stage`:
+`npm test` перевіряє математичні моделі та маршрути. `npm run build` перевіряє TypeScript.
+`npm run test:browser` перевіряє React UI, історію, документи, анімації та `file://`.
+Після будь-якої зміни в інструменті прогани сценарій у Playwright (headless Chromium) на `file://…/index.html`, керуючи внутрішніми функціями напряму, і роби скриншот панелі `.panel.stage`:
 
 ```js
 await page.evaluate(() => openTool('dvk', {n:12}));      // відкрити інструмент

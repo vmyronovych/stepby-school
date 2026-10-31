@@ -145,7 +145,7 @@ function render(){
   // ширша сторінка для інструмента (зошит) і для документа (схеми й таблиці)
   app.classList.toggle('wide', !!S.tool || !!isDoc);
   if(S.tool){ return renderTool(); }
-  if(isDoc){ return renderDoc(topic); }
+  if(isDoc){ ReactUI.unmount(); return renderDoc(topic); }
   return renderStudent();
 }
 

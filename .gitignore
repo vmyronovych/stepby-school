@@ -19,3 +19,8 @@ Gemfile.lock
 
 # Local textbook references; never publish or commit these files.
 /books/
+
+# JavaScript development tools (assets/ is the committed offline build)
+node_modules/
+playwright-report/
+test-results/

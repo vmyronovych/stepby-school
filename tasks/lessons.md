@@ -69,3 +69,17 @@
 - Після зміни маршрутизації оновлюй версію js/app.js.
 - Перевіряй повідомлення про неробоче посилання через HTTP, а не лише file://.
 - Якщо нова вкладка працює, перевір застарілий стан відкритої сторінки перед зміною маршрутизатора.
+
+## Readable React source
+
+- Format new TSX pages before presenting them for review.
+- Put nested JSX, conditional branches, and component props on separate lines when needed.
+- Do not compress page markup into long lines to reduce file length.
+
+## Feature structure for React
+
+- Organize feature code under `src/features/<feature>/`.
+- Keep pages focused on selecting and composing screens.
+- Extract cards, sections, panels, and lifecycle hooks into named feature files.
+- Keep generic UI components separate from feature components.
+- Pass typed props to extracted components instead of reading global state inside each component.
