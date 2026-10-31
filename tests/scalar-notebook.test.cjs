@@ -4,7 +4,7 @@ const fs=require('node:fs');
 const path=require('node:path');
 const vm=require('node:vm');
 const ctx=vm.createContext({document:{getElementById:()=>null},hrefTool:(id,cfg)=>'#/tool/'+id+'?c='+encodeURIComponent(JSON.stringify(cfg)),DOCS:{},DB:{topics:[],tools:{}},registerTool:(id,def)=>ctx.DB.tools[id]=def});
-for(const file of ['js/core/util.js','js/core/handwriting.js','js/core/formula.js','js/geometry/scalar-product.js','js/tools/scalar-product.js'])vm.runInContext(fs.readFileSync(path.join(__dirname,'..',file),'utf8'),ctx);
+for(const file of ['js/core/util.js','js/core/handwriting.js','js/core/formula.js','js/geometry/scalar-product.js','js/geometry/vector-notebook.js','js/tools/scalar-product.js'])vm.runInContext(fs.readFileSync(path.join(__dirname,'..',file),'utf8'),ctx);
 const tool=vm.runInContext('ScalarNotebook',ctx);
 function value(n){
   switch(n.t){

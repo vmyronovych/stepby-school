@@ -18,12 +18,3 @@ test('нуль, одиниця, протилежний вектор та дро�
   for(const [k,expected] of values)assert.deepEqual(Array.from(lesson.model(3,2,k).result),expected);
   assert.equal(lesson.model(0,0,-3).scaledLength,0);
 });
-test('самоперевірка містить коректні відповіді на шість різних задач',()=>{
-  const q=lesson.questions;
-  assert.equal(q.length,6);
-  assert.equal(q[0].options[q[0].answer],String(lesson.model(6,0,-2).scaledLength));
-  assert.equal(q[1].options[q[1].answer],lesson.model(1,0,-.5).direction);
-  assert.deepEqual(Array.from(lesson.model(-2,3,-3).result),[6,-9]);assert.equal(q[2].answer,0);
-  assert.deepEqual(Array.from(lesson.model(2,-4,-.5).result),[-1,2]);assert.equal(q[3].answer,2);
-  assert.equal(q[4].answer,0);assert.equal(q[5].answer,1);
-});

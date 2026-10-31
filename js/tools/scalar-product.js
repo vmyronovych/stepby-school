@@ -51,15 +51,6 @@ const ScalarNotebook = (() => {
     steps[1].label='Обчислення';
     return {...ex,...examples[index],index,steps};
   }
-  function renderVector(token,pen){
-    let body=hwGlyphs(token.name,pen);
-    body=`<span class="sp-tool-vector">${body}<svg class="sp-tool-arrow hwa" viewBox="0 0 60 12" aria-hidden="true"${hwTick(pen,'hwwipe',.28)}><path d="M2 6H56 M48 1L56 6L48 11" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
-    if(token.modulus)body=hwGlyphs('|',pen)+body+hwGlyphs('|',pen);
-    if(token.square)body+=`<sup class="sp-tool-square">${hwGlyphs('2',pen)}</sup>`;
-    return body;
-  }
-  function tokenText(token){return token.kind==='vector'?(token.modulus?'|':'')+token.name+(token.modulus?'|':'')+(token.square?'²':''):token.kind==='ast'?fmlText(token.value):token.value;}
-  function renderTokens(tokens,pen){return tokens.map(t=>t.kind==='vector'?renderVector(t,pen):t.kind==='ast'?renderFormula(t.value,pen):hwGlyphs(t.value,pen)).join('');}
   function fields(cfg,id){
     const group=cfg.group==null?0:Number(cfg.group),part=cfg.part==null?0:Number(cfg.part);
     return `<div class="field"><label class="fl" for="${id}">Задача</label><select id="${id}">${examples.map((e,i)=>`<option value="${i}"${e.group===group&&e.part===part?' selected':''}>${esc(e.title)}</option>`).join('')}</select></div><p class="helper">Розв’язуй задачу кнопкою «Далі». Після відповіді переходь до наступної задачі.</p>`;
@@ -70,7 +61,7 @@ const ScalarNotebook = (() => {
     const task=topic&&(topic.tasks||[]).find(t=>Number(t.cfg.group)===example.group&&Number(t.cfg.part)===example.part);
     return task?hrefTopic(topic,task.id):hrefTool('scalar-product',{group:example.group,part:example.part});
   }
-  return {build,examples,fields,readFields,renderTokens,tokenText,nextHref};
+  return {build,examples,fields,readFields,renderTokens:VectorNotebook.renderTokens,tokenText:VectorNotebook.tokenText,nextHref};
 })();
 registerTool('scalar-product',{
   name:'Скалярний добуток векторів',icon:'↗',color:'var(--primary)',bg:'var(--primary-l)',
@@ -78,31 +69,11 @@ registerTool('scalar-product',{
   freeHint:'Розв’язуй задачі про скалярний добуток одну за одною на аркуші зошита.',
   build:ScalarNotebook.build,
   view(m,ctx){
-    const lines=new Map();
-    m.steps.slice(0,ctx.index+1).forEach((step,i)=>{
-      const target=step.appendTo??i;
-      if(!lines.has(target))lines.set(target,[]);
-      // Наступна частина рівності починається зі знака «=».
-      const tokens=step.appendTo==null?step.tokens:step.tokens.slice(step.tokens.findIndex(t=>t.kind==='text'&&t.value==='='));
-      lines.get(target).push({step,i,tokens});
-    });
-    const rows=[...lines.values()].map(chunks=>{
-      const current=chunks.some(c=>c.i===ctx.index),answer=chunks.some(c=>c.i===m.steps.length-1);
-      const label=chunks[0].step.label;
-      const formula=chunks.map(({i,tokens})=>{
-        const pen={writing:!!ctx.anim&&i===ctx.index,order:0};
-        return `<span class="sp-tool-segment" data-step="${i}">${ScalarNotebook.renderTokens(tokens,pen)}</span>`;
-      }).join('');
-      return `<section class="rp-row${current?' rp-current':''}${answer?' rp-answer':''}"><div class="rp-label">${label}</div><div class="fml sp-tool-formula" role="img" aria-label="${esc(chunks.flatMap(c=>c.tokens).map(ScalarNotebook.tokenText).join(' '))}">${formula}</div></section>`;
-    }).join('');
+    const rows=VectorNotebook.renderRows(m,ctx);
     const next=ScalarNotebook.examples[m.index+1];
     return `<div class="rp-sheet sp-tool-sheet"><div class="rp-condition sp-tool-condition"><p>Задача ${m.index+1} із ${ScalarNotebook.examples.length}</p><div>${m.condition}</div></div>${rows}${ctx.index===m.steps.length-1?`<div class="sp-tool-next">${next?`<a class="btn sm" href="${ScalarNotebook.nextHref(next)}">Наступна задача →</a>`:'<p>Усі задачі теми розглянуто.</p>'}</div>`:''}</div>`;
   },
-  animate(m,ctx){
-    if(ctx.step.appendTo==null)return;
-    const line=document.querySelector('.rp-current .sp-tool-formula');
-    if(line)line.scrollLeft=line.scrollWidth;
-  },
+  animate:VectorNotebook.scrollCurrent,
   prepare:(m,from,to)=>to===from+1?{writing:true}:null,
   inputs:cfg=>ScalarNotebook.fields(cfg,'i_spexample'),read:v=>ScalarNotebook.readFields(v,'i_spexample'),
   summary:cfg=>ScalarNotebook.examples.find(e=>e.group===Number(cfg.group||0)&&e.part===Number(cfg.part||0))?.title||'Скалярний добуток',

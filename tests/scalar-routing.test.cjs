@@ -31,3 +31,13 @@ test('попередні документи й задачі алгебри зб�
   const task=vm.runInContext("DB.topics.find(t=>t.id==='rational-power').tasks[0]",ctx);
   assert.equal(resolve('#/10a/math/rational-power/'+task.id).state.tool,'rational-power');
 });
+test('кожний приклад множення вектора відкривається за своєю адресою',()=>{
+  const topic=vm.runInContext("DB.topics.find(t=>t.id==='vector-scaling')",ctx);
+  assert.equal(topic.tasks.length,6);
+  for(let i=0;i<topic.tasks.length;i++){
+    const task=topic.tasks[i],r=resolve('#/9a/geometry/vector-scaling/'+task.id);
+    assert.equal(r.state.tool,'vector-scaling');
+    assert.equal(r.state.toolTaskId,'scaling-'+(i+1));
+    assert.equal(r.state.toolCfg.example,i);
+  }
+});
