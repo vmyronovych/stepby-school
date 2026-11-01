@@ -633,3 +633,182 @@ Boundary: lesson prose/static SVG and specialized math/drawing/model engines int
 They no longer own application pages or interactive control markup. The migration does not convert numerical
 algorithms to TypeScript or add previously disconnected teacher/admin routes.
 Changes are local and uncommitted.
+
+# Remaining JavaScript migration — delegated implementation plan
+
+Status: planning only. Application source and generated assets are unchanged.
+
+## Goal and completion contract
+
+Move every source file in `js/` into strict TypeScript ES modules under `src/`.
+Remove the shared lexical scope, source concatenation, and build-time source patches.
+Preserve React ownership of all interactive controls and application pages.
+Keep lesson prose and static SVG as trusted content; JSX conversion is not required.
+Keep specialized handwritten and SVG renderers where their existing output is appropriate.
+
+Completion means all of the following:
+
+- [ ] Every `js/` file has a recorded destination or an evidence-backed removal decision.
+- [ ] `js/` is removed; runtime source uses explicit imports and exports.
+- [ ] Remove `scripts/engine-runtime.mjs`, `stepby:engines`, and `src/runtime/virtual.d.ts`.
+- [ ] No source-string rewriting, ordered script loading, ambient engine declarations, or VM evaluation of engine sources remains.
+- [ ] All migrated code passes the existing strict TypeScript configuration.
+- [ ] No `@ts-nocheck`, migration-wide `any`, or unchecked casts conceal missing domain contracts.
+- [ ] Tests exercise the imported implementations and retain their mathematical assertions.
+- [ ] Routes, lesson text, task results, animation, controller state, and cleanup remain equivalent.
+- [ ] The single local IIFE bundle still works through HTTP, GitHub Pages, offline, and `file://`.
+- [ ] Documentation, CI, generated assets, and resource versions reflect the final source layout.
+
+## Findings that determine the order
+
+`scripts/engine-runtime.mjs` currently joins files into one module and patches `util.js` with regular expressions.
+`src/runtime/index.ts` imports that generated module through `stepby:engines`.
+Several math tests evaluate JavaScript files in a shared VM rather than importing modules.
+Existing runtime interfaces cover consumers, but many internal models remain untyped.
+Registry functions read the catalog and route-state mirror; tool definitions register during evaluation.
+Circuit breadboard helpers call functions in `sim.js`, so naive imports would create a cycle.
+Windows model, view-model helpers, and input commands also share mutable state and functions.
+Document templates reference navigation services, projector metadata, and shared document registries.
+`src/app/documentViews.tsx` discards old projector lifecycle hooks when mounting React projectors.
+Remove those obsolete hooks only after confirming their public routes use the React path.
+
+## Target ownership
+
+| Current source | Target | Owner |
+| --- | --- | --- |
+| `js/core/` | `src/engines/core/` | Foundation agent |
+| `js/tools/`, excluding vector/scalar tools | `src/features/tools/engines/` | Algebra agent |
+| `js/geometry/`, vector/scalar tool engines | `src/features/geometry/engines/` | Geometry agent |
+| `js/info/` document files and `js/robo/` document files | `src/features/documents/data/`, `content/`, `services/` | Content agent |
+| `js/info/show/keyboard.js` | `src/features/keyboard/engine/` | Keyboard and Windows agent |
+| `js/info/show/win/` | `src/features/windows/engine/` | Keyboard and Windows agent |
+| `js/robo/circuit/` | `src/features/circuit/engine/` | Circuit agent |
+| Runtime composition, build, shared tests, docs, bundle | Existing integration paths | Coordinator |
+
+Keep feature-local types with their feature. Put shared formula, exact-number, rendering,
+tool-definition, and animation contracts in the foundation. Prefer type-only imports where possible.
+Retain the runtime facade initially to limit consumer changes; implement it with normal imports.
+Do not build a second application store or move application UI back into engines.
+
+## Stage 0 — baseline and contract design
+
+Owner: coordinator. Complete before implementation agents start.
+
+- [x] Inspect the manifest, compiler settings, runtime facade, tests, consumers, and project lessons.
+- [x] Get independent dependency analysis for math/drawing and documents/simulations.
+- [x] Present the execution order and delegated ownership for review.
+- [ ] Record every source path, exported symbol, shared dependency, and destination in a migration ledger.
+- [ ] Run baseline formatting, build, unit tests, and browser tests; record actual current counts and failures.
+- [ ] Capture canonical task-model results, rendered step output, document IDs/content, and representative screenshots.
+- [ ] Define typed registration, service injection, state ownership, and generic tool/model/animation interfaces.
+- [ ] Define one test entry point per domain so bundled test imports share the intended registry instance.
+
+Use explicit composition to assemble tool definitions and documents once, with duplicate-ID checks.
+Keep pure helpers importable without constructing the app or reading the DOM.
+Preserve the current in-memory state and error contracts during this migration.
+
+## Stage 1 — shared foundation
+
+Owner: foundation agent. Coordinator owns integration edits.
+
+- [ ] Convert utilities, exact-number/formula helpers, handwriting, notebook, columns, number lines, and registry.
+- [ ] Define precise formula AST, pen, geometry, step, animation, and DOM boundary types.
+- [ ] Replace patched toast code with the existing typed notification service; remove the unused app lookup.
+- [ ] Preserve synchronous DOM measurement and animation cancellation behavior.
+- [ ] Establish explicit tool/document assembly APIs and typed navigation dependencies.
+- [ ] Update test module loading to support imported domain entry points and isolated instances.
+- [ ] Verify shared rendering and math output before handing stable interfaces to feature agents.
+
+Transition rule: migrate one dependency group at a time and keep the application buildable.
+If a short-lived bridge is needed, the coordinator owns it and records its removal in the ledger.
+It must use explicit imports; it must not duplicate implementations or create new script concatenation.
+
+## Stage 2 — parallel feature wave A
+
+Run three workers with the coordinator as the fourth active agent.
+
+**Agent A: algebra and arithmetic.** Own the non-geometry tool engines and their unit tests.
+
+- [ ] Migrate shared `linear` helpers before domain, irrational, and rational-power dependents.
+- [ ] Migrate arithmetic, divisibility, factorization, fractions, equations, and proportions in dependency order.
+- [ ] Convert factorization helpers before NSD/NSK consumers.
+- [ ] Export typed definitions; replace hidden registration and state reads with explicit contracts.
+- [ ] Preserve BigInt exact arithmetic, validation strings, all step data, and animation hooks.
+- [ ] Replace VM-loaded math tests with module imports without weakening assertions.
+
+**Agent B: geometry.** Own geometry engines, vector/scalar tool engines, and their unit tests.
+
+- [ ] Convert vector models, presets, practice checks, diagrams, and lesson data.
+- [ ] Convert vector notebook tokens, step composition, scaling, and scalar-product tool models.
+- [ ] Use foundation formula/pen types; keep controls in existing React components.
+- [ ] Scope notebook scrolling to its mounted root instead of a global document query.
+- [ ] Verify zero vectors, negative multipliers, collinearity, exact values, and appended formula steps.
+
+**Agent C: document content.** Own info/robotics data, content assembly, and focused document tests.
+
+- [ ] Convert calendar, KTP records, lesson plans, NIT export helpers, and robotics sections.
+- [ ] Separate content data from registry mutation and runtime controller state.
+- [ ] Preserve Ukrainian text, static markup, document IDs, anchors, downloads, and memory-only KTP edits.
+- [ ] Replace controller references with typed preset metadata supplied at composition.
+- [ ] Assemble cached document HTML and topic metadata explicitly after catalog/content data load.
+- [ ] Separate NIT workbook byte generation from browser download effects; check all/semester export contents.
+- [ ] Remove obsolete projector hooks and stale references to removed scripts after route verification.
+
+Coordinator integrates completed slices, owns shared API changes, and checks composition for cycles.
+Each worker updates only its domain tests; shared test infrastructure belongs to the coordinator.
+
+## Stage 3 — parallel feature wave B
+
+**Agent D: keyboard and Windows.** Own both engine directories and their controller type contracts.
+
+- [ ] Convert keyboard presets, editing operations, subscriptions, events, and lifecycle cleanup.
+- [ ] Split Windows data/icons, filesystem operations, view-model publication, and input commands.
+- [ ] Give mutable state one owner; inject command dependencies where direct imports would create cycles.
+- [ ] Use discriminated unions for filesystem nodes, windows, dialogs, commands, and interaction state.
+- [ ] Preserve selection, clipboard, search, rename, save, drag behavior, and same-document state.
+- [ ] Verify listener/timer cleanup and remount behavior with existing browser scenarios.
+
+**Agent E: circuit.** Own circuit engines, circuit contracts, and focused solver/model tests.
+
+- [ ] Type components, terminals, wires, properties, solver results, history, and simulation state.
+- [ ] Extract shared terminal and wire operations before converting breadboard/simulator dependencies.
+- [ ] Convert parts, solver, breadboard, drawing, and controller modules without import cycles.
+- [ ] Preserve physics, wiring, undo/redo, schematic/breadboard views, sound, and animation timing.
+- [ ] Verify electrical results and release rAF, audio, and event resources on unmount.
+
+**Agent F: independent review.** Read-only review of completed wave A code and tests.
+
+- [ ] Check exact math, content parity, registration order, import cycles, and unsafe type escapes.
+- [ ] Report concrete regressions to the coordinator; domain owners apply fixes.
+
+## Stage 4 — integration and verification
+
+Owner: coordinator. Domain agents resolve findings in their assigned files.
+
+- [ ] Assemble all engines/documents with ordinary TypeScript imports and explicit registration.
+- [ ] Remove remaining compatibility bridges, the concatenation plugin, and the virtual declaration.
+- [ ] Remove `js/` after every file is accounted for; update source-path tests and stale comments.
+- [ ] Preserve the plain-script IIFE output and public `StepBySchool` browser API.
+- [ ] Update README, CLAUDE.md, build/dev messages, and CI references.
+- [ ] Run `npm run format:check`, `npm run build`, `npm test`, and `npm run test:browser`.
+- [ ] Compare canonical task models, every rendered task step, document registry, and lesson content with baseline.
+- [ ] Review notebook, geometry, keyboard, Windows, and circuit screenshots at desktop and mobile widths.
+- [ ] Verify routes/history, custom input, exports/printing, reduced motion, sequential writing, and number flights.
+- [ ] Verify HTTP and `file://` operation with no external runtime requests or console/page errors.
+- [ ] Verify dev rebuilds for migrated modules and unchanged bundle hashes on a second production build.
+- [ ] Run `git diff --check`; ensure generated assets match the source and resource versions are updated.
+- [ ] Record final results, resolved findings, and any remaining limitations in this task section.
+
+## Delegation rules and review gates
+
+Each agent receives source paths, target paths, agreed contracts, required behavior, and focused checks.
+Do not let multiple agents edit the runtime facade, shared types, build scripts, or generated assets.
+Agents report changed files, verification results, unresolved dependencies, and behavior differences.
+The coordinator merges and verifies one completed slice at a time.
+After an API conflict or regression, stop the affected lane, revise the plan, and resume after agreement.
+Do not combine this migration with UI redesign, new lesson content, or numerical algorithm changes.
+Final completion requires both passing checks and an independent review of the integrated application.
+
+Planning review: source inspection confirms that this needs module and internal type migration,
+not extension renaming. Parallel work starts after the shared contracts and foundation are stable.
+Implementation has not started; baseline execution and all implementation checks remain pending.
