@@ -1,11 +1,12 @@
-// Запуск: node --test tests/rational-power.test.cjs. Без залежностей.
+// Запуск: node --test tests/rational-power.test.cjs. Потребує npm ci.
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
 const vm=require('node:vm');
-const context=vm.createContext({document:{getElementById:()=>null}});
-for(const file of ['js/data.js','js/core/util.js','js/core/registry.js','js/core/handwriting.js','js/core/formula.js','js/tools/rational-power.js']){
+const { createDataContext } = require('./helpers/load-typescript.cjs');
+const context=createDataContext({document:{getElementById:()=>null}});
+for(const file of ['js/core/util.js','js/core/registry.js','js/core/handwriting.js','js/core/formula.js','js/tools/rational-power.js']){
   vm.runInContext(fs.readFileSync(path.join(__dirname,'..',file),'utf8'),context);
 }
 const examples=JSON.parse(vm.runInContext('JSON.stringify(RP.examples)',context));

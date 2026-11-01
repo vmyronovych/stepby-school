@@ -1,3 +1,4 @@
+import { hrefTool } from '../../../navigation/routes';
 import type { Task, ToolDefinition } from '../../../types';
 import { Card, Icon } from '../../../components/ui';
 

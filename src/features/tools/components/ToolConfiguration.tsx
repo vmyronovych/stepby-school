@@ -1,7 +1,8 @@
-import { Button, LegacyHtml } from '../../../components/ui';
+import type { ReactNode } from 'react';
+import { Button } from '../../../components/ui';
 
 interface ToolConfigurationProps {
-  inputsHtml: string;
+  children: ReactNode;
   inputHint?: string;
   canMarkDone: boolean;
   onApply: () => void;
@@ -9,7 +10,7 @@ interface ToolConfigurationProps {
 }
 
 export function ToolConfiguration({
-  inputsHtml,
+  children,
   inputHint,
   canMarkDone,
   onApply,
@@ -18,7 +19,7 @@ export function ToolConfiguration({
   return (
     <div className="panel cfg">
       <h3>⚙️ Умова</h3>
-      <LegacyHtml id="toolInputs" html={inputsHtml} />
+      {children}
       <Button style={{ width: '100%', marginTop: 4 }} onClick={onApply}>
         ▶ Показати розв’язання
       </Button>

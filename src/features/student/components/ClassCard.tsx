@@ -1,3 +1,5 @@
+import { clsTitle } from '../../../navigation/labels';
+import { hrefCls } from '../../../navigation/routes';
 import type { SchoolClass } from '../../../types';
 import { Card, Icon } from '../../../components/ui';
 

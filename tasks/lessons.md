@@ -83,3 +83,11 @@
 - Extract cards, sections, panels, and lifecycle hooks into named feature files.
 - Keep generic UI components separate from feature components.
 - Pass typed props to extracted components instead of reading global state inside each component.
+
+
+## Whole-app migration scope
+
+- Inspect generated controls inside engines before defining migration completion.
+- A React wrapper around an imperative UI does not finish its component migration.
+- Keep math, SVG drawing, physics, and model operations separate from interactive view markup.
+- Verify every public route and each interaction family after removing the old bootstrap.

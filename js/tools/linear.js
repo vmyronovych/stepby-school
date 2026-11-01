@@ -268,7 +268,7 @@ function runEqAnim(model, ctx, solve){
 /* ---------- База для будь-якого «лінійного» інструмента ----------
    Рендер рядків і польоти доданків однакові — різниться лише спосіб
    дістати коефіцієнти. Тому view/prepare/animate беруться звідси,
-   а інструмент додає лише свої build/inputs/read/summary/editorFields. */
+   а інструмент додає лише свої build/read. */
 const linearToolBase = {
   view:    eqStageInner,
   prepare: prepareEqAnim,

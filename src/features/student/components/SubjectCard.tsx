@@ -1,3 +1,4 @@
+import { hrefSubj } from '../../../navigation/routes';
 import type { Subject } from '../../../types';
 import { Card, Icon } from '../../../components/ui';
 

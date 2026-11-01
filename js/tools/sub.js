@@ -84,16 +84,6 @@ function subSteps(a,b){
 registerTool('sub', Object.assign({}, colToolBase, {
   name:'Віднімання в стовпчик', icon:'➖', color:'var(--pink)', bg:'var(--pink-l)',
   build: cfg => ({steps: subSteps(cfg.a, cfg.b)}),
-  inputs: c => `
-    <div class="field"><label class="fl">Зменшуване</label><input id="i_a" type="number" value="${c.a??5003}"></div>
-    <div class="field"><label class="fl">Від’ємник</label><input id="i_b" type="number" value="${c.b??1748}"></div>`,
   read: v => ({a:+v('i_a'), b:+v('i_b')}),
-  summary: cfg => `${cfg.a} − ${cfg.b}`,
-  editorFields: cfg => `
-    <div class="row">
-      <div class="field" style="flex:1"><label class="fl">Зменшуване</label><input id="f_a" type="number" value="${cfg.a||''}"></div>
-      <div class="field" style="flex:1"><label class="fl">Від’ємник</label><input id="f_b" type="number" value="${cfg.b||''}"></div>
-    </div>`,
-  readEditor: v => ({a:+v('f_a'), b:+v('f_b')}),
   errorHint:'Введи два натуральні числа, зменшуване — не більше за 99 999 999.',
 }));

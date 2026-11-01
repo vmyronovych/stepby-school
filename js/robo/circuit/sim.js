@@ -252,8 +252,7 @@ function cbSound(list){                              // list: [{id, vol, tone}] 
 /* =========================================================
    СТАРТ: розмітка, події, цикл анімації
    ========================================================= */
-function initRoboSim(){
-  const root = document.getElementById('circuit');
+function initRoboSim(root, onControls){
   if (!root) return;
   const gen = ++ROBO.simGen;
   if (!ROBO.circuit) ROBO.circuit = cbNewBoard(true);
@@ -261,46 +260,12 @@ function initRoboSim(){
   const still = prefersReducedMotion();
   const SVGNS = 'http://www.w3.org/2000/svg';
 
-  const palette = Object.keys(CIRC.parts).filter(k => CIRC.parts[k].pal).sort((a, b) => CIRC.parts[a].pal - CIRC.parts[b].pal);
-  root.innerHTML = `
-    <div class="cb-bar">
-      <div class="cb-seg cb-view" role="group" aria-label="Вигляд">
-        <button class="rb" data-view="schem">Схема</button><button class="rb" data-view="bb">Макетка</button>
-      </div>
-      <span class="cb-hint" id="cbHint">Тягни деталі з панелі на поле, а можна <b>просто на дріт</b>: деталь розріже його й стане в коло. З'єднуй дротом: від кружечка до кружечка. <b>Двічі клацни</b> на деталь, щоб змінити її властивості або вийняти з кола.</span>
-      <label class="speed">швидкість <input id="cbSpeed" type="range" min="1" max="6" step="1" value="3"></label>
-      <span class="cb-hist">
-        <button class="sec icon" id="cbUndo" title="Скасувати (Ctrl+Z)" aria-label="Скасувати"><svg viewBox="0 0 24 24"><path d="M9 14 4 9l5-5M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg></button>
-        <button class="sec icon" id="cbRedo" title="Повернути (Ctrl+Shift+Z)" aria-label="Повернути"><svg viewBox="0 0 24 24"><path d="m15 14 5-5-5-5M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/></svg></button>
-      </span>
-      <button class="sec" id="cbClear">Очистити поле</button>
-    </div>
-    <div class="cb-main" id="cbMain">
-      <div class="cb-pal" id="cbPal">
-        <div class="cb-pal-t">Деталі</div>
-        ${palette.map(k => `<button class="cb-item" data-add="${k}">
-            <svg viewBox="${k === 'battery' ? '-92 -92 200 184' : '-70 -90 140 130'}">${CIRC.parts[k].draw(Object.assign({type:k, rot:0, rt:{I:0, vrev:0}}, CIRC.parts[k].init()))}</svg>
-            <span>${CIRC.parts[k].name}</span></button>`).join('')}
-      </div>
-      <div class="cb-stage" id="cbStage">
-        <svg id="cbSvg" viewBox="0 0 ${CB_W} ${CB_H}" role="img" aria-label="Поле для складання електричного кола">
-          <defs><pattern id="cbCell" width="40" height="40" patternUnits="userSpaceOnUse">
-            <path d="M40,0 H0 V40" fill="none" stroke="var(--cb-cell)" stroke-width="1.5"/></pattern></defs>
-          <rect id="cbGrid" x="0" y="0" width="${CB_W}" height="${CB_H}" fill="url(#cbCell)"/>
-          <g id="cbWires"></g><g id="cbParts"></g><g id="cbTerms"></g><g id="cbDots"></g><g id="cbLabels"></g>
-          <path id="cbRubber" d="" fill="none" stroke="#4dabf7" stroke-width="6" stroke-dasharray="10 8" stroke-linecap="round"/>
-          <rect id="cbMarq" class="cb-marq" x="0" y="0" width="0" height="0" rx="6" hidden/>
-        </svg>
-        <div class="cb-pop" id="cbPop" hidden></div>
-      </div>
-    </div>
-    <div class="msg" id="cbMsg"></div>`;
-
   const $ = id => document.getElementById(id);
   const svg = $('cbSvg'), stage = $('cbStage'), gW = $('cbWires'), gP = $('cbParts'), gD = $('cbDots'), gL = $('cbLabels'), gT = $('cbTerms');
-  const rubber = $('cbRubber'), msgEl = $('cbMsg'), popEl = $('cbPop'), speedEl = $('cbSpeed'), marq = $('cbMarq');
+  const rubber = $('cbRubber'), popEl = $('cbPop'), speedEl = $('cbSpeed'), marq = $('cbMarq');
 
   let conductors = [];          // [{obj, poly, gap}] — дроти й деталі, якими біжать електрони
+  let lastControls = '', frameId = 0;
   let lastLabels = '', lastMsg = '', lastPop = '', drag = null, pending = null, hoverTerm = null;
   let clock = 0, note = null, chainDirty = true, lastDown = {id:null, t:-1};
   let floating = null;          // вільна деталь у руці: дроти її не оминають, щоб її можна було кинути на дріт
@@ -311,11 +276,6 @@ function initRoboSim(){
   const bbMode = () => ROBO.cbView === 'bb';
   // де й як стоїть деталь у поточному вигляді: на схемі — як її поставили, на макетці — за розкладкою
   const tf = p => (bbMode() && layout && layout.place.get(p.id)) || {x:p.x, y:p.y, rot:p.rot, mx:1, k:1};
-  const HINT = {
-    schem: '',                  // підказку схеми беремо з розмітки
-    bb: 'Те саме коло на макетці, і складати його можна тут: тягни деталі в отвори, а <b>перемичку</b> веди від отвору до отвору. Отвори одного стовпчика з\'єднані смужкою всередині (вона підсвічена), довгі ряди «+» і «−» — шини живлення. Схема оновлюється сама.',
-  };
-
   /* ---------- малювання поля ---------- */
   function renderStatic(){
     const byId = new Map(B.parts.map(p => [p.id, p]));
@@ -371,7 +331,7 @@ function initRoboSim(){
       return `<circle cx="${q.x}" cy="${q.y}" r="12" class="cb-wend"/>`;
     }).join('');
   }
-  function renderHist(){ $('cbUndo').disabled = !B.undo.length; $('cbRedo').disabled = !B.redo.length; }
+  function renderHist(){ publishControls(); }
 
   // Ланцюг: електрони мають стояти рівно по всьому колу, а не мати власну
   // фазу в кожному дроті, інакше на стиках крапки зникають і з'являються.
@@ -423,41 +383,36 @@ function initRoboSim(){
     if (html !== lastLabels){ gL.innerHTML = html; lastLabels = html; }
   }
 
-  function renderPalette(){
-    for (const b of root.querySelectorAll('[data-add]'))
-      b.disabled = !!CIRC.parts[b.dataset.add].single && B.parts.some(p => p.type === b.dataset.add);
+  function popDescriptor(){
+    const p = B.parts.find(x => x.id === B.pop);
+    const wire = !p && (bbMode() ? B.bb.jumps : B.wires).find(x => x.id === B.pop);
+    if (!p && !wire) return null;
+    if (!p) return {title:bbMode() ? 'Перемичка' : 'Дріт', params:[], actions:[{id:'del', t:'🗑 Прибрати'}]};
+    const def = CIRC.parts[p.type];
+    const params = (def.params || []).filter(item => !item.when || item.when(p)).map(item => ({
+      key:item.key, label:item.label, options:item.options, selectedIndex:item.options.findIndex(option => option[0] === p.props[item.key])
+    }));
+    const actions = (def.actions ? def.actions(p) : []).slice();
+    if (def.rotatable) actions.push({id:'rot', t:'↻ Повернути'});
+    if (!bbMode() && cbInCircuit(B, p.id)) actions.push({id:'out', t:'✂ Вийняти з кола'});
+    if (!bbMode() || p.type !== 'battery') actions.push({id:'del', t:'🗑 Прибрати'});
+    return {title:def.title ? def.title(p) : def.name, params, actions};
   }
-
-  /* ---------- контекстне вікно: властивості деталі ---------- */
-  function renderPop(){
-    const p = B.parts.find(x => x.id === B.pop), w = !p && !bbMode() && B.wires.find(x => x.id === B.pop);
-    const j = !p && bbMode() && B.bb.jumps.find(x => x.id === B.pop);
-    if (!p && !w && !j){ popEl.hidden = true; lastPop = ''; return; }
-    let h;
-    if (j){
-      h = `<div class="cb-pop-h"><b>Перемичка</b><button class="x" data-act="close" aria-label="Закрити">✕</button></div>
-        <div class="cb-pop-acts"><button class="sec" data-act="del">🗑 Прибрати</button></div>`;
-    } else if (w){
-      h = `<div class="cb-pop-h"><b>Дріт</b><button class="x" data-act="close" aria-label="Закрити">✕</button></div>
-        <div class="cb-pop-acts"><button class="sec" data-act="del">🗑 Прибрати</button></div>`;
-    } else {
-      const d = CIRC.parts[p.type];
-      h = `<div class="cb-pop-h"><b>${d.title ? d.title(p) : d.name}</b><button class="x" data-act="close" aria-label="Закрити">✕</button></div>`;
-      for (const prm of (d.params || []).filter(q => !q.when || q.when(p))){
-        h += `<div class="cb-pop-row"><span>${prm.label}</span><div class="cb-seg">` +
-          prm.options.map((o, i) => `<button class="rb${p.props[prm.key] === o[0] ? ' on' : ''}" data-key="${prm.key}" data-i="${i}">${o[1]}</button>`).join('') +
-          `</div></div>`;
-      }
-      const acts = (d.actions ? d.actions(p) : []).slice();
-      if (d.rotatable) acts.push({id:'rot', t:'↻ Повернути'});   // на макетці — розвернути ніжками навпаки
-      if (!bbMode() && cbInCircuit(B, p.id)) acts.push({id:'out', t:'✂ Вийняти з кола'});
-      if (!bbMode() || p.type !== 'battery') acts.push({id:'del', t:'🗑 Прибрати'});
-      const warn = {fix:1, charge:1};
-      h += `<div class="cb-pop-acts">${acts.map(a => `<button class="${warn[a.id] ? 'warn' : 'sec'}" data-act="${a.id}">${a.t}</button>`).join('')}</div>`;
-    }
-    if (h !== lastPop){ popEl.innerHTML = h; lastPop = h; }
-    popEl.hidden = false;
-    placePop(p ? gP.querySelector(`[data-part="${p.id}"]`) : j ? gW.querySelector(`[data-jump="${j.id}"]`) : gW.querySelector(`[data-wire="${w.id}"]`));
+  function publishControls(){
+    const value = {
+      view:ROBO.cbView || 'schem', canUndo:!!B.undo.length, canRedo:!!B.redo.length,
+      disabledParts:Object.keys(CIRC.parts).filter(type => CIRC.parts[type].single && B.parts.some(p => p.type === type)),
+      properties:popDescriptor(), message:status()
+    };
+    const encoded = JSON.stringify(value);
+    if (encoded !== lastControls){ lastControls = encoded; onControls(value); }
+  }
+  function renderPalette(){ publishControls(); }
+  function renderPop(){ publishControls(); }
+  function positionPop(){
+    const part = B.parts.find(p => p.id === B.pop);
+    const selector = part ? `[data-part="${part.id}"]` : bbMode() ? `[data-jump="${B.pop}"]` : `[data-wire="${B.pop}"]`;
+    placePop((part ? gP : gW).querySelector(selector));
   }
   function placePop(el){                              // поруч із деталлю, не виходячи за поле
     if (!el) return;
@@ -472,19 +427,17 @@ function initRoboSim(){
   function openPop(id){ B.pop = id; B.sel = [id]; renderStatic(); }
   function closePop(){ if (B.pop){ B.pop = null; renderPop(); } }
 
-  popEl.addEventListener('pointerdown', e => e.stopPropagation());
-  popEl.addEventListener('click', e => {
-    const b = e.target.closest('button'); if (!b) return;
-    const p = B.parts.find(x => x.id === B.pop);
-    if (b.dataset.key && p){
-      const prm = CIRC.parts[p.type].params.find(q => q.key === b.dataset.key), v = prm.options[+b.dataset.i][0];
-      if (p.props[prm.key] === v) return;
-      mark();
-      p.props[prm.key] = v;
-      if (CIRC.parts[p.type].onParam) CIRC.parts[p.type].onParam(p, prm.key);
-      changed();
-    } else if (b.dataset.act) act(b.dataset.act);
-  });
+  function setParameter(key, index){
+    const p = B.parts.find(item => item.id === B.pop);
+    if (!p) return;
+    const prm = CIRC.parts[p.type].params.find(item => item.key === key);
+    if (!prm || !prm.options[index]) return;
+    const value = prm.options[index][0];
+    if (p.props[key] === value) return;
+    mark(); p.props[key] = value;
+    CIRC.parts[p.type].onParam?.(p, key);
+    changed();
+  }
 
   /* ---------- стан кола ---------- */
   function battery(){ return B.parts.find(p => p.type === 'battery'); }
@@ -582,7 +535,7 @@ function initRoboSim(){
 
   function say(){
     const t = status();
-    if (t !== lastMsg){ msgEl.textContent = t; lastMsg = t; }
+    if (t !== lastMsg){ lastMsg = t; publishControls(); }
   }
 
   // будь-яка зміна схеми: перерахувати струми й перемалювати
@@ -951,12 +904,13 @@ function initRoboSim(){
   svg.addEventListener('pointerleave', () => { if (!drag) lastPt = null; });
 
   // перетягування з панелі деталей
-  $('cbPal').addEventListener('pointerdown', e => {
-    const b = e.target.closest('[data-add]'); if (!b || e.button > 0 || b.disabled) return;
+  function palettePointerDown(e, type){
+    if (e.button > 0 || !CIRC.parts[type]) return;
+    if (CIRC.parts[type].single && B.parts.some(p => p.type === type)) return;
     e.preventDefault(); closePop();
-    drag = {kind:'palette', type:b.dataset.add, p:null, cx:e.clientX, cy:e.clientY, moved:false};
+    drag = {kind:'palette', type, p:null, cx:e.clientX, cy:e.clientY, moved:false};
     startTrack();
-  });
+  }
 
   function startTrack(){
     window.addEventListener('pointermove', onMove);
@@ -1170,26 +1124,18 @@ function initRoboSim(){
   function setView(v){
     ROBO.cbView = v;
     const bb = v === 'bb';
-    for (const b of root.querySelectorAll('[data-view]')) b.classList.toggle('on', b.dataset.view === v);
-    $('cbMain').classList.toggle('bb', bb);
     $('cbGrid').style.display = bb ? 'none' : '';
-    $('cbHint').innerHTML = HINT[v];
     if (!bb){ layout = null; svg.setAttribute('viewBox', `0 0 ${CB_W} ${CB_H}`); }
     pending = null; rubber.setAttribute('d', ''); B.pop = null;
     resolve(); renderStatic(); say();
   }
-  HINT.schem = $('cbHint').innerHTML;
-  for (const b of root.querySelectorAll('[data-view]')) b.onclick = () => { if (ROBO.cbView !== b.dataset.view) setView(b.dataset.view); };
-
-  $('cbUndo').onclick = undo;
-  $('cbRedo').onclick = redo;
-  $('cbClear').onclick = () => {
+  function clear(){
     const bat = battery(), hist = B.undo.concat(cbSnap(B));
     B = ROBO.circuit = cbNewBoard(false);
     B.undo = hist.slice(-100);
     if (bat){ const nb = cbAddPart(B, 'battery', 180, 340); nb.props = bat.props; nb.s = bat.s; }   // та сама батарейка
     changed();
-  };
+  }
 
   /* ---------- кадр: електрони, тепло, розряд ---------- */
   const pool = [];
@@ -1264,12 +1210,33 @@ function initRoboSim(){
     }
     cbSound(B.parts.filter(p => p.type === 'buzzer' && CIRC.parts.buzzer.sounding(p)).map(p => ({id:p.id, vol:p.props.vol, tone:p.props.tone})));
     renderLabels(); say();
-    requestAnimationFrame(frame);
+    frameId = requestAnimationFrame(frame);
   }
 
   setView(ROBO.cbView || 'schem');
-  requestAnimationFrame(frame);
+  frameId = requestAnimationFrame(frame);
+  return {
+    setView, undo, redo, clear, action:act, setParameter, palettePointerDown, positionPop,
+    dispose(){
+      if (gen === ROBO.simGen) ROBO.simGen++;
+      cancelAnimationFrame(frameId); stopTrack();
+      document.removeEventListener('keydown', onKey);
+      B.parts.forEach(p => { if (CIRC.parts[p.type].hold) p.s.pressed = false; });
+      cbSound([]);
+    }
+  };
 }
 
+const CircuitEngine = {
+  palette(){
+    return Object.keys(CIRC.parts).filter(type => CIRC.parts[type].pal).sort((a,b) => CIRC.parts[a].pal-CIRC.parts[b].pal).map(type => ({
+      type, name:CIRC.parts[type].name,
+      viewBox:type === 'battery' ? '-92 -92 200 184' : '-70 -90 140 130',
+      svg:CIRC.parts[type].draw(Object.assign({type,rot:0,rt:{I:0,vrev:0}},CIRC.parts[type].init()))
+    }));
+  },
+  mount:initRoboSim,
+};
+
 // Розділ «sim» монтує конструктор після рендера документа (хук init, див. js/ui/doc.js).
-ROBO.sections['sim'].init = initRoboSim;
+// CircuitProjector owns the React control surface and mounts this drawing engine.

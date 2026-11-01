@@ -1,3 +1,5 @@
+import { clsCrumb } from '../../../navigation/labels';
+import { hrefHome, hrefCls, hrefSubj } from '../../../navigation/routes';
 import type { SchoolClass, Subject, Topic } from '../../../types';
 import { Breadcrumbs } from '../../../components/ui';
 

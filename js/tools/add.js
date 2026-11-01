@@ -26,16 +26,6 @@ function addSteps(a,b){
 registerTool('add', Object.assign({}, colToolBase, {
   name:'Додавання в стовпчик', icon:'➕', color:'var(--amber)', bg:'var(--amber-l)',
   build: cfg => ({steps: addSteps(cfg.a, cfg.b)}),
-  inputs: c => `
-    <div class="field"><label class="fl">Перший доданок</label><input id="i_a" type="number" value="${c.a??4786}"></div>
-    <div class="field"><label class="fl">Другий доданок</label><input id="i_b" type="number" value="${c.b??2539}"></div>`,
   read: v => ({a:+v('i_a'), b:+v('i_b')}),
-  summary: cfg => `${cfg.a} + ${cfg.b}`,
-  editorFields: cfg => `
-    <div class="row">
-      <div class="field" style="flex:1"><label class="fl">Перший доданок</label><input id="f_a" type="number" value="${cfg.a||''}"></div>
-      <div class="field" style="flex:1"><label class="fl">Другий доданок</label><input id="f_b" type="number" value="${cfg.b||''}"></div>
-    </div>`,
-  readEditor: v => ({a:+v('f_a'), b:+v('f_b')}),
   errorHint:'Введи два натуральні числа, не більші за 99 999 999.',
 }));

@@ -500,21 +500,6 @@ function domPreviewHtml(text){
     return `<span class="dprev-err">${esc(typeof e==='string' ? e : 'Не вдалося прочитати формулу.')}</span>`;
   }
 }
-function domPreview(){
-  const el=document.getElementById('i_f'), out=document.getElementById('dprev');
-  if(el && out) out.innerHTML=domPreviewHtml(el.value);
-}
-// вставка фрагмента в позицію курсора; «|» — де лишити курсор
-function domIns(s){
-  const el=document.getElementById('i_f'); if(!el) return;
-  const a=el.selectionStart!=null ? el.selectionStart : el.value.length, b=el.selectionEnd!=null ? el.selectionEnd : a;
-  const k=s.indexOf('|'), ins=s.replace('|','');
-  el.value=el.value.slice(0,a)+ins+el.value.slice(b);
-  const pos=a+(k<0 ? ins.length : k);
-  el.focus(); el.setSelectionRange(pos,pos);
-  domPreview();
-}
-const D_PAL=[['√','sqrt(|)'],['∛','root(3, |)'],['x²','^2'],['xⁿ','^'],['( )','(|)'],['a/b','/'],['x','x']];
 
 registerTool('domain', {
   name:'Область визначення функції', icon:'🔎', color:'var(--primary)', bg:'var(--primary-l)',
@@ -523,20 +508,5 @@ registerTool('domain', {
   view: domView,
   prepare: domPrepare,
   animate: domAnimate,
-  inputs: c => {
-    const f = c.f ?? 'sqrt(x - 2)/(x^2 - 9)';
-    return `
-    <div class="field"><label class="fl">Функція y =</label>
-      <input id="i_f" value="${esc(f).replace(/"/g,'&quot;')}" oninput="domPreview()" autocomplete="off" spellcheck="false">
-      <div class="dpal">${D_PAL.map(([l,s])=>`<button type="button" onclick="domIns('${s}')">${l}</button>`).join('')}</div>
-    </div>
-    <div id="dprev">${domPreviewHtml(f)}</div>
-    <p class="helper">Корінь — sqrt( ), корінь 3-го степеня — root(3, …), степінь — ^, дріб — /. Під коренем і в знаменнику — многочлен до x².</p>`;
-  },
   read: v => ({f:v('i_f')}),
-  summary: cfg => 'y = '+cfg.f,
-  editorFields: cfg => `
-    <div class="field"><label class="fl">Функція (наприклад sqrt(x - 2)/(x^2 - 9))</label><input id="f_f" value="${esc(cfg.f||'').replace(/"/g,'&quot;')}"></div>
-    <p class="helper">Дроби, корені (sqrt, root(n, …)), цілі степені; під коренем і в знаменнику — многочлен до 2-го степеня.</p>`,
-  readEditor: v => ({f:v('f_f')}),
 });

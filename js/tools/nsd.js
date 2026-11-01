@@ -251,18 +251,6 @@ registerTool('nsd', {
   view:  nsdView,
   prepare: prepareNsdAnim,
   animate: runNsdFly,
-  inputs: c => `
-    <div class="field"><label class="fl">Перше число</label><input id="i_a" type="number" min="2" max="999" value="${c.a??24}"></div>
-    <div class="field"><label class="fl">Друге число</label><input id="i_b" type="number" min="2" max="999" value="${c.b??18}"></div>
-    <div class="field"><label class="fl">Третє число (необов’язково)</label><input id="i_c" type="number" min="2" max="999" value="${c.c??''}" placeholder="—"></div>
-    <p class="helper">Знайдемо НСД розкладанням на прості множники. Числа від 2 до 999; третє можна не вводити.</p>`,
   read: v => ({a:+v('i_a'), b:+v('i_b'), c:v('i_c')===''?null:+v('i_c')}),
-  summary: cfg => `НСД(${[cfg.a,cfg.b,cfg.c].filter(x=>x!=null).join('; ')})`,
-  editorFields: cfg => `
-    <div class="field"><label class="fl">Перше число</label><input id="f_a" type="number" min="2" max="999" value="${cfg.a||''}"></div>
-    <div class="field"><label class="fl">Друге число</label><input id="f_b" type="number" min="2" max="999" value="${cfg.b||''}"></div>
-    <div class="field"><label class="fl">Третє число (необов’язково)</label><input id="f_c" type="number" min="2" max="999" value="${cfg.c||''}"></div>
-    <p class="helper">Учень побачить драбинки розкладу, розклади рядками й закреслення спільних множників.</p>`,
-  readEditor: v => ({a:+v('f_a'), b:+v('f_b'), c:v('f_c')===''?null:+v('f_c')}),
   errorHint:'Введи два або три натуральні числа від 2 до 999.',
 });

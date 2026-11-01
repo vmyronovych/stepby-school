@@ -115,16 +115,6 @@ function divSteps(N,D){
 registerTool('div', Object.assign({}, colToolBase, {
   name:'Ділення в стовпчик', icon:'➗', color:'var(--green)', bg:'var(--green-l)',
   build: cfg => ({steps: divSteps(cfg.n, cfg.d)}),
-  inputs: c => `
-    <div class="field"><label class="fl">Ділене</label><input id="i_n" type="number" value="${c.n??7256}"></div>
-    <div class="field"><label class="fl">Дільник</label><input id="i_d" type="number" value="${c.d??8}"></div>`,
   read: v => ({n:+v('i_n'), d:+v('i_d')}),
-  summary: cfg => `${cfg.n} : ${cfg.d}`,
-  editorFields: cfg => `
-    <div class="row">
-      <div class="field" style="flex:1"><label class="fl">Ділене</label><input id="f_n" type="number" value="${cfg.n||''}"></div>
-      <div class="field" style="flex:1"><label class="fl">Дільник</label><input id="f_d" type="number" value="${cfg.d||''}"></div>
-    </div>`,
-  readEditor: v => ({n:+v('f_n'), d:+v('f_d')}),
   errorHint:'Введи натуральні числа: ділене — до 99 999 999, дільник — до 9999.',
 }));

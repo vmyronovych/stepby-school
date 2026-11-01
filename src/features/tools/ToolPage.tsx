@@ -1,39 +1,63 @@
+import type { AppState, ToolDefinition } from '../../types';
 import { Breadcrumbs, PageHeading } from '../../components/ui';
 import { ToolConfiguration } from './components/ToolConfiguration';
 import { ToolStage } from './components/ToolStage';
+import { ToolInputs, type ToolInputServices } from './inputs/ToolInputs';
 import { useToolAnimation } from './hooks/useToolAnimation';
 
-export function ToolPage() {
-  const definition = toolDef();
-  const context = S.steps.length > 0 ? stepCtx() : null;
-  const model = S.model;
+interface ToolPageProps {
+  state: AppState;
+  definition: ToolDefinition;
+  backHref: string;
+  inputServices: ToolInputServices;
+  onApply: () => void;
+  onMarkDone: () => void;
+  onStepChange: (index: number) => void;
+}
 
-  useToolAnimation(definition, model, context);
-
+export function ToolPage({
+  state,
+  definition,
+  backHref,
+  inputServices,
+  onApply,
+  onMarkDone,
+  onStepChange,
+}: ToolPageProps) {
+  const context =
+    state.steps.length > 0
+      ? { step: state.steps[state.step], index: state.step, anim: state.anim }
+      : null;
+  useToolAnimation(definition, state.model, context);
   return (
     <>
-      <Breadcrumbs parts={[{ text: '← Назад', href: toolBackHref() }]} />
+      <Breadcrumbs parts={[{ text: '← Назад', href: backHref }]} />
       <PageHeading
         title={`${definition.icon} ${definition.name}`}
         description="Покроковий інтерактивний розбір. Натискай «Далі», щоб побачити кожен крок."
       />
       <div className="tool-shell">
         <ToolConfiguration
-          inputsHtml={definition.inputs(S.toolCfg || {})}
           inputHint={definition.inputHint}
-          canMarkDone={!!S.toolTaskId}
-          onApply={applyTool}
-          onMarkDone={markDone}
-        />
+          canMarkDone={!!state.toolTaskId}
+          onApply={onApply}
+          onMarkDone={onMarkDone}
+        >
+          <ToolInputs
+            toolId={definition.id}
+            config={state.toolCfg || {}}
+            services={inputServices}
+          />
+        </ToolConfiguration>
         <ToolStage
           context={context}
-          count={S.steps.length}
+          count={state.steps.length}
           notebookHtml={
             context && !context.step.error
-              ? definition.view(model, context)
+              ? definition.view(state.model, context)
               : undefined
           }
-          onStepChange={stepTo}
+          onStepChange={onStepChange}
         />
       </div>
     </>

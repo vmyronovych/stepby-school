@@ -211,14 +211,6 @@ registerTool('factor', {
   view:  facView,
   prepare: prepareFacAnim,
   animate: runFacFly,
-  inputs: c => `
-    <div class="field"><label class="fl">Число</label><input id="i_n" type="number" min="2" max="9999" value="${c.n??360}"></div>
-    <p class="helper">Розкладемо число на прості множники перебором дільників 2, 3, 5, 7… Підійде будь-яке число від 2 до 9999.</p>`,
   read: v => ({n:+v('i_n')}),
-  summary: cfg => `розклад числа ${cfg.n}`,
-  editorFields: cfg => `
-    <div class="field"><label class="fl">Число (2–9999)</label><input id="f_n" type="number" min="2" max="9999" value="${cfg.n||''}"></div>
-    <p class="helper">Учень побачить драбинку ділення й канонічний розклад цього числа.</p>`,
-  readEditor: v => ({n:+v('f_n')}),
   errorHint:'Введи натуральне число від 2 до 9999.',
 });

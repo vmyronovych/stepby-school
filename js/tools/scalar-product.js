@@ -51,17 +51,13 @@ const ScalarNotebook = (() => {
     steps[1].label='Обчислення';
     return {...ex,...examples[index],index,steps};
   }
-  function fields(cfg,id){
-    const group=cfg.group==null?0:Number(cfg.group),part=cfg.part==null?0:Number(cfg.part);
-    return `<div class="field"><label class="fl" for="${id}">Задача</label><select id="${id}">${examples.map((e,i)=>`<option value="${i}"${e.group===group&&e.part===part?' selected':''}>${esc(e.title)}</option>`).join('')}</select></div><p class="helper">Розв’язуй задачу кнопкою «Далі». Після відповіді переходь до наступної задачі.</p>`;
-  }
   function readFields(v,id){const i=Number(v(id)),e=examples[i];return e?{group:e.group,part:e.part}:{group:-1,part:-1};}
   function nextHref(example){
     const topic=DB.topics.find(t=>t.id==='scalar-product');
     const task=topic&&(topic.tasks||[]).find(t=>Number(t.cfg.group)===example.group&&Number(t.cfg.part)===example.part);
     return task?hrefTopic(topic,task.id):hrefTool('scalar-product',{group:example.group,part:example.part});
   }
-  return {build,examples,fields,readFields,renderTokens:VectorNotebook.renderTokens,tokenText:VectorNotebook.tokenText,nextHref};
+  return {build,examples,readFields,renderTokens:VectorNotebook.renderTokens,tokenText:VectorNotebook.tokenText,nextHref};
 })();
 registerTool('scalar-product',{
   name:'Скалярний добуток векторів',icon:'↗',color:'var(--primary)',bg:'var(--primary-l)',
@@ -74,8 +70,5 @@ registerTool('scalar-product',{
     return `<div class="rp-sheet sp-tool-sheet"><div class="rp-condition sp-tool-condition"><p>Задача ${m.index+1} із ${ScalarNotebook.examples.length}</p><div>${m.condition}</div></div>${rows}${ctx.index===m.steps.length-1?`<div class="sp-tool-next">${next?`<a class="btn sm" href="${ScalarNotebook.nextHref(next)}">Наступна задача →</a>`:'<p>Усі задачі теми розглянуто.</p>'}</div>`:''}</div>`;
   },
   animate:VectorNotebook.scrollCurrent,
-  prepare:(m,from,to)=>to===from+1?{writing:true}:null,
-  inputs:cfg=>ScalarNotebook.fields(cfg,'i_spexample'),read:v=>ScalarNotebook.readFields(v,'i_spexample'),
-  summary:cfg=>ScalarNotebook.examples.find(e=>e.group===Number(cfg.group||0)&&e.part===Number(cfg.part||0))?.title||'Скалярний добуток',
-  editorFields:cfg=>ScalarNotebook.fields(cfg,'f_spexample'),readEditor:v=>ScalarNotebook.readFields(v,'f_spexample')
+  prepare:(m,from,to)=>to===from+1?{writing:true}:null,read:v=>ScalarNotebook.readFields(v,'i_spexample')
 });

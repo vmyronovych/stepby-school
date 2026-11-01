@@ -76,58 +76,5 @@ const VectorPractice = (() => {
       <defs><pattern id="vec-practice-grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 H 0 V 40" fill="none" stroke="#dddff0" stroke-width="1"/></pattern></defs>
       <rect width="720" height="480" fill="#fafaff"/><rect width="720" height="480" fill="url(#vec-practice-grid)"/>${arrows.join('')}</svg>`;
   }
-  function init(root){
-    let current=0;
-    const states=problems.map(()=>({answer:'',feedback:null,solved:false,reveal:false,hint:false}));
-    function render(focus=false){
-      const p=problems[current],s=states[current];
-      root.innerHTML=`<div class="vec-practice-head"><div><h2 id="vector-practice-title">Спробуй розв’язати</h2><p>На рисунку сторона клітинки дорівнює 1 одиниці. Відповіді перевіряй після власної спроби.</p></div><span class="pill">Розв’язано ${states.filter(s=>s.solved).length} із ${problems.length}</span></div>
-        <nav class="vec-problem-tabs" aria-label="Вибір задачі">${problems.map((p,i)=>`<button type="button" data-problem="${i}" aria-pressed="${i===current}" aria-label="Задача ${i+1}: ${p.title}${states[i].solved?', розв’язано':''}">${i+1}${states[i].solved?' ✓':''}</button>`).join('')}</nav>
-        <div class="vec-practice-layout"><div class="vec-problem-diagram">${diagram(p)}<p>Фіолетовий — ${ab}${p.points.length===4?`; бірюзовий — ${cd}`:''}.</p></div>
-        <form class="vec-problem-form"><span class="vec-problem-count">Задача ${current+1} із ${problems.length}</span><h3 tabindex="-1">${p.title}</h3><p class="vec-question" id="vec-question">${p.question}</p>
-          ${p.kind==='number'?`<label class="vec-answer-label">Модуль вектора <input name="vec-answer" type="text" inputmode="decimal" maxlength="32" autocomplete="off" aria-describedby="vec-question" placeholder="Введи число"></label>`:
-            `<fieldset><legend class="vec-sr-only">${p.title}: обери відповідь</legend>${p.options.map(([key,text])=>`<label class="vec-option"><input type="radio" name="vec-answer" value="${key}"${s.answer===key?' checked':''}><span>${text}</span></label>`).join('')}</fieldset>`}
-          <div class="vec-answer-actions"><button type="submit" class="btn sm">Перевірити</button><button type="button" class="btn ghost sm" data-practice-action="hint">Підказка</button><button type="button" class="btn gray sm" data-practice-action="solution">Розв’язання</button></div>
-          <div class="vec-answer-feedback" role="status" aria-live="polite"></div>
-          ${s.hint?`<p class="vec-problem-hint">${p.hint}</p>`:''}
-          ${s.reveal?`<div class="vec-solution"><b>Розв’язання</b><p>${p.solution}</p></div>`:''}
-        </form></div>
-        <div class="vec-practice-footer"><button type="button" class="btn ghost sm" data-practice-action="previous"${current===0?' disabled':''}>← Попередня</button><button type="button" class="btn gray sm" data-practice-action="reset">Почати знову</button><button type="button" class="btn sm" data-practice-action="next"${current===problems.length-1?' disabled':''}>Наступна →</button></div>`;
-      if(p.kind==='number')root.querySelector('[name="vec-answer"]').value=s.answer;
-      updateFeedback();
-      if(focus)root.querySelector('h3').focus({preventScroll:true});
-    }
-    function updateFeedback(){
-      const s=states[current],el=root.querySelector('.vec-answer-feedback');
-      el.className='vec-answer-feedback'+(s.feedback==='correct'?' correct':s.feedback?' retry':'');
-      el.textContent=s.feedback==='correct'?'Правильно! Задачу зараховано.':s.feedback==='wrong'?'Поки неправильно. Спробуй ще раз або відкрий підказку.':s.feedback==='invalid'?(problems[current].kind==='number'?'Введи невід’ємне число.':'Обери один варіант відповіді.'):'';
-    }
-    root.addEventListener('input',e=>{
-      if(e.target.name!=='vec-answer')return;
-      states[current].answer=e.target.value;states[current].feedback=null;updateFeedback();
-    });
-    root.addEventListener('submit',e=>{
-      e.preventDefault();
-      const p=problems[current],s=states[current],result=checkAnswer(p,s.answer);
-      s.feedback=!result.valid?'invalid':result.correct?'correct':'wrong';
-      if(result.correct){s.solved=true;s.reveal=true;}
-      render();
-      const feedback=root.querySelector('.vec-answer-feedback');
-      feedback.tabIndex=-1;feedback.focus({preventScroll:true});
-    });
-    root.addEventListener('click',e=>{
-      const tab=e.target.closest('[data-problem]');
-      if(tab){current=Number(tab.dataset.problem);render(true);return;}
-      const action=e.target.closest('[data-practice-action]')?.dataset.practiceAction;
-      switch(action){
-        case 'hint':states[current].hint=!states[current].hint;render();break;
-        case 'solution':states[current].reveal=!states[current].reveal;render();break;
-        case 'previous':if(current>0)current--;render(true);break;
-        case 'next':if(current<problems.length-1)current++;render(true);break;
-        case 'reset':states.forEach(s=>Object.assign(s,{answer:'',feedback:null,solved:false,reveal:false,hint:false}));current=0;render(true);break;
-      }
-    });
-    render();
-  }
-  return {init,problems,checkAnswer};
+  return {problems,checkAnswer,diagram};
 })();

@@ -1,34 +1,44 @@
+import type { AppState, Catalog } from '../../types';
 import { ClassSelection } from './screens/ClassSelection';
 import { SubjectSelection } from './screens/SubjectSelection';
 import { TopicSelection } from './screens/TopicSelection';
 import { TopicDetails } from './screens/TopicDetails';
 
-// Read the legacy route state at the feature boundary. Screens receive typed data.
-export function StudentPage() {
-  const schoolClass = DB.classes.find((item) => item.id === S.cls);
+interface StudentPageProps {
+  catalog: Catalog;
+  state: AppState;
+  onOpenMaterial: () => void;
+}
+
+export function StudentPage({
+  catalog,
+  state,
+  onOpenMaterial,
+}: StudentPageProps) {
+  const schoolClass = catalog.classes.find((item) => item.id === state.cls);
   if (!schoolClass) {
-    return <ClassSelection classes={DB.classes} topics={DB.topics} />;
+    return <ClassSelection classes={catalog.classes} topics={catalog.topics} />;
   }
 
-  const subjects = DB.subjects.filter((item) =>
+  const subjects = catalog.subjects.filter((item) =>
     item.cls.includes(schoolClass.id),
   );
-  const subject = subjects.find((item) => item.id === S.subject);
+  const subject = subjects.find((item) => item.id === state.subject);
   if (!subject) {
     return <SubjectSelection schoolClass={schoolClass} subjects={subjects} />;
   }
 
-  const topics = DB.topics.filter(
+  const topics = catalog.topics.filter(
     (item) => item.cls === schoolClass.id && item.subject === subject.id,
   );
-  const topic = topics.find((item) => item.id === S.topic);
+  const topic = topics.find((item) => item.id === state.topic);
   if (!topic) {
     return (
       <TopicSelection
         schoolClass={schoolClass}
         subject={subject}
         topics={topics}
-        tools={DB.tools}
+        tools={catalog.tools}
       />
     );
   }
@@ -38,8 +48,8 @@ export function StudentPage() {
       schoolClass={schoolClass}
       subject={subject}
       topic={topic}
-      tools={DB.tools}
-      onOpenMaterial={() => toast('Демо: матеріал відкрито')}
+      tools={catalog.tools}
+      onOpenMaterial={onOpenMaterial}
     />
   );
 }

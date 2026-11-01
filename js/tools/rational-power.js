@@ -88,9 +88,6 @@ function buildRationalPower(cfg){
   if(!example) throw 'Вибери приклад зі списку.';
   return {...example,steps:example.rows};
 }
-function rpFields(cfg,id){
-  return `<div class="field"><label class="fl" for="${id}">Приклад</label><select id="${id}">${RP.examples.map(e=>`<option value="${e.group}"${e.group===(cfg.example||'6.1')?' selected':''}>${esc(e.title)}</option>`).join('')}</select></div><p class="helper">Вибери готовий приклад. Кожний приклад має покроковий розбір.</p>`;
-}
 registerTool('rational-power',{
   name:'Степінь з раціональним показником',icon:'aʳ',color:'var(--primary)',bg:'var(--primary-l)',
   inputHint:'Вибери інший приклад і натисни «Показати розв’язання».',
@@ -113,10 +110,7 @@ registerTool('rational-power',{
       return `<section class="rp-row${current?' rp-current':''}${i===m.steps.length-1?' rp-answer':''}"><div class="rp-label">${i===0?'Умова':i===m.steps.length-1?'Відповідь':'Перетворення'}</div><div class="fml" role="img" aria-label="${esc(s.parts.map(fmlText).join(' = '))}">${formula}</div></section>`;
     }).join('')}</div>`;
   },
-  prepare:(m,from,to)=>to===from+1?{writing:true}:null,
-  inputs:c=>rpFields(c,'i_rpexample'),read:v=>({example:v('i_rpexample')}),
-  summary:c=>RP.examples.find(e=>e.group===(c.example||'6.1'))?.title||'Приклад',
-  editorFields:c=>rpFields(c,'f_rpexample'),readEditor:v=>({example:v('f_rpexample')}),
+  prepare:(m,from,to)=>to===from+1?{writing:true}:null,read:v=>({example:v('i_rpexample')}),
 });
 
 // Формули уроку будуємо після завантаження спільного ядра.

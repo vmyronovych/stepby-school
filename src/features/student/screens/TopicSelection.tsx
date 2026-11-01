@@ -1,3 +1,4 @@
+import { clsTitle } from '../../../navigation/labels';
 import type {
   SchoolClass,
   Subject,

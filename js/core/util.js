@@ -13,5 +13,5 @@ function fmtNum(x){ if(Number.isInteger(x)) return String(x); return String(Math
 // оболонка просто не готує польотів і показує фінальний вигляд кроку одразу.
 function prefersReducedMotion(){ return !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches); }
 
-// Читання значення поля за id — ним інструменти отримують умову (read/readEditor).
+// Читання значення поля за id — ним інструменти отримують умову (read).
 const readField = id => document.getElementById(id).value;

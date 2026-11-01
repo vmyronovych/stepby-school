@@ -293,10 +293,7 @@ registerTool('irrational',{
     const current=document.querySelector('.irlinear .eqrow.cur') || document.querySelector('.irsheet .ircurrent');
     if(current) current.scrollIntoView({block:'nearest'});
   },
-  inputs:c=>`<div class="field"><label class="fl" for="i_irmethod">Метод</label><select id="i_irmethod"><option value="power"${c.method!=='substitution'?' selected':''}>Піднесення до степеня</option><option value="substitution"${c.method==='substitution'?' selected':''}>Заміна t = √x</option></select></div><div class="field"><label class="fl" for="i_irtext">Рівняння</label><input id="i_irtext" value="${esc(c.text??'sqrt(x + 2) = x')}" autocomplete="off" spellcheck="false"></div><p class="helper">Квадратний корінь: sqrt(x + 2) або √(x + 2). Кубічний: root(3, x − 1), cbrt(x − 1) або ∛(x − 1). Степінь: x^2. Для кубічного кореня справа має бути число або інший кубічний корінь після перенесення доданків. Для методу заміни: x - 3sqrt(x) + 2 = 0.</p>`,
-  read:v=>({text:v('i_irtext'),method:v('i_irmethod')}),summary:c=>c.text,
-  editorFields:c=>`<div class="field"><label class="fl" for="f_irmethod">Метод</label><select id="f_irmethod"><option value="power"${c.method!=='substitution'?' selected':''}>Піднесення до степеня</option><option value="substitution"${c.method==='substitution'?' selected':''}>Заміна t = √x</option></select></div><div class="field"><label class="fl" for="f_irtext">Рівняння</label><input id="f_irtext" value="${esc(c.text||'')}"></div><p class="helper">${IR_FORM}</p>`,
-  readEditor:v=>({text:v('f_irtext'),method:v('f_irmethod')}),errorHint:IR_FORM,
+  read:v=>({text:v('i_irtext'),method:v('i_irmethod')}),errorHint:IR_FORM,
 });
 
 // Як у конспекті rational-power, формули будуємо зі спільного ядра.

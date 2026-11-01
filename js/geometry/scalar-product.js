@@ -72,35 +72,6 @@ const ScalarProduct = (() => {
     <p>Добуток нульового вектора на будь-який вектор дорівнює 0. Кут із нульовим вектором не визначено.</p>
     <h3>Властивості</h3><div class="sp-equation">${a} · ${b} = ${b} · ${a}<br>${a} · (${b} + ${v('c')}) = ${a} · ${b} + ${a} · ${v('c')}<br>(k${a}) · ${b} = k(${a} · ${b})</div>
     <p class="sp-source">За підручником О. С. Істера «Геометрія. 9 клас», § 10. Умови вправ: с. 82–83.</p></section>`;
-  function init(body){
-    const root=body.querySelector('.sp-lesson');
-    let la=5,lb=2,angle=30;
-    const topic=DB.topics.find(t=>t.id==='scalar-product');
-    root.innerHTML=`${theory}<section class="sp-explore"><h2>Досліди вплив кута</h2><p>Змінюй кут і довжини. Стеж за знаком добутку.</p><div class="vec-layout"><div class="sp-live-diagram"></div><div><div class="vs-sliders">${[['angle','Кут α',0,180,30],['la','Довжина a',1,10,5],['lb','Довжина b',1,10,2]].map(([id,label,min,max,value])=>`<label for="sp-${id}">${label}<output for="sp-${id}"></output><input id="sp-${id}" name="${id}" type="range" min="${min}" max="${max}" value="${value}"></label>`).join('')}</div><div class="sp-live-result" aria-live="polite"></div><div class="vec-actions">${[0,90,180].map(n=>`<button type="button" class="btn ghost sm" data-angle="${n}">${n}°</button>`).join('')}</div></div></div></section>
-      <section class="sp-practice" aria-labelledby="sp-practice-title"><h2 id="sp-practice-title">Розв’яжи задачі крок за кроком</h2><p>Відкрий першу задачу. Натискай «Далі», щоб дописувати розв’язання в зошиті. Після відповіді переходь до наступної задачі.</p>
-      <div class="grid c2">${topic.tasks.map((task,i)=>`<article class="card"><span class="pill">Задача ${i+1} із ${topic.tasks.length}</span><h3>${task.title}</h3><a class="btn sm" href="${hrefTopic(topic,task.id)}">${i===0?'Почати розв’язання':'Розв’язати крок за кроком'} →</a></article>`).join('')}</div></section>`;
-    function explore(){
-      root.querySelector('.sp-live-diagram').innerHTML=diagram(...polar(la,lb,angle),['a','b'],`α = ${angle}°`,'live');
-      for(const [key,value] of Object.entries({la,lb,angle})){
-        root.querySelector(`[name="${key}"]`).value=value;
-        root.querySelector(`output[for="sp-${key}"]`).textContent=value+(key==='angle'?'°':'');
-      }
-      const dot=la*lb*Math.cos(angle*Math.PI/180);
-      root.querySelector('.sp-live-result').innerHTML=`<div class="sp-equation">${a} · ${b} = ${la} · ${lb} · cos ${angle}° ≈ <b>${fmt(dot)}</b></div><p>${angle===90?'Прямий кут: добуток дорівнює 0. Вектори перпендикулярні.':angle<90?'Добуток додатний.':'Добуток від’ємний.'}</p><p class="sp-source">На рисунку довжини пропорційні. Значення округлено до тисячних.</p>`;
-    }
-    root.addEventListener('input',e=>{
-      if(e.target.name==='la')la=+e.target.value;
-      else if(e.target.name==='lb')lb=+e.target.value;
-      else if(e.target.name==='angle')angle=+e.target.value;
-      else return;
-      explore();
-    });
-    root.addEventListener('click',e=>{
-      const button=e.target.closest('button');if(!button)return;
-      if(button.dataset.angle!==undefined){angle=+button.dataset.angle;explore();}
-    });
-    explore();
-  }
-  return {init,model,polar,groups,exercise};
+  return {model,polar,groups,exercise,diagram,theory,format:fmt};
 })();
-DOCS['geometry-scalar-product']={title:'Скалярний добуток векторів',app:true,html:'<div class="vec-lesson sp-lesson"></div>',init:ScalarProduct.init};
+DOCS['geometry-scalar-product']={title:'Скалярний добуток векторів',app:true,html:'<div class="vec-lesson sp-lesson"></div>'};

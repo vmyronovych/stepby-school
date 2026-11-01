@@ -1,11 +1,12 @@
-// Запуск: node --test tests/irrational.test.cjs. Залежностей немає.
+// Запуск: node --test tests/irrational.test.cjs. Потребує npm ci.
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const vm=require('node:vm');
 const path=require('node:path');
-const ctx=vm.createContext({document:{getElementById:()=>null}});
-for(const f of ['js/data.js','js/core/util.js','js/core/registry.js','js/core/handwriting.js','js/core/formula.js','js/tools/linear.js','js/tools/domain.js','js/tools/irrational.js']){
+const { createDataContext } = require('./helpers/load-typescript.cjs');
+const ctx=createDataContext({document:{getElementById:()=>null}});
+for(const f of ['js/core/util.js','js/core/registry.js','js/core/handwriting.js','js/core/formula.js','js/tools/linear.js','js/tools/domain.js','js/tools/irrational.js']){
  vm.runInContext(fs.readFileSync(path.join(__dirname,'..',f),'utf8'),ctx);
 }
 function solve(text){

@@ -558,3 +558,78 @@ Shared primitives remain in `src/components/`. Removed `src/pages/` and updated 
 Formatted all feature files and rebuilt the offline bundle; updated its resource version.
 Verification: strict TypeScript/build passed, 124 existing tests passed, 7 browser tests passed,
 and `git diff --check` passed. Navigation, document state, file URLs, and sequential column flights remain covered.
+
+# Whole-app React migration
+
+Completion criteria: one React application owns every public route, document shell, tool form,
+header, notification, navigation transition, and step lifecycle. `index.html` loads one local bundle.
+No application page reads classic-script globals. Preserve lesson content, mathematical engines,
+handwritten/SVG rendering, and specialist diagram simulations through a module-scoped engine API.
+Keep feature folders and typed props. Do not add routes for disconnected teacher/admin prototypes.
+
+Execution plan:
+
+- [x] Inventory remaining scripts, forms, document hooks, and browser contracts.
+- [x] Define full application boundary and present the execution plan.
+- [x] Add typed hash routing, application state/actions, and a React application root.
+- [x] Move header, notifications, student navigation, and tool lifecycle into React.
+- [x] Replace every tool input HTML template with React fields and controls.
+- [x] Migrate document navigation, article lifecycle, figures, printing, and KTP editing to React components.
+- [x] Bundle data/math/document engines behind an explicit module API; remove classic script boot and global declarations.
+- [x] Remove retired UI/router scripts and update routing tests to exercise TypeScript code.
+- [x] Verify every tool, every document route, projector simulations, downloads/printing, history, mobile, and offline operation.
+- [x] Update architecture docs and record remaining engine boundaries accurately.
+
+Verification plan: retain the 124 math/routing assertions; add router edge cases, React form coverage,
+document route and interaction coverage, and a single-bundle/offline assertion. Preserve sequential
+writing, number flights, reduced motion, skipped steps, and same-document state. Review rendered
+screenshots and check the production artifact before marking the migration complete.
+
+## Scope correction after review
+
+The projector and geometry engines contain control UI as well as drawing code.
+A React wrapper alone does not complete their migration. Keep the numerical/rendering
+engines, but migrate their control surfaces and interactive view composition too.
+
+- [x] Migrate geometry exploration and practice controls to feature components.
+- [x] Migrate keyboard projector controls and typing view to feature components.
+- [x] Migrate Windows simulator view composition and controls to feature components.
+- [x] Migrate circuit palette, toolbar, property controls, and view composition to feature components.
+
+
+## Whole-app migration review
+
+Implemented:
+
+- One React root owns all public routes, header, notifications, navigation, documents, and tool steps.
+- Routing, application state/actions, and the school catalog now use strict TypeScript modules.
+- All 16 math forms are React; their old HTML/editor templates were removed from the engine registry.
+- Documents use React contents, lightbox, print actions, KTP editing, and explicit mount cleanup.
+- Geometry exploration, SVG handles, task forms, keyboard projector/editor, Windows desktop/Explorer/dialogs,
+  and circuit palette/toolbar/properties now use focused React feature components.
+- Mathematical calculations, handwritten/SVG output, circuit physics, keyboard editor operations,
+  and Windows filesystem commands remain JavaScript engines behind a typed private runtime API.
+- Removed classic bootstrap scripts, global declarations, old data script, and disconnected cabinet UI prototypes.
+- `index.html` loads one local production bundle; there are no external imports or legacy browser globals.
+- Added repeatable source formatting, a CI format check, graceful dev shutdown, and updated architecture docs.
+
+Verification:
+
+- `npm run format:check`: passed.
+- `npm run build`: strict TypeScript and production bundle passed.
+- `npm test`: 127 passed, including all original math checks and new route edge cases.
+- `npm run test:browser`: 31 passed with four workers and no browser console/page errors.
+- Coverage includes every document, every form, custom conditions, history, legacy URLs,
+  validation, task completion, sequential writing/number flights, skipped steps, reduced motion,
+  keyboard editor commands and cleanup, Windows folder/file/save/search operations,
+  circuit part editing/wiring/undo/redo, KTP persistence, figures, printing, downloads, and file URLs.
+- Independent runtime verification built 77 lesson task models and rendered all 656 step views.
+- Desktop Windows/circuit screenshots and mobile notebook screenshots were visually inspected.
+  Geometry/keyboard screenshots and detailed interactions were also reviewed during implementation.
+- Rebuilding the production bundle produced identical SHA-256 hashes for both generated files.
+- `git diff --check`: passed.
+
+Boundary: lesson prose/static SVG and specialized math/drawing/model engines intentionally remain assets/JavaScript.
+They no longer own application pages or interactive control markup. The migration does not convert numerical
+algorithms to TypeScript or add previously disconnected teacher/admin routes.
+Changes are local and uncommitted.

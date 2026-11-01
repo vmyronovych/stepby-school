@@ -1,26 +1,19 @@
-import { createRoot, type Root } from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 import { flushSync } from 'react-dom';
-import { Fragment, type ReactNode } from 'react';
-import { StudentPage } from './features/student/StudentPage';
-import { ToolPage } from './features/tools/ToolPage';
+import { App } from './app/App';
+import { startApplication } from './app/controller';
 
-let root: Root | null = null;
-let revision = 0;
-function mount(page: ReactNode) {
-  root ??= createRoot(document.getElementById('app')!);
-  // Legacy routing reads DOM and scroll positions immediately after render().
-  // Each revision replaces input and formula DOM, matching the existing engines.
-  flushSync(() => root!.render(<Fragment key={++revision}>{page}</Fragment>));
-}
-export function renderStudent() {
-  mount(<StudentPage />);
-}
-export function renderTool() {
-  mount(<ToolPage />);
-}
-export function unmount() {
-  if (root) {
-    root.unmount();
-    root = null;
-  }
-}
+// A small programmatic API supports embedding and browser integration checks.
+// Application components import modules and never read this browser namespace.
+export {
+  getSnapshot,
+  getCatalog,
+  getToolDefinition,
+  navigate,
+  changeStep,
+} from './app/controller';
+export { hrefTopic, hrefTool } from './navigation/routes';
+
+startApplication();
+const root = createRoot(document.getElementById('root')!);
+flushSync(() => root.render(<App />));

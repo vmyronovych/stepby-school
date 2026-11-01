@@ -18,12 +18,5 @@ registerTool('eq', Object.assign({}, linearToolBase, {
   name:'Розв’язування рівнянь', icon:'🟰', color:'var(--pink)', bg:'var(--pink-l)',
   errorHint:'Не вдалося прочитати рівняння. Приклад: 3x + 5 = 20 або 5x − 4 = 2x + 11.',
   build(cfg){ const model=buildEqModel(cfg.text); model.steps=linearSteps(model.rows); return model; },
-  inputs: c => `
-    <div class="field"><label class="fl">Рівняння</label><input id="i_text" value="${c.text??'3x + 5 = 20'}"></div>`,
   read: v => ({text:v('i_text')}),
-  summary: cfg => cfg.text,
-  editorFields: cfg => `
-    <div class="field"><label class="fl">Рівняння (наприклад 3x + 5 = 20)</label><input id="f_text" value="${cfg.text||''}"></div>
-    <p class="helper">Підтримуються лінійні рівняння з x з обох боків.</p>`,
-  readEditor: v => ({text:v('f_text')}),
 }));

@@ -100,7 +100,7 @@ function wnPMove(ev){
       Object.assign(w, {x:Math.round(x), y:Math.round(y), w:Math.round(W), h:Math.round(H)});
     }
     const el=wn.scr.querySelector('#wnWins > [data-w="'+w.id+'"]');
-    if(el){ el.style.left=w.x+"px"; el.style.top=w.y+"px"; el.style.width=w.w+"px"; if(w.h) el.style.height=w.h+"px"; }
+    wnRender();
     return;
   }
   const fx=wn.scr.querySelector("#wnFx");
@@ -112,24 +112,23 @@ function wnPMove(ev){
       d.ids=h.sel.includes(d.id) ? h.sel.slice() : [d.id];
       d.on=true; clearTimeout(wn.slow);
       const n=wn.by[d.id];
-      fx.innerHTML='<div class="ghost">'+wnIco(n, d.sf==="desk"?wnCell().i:48, true)+(d.ids.length>1?'<b>'+d.ids.length+'</b>':'')+'</div><div class="dtip"></div>';
+      wn.reactFx={kind:"drag",node:n,size:d.sf==="desk"?wnCell().i:48,count:d.ids.length};
     }
     d.ctrl=ev.ctrlKey; d.shift=ev.shiftKey;
-    const g=fx.querySelector(".ghost"); g.style.left=p.x+"px"; g.style.top=p.y+"px";
+    Object.assign(wn.reactFx,{x:p.x,y:p.y});
     const tg=wnDropAt(document.elementFromPoint(ev.clientX, ev.clientY), d);
     wn.scr.querySelectorAll(".dropt").forEach(e=>{ if(!tg || e!==tg.el) e.classList.remove("dropt"); });
     if(tg && tg.el) tg.el.classList.add("dropt");
     d.tgt=tg;
-    const tip=fx.querySelector(".dtip");
-    if(tg && tg.label){ tip.innerHTML=tg.label; tip.style.display="block"; tip.style.left=(p.x+16)+"px"; tip.style.top=(p.y+22)+"px"; }
-    else tip.style.display="none";
+    wn.reactFx.label=tg && tg.label ? tg.label.replace(/<[^>]*>/g, "") : "";
+    wnRender();
     return;
   }
   const b=wn.band, box=wnSurfEl(b.sf); if(!box){ wn.band=null; return; }
   const r=wnRectV(box), cx=Math.max(r.l, Math.min(r.r, p.x)), cy=Math.max(r.t, Math.min(r.b, p.y));
   const R={l:Math.min(b.p0.x,cx), t:Math.min(b.p0.y,cy), r:Math.max(b.p0.x,cx), b:Math.max(b.p0.y,cy)};
   if(R.r-R.l<3 && R.b-R.t<3) return;
-  fx.innerHTML='<div class="band" style="left:'+R.l+'px;top:'+R.t+'px;width:'+(R.r-R.l)+'px;height:'+(R.b-R.t)+'px"></div>';
+  wn.reactFx={kind:"band",x:R.l,y:R.t,width:R.r-R.l,height:R.b-R.t};
   const hits=[];
   box.querySelectorAll("[data-it]").forEach(e=>{
     const q=wnRectV(e.querySelector(".ic")||e), on=q.l<R.r && q.r>R.l && q.t<R.b && q.b>R.t, id=+e.getAttribute("data-it");
@@ -137,6 +136,7 @@ function wnPMove(ev){
     e.classList.toggle("sel", on || b.base.includes(id));
   });
   const h=wnHold(b.sf); if(h){ h.sel=[...new Set([...b.base, ...hits])]; if(hits.length) h.anc=hits[0]; }
+  wnRender();
 }
 
 /* куди впаде перетягуване: у папку, у Кошик, у відкрите вікно, на стіл */
@@ -191,7 +191,7 @@ function wnPUp(ev){
   const fx=wn.scr.querySelector("#wnFx");
   if(wn.drag){
     const d=wn.drag; wn.drag=null;
-    fx.innerHTML=""; wn.scr.querySelectorAll(".dropt").forEach(e=>e.classList.remove("dropt"));
+    wn.reactFx=null; wn.scr.querySelectorAll(".dropt").forEach(e=>e.classList.remove("dropt"));
     if(d.on){ wnDrop(d, p); wnRender(); return; }
     const h=wnHold(d.sf);
     if(d.reduce && h){ h.sel=[d.id]; h.anc=d.id; }
@@ -201,7 +201,7 @@ function wnPUp(ev){
     }, 520);
     wnRender(); return;
   }
-  if(wn.band){ wn.band=null; fx.innerHTML=""; wnRender(); return; }
+  if(wn.band){ wn.band=null; wn.reactFx=null; wnRender(); return; }
   if(wn.press){
     const pr=wn.press, el=document.elementFromPoint(ev.clientX, ev.clientY), a=el && el.closest("[data-a]");
     wn.press=null;
@@ -448,22 +448,15 @@ function wnAct(a, v, w, el){
 }
 
 /* ---- клавіатура ---- */
-function wnCast(s){
+function wnCast(text){
   if(!wn.cast) return;
-  const el=wn.scr.querySelector("#wnCast");
-  el.innerHTML=s.split(" + ").map(k=>'<kbd>'+esc(k)+'</kbd>').join('<span>+</span>');
-  el.style.bottom=(wnTB()+28)+"px";
-  el.classList.remove("on"); void el.offsetWidth; el.classList.add("on");
-  clearTimeout(wn.castT); wn.castT=setTimeout(()=>el.classList.remove("on"), 1700);
+  wn.reactCast=text; wnRender();
+  clearTimeout(wn.castT); wn.castT=setTimeout(()=>{wn.reactCast=null;wnRender();},1700);
 }
-function wnBalloon(e){
-  const fx=wn.scr.querySelector("#wnFx"), r=wnRectV(e);
-  fx.querySelectorAll(".bln").forEach(x=>x.remove());
-  const b=document.createElement("div");
-  b.className="bln"; b.style.left=Math.round(r.l)+"px"; b.style.top=Math.round(r.b+8)+"px";
-  b.innerHTML='Ім\'я файлу не може містити такі символи:<br><span>\\ / : * ? " &lt; &gt; |</span>';
-  fx.appendChild(b);
-  clearTimeout(wn.blnT); wn.blnT=setTimeout(()=>b.remove(), 4500);
+function wnBalloon(element){
+  const bounds=wnRectV(element);
+  wn.reactBalloon={x:Math.round(bounds.l),y:Math.round(bounds.b+8)};wnRender();
+  clearTimeout(wn.blnT);wn.blnT=setTimeout(()=>{wn.reactBalloon=null;wnRender();},4500);
 }
 function wnArrow(sf, k){
   const h=wnHold(sf), box=wnSurfEl(sf); if(!h || !box) return;
@@ -682,14 +675,6 @@ function wnFit(){
   const k=Math.min(W/wnW(), H/wnH());
   wn.scr.style.transform="translate("+Math.round((W-wnW()*k)/2)+"px,"+Math.round((H-wnH()*k)/2)+"px) scale("+k+")";
 }
-function wnChips(){
-  wn.el.querySelectorAll("[data-wnc]").forEach(b=>{
-    const k=b.getAttribute("data-wnc"), v=b.getAttribute("data-v");
-    if(k==="ver") b.setAttribute("aria-pressed", String(wn.ver===v));
-    else if(k==="big") b.setAttribute("aria-pressed", String(wn.big));
-    else if(k==="cast") b.setAttribute("aria-pressed", String(wn.cast));
-  });
-}
 function wnClamp(){
   const W=wnW(), H=wnH()-wnTB();
   wn.wins.forEach(w=>{
@@ -698,68 +683,88 @@ function wnClamp(){
     w.x=Math.max(0, Math.min(W-Math.min(w.w,200), w.x)); w.y=Math.max(0, Math.min(H-(w.h||40), w.y));
   });
 }
-function wnBuild(){
-  const el=document.createElement("div");
-  el.className="proj wnx"; el.hidden=true;
-  el.setAttribute("role","region"); el.setAttribute("aria-label","Windows на проєктор");
-  const chip=(k,v,label)=>'<button type="button" class="chip" data-wnc="'+k+'"'+(v?' data-v="'+v+'"':'')+' aria-pressed="false">'+label+'</button>';
-  el.innerHTML='<div class="proj-bar"><h2>Windows</h2><div class="proj-chips">'+chip("ver","10","Windows 10")+chip("ver","11","Windows 11")+
-      '<span class="proj-sep"></span>'+chip("big","","Крупніше")+chip("cast","","Показувати клавіші")+'<span class="proj-sep"></span>'+
-      '<button type="button" class="chip" data-wnc="wine">Win + E</button><button type="button" class="chip" data-wnc="reset">Скинути</button></div>'+
-      '<button type="button" class="nav" id="wnFull">На весь екран</button></div>'+
-    '<div class="wn-stage"><div class="wn-scr" id="wnScr" tabindex="-1">'+WN_DEFS+
-      '<div class="wn-wall"></div><div class="wn-desk" id="wnDesk" data-sf="desk"></div><div id="wnWins"></div>'+
-      '<div class="wn-bar" id="wnBar"></div><div class="wn-start" id="wnStart"></div><div id="wnMenuBox"></div>'+
-      '<div class="wn-fx" id="wnFx"></div><div class="wn-cast" id="wnCast"></div></div></div>'+
-    '<p class="wn-hint">Клавішу Win браузер віддає схемі лише в режимі «На весь екран» (Chrome, Edge): тоді працюють Win, Win + E, Win + D, Alt + F4. '+
-      'Поза ним — кнопка «Win + E» угорі. Вийти з повного екрана — затиснути Esc.</p>';
-  wn.el=el; wn.scr=el.querySelector("#wnScr");
-  el.querySelector("#wnFull").addEventListener("click", ()=>{
-    if(document.fullscreenElement){ document.exitFullscreen().catch(()=>{}); return; }
-    if(!el.requestFullscreen) return;
-    el.requestFullscreen().then(()=>{ if(navigator.keyboard && navigator.keyboard.lock) navigator.keyboard.lock().catch(()=>{}); wn.scr.focus({preventScroll:true}); }).catch(()=>{});
-  });
-  el.addEventListener("click", ev=>{
-    const c=ev.target.closest("[data-wnc]"); if(!c) return;
-    const k=c.getAttribute("data-wnc"), v=c.getAttribute("data-v");
-    if(k==="ver"){ wn.ver=v; wn.menu=null; wn.start=null; wnLayoutDesk(); docReplaceSub(v); }
-    else if(k==="big"){ wn.big=!wn.big; wn.menu=null; wnClamp(); wnLayoutDesk(); }
-    else if(k==="cast") wn.cast=!wn.cast;
-    else if(k==="wine"){ wn.cast && wnCast("Win + E"); wn.start=null; wnOpenExplorer(); }
-    else if(k==="reset") wnReset();
-    wnChips(); wnRender(); wnFit(); wn.scr.focus({preventScroll:true});
-  });
-  const s=wn.scr;
-  s.addEventListener("pointerdown", wnPDown);
-  s.addEventListener("contextmenu", wnCtx);
-  s.addEventListener("input", wnInput);
-  window.addEventListener("pointermove", wnPMove);
-  window.addEventListener("pointerup", wnPUp);
-  window.addEventListener("blur", ()=>{ wn.win=null; });
-  document.addEventListener("keydown", wnKeyDown);
-  document.addEventListener("keyup", wnKeyUp);
-  document.addEventListener("fullscreenchange", ()=>{
-    if(!document.fullscreenElement && navigator.keyboard && navigator.keyboard.unlock) navigator.keyboard.unlock();
-    requestAnimationFrame(wnFit);
-  });
-  if(window.ResizeObserver) new ResizeObserver(wnFit).observe(el.querySelector(".wn-stage"));
-  else window.addEventListener("resize", wnFit);
-}
-// mount — контейнер сторінки, куди переноситься схема (див. js/info/sections.js)
-function wnOpen(preset, mount){
-  if(!wn.el){ wnBuild(); wnReset(); }
-  if(mount) mount.appendChild(wn.el);
-  if(WN_PRESETS[preset]) wn.ver=preset;
-  wn.el.hidden=false; wn.open=true;
-  wnChips(); wnLayoutDesk(); wnRender();
-  requestAnimationFrame(wnFit);
-  wn.scr.focus({preventScroll:true});
-  clearInterval(wn.clock);
-  wn.clock=setInterval(()=>{ const e=wn.scr.querySelector("#wnClk"); if(e) e.innerHTML=wnClock(); }, 15000);
-}
-function wnHide(){
-  if(!wn.open) return;
-  if(document.fullscreenElement) document.exitFullscreen().catch(()=>{});
-  wn.el.hidden=true; wn.open=false; wn.drag=null; wn.band=null; wn.mv=null; wn.win=null;
-  clearInterval(wn.clock);
-}
+// The projector is mounted by the React document feature.
+function wnOpen(preset){ WN_REACT.setPreset(preset); }
+function wnHide(){ WN_REACT.close(); }
+
+const WN_REACT = (() => {
+  let revision=0;
+  const listeners=new Set();
+  let detach=null,focusMemo=null;
+  function invalidate(){
+    const active=document.activeElement;
+    if(wn.scr && active && wn.scr.contains(active) && active.getAttribute('data-fk')){
+      focusMemo={key:active.getAttribute('data-fk'),start:active.selectionStart,end:active.selectionEnd,direction:active.selectionDirection};
+    }
+    revision++;listeners.forEach(listener=>listener());
+  }
+  function afterRender(){
+    if(!wn.open || !wn.scr)return;
+    if(wn.edit && wn.edit.fresh){
+      wn.edit.fresh=false;
+      const field=wn.scr.querySelector('[data-fk="ren"]'),node=wn.by[wn.edit.id];
+      if(field){field.focus({preventScroll:true});field.setSelectionRange(0,node.kind==='file'&&node.ext&&wn.showExt?node.name.length:field.value.length);field.scrollIntoView({block:'nearest'});}
+    }else if(wn.want){
+      const field=wn.scr.querySelector('[data-fk="'+wn.want+'"]');wn.want=null;
+      if(field){field.focus({preventScroll:true});if(field.select)field.select();}
+    }else if(focusMemo){
+      const field=wn.scr.querySelector('[data-fk="'+focusMemo.key+'"]');
+      if(field && field!==document.activeElement){field.focus({preventScroll:true});if(field.setSelectionRange&&focusMemo.start!=null)try{field.setSelectionRange(focusMemo.start,focusMemo.end,focusMemo.direction);}catch(_){}}
+    }
+    focusMemo=null;
+    if(wn.scrollTo!=null){const item=wn.scr.querySelector('[data-w="'+wn.act+'"] [data-it="'+wn.scrollTo+'"]')||wn.scr.querySelector('#wnDesk [data-it="'+wn.scrollTo+'"]');item?.scrollIntoView({block:'nearest'});wn.scrollTo=null;}
+    wn.scr.querySelectorAll('textarea.ren:not(.line)').forEach(wnGrow);
+    wnFitMenu();wnFit();
+  }
+  function setPreset(preset){
+    if(!WN_PRESETS[preset] || wn.ver===preset)return;
+    wn.ver=preset;wn.menu=null;wn.start=null;
+    if(wn.root)wnLayoutDesk();invalidate();
+  }
+  function close(){
+    if(detach){detach();detach=null;}
+    if(document.fullscreenElement && wn.el?.contains(document.fullscreenElement))document.exitFullscreen().catch(()=>{});
+    wn.open=false;wn.drag=null;wn.band=null;wn.mv=null;wn.win=null;wn.reactFx=null;
+    clearInterval(wn.clock);clearTimeout(wn.castT);clearTimeout(wn.blnT);clearTimeout(wn.slow);
+    wn.el=null;wn.scr=null;
+  }
+  function mount(host,preset){
+    if(detach)close();
+    wn.el=host;wn.scr=host.querySelector('#wnScr');wn.open=true;
+    if(!wn.root)wnReset();
+    if(WN_PRESETS[preset])wn.ver=preset;
+    wnLayoutDesk();
+    const bindings=[];
+    const bind=(target,event,handler)=>{target.addEventListener(event,handler);bindings.push(()=>target.removeEventListener(event,handler));};
+    bind(wn.scr,'pointerdown',wnPDown);bind(wn.scr,'contextmenu',wnCtx);bind(wn.scr,'input',wnInput);
+    bind(window,'pointermove',wnPMove);bind(window,'pointerup',wnPUp);
+    bind(window,'blur',()=>{wn.win=null;});
+    bind(document,'keydown',wnKeyDown);bind(document,'keyup',wnKeyUp);
+    bind(document,'fullscreenchange',()=>{if(!document.fullscreenElement&&navigator.keyboard?.unlock)navigator.keyboard.unlock();requestAnimationFrame(wnFit);});
+    const observer=window.ResizeObserver?new ResizeObserver(wnFit):null;
+    if(observer)observer.observe(host.querySelector('.wn-stage'));else bind(window,'resize',wnFit);
+    detach=()=>{bindings.forEach(remove=>remove());observer?.disconnect();};
+    wn.clock=setInterval(invalidate,15000);
+    invalidate();requestAnimationFrame(()=>{if(wn.scr){wnFit();wn.scr.focus({preventScroll:true});}});
+    return close;
+  }
+  function toolbar(action,value){
+    if(action==='fullscreen'){
+      if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});
+      else wn.el?.requestFullscreen?.().then(()=>{navigator.keyboard?.lock?.().catch(()=>{});wn.scr?.focus({preventScroll:true});}).catch(()=>{});
+      return;
+    }
+    if(action==='ver'){wn.ver=value;wn.menu=null;wn.start=null;wnLayoutDesk();docReplaceSub(value);}
+    else if(action==='big'){wn.big=!wn.big;wn.menu=null;wnClamp();wnLayoutDesk();}
+    else if(action==='cast')wn.cast=!wn.cast;
+    else if(action==='wine'){if(wn.cast)wnCast('Win + E');wn.start=null;wnOpenExplorer();}
+    else if(action==='reset')wnReset();
+    invalidate();wn.scr?.focus({preventScroll:true});
+  }
+  return {state:()=>wn,subscribe(listener){listeners.add(listener);return()=>listeners.delete(listener);},getRevision:()=>revision,mount,setPreset,toolbar,afterRender,invalidate,close,
+    helpers:{g:wnG,svg:wnSvg,ico:wnIco,appIco:wnAppIco,locIco:wnLocIco,folder:wnFolder,pic:wnPic,logo:wnLogo,defs:WN_DEFS,wallpaper:WN_WALL,icons:WN_I,dialogIcons:WN_DLGI,
+      apps:WN_APPS,views:WN_VIEWS,pinned:WN_PINNED,start10:WN_S10,tiles10:WN_T10,pins11:WN_P11,all11:WN_A11,cols:WN_COLS,viewPixels:WN_VPX,
+      w:wnW,h:wnH,tb:wnTB,cell:wnCell,tab:wnTab,win:wnWin,appKey:wnAppKey,deskItems:wnDeskItems,itClass:wnItCls,full:wnFull,type:wnType,real:wnReal,locName:wnLocName,path:wnPath,upLoc:wnUpLoc,writable:wnWritable,inBin:wnInBin,
+      dt:wnDt,dtLong:wnDtLong,kb:wnKB,human:wnHuman,num:wnNum,title:wnTitle,flags:wnFlags,shown:wnShown,sorted:wnSorted,sortOf:wnSortOf,viewOf:wnViewOf,find:wnFind,resIco:wnResIco,modal:wnModal,appOf:wnAppOf,dirSize:wnDirSize}
+  };
+})();

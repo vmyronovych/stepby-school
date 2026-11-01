@@ -252,23 +252,5 @@ registerTool('frac', {
   // два різні польоти на одному кроці: множники влітають із чипів НСК,
   // а числа морфляться в результат. Обидва — послідовно, кожен своїм розкладом.
   animate(model, ctx){ runFracMulAnim(model, ctx); runFracFlip(model, ctx); },
-  inputs: c => `
-    <div class="field"><label class="fl">Перший дріб</label>
-      <div class="row"><input id="i_a" type="number" value="${c.a??1}" style="flex:1"><span style="align-self:center">/</span><input id="i_b" type="number" value="${c.b??4}" style="flex:1"></div></div>
-    <div class="field"><label class="fl">Дія</label>
-      <select id="i_op"><option ${c.op==='-'?'':'selected'}>+</option><option ${c.op==='-'?'selected':''}>-</option></select></div>
-    <div class="field"><label class="fl">Другий дріб</label>
-      <div class="row"><input id="i_c" type="number" value="${c.c??1}" style="flex:1"><span style="align-self:center">/</span><input id="i_d" type="number" value="${c.d??6}" style="flex:1"></div></div>`,
   read: v => ({a:+v('i_a'), b:+v('i_b'), op:v('i_op'), c:+v('i_c'), d:+v('i_d')}),
-  summary: cfg => `${cfg.a}/${cfg.b} ${cfg.op} ${cfg.c}/${cfg.d}`,
-  editorFields: cfg => `
-    <div class="row">
-      <div class="field" style="flex:1"><label class="fl">Чисельник 1</label><input id="f_a" type="number" value="${cfg.a||''}"></div>
-      <div class="field" style="flex:1"><label class="fl">Знаменник 1</label><input id="f_b" type="number" value="${cfg.b||''}"></div>
-      <div class="field" style="width:80px"><label class="fl">Дія</label>
-        <select id="f_op"><option ${cfg.op==='+'?'selected':''}>+</option><option ${cfg.op==='-'?'selected':''}>-</option></select></div>
-      <div class="field" style="flex:1"><label class="fl">Чисельник 2</label><input id="f_c" type="number" value="${cfg.c||''}"></div>
-      <div class="field" style="flex:1"><label class="fl">Знаменник 2</label><input id="f_d" type="number" value="${cfg.d||''}"></div>
-    </div>`,
-  readEditor: v => ({a:+v('f_a'), b:+v('f_b'), op:v('f_op'), c:+v('f_c'), d:+v('f_d')}),
 });

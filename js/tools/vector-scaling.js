@@ -76,17 +76,13 @@ const ScalingNotebook = (() => {
     }
     return {...examples[index],index,steps,answer,nonzeroRequired};
   }
-  function fields(cfg,id){
-    const index=cfg.example==null?0:Number(cfg.example);
-    return `<div class="field"><label class="fl" for="${id}">Задача</label><select id="${id}">${examples.map((e,i)=>`<option value="${i}"${i===index?' selected':''}>${esc(e.title)}</option>`).join('')}</select></div><p class="helper">Розв’язуй задачу кнопкою «Далі». Після відповіді відкрий наступну задачу.</p>`;
-  }
   function readFields(v,id){return {example:Number(v(id))};}
   function nextHref(index){
     const topic=DB.topics.find(t=>t.id==='vector-scaling');
     const task=topic&&(topic.tasks||[]).find(t=>Number(t.cfg.example)===index);
     return task?hrefTopic(topic,task.id):hrefTool('vector-scaling',{example:index});
   }
-  return {examples,build,fields,readFields,nextHref};
+  return {examples,build,readFields,nextHref};
 })();
 registerTool('vector-scaling',{
   name:'Множення вектора на число',icon:'✖',color:'var(--primary)',bg:'var(--primary-l)',
@@ -98,8 +94,5 @@ registerTool('vector-scaling',{
     return `<div class="rp-sheet sp-tool-sheet"><div class="rp-condition sp-tool-condition"><p>Задача ${m.index+1} із ${ScalingNotebook.examples.length}</p><div>${m.condition}</div></div>${rows}${last?`<div class="sp-tool-next">${m.index+1<ScalingNotebook.examples.length?`<a class="btn sm" href="${ScalingNotebook.nextHref(m.index+1)}">Наступна задача →</a>`:'<p>Усі задачі теми розглянуто.</p>'}</div>`:''}</div>`;
   },
   animate:VectorNotebook.scrollCurrent,
-  prepare:(m,from,to)=>to===from+1?{writing:true}:null,
-  inputs:cfg=>ScalingNotebook.fields(cfg,'i_vsexample'),read:v=>ScalingNotebook.readFields(v,'i_vsexample'),
-  summary:cfg=>ScalingNotebook.examples[Number(cfg.example||0)]?.title||'Множення вектора на число',
-  editorFields:cfg=>ScalingNotebook.fields(cfg,'f_vsexample'),readEditor:v=>ScalingNotebook.readFields(v,'f_vsexample')
+  prepare:(m,from,to)=>to===from+1?{writing:true}:null,read:v=>ScalingNotebook.readFields(v,'i_vsexample')
 });
