@@ -1,12 +1,7 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
-const fs=require('node:fs');
-const vm=require('node:vm');
-const ctx=vm.createContext({DOCS:{}});
-vm.runInContext(fs.readFileSync(require('node:path').join(__dirname,'../js/geometry/vectors.js'),'utf8'),ctx);
-const lesson=vm.runInContext('VectorLesson',ctx);
-vm.runInContext(fs.readFileSync(require('node:path').join(__dirname,'../js/geometry/vector-practice.js'),'utf8'),ctx);
-const practice=vm.runInContext('VectorPractice',ctx);
+const { loadTypeScript } = require('./helpers/load-typescript.cjs');
+const { VectorLesson: lesson, VectorPractice: practice } = loadTypeScript('src/features/geometry/engines/index.ts');
 test('готові приклади відповідають означенням',()=>{
   const expected={equal:[true,true,true,false],parallel:[true,false,true,false],opposite:[true,false,false,true],crossing:[false,false,false,false],zero:[true,false,false,false],zeros:[true,true,false,false]};
   for(const [key,values] of Object.entries(expected)){

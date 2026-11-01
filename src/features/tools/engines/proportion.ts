@@ -1,0 +1,87 @@
+import { defineTool } from '../../../engines/core/registry';
+import type { LinearRow, LinearSide, LinearToken } from './linear';
+import {
+  buildLinearRows,
+  linearSteps,
+  linearToolBase,
+  parseSide,
+} from './linear';
+/* =========================================================
+   ПРОПОРЦІЇ — своя частина (записати → навхрест → перемножити),
+   далі делегування лінійному ядру (src/features/tools/engines/linear.ts).
+   ========================================================= */
+export function mulLin(u: LinearSide, v: LinearSide) {
+  if (u.a && v.a) return null;
+  return { a: u.a * v.b + v.a * u.b, b: u.b * v.b };
+} // (лінійне × лінійне), null якщо x²
+export function buildProportion(
+  a: unknown,
+  b: unknown,
+  c: unknown,
+  d: unknown,
+) {
+  const clean = (s: unknown) => String(s == null ? '' : s).trim();
+  const nA = clean(a),
+    dA = clean(b),
+    nC = clean(c),
+    dC = clean(d);
+  if (!nA || !dA || !nC || !dC)
+    throw 'Заповніть усі чотири частини пропорції. Приклад: x : 3 = 4 : 6.';
+  let A, Bd, C, Dd;
+  try {
+    A = parseSide(nA);
+    Bd = parseSide(dA);
+    C = parseSide(nC);
+    Dd = parseSide(dC);
+  } catch (e) {
+    throw 'Кожна частина має бути числом або доданком з x (напр. 5x, 4, 2x). Приклад: x : 3 = 4 : 6.';
+  }
+  // a:b = c:d  ⇒  добуток крайніх = добуток середніх:  a·d = c·b
+  const P1 = mulLin(A, Dd),
+    P2 = mulLin(C, Bd);
+  if (!P1 || !P2)
+    throw 'Тут x множиться на x — виходить квадратне рівняння, а не лінійне. Такі поки не підтримуються.';
+  let pid = 0;
+  const T = (t: string, cls?: string): LinearToken => ({
+    id: 'p' + pid++,
+    t,
+    cls,
+  });
+  const OP = (t: string) => T(t, 'op');
+  const EQ = () => ({ id: 'p' + pid++, t: '=', cls: 'eq-eq' });
+  const rows: LinearRow[] = [];
+  // 1) сама пропорція:  nA : dA = nC : dC
+  rows.push({
+    tokens: [T(nA), OP(':'), T(dA), EQ(), T(nC), OP(':'), T(dC)],
+    type: 'write',
+    text: 'Записуємо пропорцію. Головна властивість: добуток крайніх членів дорівнює добутку середніх.',
+  });
+  // 2) множимо навхрест:  nA · dC = nC · dA
+  rows.push({
+    tokens: [T(nA), OP('·'), T(dC), EQ(), T(nC), OP('·'), T(dA)],
+    type: 'write',
+    note: 'навхрест',
+    text: `Множимо навхрест: крайні ${nA} і ${dC}, середні ${dA} і ${nC}. Отримуємо ${nA}·${dC} = ${nC}·${dA}.`,
+  });
+  // 3) далі — звичайне лінійне рівняння (перевикористовуємо лінійне ядро)
+  const lin = buildLinearRows(P1, P2);
+  lin[0].text =
+    'Перемножуємо — і виходить звичайне лінійне рівняння. Далі розв’язуємо його як завжди.';
+  return { rows: [...rows, ...lin] };
+}
+
+export const proportionTool = defineTool<{
+  rows: LinearRow[];
+  steps: { text: string }[];
+}>('prop', {
+  ...linearToolBase,
+  name: 'Пропорції',
+  icon: '⚖️',
+  color: 'var(--pink)',
+  bg: 'var(--pink-l)',
+  build(cfg) {
+    const model = buildProportion(cfg.a, cfg.b, cfg.c, cfg.d);
+    return { ...model, steps: linearSteps(model.rows) };
+  },
+  read: (v) => ({ a: v('i_a'), b: v('i_b'), c: v('i_c'), d: v('i_d') }),
+});

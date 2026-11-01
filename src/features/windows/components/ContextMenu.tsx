@@ -15,9 +15,9 @@ export function ContextMenu({ controller }: { controller: WindowsController }) {
                 action={row.dis ? '' : 'mrow'}
                 value={index}
                 title={row.t}
-                disabled={row.dis}
+                disabled={!!row.dis}
               >
-                <Glyph controller={controller} name={row.g} />
+                <Glyph controller={controller} name={row.g || ''} />
               </Action>
             ))}
           </div>

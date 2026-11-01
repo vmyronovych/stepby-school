@@ -1,6 +1,6 @@
 import type { Catalog } from '../types';
 
-// Repository-owned school data. Tool engines populate tools during module startup.
+// Repository-owned school data. Runtime composition installs typed tool definitions.
 export const catalog: Catalog = {
   // label — повна назва, коли до неї не додається слово «клас» (гуртки).
   classes: [
@@ -948,7 +948,7 @@ export const catalog: Catalog = {
     },
 
     /* --- Інформатика 3–4 (НУШ): КТП і конспекти для вчителя — документи
-           (розділи збирає js/info/sections.js з даних INFO). kind:'tool' —
+           (розділи збирає src/features/documents/content/info-sections.ts з даних INFO). kind:'tool' —
            схема на проєктор: окрема картка, на неї ведуть посилання з уроків.
            Схема показується в тому класі, у конспектах якого її відкривають. --- */
     {
@@ -1026,8 +1026,7 @@ export const catalog: Catalog = {
       desc: 'Уроки другого семестру: готові конспекти й каркаси з очікуваними результатами з КТП.',
     },
   ],
-  // Довідник інструментів наповнює js/core/registry.js — кожен інструмент
-  // реєструє себе сам. Порядок ключів (за маніфестом engineSources)
-  // визначає порядок відображення.
+  // Довідник наповнює src/runtime/index.ts через registerTools.
+  // Порядок визначень у доменних списках задає порядок відображення.
   tools: {},
 };

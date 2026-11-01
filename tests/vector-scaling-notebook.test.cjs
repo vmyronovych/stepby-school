@@ -1,12 +1,8 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
-const fs=require('node:fs');
-const path=require('node:path');
-const vm=require('node:vm');
-const ctx=vm.createContext({document:{getElementById:()=>null},hrefTool:(id,cfg)=>'#/tool/'+id+'?c='+encodeURIComponent(JSON.stringify(cfg)),DB:{topics:[],tools:{}},registerTool:(id,def)=>ctx.DB.tools[id]=def});
-for(const file of ['js/core/util.js','js/core/handwriting.js','js/core/formula.js','js/geometry/vector-notebook.js','js/tools/vector-scaling.js'])vm.runInContext(fs.readFileSync(path.join(__dirname,'..',file),'utf8'),ctx);
-const lesson=vm.runInContext('ScalingNotebook',ctx);
-const def=ctx.DB.tools['vector-scaling'];
+const { loadTypeScript } = require('./helpers/load-typescript.cjs');
+const { ScalingNotebook, scalingTool: def, catalog, runtimeServices } = loadTypeScript('src/features/geometry/engines/index.ts');
+const lesson={...ScalingNotebook,build:(cfg={})=>def.build(cfg)};
 function value(n,variables={}){
   if(Array.isArray(n))return Array.from(n,x=>value(x,variables));
   switch(n.t){
@@ -91,8 +87,8 @@ test('анімація пише лише новий фрагмент, стриб
   assert(render(5,last.steps.length-1).includes('Усі задачі теми розглянуто'));
 });
 test('наступна задача має адресу завдання теми; вибір і помилкові умови оброблено',()=>{
-  ctx.DB.topics.push({id:'vector-scaling',tasks:[{id:'scaling-2',cfg:{example:1}}]});
-  ctx.hrefTopic=(topic,id)=>`#/9a/geometry/${topic.id}/${id}`;
+  assert(catalog.topics.some(t=>t.id==='vector-scaling'));
+  runtimeServices.hrefTopic=(topic,id)=>`#/9a/geometry/${topic.id}/${id}`;
   assert.equal(lesson.nextHref(1),'#/9a/geometry/vector-scaling/scaling-2');
   assert.deepEqual(JSON.parse(JSON.stringify(lesson.readFields(()=> '4','i_vsexample'))),{example:4});
   assert.equal(lesson.build().index,0);

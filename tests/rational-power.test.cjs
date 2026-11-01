@@ -1,15 +1,9 @@
 // Запуск: node --test tests/rational-power.test.cjs. Потребує npm ci.
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
-const fs=require('node:fs');
-const path=require('node:path');
-const vm=require('node:vm');
-const { createDataContext } = require('./helpers/load-typescript.cjs');
-const context=createDataContext({document:{getElementById:()=>null}});
-for(const file of ['js/core/util.js','js/core/registry.js','js/core/handwriting.js','js/core/formula.js','js/tools/rational-power.js']){
-  vm.runInContext(fs.readFileSync(path.join(__dirname,'..',file),'utf8'),context);
-}
-const examples=JSON.parse(vm.runInContext('JSON.stringify(RP.examples)',context));
+const { loadTypeScript } = require('./helpers/load-typescript.cjs');
+const { catalog, RP, buildRationalPower } = loadTypeScript('src/features/tools/engines/test-entry.ts');
+const examples=JSON.parse(JSON.stringify(RP.examples));
 
 // Незалежний числовий інтерпретатор AST. Не використовує обчислення інструмента.
 function evaluate(node,variables={}){
@@ -104,13 +98,13 @@ test('скорочення дробу зберігає виключене зна
 });
 test('усі 13 груп мають завдання та доступну модель',()=>{
   assert.deepEqual(examples.map(e=>e.group),Array.from({length:13},(_,i)=>'6.'+(i+1)));
-  const topic=JSON.parse(vm.runInContext('JSON.stringify(DB.topics.find(t=>t.id==="rational-power"))',context));
+  const topic=JSON.parse(JSON.stringify(catalog.topics.find(t=>t.id==='rational-power')));
   assert.equal(topic.cls,'10a');
   assert.equal(topic.tasks.length,13);
   assert.equal(new Set(topic.tasks.map(t=>t.cfg.example)).size,13);
   for(const task of topic.tasks){
-    const group=vm.runInContext(`buildRationalPower(${JSON.stringify(task.cfg)}).group`,context);
+    const group=buildRationalPower(task.cfg).group;
     assert.equal(group,task.cfg.example);
   }
-  assert.throws(()=>vm.runInContext('buildRationalPower({example:"6.14"})',context),error=>typeof error==='string');
+  assert.throws(()=>buildRationalPower({example:'6.14'}),error=>typeof error==='string');
 });

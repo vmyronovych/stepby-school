@@ -1,7 +1,5 @@
-import { engineRuntimePlugin } from './engine-runtime.mjs';
 import { build, context } from 'esbuild';
 const options = {
-  plugins: [engineRuntimePlugin()],
   entryPoints: ['src/main.tsx'],
   outfile: 'assets/app.js',
   bundle: true,
@@ -23,7 +21,7 @@ if (process.argv.includes('--watch')) {
   process.once('SIGTERM', stop);
   await ctx.watch();
   await ctx.serve({ servedir: '.', host: '127.0.0.1', port: 5173 });
-  console.log('StepBy School: http://127.0.0.1:5173 (watching src/ and js/)');
+  console.log('StepBy School: http://127.0.0.1:5173 (watching TypeScript modules in src/)');
 } else {
   await build(options);
 }

@@ -1,10 +1,7 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
-const fs=require('node:fs');
-const vm=require('node:vm');
-const ctx=vm.createContext({DOCS:{}});
-vm.runInContext(fs.readFileSync(require('node:path').join(__dirname,'../js/geometry/scalar-product.js'),'utf8'),ctx);
-const lesson=vm.runInContext('ScalarProduct',ctx);
+const { loadTypeScript } = require('./helpers/load-typescript.cjs');
+const { ScalarProduct: lesson } = loadTypeScript('src/features/geometry/engines/index.ts');
 test('усі підпункти підручника дають звірені відповіді',()=>{
   const expected=[[3,-5],[5,17],[5*Math.sqrt(3),2,-Math.sqrt(2),-50],[0],['ні','так']];
   assert.deepEqual(Array.from(lesson.groups,g=>g.ref),['10.1','10.3','10.10','10.12','10.14']);

@@ -1,10 +1,7 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
-const fs=require('node:fs');
-const vm=require('node:vm');
-const ctx=vm.createContext({DOCS:{}});
-vm.runInContext(fs.readFileSync(require('node:path').join(__dirname,'../js/geometry/vector-scaling.js'),'utf8'),ctx);
-const lesson=vm.runInContext('VectorScaling',ctx);
+const { loadTypeScript } = require('./helpers/load-typescript.cjs');
+const { VectorScaling: lesson } = loadTypeScript('src/features/geometry/engines/index.ts');
 test('множення координат, модуля та напрям узгоджені для всього діапазону панелі',()=>{
   for(let x=-4;x<=4;x++)for(let y=-4;y<=4;y++)for(let k=-3;k<=3;k+=.25){
     const m=lesson.model(x,y,k);

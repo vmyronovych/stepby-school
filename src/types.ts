@@ -41,15 +41,16 @@ export interface Step {
   error?: boolean;
 }
 export interface StepContext {
+  root?: HTMLElement;
   step: Step;
   index: number;
   anim: unknown;
 }
 export interface ToolModel {
   steps: Step[];
-  [key: string]: unknown;
 }
 export interface ToolDefinition {
+  color: string;
   id: string;
   errorHint?: string;
   build(config: ToolConfig): ToolModel;

@@ -1,7 +1,6 @@
 const { buildSync } = require('esbuild');
 const Module = require('node:module');
 const path = require('node:path');
-const vm = require('node:vm');
 
 const projectRoot = path.resolve(__dirname, '../..');
 
@@ -24,16 +23,4 @@ function loadTypeScript(relativePath) {
   return loaded.exports;
 }
 
-/** Each engine test receives its own typed catalog, document registry, and state. */
-function createDataContext(globals = {}) {
-  const { catalog } = loadTypeScript('src/data/catalog.ts');
-  const { engineState, documents } = loadTypeScript('src/runtime/state.ts');
-  return vm.createContext({
-    DB: catalog,
-    S: engineState,
-    DOCS: documents,
-    ...globals,
-  });
-}
-
-module.exports = { loadTypeScript, createDataContext };
+module.exports = { loadTypeScript };

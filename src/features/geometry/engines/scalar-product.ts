@@ -1,0 +1,239 @@
+import type { Point } from '../types';
+export interface CoordinateItem {
+  a: Point;
+  b: Point;
+  names?: string[];
+  lengths?: undefined;
+  angle?: undefined;
+  value?: undefined;
+  cos?: undefined;
+  exact?: undefined;
+}
+export interface PolarItem {
+  lengths: Point;
+  angle: number;
+  value: number;
+  cos: string;
+  exact: string;
+  names?: string[];
+  a?: undefined;
+  b?: undefined;
+}
+export interface ScalarGroup {
+  ref: string;
+  title: string;
+  names: string[];
+  square?: boolean;
+  proof?: boolean;
+  check?: boolean;
+  items: (CoordinateItem | PolarItem)[];
+}
+/* § 10. Скалярний добуток: теорія, дослід і вправи Істера. */
+export const ScalarProduct = (() => {
+  const v = (n: string) => `<span class="vec-symbol">${n}</span>`;
+  const a = v('a'),
+    b = v('b');
+  const fmt = (n: number) =>
+    String(Object.is(n, -0) ? 0 : Number(n.toFixed(3)))
+      .replace('-', '−')
+      .replace('.', ',');
+  const pair = (p: Point) => `(${p.map(fmt).join('; ')})`;
+  const factor = (n: number) => (n < 0 ? `(${fmt(n)})` : fmt(n));
+  function model(a: Point, b: Point) {
+    const dot = a[0] * b[0] + a[1] * b[1],
+      la = Math.hypot(...a),
+      lb = Math.hypot(...b);
+    return {
+      dot,
+      la,
+      lb,
+      angle:
+        la && lb
+          ? (Math.acos(Math.max(-1, Math.min(1, dot / (la * lb)))) * 180) /
+            Math.PI
+          : null,
+      perpendicular: !!la && !!lb && dot === 0,
+    };
+  }
+  function polar(la: number, lb: number, angle: number): [Point, Point] {
+    return [
+      [la, 0],
+      [
+        lb * Math.cos((angle * Math.PI) / 180),
+        lb * Math.sin((angle * Math.PI) / 180),
+      ],
+    ];
+  }
+  const groups: ScalarGroup[] = [
+    {
+      ref: '10.1',
+      title: 'Добуток за координатами',
+      names: ['a', 'b'],
+      items: [
+        { a: [-2, 1], b: [0, 3] },
+        { a: [1, -3], b: [-2, 1], names: ['c', 'd'] },
+      ],
+    },
+    {
+      ref: '10.3',
+      title: 'Скалярний квадрат',
+      names: ['m', 'm'],
+      square: true,
+      items: [
+        { a: [-1, -2], b: [-1, -2] },
+        { a: [4, 1], b: [4, 1] },
+      ],
+    },
+    {
+      ref: '10.10',
+      title: 'Добуток за кутом',
+      names: ['a', 'b'],
+      items: [
+        {
+          lengths: [5, 2],
+          angle: 30,
+          exact: '5√3',
+          cos: '√3/2',
+          value: 5 * Math.sqrt(3),
+        },
+        { lengths: [4, 1], angle: 60, exact: '2', cos: '1/2', value: 2 },
+        {
+          lengths: [2, 1],
+          angle: 135,
+          exact: '−√2',
+          cos: '−√2/2',
+          value: -Math.sqrt(2),
+        },
+        { lengths: [10, 5], angle: 180, exact: '−50', cos: '−1', value: -50 },
+      ],
+    },
+    {
+      ref: '10.12',
+      title: 'Доведи перпендикулярність',
+      names: ['m', 'n'],
+      proof: true,
+      items: [{ a: [-1, 10], b: [20, 2] }],
+    },
+    {
+      ref: '10.14',
+      title: 'Перевір перпендикулярність',
+      names: ['c', 'd'],
+      check: true,
+      items: [
+        { a: [1, 5], b: [-5, -1] },
+        { a: [2, 3], b: [-6, 4] },
+      ],
+    },
+  ];
+  function exercise(g: number, i: number) {
+    const group = groups[g],
+      item = group.items[i],
+      names = item.names || group.names;
+    const [av, bv] = item.lengths
+      ? polar(...item.lengths, item.angle)
+      : [item.a, item.b];
+    const m = model(av, bv),
+      left = v(names[0]),
+      right = v(names[1]),
+      product = `${left} · ${right}`;
+    const answer = item.lengths
+      ? item.value
+      : group.check
+        ? m.perpendicular
+          ? 'так'
+          : 'ні'
+        : m.dot;
+    const condition = item.lengths
+      ? `|${left}| = ${item.lengths[0]}, |${right}| = ${item.lengths[1]}, α = ${item.angle}°. Знайди ${product}.`
+      : group.square
+        ? `${left} = ${pair(av)}. Знайди ${left}<sup>2</sup>.`
+        : `${left} = ${pair(av)}, ${right} = ${pair(bv)}. ${group.proof ? 'Доведи, що вектори взаємно перпендикулярні.' : group.check ? 'Чи є вектори взаємно перпендикулярними?' : `Знайди ${product}.`}`;
+    let steps;
+    if (item.lengths)
+      steps = [
+        ['Обери формулу', `${product} = |${left}| · |${right}| · cos α`],
+        [
+          'Підстав дані',
+          `${product} = ${item.lengths[0]} · ${item.lengths[1]} · cos ${item.angle}°`,
+        ],
+        ['Знайди косинус', `cos ${item.angle}° = ${item.cos}`],
+        [
+          'Обчисли добуток',
+          `${product} = ${item.lengths[0] * item.lengths[1]} · (${item.cos}) = ${item.exact}`,
+        ],
+      ];
+    else {
+      steps = [
+        [
+          'Обери формулу',
+          group.square
+            ? `${left}<sup>2</sup> = ${left} · ${left} = x² + y²`
+            : `${product} = x₁x₂ + y₁y₂`,
+        ],
+        [
+          'Підстав координати',
+          group.square
+            ? `${left}<sup>2</sup> = ${factor(av[0])}² + ${factor(av[1])}²`
+            : `${product} = ${factor(av[0])} · ${factor(bv[0])} + ${factor(av[1])} · ${factor(bv[1])}`,
+        ],
+        [
+          'Обчисли',
+          `${product} = ${fmt(av[0] * bv[0])} + ${factor(av[1] * bv[1])} = ${fmt(m.dot)}`,
+        ],
+      ];
+      if (group.proof || group.check)
+        steps.push([
+          'Зроби висновок',
+          `${m.dot === 0 ? 'Обидва вектори ненульові. Добуток дорівнює 0, тому вектори перпендикулярні.' : 'Добуток не дорівнює 0, тому вектори не перпендикулярні.'}`,
+        ]);
+      else if (group.square)
+        steps.push([
+          'Перевір зміст',
+          `${left}<sup>2</sup> = |${left}|² = ${fmt(m.dot)}. Це число, а не вектор.`,
+        ]);
+    }
+    return { group, item, names, av, bv, m, answer, condition, steps };
+  }
+  function diagram(
+    av: Point,
+    bv: Point,
+    names: string[],
+    angleLabel?: string,
+    id = 'problem',
+  ) {
+    const m = model(av, bv),
+      unit = 150 / Math.max(1, m.la, m.lb);
+    const point = (p: Point) => [260 + p[0] * unit, 220 - p[1] * unit];
+    const [ax, ay] = point(av),
+      [bx, by] = point(bv);
+    let grid = '';
+    for (let n = 20; n < 520; n += 25)
+      grid += `<path d="M${n} 0V440 M0 ${n}H520" stroke="#eeedf5"/>`;
+    const angle = m.angle === null ? 'Кут не визначено' : `${fmt(m.angle)}°`;
+    const start = Math.atan2(av[1], av[0]),
+      delta = Math.atan2(av[0] * bv[1] - av[1] * bv[0], m.dot);
+    const arc =
+      m.angle !== null && m.angle > 0
+        ? `<path d="M${260 + 38 * Math.cos(start)} ${220 - 38 * Math.sin(start)} A38 38 0 0 ${delta >= 0 ? 0 : 1} ${260 + 38 * Math.cos(start + delta)} ${220 - 38 * Math.sin(start + delta)}" fill="none" stroke="#ad6b16" stroke-width="2"/>`
+        : '';
+    return `<svg class="sp-board" viewBox="0 0 520 440" role="img" aria-label="Вектори ${names.join(' і ')} зі спільним початком. ${angle}."><defs>${['#6450c8', '#087f8c'].map((c, i) => `<marker id="sp-${id}-arrow-${i}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0L10 5L0 10Z" fill="${c}"/></marker>`).join('')}</defs><rect width="520" height="440" fill="#fafaff"/>${grid}<path d="M20 220H500 M260 20V420" stroke="#b9b3ce"/><text x="490" y="207">x</text><text x="274" y="25">y</text>
+      <path d="M260 220L${bx} ${by}" stroke="#087f8c" stroke-width="3" fill="none" marker-end="url(#sp-${id}-arrow-1)"/>
+      <path d="M260 220L${ax} ${ay}" stroke="#6450c8" stroke-width="2.5" stroke-dasharray="7 4" fill="none" marker-end="url(#sp-${id}-arrow-0)"/>
+      <text x="${ax + 12}" y="${ay - 14}" fill="#6450c8">${names[0]}</text><text x="${bx + 12}" y="${by + 26}" fill="#087f8c">${names[1]}</text><circle cx="260" cy="220" r="3" fill="#333"/><text x="240" y="243">O</text>
+      ${arc}<text x="20" y="400">${angleLabel || `α ≈ ${angle}`}</text></svg>`;
+  }
+  const theory = `<section class="sp-theory" aria-labelledby="sp-theory-title"><h2 id="sp-theory-title">Що таке скалярний добуток?</h2>
+    <p>Скалярний добуток двох векторів — це <b>число</b>. Він пов’язує довжини векторів із кутом між ними.</p>
+    <h3>Обчислення за координатами</h3><p>Якщо ${a} = (x₁; y₁), ${b} = (x₂; y₂), перемнож відповідні координати й додай результати.</p>
+    <div class="sp-equation">${a} · ${b} = x₁x₂ + y₁y₂</div>
+    <p>Наприклад, для ${a} = (2; 3) та ${b} = (4; −1):</p><div class="sp-equation">${a} · ${b} = 2 · 4 + 3 · (−1) = 5</div>
+    <h3>Обчислення за довжинами й кутом</h3><p>Перенеси ненульові вектори до спільного початку. Кут α між ними лежить у межах від 0° до 180°.</p>
+    <div class="sp-equation">${a} · ${b} = |${a}| · |${b}| · cos α</div>
+    <p>За гострого кута добуток додатний, за прямого — нульовий, за тупого — від’ємний. При 0° добуток додатний, при 180° — від’ємний.</p>
+    <h3>Скалярний квадрат і перпендикулярність</h3><div class="sp-equation">${a}<sup>2</sup> = ${a} · ${a} = x₁² + y₁² = |${a}|²</div>
+    <p>Два <b>ненульові</b> вектори перпендикулярні тоді й лише тоді, коли їхній скалярний добуток дорівнює нулю.</p>
+    <p>Добуток нульового вектора на будь-який вектор дорівнює 0. Кут із нульовим вектором не визначено.</p>
+    <h3>Властивості</h3><div class="sp-equation">${a} · ${b} = ${b} · ${a}<br>${a} · (${b} + ${v('c')}) = ${a} · ${b} + ${a} · ${v('c')}<br>(k${a}) · ${b} = k(${a} · ${b})</div>
+    <p class="sp-source">За підручником О. С. Істера «Геометрія. 9 клас», § 10. Умови вправ: с. 82–83.</p></section>`;
+  return { model, polar, groups, exercise, diagram, theory, format: fmt };
+})();

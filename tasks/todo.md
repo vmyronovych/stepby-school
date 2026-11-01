@@ -636,7 +636,9 @@ Changes are local and uncommitted.
 
 # Remaining JavaScript migration — delegated implementation plan
 
-Status: planning only. Application source and generated assets are unchanged.
+Status: complete. All 49 original JavaScript sources now have strict TypeScript replacements.
+`js/`, the concatenation plugin, source patches, virtual declarations, and VM source evaluation are removed.
+Independent integrated review approved the final implementation.
 
 ## Goal and completion contract
 
@@ -648,16 +650,16 @@ Keep specialized handwritten and SVG renderers where their existing output is ap
 
 Completion means all of the following:
 
-- [ ] Every `js/` file has a recorded destination or an evidence-backed removal decision.
-- [ ] `js/` is removed; runtime source uses explicit imports and exports.
-- [ ] Remove `scripts/engine-runtime.mjs`, `stepby:engines`, and `src/runtime/virtual.d.ts`.
-- [ ] No source-string rewriting, ordered script loading, ambient engine declarations, or VM evaluation of engine sources remains.
-- [ ] All migrated code passes the existing strict TypeScript configuration.
-- [ ] No `@ts-nocheck`, migration-wide `any`, or unchecked casts conceal missing domain contracts.
-- [ ] Tests exercise the imported implementations and retain their mathematical assertions.
-- [ ] Routes, lesson text, task results, animation, controller state, and cleanup remain equivalent.
-- [ ] The single local IIFE bundle still works through HTTP, GitHub Pages, offline, and `file://`.
-- [ ] Documentation, CI, generated assets, and resource versions reflect the final source layout.
+- [x] Every `js/` file has a recorded destination or an evidence-backed removal decision.
+- [x] `js/` is removed; runtime source uses explicit imports and exports.
+- [x] Remove `scripts/engine-runtime.mjs`, `stepby:engines`, and `src/runtime/virtual.d.ts`.
+- [x] No source-string rewriting, ordered script loading, ambient engine declarations, or VM evaluation of engine sources remains.
+- [x] All migrated code passes the existing strict TypeScript configuration.
+- [x] No `@ts-nocheck`, migration-wide `any`, or unchecked casts conceal missing domain contracts.
+- [x] Tests exercise the imported implementations and retain their mathematical assertions.
+- [x] Routes, lesson text, task results, animation, controller state, and cleanup remain equivalent.
+- [x] The single local IIFE bundle still works through HTTP, GitHub Pages, offline, and `file://`.
+- [x] Documentation, CI, generated assets, and resource versions reflect the final source layout.
 
 ## Findings that determine the order
 
@@ -697,11 +699,11 @@ Owner: coordinator. Complete before implementation agents start.
 - [x] Inspect the manifest, compiler settings, runtime facade, tests, consumers, and project lessons.
 - [x] Get independent dependency analysis for math/drawing and documents/simulations.
 - [x] Present the execution order and delegated ownership for review.
-- [ ] Record every source path, exported symbol, shared dependency, and destination in a migration ledger.
-- [ ] Run baseline formatting, build, unit tests, and browser tests; record actual current counts and failures.
-- [ ] Capture canonical task-model results, rendered step output, document IDs/content, and representative screenshots.
-- [ ] Define typed registration, service injection, state ownership, and generic tool/model/animation interfaces.
-- [ ] Define one test entry point per domain so bundled test imports share the intended registry instance.
+- [x] Record every source path, exported symbol, shared dependency, and destination in a migration ledger.
+- [x] Run baseline formatting, build, unit tests, and browser tests; record actual current counts and failures.
+- [x] Capture canonical task-model results, rendered step output, document IDs/content, and representative screenshots.
+- [x] Define typed registration, service injection, state ownership, and generic tool/model/animation interfaces.
+- [x] Define one test entry point per domain so bundled test imports share the intended registry instance.
 
 Use explicit composition to assemble tool definitions and documents once, with duplicate-ID checks.
 Keep pure helpers importable without constructing the app or reading the DOM.
@@ -711,13 +713,13 @@ Preserve the current in-memory state and error contracts during this migration.
 
 Owner: foundation agent. Coordinator owns integration edits.
 
-- [ ] Convert utilities, exact-number/formula helpers, handwriting, notebook, columns, number lines, and registry.
-- [ ] Define precise formula AST, pen, geometry, step, animation, and DOM boundary types.
-- [ ] Replace patched toast code with the existing typed notification service; remove the unused app lookup.
-- [ ] Preserve synchronous DOM measurement and animation cancellation behavior.
-- [ ] Establish explicit tool/document assembly APIs and typed navigation dependencies.
-- [ ] Update test module loading to support imported domain entry points and isolated instances.
-- [ ] Verify shared rendering and math output before handing stable interfaces to feature agents.
+- [x] Convert utilities, exact-number/formula helpers, handwriting, notebook, columns, number lines, and registry.
+- [x] Define precise formula AST, pen, geometry, step, animation, and DOM boundary types.
+- [x] Replace patched toast code with the existing typed notification service; remove the unused app lookup.
+- [x] Preserve synchronous DOM measurement and animation cancellation behavior.
+- [x] Establish explicit tool/document assembly APIs and typed navigation dependencies.
+- [x] Update test module loading to support imported domain entry points and isolated instances.
+- [x] Verify shared rendering and math output before handing stable interfaces to feature agents.
 
 Transition rule: migrate one dependency group at a time and keep the application buildable.
 If a short-lived bridge is needed, the coordinator owns it and records its removal in the ledger.
@@ -729,30 +731,30 @@ Run three workers with the coordinator as the fourth active agent.
 
 **Agent A: algebra and arithmetic.** Own the non-geometry tool engines and their unit tests.
 
-- [ ] Migrate shared `linear` helpers before domain, irrational, and rational-power dependents.
-- [ ] Migrate arithmetic, divisibility, factorization, fractions, equations, and proportions in dependency order.
-- [ ] Convert factorization helpers before NSD/NSK consumers.
-- [ ] Export typed definitions; replace hidden registration and state reads with explicit contracts.
-- [ ] Preserve BigInt exact arithmetic, validation strings, all step data, and animation hooks.
-- [ ] Replace VM-loaded math tests with module imports without weakening assertions.
+- [x] Migrate shared `linear` helpers before domain, irrational, and rational-power dependents.
+- [x] Migrate arithmetic, divisibility, factorization, fractions, equations, and proportions in dependency order.
+- [x] Convert factorization helpers before NSD/NSK consumers.
+- [x] Export typed definitions; replace hidden registration and state reads with explicit contracts.
+- [x] Preserve BigInt exact arithmetic, validation strings, all step data, and animation hooks.
+- [x] Replace VM-loaded math tests with module imports without weakening assertions.
 
 **Agent B: geometry.** Own geometry engines, vector/scalar tool engines, and their unit tests.
 
-- [ ] Convert vector models, presets, practice checks, diagrams, and lesson data.
-- [ ] Convert vector notebook tokens, step composition, scaling, and scalar-product tool models.
-- [ ] Use foundation formula/pen types; keep controls in existing React components.
-- [ ] Scope notebook scrolling to its mounted root instead of a global document query.
-- [ ] Verify zero vectors, negative multipliers, collinearity, exact values, and appended formula steps.
+- [x] Convert vector models, presets, practice checks, diagrams, and lesson data.
+- [x] Convert vector notebook tokens, step composition, scaling, and scalar-product tool models.
+- [x] Use foundation formula/pen types; keep controls in existing React components.
+- [x] Scope notebook scrolling to its mounted root instead of a global document query.
+- [x] Verify zero vectors, negative multipliers, collinearity, exact values, and appended formula steps.
 
 **Agent C: document content.** Own info/robotics data, content assembly, and focused document tests.
 
-- [ ] Convert calendar, KTP records, lesson plans, NIT export helpers, and robotics sections.
-- [ ] Separate content data from registry mutation and runtime controller state.
-- [ ] Preserve Ukrainian text, static markup, document IDs, anchors, downloads, and memory-only KTP edits.
-- [ ] Replace controller references with typed preset metadata supplied at composition.
-- [ ] Assemble cached document HTML and topic metadata explicitly after catalog/content data load.
-- [ ] Separate NIT workbook byte generation from browser download effects; check all/semester export contents.
-- [ ] Remove obsolete projector hooks and stale references to removed scripts after route verification.
+- [x] Convert calendar, KTP records, lesson plans, NIT export helpers, and robotics sections.
+- [x] Separate content data from registry mutation and runtime controller state.
+- [x] Preserve Ukrainian text, static markup, document IDs, anchors, downloads, and memory-only KTP edits.
+- [x] Replace controller references with typed preset metadata supplied at composition.
+- [x] Assemble cached document HTML and topic metadata explicitly after catalog/content data load.
+- [x] Separate NIT workbook byte generation from browser download effects; check all/semester export contents.
+- [x] Remove obsolete projector hooks and stale references to removed scripts after route verification.
 
 Coordinator integrates completed slices, owns shared API changes, and checks composition for cycles.
 Each worker updates only its domain tests; shared test infrastructure belongs to the coordinator.
@@ -761,43 +763,43 @@ Each worker updates only its domain tests; shared test infrastructure belongs to
 
 **Agent D: keyboard and Windows.** Own both engine directories and their controller type contracts.
 
-- [ ] Convert keyboard presets, editing operations, subscriptions, events, and lifecycle cleanup.
-- [ ] Split Windows data/icons, filesystem operations, view-model publication, and input commands.
-- [ ] Give mutable state one owner; inject command dependencies where direct imports would create cycles.
-- [ ] Use discriminated unions for filesystem nodes, windows, dialogs, commands, and interaction state.
-- [ ] Preserve selection, clipboard, search, rename, save, drag behavior, and same-document state.
-- [ ] Verify listener/timer cleanup and remount behavior with existing browser scenarios.
+- [x] Convert keyboard presets, editing operations, subscriptions, events, and lifecycle cleanup.
+- [x] Split Windows data/icons, filesystem operations, view-model publication, and input commands.
+- [x] Give mutable state one owner; inject command dependencies where direct imports would create cycles.
+- [x] Use discriminated unions for filesystem nodes, windows, dialogs, commands, and interaction state.
+- [x] Preserve selection, clipboard, search, rename, save, drag behavior, and same-document state.
+- [x] Verify listener/timer cleanup and remount behavior with existing browser scenarios.
 
 **Agent E: circuit.** Own circuit engines, circuit contracts, and focused solver/model tests.
 
-- [ ] Type components, terminals, wires, properties, solver results, history, and simulation state.
-- [ ] Extract shared terminal and wire operations before converting breadboard/simulator dependencies.
-- [ ] Convert parts, solver, breadboard, drawing, and controller modules without import cycles.
-- [ ] Preserve physics, wiring, undo/redo, schematic/breadboard views, sound, and animation timing.
-- [ ] Verify electrical results and release rAF, audio, and event resources on unmount.
+- [x] Type components, terminals, wires, properties, solver results, history, and simulation state.
+- [x] Extract shared terminal and wire operations before converting breadboard/simulator dependencies.
+- [x] Convert parts, solver, breadboard, drawing, and controller modules without import cycles.
+- [x] Preserve physics, wiring, undo/redo, schematic/breadboard views, sound, and animation timing.
+- [x] Verify electrical results and release rAF, audio, and event resources on unmount.
 
 **Agent F: independent review.** Read-only review of completed wave A code and tests.
 
-- [ ] Check exact math, content parity, registration order, import cycles, and unsafe type escapes.
-- [ ] Report concrete regressions to the coordinator; domain owners apply fixes.
+- [x] Check exact math, content parity, registration order, import cycles, and unsafe type escapes.
+- [x] Report concrete regressions to the coordinator; domain owners apply fixes.
 
 ## Stage 4 — integration and verification
 
 Owner: coordinator. Domain agents resolve findings in their assigned files.
 
-- [ ] Assemble all engines/documents with ordinary TypeScript imports and explicit registration.
-- [ ] Remove remaining compatibility bridges, the concatenation plugin, and the virtual declaration.
-- [ ] Remove `js/` after every file is accounted for; update source-path tests and stale comments.
-- [ ] Preserve the plain-script IIFE output and public `StepBySchool` browser API.
-- [ ] Update README, CLAUDE.md, build/dev messages, and CI references.
-- [ ] Run `npm run format:check`, `npm run build`, `npm test`, and `npm run test:browser`.
-- [ ] Compare canonical task models, every rendered task step, document registry, and lesson content with baseline.
-- [ ] Review notebook, geometry, keyboard, Windows, and circuit screenshots at desktop and mobile widths.
-- [ ] Verify routes/history, custom input, exports/printing, reduced motion, sequential writing, and number flights.
-- [ ] Verify HTTP and `file://` operation with no external runtime requests or console/page errors.
-- [ ] Verify dev rebuilds for migrated modules and unchanged bundle hashes on a second production build.
-- [ ] Run `git diff --check`; ensure generated assets match the source and resource versions are updated.
-- [ ] Record final results, resolved findings, and any remaining limitations in this task section.
+- [x] Assemble all engines/documents with ordinary TypeScript imports and explicit registration.
+- [x] Remove remaining compatibility bridges, the concatenation plugin, and the virtual declaration.
+- [x] Remove `js/` after every file is accounted for; update source-path tests and stale comments.
+- [x] Preserve the plain-script IIFE output and public `StepBySchool` browser API.
+- [x] Update README, CLAUDE.md, build/dev messages, and CI references.
+- [x] Run `npm run format:check`, `npm run build`, `npm test`, and `npm run test:browser`.
+- [x] Compare canonical task models, every rendered task step, document registry, and lesson content with baseline.
+- [x] Review notebook, geometry, keyboard, Windows, and circuit screenshots at desktop and mobile widths.
+- [x] Verify routes/history, custom input, exports/printing, reduced motion, sequential writing, and number flights.
+- [x] Verify HTTP and `file://` operation with no external runtime requests or console/page errors.
+- [x] Verify dev rebuilds for migrated modules and unchanged bundle hashes on a second production build.
+- [x] Run `git diff --check`; ensure generated assets match the source and resource versions are updated.
+- [x] Record final results, resolved findings, and any remaining limitations in this task section.
 
 ## Delegation rules and review gates
 
@@ -811,4 +813,45 @@ Final completion requires both passing checks and an independent review of the i
 
 Planning review: source inspection confirms that this needs module and internal type migration,
 not extension renaming. Parallel work starts after the shared contracts and foundation are stable.
-Implementation has not started; baseline execution and all implementation checks remain pending.
+The original planning gate was completed before implementation. Final results are recorded below.
+
+Execution review, Stage 0: `tasks/migration-ledger.md` inventories all 49 sources.
+Baseline: strict build, formatting, 127 unit tests, and 31 browser tests pass.
+`/tmp/stepby-migration-baseline.json` captures 77 models, 656 step views, 23 documents, and catalog data.
+Domain entry points will be ordinary bundled TS imports. Each domain test loads one entry point
+per isolated instance. `defineTool` validates model identity at the heterogeneous facade boundary.
+
+Execution review, feature waves: foundation, all 16 tools, geometry, documents, keyboard, and circuit use strict modules.
+Integrated baseline comparison passed for all 77 models, 656 step views, 23 documents, and complete catalog.
+All 31 browser scenarios pass with these modules. Windows conversion and final loader removal are complete.
+Independent reviews found no value-import cycles or unsafe type escapes. Additional comparisons cover
+675 arithmetic configurations, 343 scaling cases, 150 scalar models, and 144 circuit configurations.
+
+## Final verification and review
+
+- `npm run format:check`: passed.
+- `npm run build`: strict TypeScript and the local IIFE build passed.
+- `npm test`: 182 tests passed, including all existing mathematical assertions.
+- `npm run test:browser`: 33 Chromium scenarios passed, including HTTP and offline `file://`.
+- Canonical parity: all 77 complete task models, all 656 rendered step views, 23 document definitions,
+  and the complete lesson catalog match the pre-migration baseline. Six NIT workbook byte hashes also match.
+- Additional independent checks cover 675 arithmetic configurations, 343 scaling cases, 150 scalar models,
+  144 circuit configurations, all 90 Windows demo nodes and their icons, and 140 keyboard editing snapshots.
+- The value-import graph has no cycles. Engine AST checks reject `any` and disabled TypeScript checking.
+- Reviewed notebook, geometry, keyboard, Windows, and circuit screenshots at 1280 px and 390 px.
+  Those ten offline views have no document overflow, console/page errors, or external runtime requests.
+- Verified a GitHub Pages style `/stepby-school/` deployment path locally.
+- Verified the actual dev server rebuilds a changed imported TypeScript module and its restored source.
+- A second production build produces identical SHA-256 hashes for both generated bundle files.
+- `git diff --check`: passed. README, CLAUDE.md, resource version, source-path tests, and generated assets are current.
+  CI already invokes the same path-independent checks and required no source-layout change.
+- Independent integrated review: `tasks/migration-review.md`; no unresolved blockers.
+
+Resolved lifecycle findings: circuit and Windows sessions now own their scheduled work and cleanup.
+Stale disposal cannot stop or close a newer session. Windows also rejects stale fullscreen completion.
+Browser regression tests cover frame cancellation, stale cleanup, audio release, held controls,
+keyboard lock, timers, listeners, and remount behavior.
+
+React still owns application pages and interactive controls. Lesson prose/static SVG and specialized
+formula/drawing renderers remain trusted content. No numerical algorithm or lesson text was changed.
+Changes are local and uncommitted; nothing was deployed.

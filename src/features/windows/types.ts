@@ -1,8 +1,7 @@
 export type WindowsLocation = number | string;
-export interface FileNode {
+export interface FileNodeFields {
   id: number;
   name: string;
-  kind: string;
   ext: string;
   date: string;
   made: string;
@@ -10,15 +9,21 @@ export interface FileNode {
   text: string;
   kids: FileNode[];
   links?: number[];
-  pc?: boolean;
-  bin?: boolean;
+  pc?: boolean | number;
+  bin?: boolean | number;
   drive?: string;
-  lock?: boolean;
+  lock?: boolean | number;
+  adm?: boolean | number;
+  own?: boolean | number;
+  blank?: boolean | number;
+  emb?: string;
+  real?: string;
   cap: number;
   free: number;
-  orig: number;
-  del: string;
+  orig?: number;
+  del?: string;
 }
+export type FileNode = FileNodeFields & ({ kind: 'dir' } | { kind: 'file' });
 export interface Selection {
   sel: number[];
   anc: number | null;
@@ -29,25 +34,27 @@ export interface ExplorerTab extends Selection {
   back: WindowsLocation[];
   fwd: WindowsLocation[];
   addr: boolean;
-  addrv: string | null;
+  addrv?: string | null;
 }
 export interface MenuItem {
   t: string;
-  g: string;
-  dis?: boolean;
-  hd?: boolean;
-  sub?: MenuItem[];
-  b?: boolean;
+  g?: string;
+  act?: (menu: WindowsMenu) => void;
+  dis?: boolean | number;
+  hd?: boolean | number;
+  sub?: (MenuItem | '-')[];
+  b?: boolean | number;
   d?: string;
-  on?: boolean;
-  chk?: boolean;
-  rad?: boolean;
+  on?: boolean | number;
+  chk?: boolean | number;
+  rad?: boolean | number;
   ic?: string;
   k?: string;
 }
 export interface WindowsMenu {
   x: number;
-  y: number;
+  y?: number;
+  jump?: boolean | number;
   bottom?: number;
   st?: string;
   dark?: boolean;
@@ -56,16 +63,23 @@ export interface WindowsMenu {
 }
 export interface WindowsDialog {
   title: string;
-  icon?: string;
+  icon?: string | null;
   main?: string;
   text?: string;
-  about?: FileNode;
-  opts?: { t: string }[];
-  btns: { t: string; def?: boolean; shield?: boolean }[];
+  about?: FileNode | null;
+  owner?: number | null;
+  refocus?: string | null;
+  wide?: boolean | number;
+  opts?: { t: string; act?: () => void }[];
+  btns: {
+    t: string;
+    def?: boolean | number;
+    shield?: boolean | number;
+    act?: (() => void) | null;
+  }[];
 }
-export interface WindowsWindow {
+export interface WindowsWindowFields {
   id: number;
-  kind: string;
   app: string;
   file: number | null;
   x: number;
@@ -80,7 +94,7 @@ export interface WindowsWindow {
   ti: number;
   open: Set<string>;
   nav: boolean;
-  pane: string;
+  pane: string | null;
   rtab: string;
   rmin: boolean;
   rpop: boolean;
@@ -90,8 +104,19 @@ export interface WindowsWindow {
   fname: string;
   id2: number;
   val: string;
+  ptab: number;
+  owner: number | null;
+  then?: () => void;
   d: WindowsDialog;
 }
+export type WindowsWindow = WindowsWindowFields &
+  (
+    | { kind: 'exp' }
+    | { kind: 'app' }
+    | { kind: 'props' }
+    | { kind: 'save' }
+    | { kind: 'dlg' }
+  );
 export interface WindowsState {
   ver: string;
   big: boolean;
@@ -101,10 +126,10 @@ export interface WindowsState {
   root: FileNode | null;
   bin: FileNode;
   desk: FileNode;
-  by: Record<number, FileNode>;
-  up: Record<number, number>;
+  by: Record<string, FileNode>;
+  up: Record<string, number>;
   sp: Record<string, number>;
-  pos: Record<number, [number, number]>;
+  pos: Record<string, [number, number]>;
   dk: Selection;
   wins: WindowsWindow[];
   act: number | null;
@@ -115,12 +140,18 @@ export interface WindowsState {
   pins: number[];
   recent: number[];
   showExt: boolean;
-  hidden: boolean;
+  hidden?: boolean;
   boxes: boolean;
   compact: boolean;
   clip: { op: string; ids: number[] } | null;
   menu: WindowsMenu | null;
-  edit: { sf: string; id: number; val: string; fresh: boolean } | null;
+  edit: {
+    sf: string;
+    id: number;
+    val: string;
+    fresh: boolean;
+    isNew?: boolean;
+  } | null;
   reactFx?: {
     kind: string;
     node?: FileNode;
@@ -131,9 +162,9 @@ export interface WindowsState {
     width?: number;
     height?: number;
     label?: string;
-  };
-  reactCast?: string;
-  reactBalloon?: { x: number; y: number };
+  } | null;
+  reactCast?: string | null;
+  reactBalloon?: { x: number; y: number } | null;
 }
 export interface WindowFlags {
   t: ExplorerTab;
@@ -150,13 +181,10 @@ export interface WindowFlags {
   canPaste: boolean;
   canPin: boolean;
 }
-export interface SearchResult {
-  kind: string;
-  k: string;
-  id: number;
-  name: string;
-  sub: string;
-}
+export type SearchResult = { name: string; sub: string } & (
+  | { kind: 'app'; k: string; id?: never }
+  | { kind: 'dir' | 'file'; id: number; k?: never }
+);
 export interface WindowsHelpers {
   g(name: string, size?: number): string;
   svg(size: number, box: string, content: string): string;
@@ -187,20 +215,20 @@ export interface WindowsHelpers {
   tb(): number;
   cell(): { w: number; h: number; i: number };
   tab(window: WindowsWindow): ExplorerTab;
-  win(id: number | null): WindowsWindow | null;
+  win(id: number | null): WindowsWindow | undefined;
   appKey(window: WindowsWindow): string | null;
   deskItems(): FileNode[];
   itClass(selection: Selection, node: FileNode, extra?: string): string;
   full(node: FileNode, extension?: boolean): string;
   type(node: FileNode): string;
-  real(id: WindowsLocation): string;
+  real(id: WindowsLocation | null | undefined): string;
   locName(loc: WindowsLocation): string;
-  path(id: number): number[];
+  path(id?: number | null): number[];
   upLoc(loc: WindowsLocation): WindowsLocation | null;
   writable(loc: WindowsLocation): number;
   inBin(id: number): boolean;
-  dt(date: string): string;
-  dtLong(date: string): string;
+  dt(date?: string): string;
+  dtLong(date?: string): string;
   kb(size: number): string;
   human(size: number): string;
   num: Intl.NumberFormat;

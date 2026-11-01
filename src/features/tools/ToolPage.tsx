@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import type { AppState, ToolDefinition } from '../../types';
 import { Breadcrumbs, PageHeading } from '../../components/ui';
 import { ToolConfiguration } from './components/ToolConfiguration';
@@ -24,11 +25,12 @@ export function ToolPage({
   onMarkDone,
   onStepChange,
 }: ToolPageProps) {
+  const root = useRef<HTMLDivElement>(null);
   const context =
     state.steps.length > 0
       ? { step: state.steps[state.step], index: state.step, anim: state.anim }
       : null;
-  useToolAnimation(definition, state.model, context);
+  useToolAnimation(definition, state.model, context, root);
   return (
     <>
       <Breadcrumbs parts={[{ text: '← Назад', href: backHref }]} />
@@ -36,7 +38,7 @@ export function ToolPage({
         title={`${definition.icon} ${definition.name}`}
         description="Покроковий інтерактивний розбір. Натискай «Далі», щоб побачити кожен крок."
       />
-      <div className="tool-shell">
+      <div className="tool-shell" ref={root}>
         <ToolConfiguration
           inputHint={definition.inputHint}
           canMarkDone={!!state.toolTaskId}

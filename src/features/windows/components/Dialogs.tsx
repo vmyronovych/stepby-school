@@ -207,7 +207,7 @@ export function PropertiesDialog({
             <input
               data-fk={`pn${w.id}`}
               defaultValue={w.val}
-              readOnly={node.lock || h.inBin(node.id)}
+              readOnly={!!node.lock || h.inBin(node.id)}
               spellCheck={false}
               autoComplete="off"
             />

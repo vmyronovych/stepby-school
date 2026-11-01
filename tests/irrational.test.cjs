@@ -1,16 +1,11 @@
 // Запуск: node --test tests/irrational.test.cjs. Потребує npm ci.
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
-const fs=require('node:fs');
-const vm=require('node:vm');
-const path=require('node:path');
-const { createDataContext } = require('./helpers/load-typescript.cjs');
-const ctx=createDataContext({document:{getElementById:()=>null}});
-for(const f of ['js/core/util.js','js/core/registry.js','js/core/handwriting.js','js/core/formula.js','js/tools/linear.js','js/tools/domain.js','js/tools/irrational.js']){
- vm.runInContext(fs.readFileSync(path.join(__dirname,'..',f),'utf8'),ctx);
-}
+const { loadTypeScript } = require('./helpers/load-typescript.cjs');
+const { catalog, buildIrrationalModel, buildSubstitutionModel, fmlText, domIntervalText, irRenameVariable, polyAst, Q } = loadTypeScript('src/features/tools/engines/test-entry.ts');
 function solve(text){
- return JSON.parse(vm.runInContext(`JSON.stringify((()=>{const m=buildIrrationalModel(${JSON.stringify(text)});return {answer:m.answer.map(r=>fmlText(r.ast)),domain:domIntervalText(m.domain),intervals:m.answerIntervals?domIntervalText(m.answerIntervals):null,linear:m.linearRows,checks:m.checks.map(c=>({ok:c.ok,inDomain:c.inDomain,rightOK:c.rightOK})),steps:m.steps}})())`,ctx));
+ const m=buildIrrationalModel(text);
+ return JSON.parse(JSON.stringify({answer:m.answer.map(r=>fmlText(r.ast)),domain:domIntervalText(m.domain),intervals:m.answerIntervals?domIntervalText(m.answerIntervals):null,linear:m.linearRows,checks:m.checks.map(c=>({ok:c.ok,inDomain:c.inDomain,rightOK:c.rightOK})),steps:m.steps}));
 }
 const examples=[
  ['sqrt(x-2)=3',['11']],
@@ -54,7 +49,7 @@ for(const bad of ['x=2','sqrt(x)+sqrt(x+1)=2','sqrt(x^3)=1','sqrt(1/x)=1','sqrt(
  test('непідтримувана умова: '+bad,()=>assert.throws(()=>solve(bad),e=>typeof e==='string'));
 }
 test('ідентифікатори тем і завдань унікальні; урок після області визначення',()=>{
- const data=JSON.parse(vm.runInContext('JSON.stringify(DB.topics)',ctx));
+ const data=JSON.parse(JSON.stringify(catalog.topics));
  for(const ids of [data.map(t=>t.id),data.flatMap(t=>(t.tasks||[]).map(k=>k.id))]) assert.equal(new Set(ids).size,ids.length);
  assert.equal(data.findIndex(t=>t.id==='irrational'),data.findIndex(t=>t.id==='t9')+1);
  assert.equal(data.find(t=>t.id==='irrational').tasks.length,11);
@@ -124,7 +119,8 @@ for(const equation of ['root(3,x)=x','root(3,x)=sqrt(x)','root(4,x)=2']){
 }
 
 function substitution(text){
- return JSON.parse(vm.runInContext(`JSON.stringify((()=>{const m=toolDef('irrational').build({text:${JSON.stringify(text)},method:'substitution'});return {answer:m.answer.map(r=>fmlText(r.ast)),replacements:m.replacements.map(r=>({t:fmlText(r.t.ast),ok:r.ok})),steps:m.steps,checks:m.checks}})())`,ctx));
+ const m=buildSubstitutionModel(text);
+ return JSON.parse(JSON.stringify({answer:m.answer.map(r=>fmlText(r.ast)),replacements:m.replacements.map(r=>({t:fmlText(r.t.ast),ok:r.ok})),steps:m.steps,checks:m.checks}));
 }
 for(const [equation,answer] of [
  ['x-3sqrt(x)+2=0',['1','4']],
@@ -152,7 +148,7 @@ test('символ t є у формулах та індексованих кор
  const rows=m.steps.filter(s=>s.title==='Розв’язуємо рівняння відносно t');
  assert(rows.some(s=>s.parts.some(p=>p.x && p.symbol==='t')));
  assert(rows.every(s=>!s.text.includes('x')));
- assert.equal(vm.runInContext("fmlText(irRenameVariable(polyAst([Q(2),Q(-3),Q(1)]),'t'))",ctx),'t² − 3t + 2');
+ assert.equal(fmlText(irRenameVariable(polyAst([Q(2),Q(-3),Q(1)]),'t')),'t² − 3t + 2');
 });
 for(const text of ['x=1','sqrt(x)-2=0','x^2+sqrt(x)=0','x+sqrt(x+1)=0','x+root(3,x)=0','x+sqrt(x)=']){
  test('межі методу заміни: '+text,()=>assert.throws(()=>substitution(text),e=>typeof e==='string'));

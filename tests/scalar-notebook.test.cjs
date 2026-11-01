@@ -1,11 +1,8 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
-const fs=require('node:fs');
-const path=require('node:path');
-const vm=require('node:vm');
-const ctx=vm.createContext({document:{getElementById:()=>null},hrefTool:(id,cfg)=>'#/tool/'+id+'?c='+encodeURIComponent(JSON.stringify(cfg)),DOCS:{},DB:{topics:[],tools:{}},registerTool:(id,def)=>ctx.DB.tools[id]=def});
-for(const file of ['js/core/util.js','js/core/handwriting.js','js/core/formula.js','js/geometry/scalar-product.js','js/geometry/vector-notebook.js','js/tools/scalar-product.js'])vm.runInContext(fs.readFileSync(path.join(__dirname,'..',file),'utf8'),ctx);
-const tool=vm.runInContext('ScalarNotebook',ctx);
+const { loadTypeScript } = require('./helpers/load-typescript.cjs');
+const { ScalarNotebook, scalarTool: def } = loadTypeScript('src/features/geometry/engines/index.ts');
+const tool={...ScalarNotebook,build:(cfg={})=>def.build(cfg)};
 function value(n){
   switch(n.t){
     case 'num':return n.q.n/n.q.d;
@@ -45,7 +42,7 @@ test('корені та дроби залишаються точними; вис
   assert.throws(()=>tool.build({group:2,part:9}));
 });
 test('лише послідовний крок отримує анімацію; рендер накопичує рядки',()=>{
-  const def=ctx.DB.tools['scalar-product'],m=tool.build({group:2,part:0});
+  const m=tool.build({group:2,part:0});
   assert.equal(def.prepare(m,0,2),null);
   assert.equal(def.prepare(m,2,1),null);
   assert.equal(def.prepare(m,0,1).writing,true);
@@ -58,7 +55,6 @@ test('лише послідовний крок отримує анімацію; 
   assert(!html.includes('Наступна задача'));
 });
 test('обчислення дописуються в рядок, номер вправи не показується',()=>{
-  const def=ctx.DB.tools['scalar-product'];
   tool.examples.forEach(cfg=>{
     const m=tool.build(cfg),last=m.steps.length-1;
     const html=def.view(m,{index:last,step:m.steps[last],anim:null});

@@ -109,3 +109,98 @@ test('Notepad save dialog, explorer search and window lifecycle', async ({
     fullPage: true,
   });
 });
+
+test('Windows cancels old mount work and stale cleanup cannot affect a newer mount', async ({
+  page,
+}) => {
+  const { buildSync } = require('esbuild');
+  const source = buildSync({
+    entryPoints: ['src/features/windows/engine/index.ts'],
+    bundle: true,
+    write: false,
+    format: 'iife',
+    globalName: 'WindowsLifecycle',
+    platform: 'browser',
+    target: 'es2020',
+  }).outputFiles[0].text;
+  await page.goto('about:blank');
+  await page.setContent(
+    '<input id="sentinel"><div id="first"><div class="wn-stage"><div id="wnScr" tabindex="0"></div></div></div><div id="second"><div class="wn-stage"><div id="wnScr" tabindex="0"></div></div></div>',
+  );
+  await page.addScriptTag({ content: source });
+  const result = await page.evaluate(async () => {
+    const frames = new Map(),
+      intervals = new Map();
+    let next = 0,
+      locks = 0,
+      resolveFullscreen;
+    window.requestAnimationFrame = (callback) => {
+      const id = ++next;
+      frames.set(id, callback);
+      return id;
+    };
+    window.cancelAnimationFrame = (id) => frames.delete(id);
+    window.setInterval = (callback) => {
+      const id = ++next;
+      intervals.set(id, callback);
+      return id;
+    };
+    window.clearInterval = (id) => intervals.delete(id);
+    Object.defineProperty(navigator, 'keyboard', {
+      configurable: true,
+      value: {
+        lock: () => {
+          locks++;
+          return Promise.resolve();
+        },
+        unlock() {},
+      },
+    });
+    const engine = WindowsLifecycle.WindowsEngine,
+      first = document.getElementById('first'),
+      second = document.getElementById('second');
+    first.requestFullscreen = () =>
+      new Promise((resolve) => {
+        resolveFullscreen = resolve;
+      });
+    const closeFirst = engine.mount(first, '11');
+    const staleFrame = [...frames.values()][0];
+    engine.toolbar('fullscreen');
+    const closeSecond = engine.mount(second, '10');
+    document.getElementById('sentinel').focus();
+    staleFrame(performance.now());
+    const staleFocused = document.activeElement.id !== 'sentinel';
+    closeFirst();
+    resolveFullscreen();
+    await Promise.resolve();
+    await Promise.resolve();
+    const currentOpen = engine.state().open;
+    for (const [id, callback] of [...frames]) {
+      frames.delete(id);
+      callback(performance.now());
+    }
+    const currentFocused =
+      document.activeElement === second.querySelector('#wnScr');
+    document.dispatchEvent(new Event('fullscreenchange'));
+    closeSecond();
+    closeSecond();
+    return {
+      staleFocused,
+      currentOpen,
+      currentFocused,
+      locks,
+      pendingFrames: frames.size,
+      pendingIntervals: intervals.size,
+      closed: !engine.state().open,
+    };
+  });
+  expect(result).toEqual({
+    staleFocused: false,
+    currentOpen: true,
+    currentFocused: true,
+    locks: 0,
+    pendingFrames: 0,
+    pendingIntervals: 0,
+    closed: true,
+  });
+});
