@@ -2,6 +2,8 @@
 
 ## User-supplied course themes
 
+- If the user identifies a screenshot as outdated, stop diagnosing that image. Do not change current styling to match it.
+- Pair new web concepts with visual code/result examples. Show selector-to-element connections explicitly.
 - Show web lesson tasks as separate buttons, with the active task clearly marked.
 - Use supplied teaching materials as references; omit source branding and source-site links from course content.
 - Let the user supply the course themes when they say they will provide them.

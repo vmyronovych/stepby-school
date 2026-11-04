@@ -1,3 +1,43 @@
+# Visual explanations for web lessons
+
+- [x] Review plan: add diagrams beside the relevant Theme 2 explanations.
+- [x] Add a selector diagram with highlighted matching tags and the corresponding result.
+- [x] Add code/result illustrations for emphasis, indices, and alignment.
+- [x] Verify diagram content, mobile/offline display, screenshots, and required checks.
+
+Use native HTML/CSS for sharp, accessible illustrations beside the prose. Selectors choose elements;
+labels and matching outlines must explain the connection without relying on color alone.
+Static diagrams keep all connections visible and reuse the existing document renderer without new UI state.
+
+Verification: inspected selector flow at 1440/390 px, alignment and index screenshots.
+Both selected paragraphs render navy; match labels identify both p elements. Alignment frames have equal widths.
+No horizontal overflow at either width. Offline browser checks pass; all 186 unit and 44 browser tests pass.
+Strict build, source formatting, and `git diff --check` pass. CSS/bundle resource versions are updated.
+
+# HTML/CSS — Theme 2: Форматування тексту
+
+- [x] Read supplied theory/tasks and current HTML/CSS guidance.
+- [x] Review plan: reuse the practice component with lesson-specific tasks and preview capabilities.
+- [x] Add original theory: text semantics, indices, internal CSS, alignment and colors.
+- [x] Adapt four exercises plus homework; generate local reference images.
+- [x] Enable formatting elements and internal CSS only for Theme 2; keep script/network isolation.
+- [x] Verify lesson switching, computed formatting, draft separation, import/export, mobile and offline routes.
+- [x] Run required checks, inspect screenshots, and record independent review.
+
+Plan: replace obsolete alignment attributes with CSS text-align. Explain semantic emphasis instead of
+presenting every inline tag as decoration. Use real powers/formulas and readable text colors.
+Keep task buttons and source branding preferences. Do not add later themes or automatic grading.
+
+Review: five original references generated at 720 × 420. Existing Theme 1 images are unchanged.
+Independent review confirmed task/reference consistency, correct formula indices, readable colors,
+lesson state separation, and CSP isolation. Deliberate CSS network attempts fail with CSP before dispatch.
+The generalized practice component retains Theme 1's restricted preview and enables internal CSS only for Theme 2.
+Reviewed desktop/mobile lesson screenshots and reference images; no clipping or document overflow.
+Verification: strict build, formatting, 186 unit tests, and all 44 browser scenarios pass.
+New tests cover computed styles, semantic elements, blocked external content, lesson/task/anchor changes,
+UTF-8 export/import, HTTP discovery, and offline file URLs at 1280/390 px. `git diff --check` passes.
+Bundle and resource version are current. Changes are local and uncommitted.
+
 # HTML/CSS — Theme 1: Веб-сторінка
 
 ## Task selection buttons

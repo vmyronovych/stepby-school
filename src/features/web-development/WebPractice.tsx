@@ -1,14 +1,22 @@
 import { useRef, useState } from 'react';
 import { previewDocument } from './preview';
-import { starterHtml, webTasks } from './tasks';
+import { starterHtml, webTasks, type WebTask } from './tasks';
 
-export function WebPractice() {
-  const [selected, setSelected] = useState(webTasks[0].id);
+export function WebPractice({
+  tasks = webTasks,
+  starter = starterHtml,
+  formatting = false,
+}: {
+  tasks?: WebTask[];
+  starter?: string;
+  formatting?: boolean;
+}) {
+  const [selected, setSelected] = useState(tasks[0].id);
   const [drafts, setDrafts] = useState<Record<string, string>>({});
   const [previews, setPreviews] = useState<Record<string, string>>({});
   const [message, setMessage] = useState('');
-  const task = webTasks.find((item) => item.id === selected)!;
-  const source = drafts[selected] ?? starterHtml;
+  const task = tasks.find((item) => item.id === selected)!;
+  const source = drafts[selected] ?? starter;
   const selection = useRef(selected);
   selection.current = selected;
 
@@ -41,7 +49,7 @@ export function WebPractice() {
         role="group"
         aria-labelledby="web-task-label"
       >
-        {webTasks.map((item) => (
+        {tasks.map((item) => (
           <button
             key={item.id}
             type="button"
@@ -81,7 +89,7 @@ export function WebPractice() {
               onClick={() =>
                 setPreviews((current) => ({
                   ...current,
-                  [selected]: previewDocument(source),
+                  [selected]: previewDocument(source, formatting),
                 }))
               }
             >
@@ -122,7 +130,7 @@ export function WebPractice() {
           <iframe
             title="Твій результат HTML"
             sandbox=""
-            srcDoc={previews[selected] ?? previewDocument(starterHtml)}
+            srcDoc={previews[selected] ?? previewDocument(starter, formatting)}
           />
           <p className="web-note">
             Натисни «Оновити результат» після змін. Перегляд підтримує елементи

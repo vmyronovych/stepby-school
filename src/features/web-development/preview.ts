@@ -1,5 +1,5 @@
 /** Keep learner markup outside the application DOM and deny active content. */
-export function previewDocument(source: string): string {
+export function previewDocument(source: string, formatting = false): string {
   const document = new DOMParser().parseFromString(source, 'text/html');
   const allowed = new Set([
     'HTML',
@@ -16,6 +16,22 @@ export function previewDocument(source: string): string {
     'P',
     'BR',
   ]);
+  if (formatting) {
+    for (const tag of [
+      'STYLE',
+      'STRONG',
+      'EM',
+      'B',
+      'I',
+      'U',
+      'S',
+      'DEL',
+      'SUP',
+      'SUB',
+      'SPAN',
+    ])
+      allowed.add(tag);
+  }
   for (const element of [...document.querySelectorAll('*')]) {
     if (!allowed.has(element.tagName)) {
       element.remove();
@@ -32,6 +48,7 @@ export function previewDocument(source: string): string {
   const policy = document.createElement('meta');
   policy.httpEquiv = 'Content-Security-Policy';
   policy.content = "default-src 'none'; form-action 'none'; base-uri 'none'";
+  if (formatting) policy.content += "; style-src 'unsafe-inline'";
   document.head.prepend(policy);
   return '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
 }

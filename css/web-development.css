@@ -48,3 +48,45 @@
 .web-reference img { display: block; width: 100%; max-width: 720px; height: auto; border: 1px solid var(--line); border-radius: 10px; background: white; }
 .web-note { color: var(--muted); font-size: 14px; }
 @media (max-width: 1100px) { .web-workspace { grid-template-columns: 1fr; } }
+
+.web-diagram {
+  margin: 20px 0;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--card);
+}
+.robo-body .web-diagram > figcaption { margin: 0 0 16px; color: var(--ink); font-size: 17px; font-weight: 700; text-align: left; }
+.web-selector-flow { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+.web-code-result { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.web-diagram-card { min-width: 0; padding: 12px; background: #f8fafc; border: 1px solid var(--line); border-radius: 10px; }
+.robo-body .web-diagram h3 { margin: 0 0 12px; color: var(--ink); font-size: 15px; }
+.web-diagram code { font: 13px/1.7 var(--mono); overflow-wrap: anywhere; }
+.web-visual-code { margin: 0; white-space: pre-wrap; }
+.web-tag-match { padding: 1px 3px; color: #4732a6; background: #e9e4ff; border-radius: 3px; font-weight: 700; }
+.web-rule-parts { margin: 14px 0 0; font-size: 13px; }
+.web-rule-parts dt { font-weight: 700; }
+.web-rule-parts dd { margin: 0 0 8px; }
+.web-flow-step { position: relative; }
+.web-flow-arrow { position: absolute; right: -25px; top: 46%; color: var(--primary); font-size: 24px; }
+.web-html-line { margin: 0 0 10px; padding: 8px; border: 1px dashed #94a3b8; border-radius: 7px; }
+.web-html-line small { display: block; margin-top: 6px; color: #475569; font-size: 12px; }
+.web-element-match { border: 2px solid #7c67da; }
+.web-browser-sample { padding: 12px; color: black; background: white; border: 1px solid #cbd5e1; border-radius: 6px; font: 16px/1.5 Georgia, 'Times New Roman', serif; }
+.web-sample-heading { font-size: 24px; font-weight: 700; line-height: 1.2; }
+.robo-body .web-browser-sample .web-sample-navy { color: navy; }
+.robo-body .web-diagram-note { font-size: 13px; line-height: 1.6; color: #475569; margin: 12px 0 0; }
+.web-index-result { margin: 12px 0; padding: 8px; text-align: center; background: white; color: black; border-radius: 6px; font: 40px/1.6 Georgia, 'Times New Roman', serif; }
+.web-alignment-samples { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.web-alignment-box { margin-top: 8px; padding: 12px 8px; border: 2px dashed #94a3b8; background: white; color: black; font: 16px/1.5 Georgia, 'Times New Roman', serif; }
+.web-align-left { text-align: left; }
+.web-align-center { text-align: center; }
+.web-align-right { text-align: right; }
+@media (max-width: 1100px) {
+  .web-selector-flow { grid-template-columns: 1fr; }
+  .web-flow-arrow { top: auto; right: 50%; bottom: -32px; transform: translateX(50%) rotate(90deg); }
+}
+@media (max-width: 600px) {
+  .web-code-result, .web-alignment-samples { grid-template-columns: 1fr; }
+  .web-diagram { padding: 12px; }
+}
