@@ -1,3 +1,46 @@
+# HTML/CSS — Theme 1: Веб-сторінка
+
+## Task selection buttons
+
+- [x] Replace the task dropdown with wrapping buttons and an accessible active state.
+- [x] Verify task switching, draft retention, mobile layout, and rebuild the bundle.
+
+Button review: strict build and all three web-course browser scenarios pass.
+Task switching retains drafts; the 390 px offline view has no horizontal overflow.
+Updated CSS/bundle versions. `git diff --check` passes.
+
+- [x] Remove source-site branding and links from the lesson; rebuild and verify absence across project files.
+
+- [x] Review project rules, lesson integration, and existing interactive features.
+- [x] Review the plan: define course content and playground scope before application changes.
+- [x] Read the supplied theory and tasks; check current HTML guidance.
+- [x] Add the course and an original Ukrainian lesson for teenage beginners.
+- [x] Adapt practice: paragraphs, line breaks, heading hierarchy, and a static mini biography.
+- [x] Generate original reference images from modern HTML examples.
+- [x] Add a small offline HTML editor with sandboxed preview and file export/import.
+- [x] Verify routes, preview isolation, task switching, mobile layout, and offline operation.
+- [x] Run required checks and record review results.
+
+Plan review: implement only the supplied first theme. The user will supply later themes.
+Use the existing document route and React content slot. Avoid the mathematical tool registry.
+Teach document structure before tasks; use native HTML appearance without introducing CSS early.
+Omit obsolete presentation features. Reference images show structure; font differences are acceptable.
+Keep drafts in memory. Download/import preserves homework under the existing no-browser-storage rule.
+
+Review: source theory and task screenshots were inspected. New text corrects HTML terminology,
+distinguishes title from page headings, and teaches heading levels by meaning. Obsolete moving text
+is replaced with a static author page. All task text and four target images are original.
+Targets are generated with `node scripts/generate-web-targets.cjs` from reference HTML at 720 × 420.
+Independent review checked content, integration, and preview isolation. Code-block selector finding fixed.
+The preview supports this theme's HTML elements only; automatic grading and CSS editing are out of scope.
+Existing migration checks still cover all original documents and topics; the new lesson has browser coverage.
+
+Verification: strict build and formatting pass; all 186 unit tests and 40 browser scenarios pass.
+New scenarios cover course discovery, every reference image, draft retention across task/anchor changes,
+UTF-8 file download/import, active-content removal, and offline `file://` at 390 px.
+Reviewed desktop, mobile, and target screenshots. No horizontal document overflow or page errors.
+`git diff --check` passes. Generated bundle and images are current. Changes are local and uncommitted.
+
 # Ірраціональні рівняння — 10 клас
 
 ## Мета

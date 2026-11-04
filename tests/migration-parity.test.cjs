@@ -21,8 +21,8 @@ test('all 77 task models and all 656 step views match the original engines', () 
 });
 
 test('the 23 documents and pre-existing lesson catalog match the original content', () => {
- const documents = Object.fromEntries(Object.entries(engine.DOCS).map(([id,doc]) => [id,{title:doc.title,html:doc.html,app:doc.app}]));
+ const documents = Object.fromEntries(Object.entries(engine.DOCS).filter(([id]) => id !== 'web-page').map(([id,doc]) => [id,{title:doc.title,html:doc.html,app:doc.app}]));
  assert.equal(Object.keys(documents).length,23);
  assert.equal(digest(documents),baseline.documents);
- assert.equal(digest(engine.DB.topics.filter(topic => topic.id !== 'radian')),baseline.topics);
+ assert.equal(digest(engine.DB.topics.filter(topic => !['radian', 'web-page'].includes(topic.id))),baseline.topics);
 });

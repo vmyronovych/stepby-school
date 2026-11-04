@@ -5,6 +5,7 @@ import { composeInfoDocuments } from './info-sections';
 import { roboticsModule1 } from './robo-mod1';
 import { roboticsModule2 } from './robo-mod2';
 import { roboticsSections } from './robo-sections';
+import { webDevelopmentDocuments } from '../../web-development/content';
 
 /** Called once by runtime composition. Importing data never changes registries. */
 export function composeDocuments(
@@ -16,6 +17,7 @@ export function composeDocuments(
     roboticsModule1,
     roboticsModule2,
     composeInfoDocuments(data),
+    webDevelopmentDocuments,
   ]) {
     for (const [id, definition] of Object.entries(group)) {
       if (documents[id]) throw new Error(`Документ «${id}» уже зареєстровано`);

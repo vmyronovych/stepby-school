@@ -8,6 +8,7 @@ import { CircuitProjector } from '../features/circuit/CircuitProjector';
 import { KeyboardProjector } from '../features/keyboard/KeyboardProjector';
 import { GeometryLesson } from '../features/geometry/GeometryLesson';
 import { hrefTopic } from '../navigation/routes';
+import { WebPractice } from '../features/web-development/WebPractice';
 
 const sections = new Map<string, DocumentSection>();
 const geometryEngines = {
@@ -31,6 +32,15 @@ export function documentView(
 ): { section: DocumentSection | undefined; content?: ReactNode } {
   const id = topic.doc!;
   const source = engine.DOCS[id];
+  if (id === 'web-page')
+    return {
+      section: reactSection(id),
+      content: (
+        <ContentSlot html={source.html} selector=".web-practice-mount">
+          <WebPractice />
+        </ContentSlot>
+      ),
+    };
   if (id.startsWith('geometry-'))
     return {
       section: reactSection(id),

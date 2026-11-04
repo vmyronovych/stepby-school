@@ -1,0 +1,50 @@
+.robo-body pre.web-code {
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 16px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  font: 14px/1.6 var(--mono);
+}
+.web-practice { min-width: 0; }
+.web-practice label { display: block; font-weight: 600; margin: 12px 0 6px; }
+.web-practice textarea {
+  width: 100%;
+  max-width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px;
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+}
+.web-practice textarea { min-height: 380px; resize: vertical; font: 14px/1.5 var(--mono); tab-size: 2; }
+.web-task-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+.web-task-buttons button {
+  max-width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.web-task-buttons button:hover { background: var(--primary-l); }
+.web-task-buttons button[aria-pressed="true"] { background: var(--primary); border-color: var(--primary); color: white; }
+.web-task-buttons button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+.web-workspace { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+.web-workspace > div { min-width: 0; }
+.web-workspace h4 { margin: 12px 0 6px; }
+.web-workspace iframe { width: 100%; height: 380px; border: 1px solid var(--line); border-radius: 10px; background: white; }
+.web-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+.web-task-text { white-space: pre-line; }
+.web-practice details { margin: 12px 0; }
+.web-practice summary { cursor: pointer; color: var(--primary); font-weight: 600; }
+.web-import input { display: block; max-width: 100%; margin-top: 6px; font: inherit; font-size: 14px; }
+.web-reference { margin: 20px 0; }
+.web-reference img { display: block; width: 100%; max-width: 720px; height: auto; border: 1px solid var(--line); border-radius: 10px; background: white; }
+.web-note { color: var(--muted); font-size: 14px; }
+@media (max-width: 1100px) { .web-workspace { grid-template-columns: 1fr; } }

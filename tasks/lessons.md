@@ -1,5 +1,13 @@
 # Lessons
 
+## User-supplied course themes
+
+- Show web lesson tasks as separate buttons, with the active task clearly marked.
+- Use supplied teaching materials as references; omit source branding and source-site links from course content.
+- Let the user supply the course themes when they say they will provide them.
+- Adapt only supplied themes. Do not invent a full syllabus before receiving them.
+- For beginner web lessons, check source examples against current HTML semantics.
+
 ## Ірраціональні рівняння
 
 - Якщо після усунення кореня рівняння лінійне, перенось числа одразу вправо.

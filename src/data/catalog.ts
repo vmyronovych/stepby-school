@@ -5,6 +5,13 @@ import { radianExamples } from '../features/tools/data/radian';
 export const catalog: Catalog = {
   // label — повна назва, коли до неї не додається слово «клас» (гуртки).
   classes: [
+    {
+      id: 'web',
+      name: 'Веброзробка',
+      label: 'Курс веброзробки',
+      icon: '🌐',
+      note: 'HTML і CSS для підлітків: пояснення, практика та власні вебсторінки.',
+    },
     { id: '3a', name: '3', icon: '🏫' },
     { id: '4a', name: '4', icon: '🏫' },
     { id: '5a', name: '5', icon: '🏫' },
@@ -21,6 +28,15 @@ export const catalog: Catalog = {
   ],
   // cls — у яких класах предмет узагалі показувати
   subjects: [
+    {
+      id: 'html-css',
+      name: 'HTML і CSS',
+      icon: '🌐',
+      color: 'var(--primary)',
+      bg: 'var(--primary-l)',
+      active: true,
+      cls: ['web'],
+    },
     {
       id: 'math',
       name: 'Математика',
@@ -92,6 +108,16 @@ export const catalog: Catalog = {
   },
   // теми: кожна прив'язана до класу + предмета, містить матеріали і завдання-інструменти
   topics: [
+    {
+      id: 'web-page',
+      cls: 'web',
+      subject: 'html-css',
+      doc: 'web-page',
+      icon: '📄',
+      title: 'Тема 1. Веб-сторінка',
+      desc: 'Перша HTML-сторінка: структура документа, заголовки, абзаци й перенесення рядка.',
+      chips: ['HTML', '4 практичні завдання'],
+    },
     {
       id: 'vectors',
       cls: '9a',
