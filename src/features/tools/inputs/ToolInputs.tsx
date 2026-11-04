@@ -52,6 +52,7 @@ export function ToolInputs({ toolId, config, services }: ToolInputsProps) {
         />
       );
       break;
+    case 'radian':
     case 'rational-power':
     case 'scalar-product':
     case 'vector-scaling':

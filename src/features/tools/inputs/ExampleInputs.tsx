@@ -7,7 +7,7 @@ export function ExampleInputs({
   config,
   examples,
 }: {
-  toolId: 'rational-power' | 'scalar-product' | 'vector-scaling';
+  toolId: 'radian' | 'rational-power' | 'scalar-product' | 'vector-scaling';
   config: ToolConfig;
   examples: ToolInputServices['examples'];
 }) {
@@ -34,7 +34,15 @@ export function ExampleInputs({
   return (
     <>
       <SelectField
-        id={rational ? 'i_rpexample' : scalar ? 'i_spexample' : 'i_vsexample'}
+        id={
+          toolId === 'radian'
+            ? 'i_radexample'
+            : rational
+              ? 'i_rpexample'
+              : scalar
+                ? 'i_spexample'
+                : 'i_vsexample'
+        }
         label={rational ? 'Приклад' : 'Задача'}
         value={value}
         options={options}

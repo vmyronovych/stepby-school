@@ -1,3 +1,4 @@
+import { radianExamples } from '../features/tools/data/radian';
 import { LegacyHtml } from '../components/ui';
 import { engine } from '../runtime';
 import type { ToolInputServices } from '../features/tools/inputs/ToolInputs';
@@ -6,6 +7,10 @@ import { notify } from './notifications';
 
 export const inputServices: ToolInputServices = {
   examples: {
+    radian: radianExamples.map(({ title, index }) => ({
+      value: String(index),
+      label: title,
+    })),
     'rational-power': engine.RP.examples.map((example) => ({
       value: example.group,
       label: example.title,

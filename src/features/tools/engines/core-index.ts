@@ -1,3 +1,4 @@
+import { radianLesson, radianTool } from './radian';
 import type { Catalog } from '../../../types';
 import { domainTool } from './domain';
 import { equationTool } from './equation';
@@ -10,9 +11,11 @@ export const algebraCoreTools = [
   rationalPowerTool,
   equationTool,
   proportionTool,
+  radianTool,
 ];
 export function assembleAlgebraLessons(catalog: Catalog): void {
   for (const [id, html] of [
+    ['radian', radianLesson()],
     ['irrational', irrationalLesson()],
     ['rational-power', rationalPowerLesson()],
   ]) {

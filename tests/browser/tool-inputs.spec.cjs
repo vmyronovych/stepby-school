@@ -35,14 +35,14 @@ async function finishSteps(page) {
   ).toBeDisabled();
 }
 
-test('all 16 registered tools submit their React input defaults', async ({
+test('all 17 registered tools submit their React input defaults', async ({
   page,
 }) => {
   await page.goto('/');
   const toolIds = await page.evaluate(() =>
     Object.keys(StepBySchool.getCatalog().tools).sort(),
   );
-  expect(toolIds).toHaveLength(16);
+  expect(toolIds).toHaveLength(17);
   for (const id of toolIds) {
     await page.goto('/#/tool/' + id);
     await expect(page.locator('#toolInputs')).toBeVisible();

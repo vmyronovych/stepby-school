@@ -11,7 +11,7 @@ export interface ExampleOption {
 export interface ToolInputServices {
   examples: Partial<
     Record<
-      'rational-power' | 'vector-scaling' | 'scalar-product',
+      'radian' | 'rational-power' | 'vector-scaling' | 'scalar-product',
       ExampleOption[]
     >
   >;

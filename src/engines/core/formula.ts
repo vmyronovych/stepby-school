@@ -17,6 +17,7 @@ export type FormulaNode = FormulaIdentity &
         a: FormulaNode;
         b: FormulaNode;
         imp?: boolean;
+        functionCall?: boolean;
       }
     | { t: 'neg' | 'paren'; a: FormulaNode }
     | { t: 'pow'; a: FormulaNode; e: FormulaNode }
@@ -465,7 +466,11 @@ export function fmlText(n: FormulaNode): string {
     case 'pm':
       return `${T(n.a)} ± ${T(n.b)}`;
     case 'mul':
-      return n.imp ? T(n.a) + T(n.b) : `${T(n.a)}·${T(n.b)}`;
+      return n.functionCall
+        ? `${T(n.a)} ${T(n.b)}`
+        : n.imp
+          ? T(n.a) + T(n.b)
+          : `${T(n.a)}·${T(n.b)}`;
     case 'neg':
       return '−' + T(n.a);
     case 'paren':
@@ -563,6 +568,7 @@ export function renderFormula(
   const cls =
     `fx fx-${n.t}` +
     (n.t === 'div' ? ' ffrac' : '') +
+    (n.t === 'mul' && n.functionCall ? ' fx-function' : '') +
     (mk ? ' fmark ' + (mk.cls || '') : '');
   const badge = mk && mk.badge ? `<span class="fbadge">${mk.badge}</span>` : '';
   return `<span class="${cls}"${n.fid ? ` data-fid="${n.fid}"` : ''}>${inner}${badge}</span>`;

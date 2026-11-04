@@ -44,6 +44,7 @@
    ========================================================= */
 .fml{display:inline-flex;align-items:center;font-family:'JetBrains Mono','Consolas',monospace;color:var(--graphite);line-height:1}
 .fx{display:inline-flex;align-items:center;position:relative}
+.fx-function{gap:.2em}
 .fo{display:inline-flex;margin:0 .1em}
 .fpar{display:inline-flex}
 .ffrac{flex-direction:column;align-items:center;vertical-align:middle;margin:0 .1em}

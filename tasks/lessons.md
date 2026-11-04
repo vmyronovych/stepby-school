@@ -91,3 +91,16 @@
 - A React wrapper around an imperative UI does not finish its component migration.
 - Keep math, SVG drawing, physics, and model operations separate from interactive view markup.
 - Verify every public route and each interaction family after removing the old bootstrap.
+
+
+## Вирівнювання дробу в умові
+
+- Об’єднуй обидві частини рівності та знак «=» в одну формулу з вертикальним центруванням.
+- Не вставляй окремий дріб після текстового «=»: базова лінія тексту зміщує риску дробу.
+- Перевіряй положення риски дробу відносно центру «=» в умовах на широкому й вузькому екранах.
+
+
+## Проміжок після назви функції
+
+- Відділяй назву тригонометричної функції від аргументу сталим математичним проміжком.
+- Перевіряй звичайні аргументи, дроби та квадрат функції в конспекті й зошиті.

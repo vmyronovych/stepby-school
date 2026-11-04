@@ -1,4 +1,5 @@
 import type { Catalog } from '../types';
+import { radianExamples } from '../features/tools/data/radian';
 
 // Repository-owned school data. Runtime composition installs typed tool definitions.
 export const catalog: Catalog = {
@@ -853,6 +854,22 @@ export const catalog: Catalog = {
           done: false,
         },
       ],
+    },
+    {
+      id: 'radian',
+      cls: '10a',
+      subject: 'math',
+      icon: '📐',
+      title: '8. Радіанна міра кутів',
+      desc: 'Що таке радіан, як переводити градуси в радіани та як обчислювати тригонометричні вирази.',
+      chips: ['Пояснення', '10 задач у зошиті', 'Точні значення'],
+      tasks: radianExamples.map(({ title, index }) => ({
+        id: `radian-${index + 1}`,
+        tool: 'radian',
+        title,
+        cfg: { example: index },
+        done: false,
+      })),
     },
     /* --- Гурток робототехніки: тема = розділ курсу, показується документом
            (поле doc -> ROBO.sections), а не списком завдань-інструментів --- */
