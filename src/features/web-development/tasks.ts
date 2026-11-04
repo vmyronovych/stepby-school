@@ -24,6 +24,7 @@ export interface WebTask {
   checklist: string[];
   hint: string;
   reference: string;
+  referenceHeight?: number;
 }
 
 export const webTasks: WebTask[] = [

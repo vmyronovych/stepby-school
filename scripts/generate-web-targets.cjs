@@ -5,6 +5,7 @@ const { chromium } = require('@playwright/test');
 const { loadTypeScript } = require('../tests/helpers/load-typescript.cjs');
 const { webTasks } = loadTypeScript('src/features/web-development/tasks.ts');
 const { formattingTasks } = loadTypeScript('src/features/web-development/formatting-tasks.ts');
+const { cssIntroTasks } = loadTypeScript('src/features/web-development/css-intro-tasks.ts');
 
 (async () => {
   const folder = path.resolve(__dirname, '../assets/web-development');
@@ -12,7 +13,8 @@ const { formattingTasks } = loadTypeScript('src/features/web-development/formatt
   const browser = await chromium.launch();
   try {
     const page = await browser.newPage({ viewport: { width: 720, height: 420 }, deviceScaleFactor: 1 });
-    for (const task of [...webTasks, ...formattingTasks]) {
+    for (const task of [...webTasks, ...formattingTasks, ...cssIntroTasks]) {
+      await page.setViewportSize({ width: 720, height: task.referenceHeight ?? 420 });
       await page.setContent(task.reference);
       await page.screenshot({ path: path.join(folder, task.id + '.png') });
     }

@@ -7,6 +7,7 @@ import { roboticsModule2 } from './robo-mod2';
 import { roboticsSections } from './robo-sections';
 import { webDevelopmentDocuments } from '../../web-development/content';
 import { webFormattingDocuments } from '../../web-development/formatting-content';
+import { cssIntroDocuments } from '../../web-development/css-intro-content';
 
 /** Called once by runtime composition. Importing data never changes registries. */
 export function composeDocuments(
@@ -20,6 +21,7 @@ export function composeDocuments(
     composeInfoDocuments(data),
     webDevelopmentDocuments,
     webFormattingDocuments,
+    cssIntroDocuments,
   ]) {
     for (const [id, definition] of Object.entries(group)) {
       if (documents[id]) throw new Error(`Документ «${id}» уже зареєстровано`);

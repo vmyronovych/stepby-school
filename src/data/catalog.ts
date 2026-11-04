@@ -129,6 +129,16 @@ export const catalog: Catalog = {
       chips: ['HTML і CSS', '5 практичних завдань'],
     },
     {
+      id: 'css-intro',
+      cls: 'web',
+      subject: 'html-css',
+      doc: 'css-intro',
+      icon: '🖌️',
+      title: 'Тема 3. Вступ до CSS',
+      desc: 'Класи CSS, спільні стилі, сімейство, розмір і насиченість шрифту.',
+      chips: ['Класи та шрифти', '5 практичних завдань'],
+    },
+    {
       id: 'vectors',
       cls: '9a',
       subject: 'geometry',

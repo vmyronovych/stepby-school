@@ -1,15 +1,15 @@
 import { useRef, useState } from 'react';
-import { previewDocument } from './preview';
+import { previewDocument, type PreviewOptions } from './preview';
 import { starterHtml, webTasks, type WebTask } from './tasks';
 
 export function WebPractice({
   tasks = webTasks,
   starter = starterHtml,
-  formatting = false,
+  preview = {},
 }: {
   tasks?: WebTask[];
   starter?: string;
-  formatting?: boolean;
+  preview?: PreviewOptions;
 }) {
   const [selected, setSelected] = useState(tasks[0].id);
   const [drafts, setDrafts] = useState<Record<string, string>>({});
@@ -89,7 +89,7 @@ export function WebPractice({
               onClick={() =>
                 setPreviews((current) => ({
                   ...current,
-                  [selected]: previewDocument(source, formatting),
+                  [selected]: previewDocument(source, preview),
                 }))
               }
             >
@@ -130,7 +130,7 @@ export function WebPractice({
           <iframe
             title="Твій результат HTML"
             sandbox=""
-            srcDoc={previews[selected] ?? previewDocument(starter, formatting)}
+            srcDoc={previews[selected] ?? previewDocument(starter, preview)}
           />
           <p className="web-note">
             Натисни «Оновити результат» після змін. Перегляд підтримує елементи
@@ -142,12 +142,13 @@ export function WebPractice({
         <img
           src={`assets/web-development/${task.id}.png`}
           width="720"
-          height="420"
+          height={task.referenceHeight ?? 420}
           alt={`Приклад результату: ${task.title}. Текст доступний у розділі «Текст для роботи».`}
         />
         <figcaption>
-          Приклад у вікні 720 × 420 px. Шрифт і перенесення рядків можуть
-          відрізнятися. Перевір структуру за списком нижче.
+          Приклад у вікні 720 × {task.referenceHeight ?? 420} px. Шрифт і
+          перенесення рядків можуть відрізнятися. Перевір структуру за списком
+          нижче.
         </figcaption>
         <a
           href={`assets/web-development/${task.id}.png`}

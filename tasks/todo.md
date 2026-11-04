@@ -1,3 +1,29 @@
+# HTML/CSS — Theme 3: Вступ до CSS
+
+- [x] Read source theory/tasks and consolidate agreed course rules in tasks/lessons.md.
+- [x] Review plan: extend the shared lesson configuration and permit class attributes only for this lesson.
+- [x] Add original theory and visual diagrams for classes, selector precedence, and typography.
+- [x] Adapt four source exercises plus homework and generate reference images.
+- [x] Integrate catalog/document/editor while retaining previous lesson restrictions.
+- [x] Verify classes, combined styles, font properties, preview isolation, draft switching, mobile/offline rendering.
+- [x] Run required checks, review screenshots, and record independent review.
+
+Use modern text-align and font fallbacks. Replace generic class1/class2 with meaningful names.
+Explain class attributes separately from CSS selectors and avoid assuming every font exists locally.
+Keep target pages short enough for their stated viewport. Do not commit without a separate request.
+
+Review: source text and all four screenshots inspected. Five original exercises use meaningful class names,
+readable color shades, local font fallback lists, CSS alignment, and a fictional guide without copied game facts.
+Class diagrams show matches across h2 and p. Font comparisons vary family, size, and weight separately.
+Reference images are 720 × 420; the longer guide is 720 × 640. Previous images are unchanged.
+The shared lesson configuration replaces nested conditionals. Preview options preserve classes only for Theme 3;
+scripts, event handlers, inline styles and external resources remain blocked. Lesson keys reset state between topics.
+Independent review found no blockers. Reviewed target, desktop/mobile diagram and practice screenshots.
+Strict build, formatting, 186 unit tests and 48 browser scenarios pass. `git diff --check` passes.
+New tests cover all five references, combined classes and precedence, font properties, retained drafts,
+UTF-8 file round-trip, previous preview restrictions, mobile layout and offline file URLs.
+Agreed course rules are consolidated in tasks/lessons.md. Bundle/version updated; changes remain uncommitted.
+
 # Visual explanations for web lessons
 
 - [x] Review plan: add diagrams beside the relevant Theme 2 explanations.
