@@ -1,3 +1,4 @@
+import { project2Documents } from '../../web-development/project2-content';
 import { linksDocuments } from '../../web-development/links-content';
 import { imageLinksDocuments } from '../../web-development/image-links-content';
 import { tablesDocuments } from '../../web-development/tables-content';
@@ -40,6 +41,7 @@ export function composeDocuments(
     tablesDocuments,
     tableSpansDocuments,
     review2Documents,
+    project2Documents,
   ]) {
     for (const [id, definition] of Object.entries(group)) {
       if (documents[id]) throw new Error(`Документ «${id}» уже зареєстровано`);

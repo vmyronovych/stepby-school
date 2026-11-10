@@ -1,3 +1,30 @@
+# HTML/CSS — Mini-project 2: Кубок шкільного двору
+
+- [x] Read course rules, source task and sample; review scope with football preference.
+- [x] Author original fictional football tournament with coherent results and a structured project brief.
+- [x] Add original SVG emblems, local downloads, native structure diagram, and a working reference.
+- [x] Integrate catalog/document/editor/generator without new preview permissions.
+- [x] Verify points, spans, anchors, keyboard states, downloads, export/import, mobile/offline and earlier lessons.
+- [x] Inspect screenshots, run required checks, and record independent review.
+
+Plan review: build one original site «Кубок шкільного двору» with three fictional teams Комети/Хвилі/Іскри.
+Use standings with a rowspan group and colspan explanatory footer, three match results, anchor-linked
+team descriptions and downloadable original emblems. All results are fictional: 2:0, 1:0, 0:1; points 6/3/0.
+Use only existing HTML/CSS and the current full preview capabilities. Do not commit without request.
+
+Review: inspected source task, example image and GIF first frame. Authored an original football project
+with user-selected theme, staged instructions, a structure diagram, complete text and self-check criteria.
+Three original SVG badges are available individually and in the regenerated offline ZIP.
+Standings, all three matches, wins and points are consistent; browser tests recompute them from match text.
+Rowgroup rowspan and explanatory colspan are valid. Anchors, real Tab/Shift+Tab/Enter, hover/held active,
+exact-byte SVG downloads, draft anchors, UTF-8 export/import and standalone offline HTML pass.
+Reviewed 720×1500 target and mobile/desktop diagrams and workshop. Mobile scrolling stays inside the table.
+Independent review confirmed content/reference alignment, known CSS, grid, stats, badge ZIP contents and CRC.
+Expanded image-bank download tests use separate contexts to avoid Chromium burst limits while testing every file.
+Strict build, formatting, 191 unit tests, 93 browser scenarios and git diff --check pass.
+Previous targets and media assets remain unchanged; only new badge files, ZIP and project target are added.
+Catalog/README now reflect 13 topics and two projects. Bundle/resource versions updated. No commit created.
+
 # HTML/CSS — Themes 8–12: Links, tables, and review
 
 - [x] Read all ten source theory/task pages, agreed rules, and preview architecture; review plan.

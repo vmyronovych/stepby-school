@@ -139,19 +139,11 @@ test('image diagrams, local media and responsive tasks work offline at mobile an
   expect(external).toEqual([]);
 });
 
-test('individual illustrations and the full local archive download over HTTP and offline file URLs', async ({ page }, testInfo) => {
-  const { lessonImageAssets } = loadTypeScript('src/features/web-development/media.ts');
+test('the full local archive downloads over HTTP and offline file URLs', async ({ page }, testInfo) => {
   for (const offline of [false, true]) {
     await page.context().setOffline(offline);
     await page.goto(offline ? pathToFileURL(path.resolve('index.html')).href + route : '/' + route);
     await page.locator('.web-image-bank summary').click();
-    for (const asset of lessonImageAssets) {
-      const downloading = page.waitForEvent('download');
-      await page.getByRole('link', { name: `Завантажити ${asset.filename}`, exact: true }).click();
-      const download = await downloading;
-      expect(download.suggestedFilename()).toBe(asset.filename);
-      expect(await readFile(await download.path(), 'utf8')).toBe(asset.svg);
-    }
     const downloading = page.waitForEvent('download');
     await page.getByRole('link', { name: 'Завантажити всі картинки (ZIP)', exact: true }).click();
     const download = await downloading;
@@ -165,3 +157,20 @@ test('individual illustrations and the full local archive download over HTTP and
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   }
 });
+
+
+// Separate browser contexts avoid Chromium's burst download limit when the bank grows.
+for (const asset of loadTypeScript('src/features/web-development/media.ts').lessonImageAssets) {
+  test(`original SVG ${asset.filename} downloads over HTTP and offline file URLs`, async ({ page }) => {
+    for (const offline of [false, true]) {
+      await page.context().setOffline(offline);
+      await page.goto(offline ? pathToFileURL(path.resolve('index.html')).href + route : '/' + route);
+      await page.locator('.web-image-bank summary').click();
+      const downloading = page.waitForEvent('download');
+      await page.getByRole('link', { name: `Завантажити ${asset.filename}`, exact: true }).click();
+      const download = await downloading;
+      expect(download.suggestedFilename()).toBe(asset.filename);
+      expect(await readFile(await download.path(), 'utf8')).toBe(asset.svg);
+    }
+  });
+}

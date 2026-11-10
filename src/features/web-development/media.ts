@@ -5,6 +5,27 @@ function svg(body: string, width = 300, height = 180) {
 
 const drawings = [
   {
+    filename: 'comets.svg',
+    label: 'Комети — емблема',
+    svg: svg(
+      '<rect width="300" height="180" rx="12" fill="#eff6ff"/><path d="M100 22H200V99Q200 139 150 164Q100 139 100 99Z" fill="#1d4ed8" stroke="#1e3a8a" stroke-width="5"/><path d="M124 112L170 53M112 91L149 45M143 128L180 81" stroke="#bfdbfe" stroke-width="10" stroke-linecap="round"/><circle cx="167" cy="69" r="23" fill="#fbbf24" stroke="#fef3c7" stroke-width="5"/>',
+    ),
+  },
+  {
+    filename: 'waves.svg',
+    label: 'Хвилі — емблема',
+    svg: svg(
+      '<rect width="300" height="180" rx="12" fill="#ecfeff"/><path d="M100 22H200V99Q200 139 150 164Q100 139 100 99Z" fill="#0e7490" stroke="#164e63" stroke-width="5"/><path d="M112 67Q125 51 138 67T164 67T190 67M112 91Q125 75 138 91T164 91T190 91M122 115Q135 99 148 115T174 115" stroke="#cffafe" stroke-width="8" fill="none" stroke-linecap="round"/>',
+    ),
+  },
+  {
+    filename: 'sparks.svg',
+    label: 'Іскри — емблема',
+    svg: svg(
+      '<rect width="300" height="180" rx="12" fill="#fff7ed"/><path d="M100 22H200V99Q200 139 150 164Q100 139 100 99Z" fill="#c2410c" stroke="#7c2d12" stroke-width="5"/><path d="M158 39L124 91H148L141 137L181 77H157Z" fill="#fde68a"/><path d="M115 45v17M107 53h16M185 112v17M177 120h16" stroke="#ffedd5" stroke-width="4"/>',
+    ),
+  },
+  {
     filename: 'flower.svg',
     label: 'Квітка',
     svg: svg(

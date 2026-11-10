@@ -1,3 +1,4 @@
+import { project2Starter, project2Tasks } from './project2-tasks';
 import { linksStarter, linksTasks } from './links-tasks';
 import { imageLinksStarter, imageLinksTasks } from './image-links-tasks';
 import { tablesStarter, tablesTasks } from './tables-tasks';
@@ -19,6 +20,19 @@ interface WebLessonPractice {
 }
 
 export const webLessonPractice: Record<string, WebLessonPractice> = {
+  'mini-project-2': {
+    tasks: project2Tasks,
+    starter: project2Starter,
+    preview: {
+      formatting: true,
+      classes: true,
+      lists: true,
+      images: true,
+      links: true,
+      tables: true,
+      tableSpans: true,
+    },
+  },
   hyperlinks: {
     tasks: linksTasks,
     starter: linksStarter,

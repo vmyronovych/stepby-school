@@ -22,13 +22,15 @@ const { tablesTasks } = loadTypeScript('src/features/web-development/tables-task
 const { tableSpansTasks } = loadTypeScript('src/features/web-development/table-spans-tasks.ts');
 const { review2Tasks } = loadTypeScript('src/features/web-development/review2-tasks.ts');
 
+const { project2Tasks } = loadTypeScript('src/features/web-development/project2-tasks.ts');
+
 (async () => {
   const folder = path.resolve(__dirname, '../assets/web-development');
   await mkdir(folder, { recursive: true });
   const browser = await chromium.launch();
   try {
     const page = await browser.newPage({ viewport: { width: 720, height: 420 }, deviceScaleFactor: 1 });
-    for (const task of [...webTasks, ...formattingTasks, ...cssIntroTasks, ...listsTasks, ...imagesTasks, ...reviewTasks, ...projectTasks, ...linksTasks, ...imageLinksTasks, ...tablesTasks, ...tableSpansTasks, ...review2Tasks]) {
+    for (const task of [...webTasks, ...formattingTasks, ...cssIntroTasks, ...listsTasks, ...imagesTasks, ...reviewTasks, ...projectTasks, ...linksTasks, ...imageLinksTasks, ...tablesTasks, ...tableSpansTasks, ...review2Tasks, ...project2Tasks]) {
       await page.setViewportSize({ width: 720, height: task.referenceHeight ?? 420 });
       await page.setContent(embedLessonImages(task.reference));
       await page.locator('img').evaluateAll(images => Promise.all(images.map(img => img.decode())));
