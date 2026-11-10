@@ -139,6 +139,16 @@ export const catalog: Catalog = {
       chips: ['Класи та шрифти', '5 практичних завдань'],
     },
     {
+      id: 'lists-lines',
+      cls: 'web',
+      subject: 'html-css',
+      doc: 'lists-lines',
+      icon: '📋',
+      title: 'Тема 4. Списки та лінії',
+      desc: 'Марковані й нумеровані списки, вкладені пункти, фони та тематичні роздільники.',
+      chips: ['Списки та CSS', '4 практичні завдання'],
+    },
+    {
       id: 'vectors',
       cls: '9a',
       subject: 'geometry',

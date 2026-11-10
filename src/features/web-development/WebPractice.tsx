@@ -1,6 +1,8 @@
 import { useRef, useState } from 'react';
 import { previewDocument, type PreviewOptions } from './preview';
 import { starterHtml, webTasks, type WebTask } from './tasks';
+import { embedLessonImages, restoreLessonImages } from './media';
+import { ImageBank } from './ImageBank';
 
 export function WebPractice({
   tasks = webTasks,
@@ -18,6 +20,7 @@ export function WebPractice({
   const task = tasks.find((item) => item.id === selected)!;
   const source = drafts[selected] ?? starter;
   const selection = useRef(selected);
+  const editor = useRef<HTMLTextAreaElement>(null);
   selection.current = selected;
 
   function update(value: string) {
@@ -27,7 +30,9 @@ export function WebPractice({
 
   function download() {
     const url = URL.createObjectURL(
-      new Blob([source], { type: 'text/html;charset=utf-8' }),
+      new Blob([preview.images ? embedLessonImages(source) : source], {
+        type: 'text/html;charset=utf-8',
+      }),
     );
     const link = document.createElement('a');
     link.href = url;
@@ -74,10 +79,31 @@ export function WebPractice({
         <summary>Підказка</summary>
         <p>{task.hint}</p>
       </details>
+      {preview.images && (
+        <ImageBank
+          onInsert={(snippet) => {
+            const body = source.match(/<body\b[^>]*>/i);
+            const start = body ? (body.index ?? 0) + body[0].length : 0;
+            const end = source.toLowerCase().lastIndexOf('</body>');
+            const cursor = editor.current?.selectionStart ?? -1;
+            const position =
+              cursor >= start && cursor <= (end < 0 ? source.length : end)
+                ? cursor
+                : end < 0
+                  ? source.length
+                  : end;
+            update(
+              source.slice(0, position) + snippet + source.slice(position),
+            );
+            editor.current?.focus();
+          }}
+        />
+      )}
       <div className="web-workspace">
         <div>
           <label htmlFor="web-source">Твій HTML-документ</label>
           <textarea
+            ref={editor}
             id="web-source"
             spellCheck={false}
             value={source}
@@ -115,7 +141,10 @@ export function WebPractice({
                 const target = selected;
                 try {
                   const text = await file.text();
-                  setDrafts((current) => ({ ...current, [target]: text }));
+                  setDrafts((current) => ({
+                    ...current,
+                    [target]: preview.images ? restoreLessonImages(text) : text,
+                  }));
                   if (selection.current === target)
                     setMessage('Файл відкрито. Натисни «Оновити результат».');
                 } catch {

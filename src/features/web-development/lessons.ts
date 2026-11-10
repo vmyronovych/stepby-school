@@ -1,3 +1,4 @@
+import { listsStarter, listsTasks } from './lists-tasks';
 import { cssIntroStarter, cssIntroTasks } from './css-intro-tasks';
 import { formattingStarter, formattingTasks } from './formatting-tasks';
 import type { PreviewOptions } from './preview';
@@ -10,6 +11,11 @@ interface WebLessonPractice {
 }
 
 export const webLessonPractice: Record<string, WebLessonPractice> = {
+  'lists-lines': {
+    tasks: listsTasks,
+    starter: listsStarter,
+    preview: { formatting: true, classes: true, lists: true },
+  },
   'web-page': { tasks: webTasks, starter: starterHtml, preview: {} },
   'text-formatting': {
     tasks: formattingTasks,

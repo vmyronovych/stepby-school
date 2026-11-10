@@ -1,3 +1,44 @@
+# HTML/CSS — Theme 4: Списки та лінії
+
+- [x] Read agreed rules, existing work, source theory, and review the implementation plan.
+- [x] Review source tasks/images and refine original theory, diagrams, and four exercises.
+- [x] Integrate only Theme 4 into catalog, documents, shared editor, and target generator.
+- [x] Verify computed list styles, nesting, safe attributes, isolation, drafts, and file round-trip.
+- [x] Inspect targets and desktop/mobile/offline screenshots; run required checks and record results.
+
+Plan review: finish the existing lists lesson. Teach ul/ol/li, nesting, CSS markers, backgrounds, sizes, and semantic hr.
+Keep the existing drafts for Themes 5–7 without registering them. Preserve earlier preview restrictions.
+Generate original local targets from working HTML/CSS. Do not commit without a separate request.
+
+Review: source theory and all three task images inspected. Four original exercises cover mixed bullet styles,
+sequential numbering, colored sections, thematic hr, nested categories, and responsive list widths.
+Added native code/result diagrams and explanations of padding order and role=list.
+Registered only Theme 4. Existing image/review drafts remain unpublished.
+Generated and visually inspected all four targets, plus desktop/mobile diagrams and practice views.
+Safe preview retains only narrow list attributes; CSS requests fail with CSP and do not receive responses.
+Draft/anchor switching, UTF-8 download/import, previous restrictions, and offline file URLs pass.
+Updated historical test exclusions without changing their baselines. Strict build, formatting,
+186 unit tests, 52 browser scenarios, and git diff --check pass. Bundle/resource versions updated.
+Changes remain local and uncommitted.
+
+# HTML/CSS — Themes 4–7
+
+Historical draft plan; current request covers Theme 4 only. Themes 5–7 remain deferred.
+
+- [x] Confirm next source themes: lists/lines, images, review, and first assessment.
+- [x] Review implementation plan and assign one isolated lesson per author.
+- [ ] Adapt theory and tasks for all four themes, with native visual explanations.
+- [ ] Add original local teaching images and short filenames with offline preview/export embedding.
+- [ ] Extend preview for lists/images with narrowly allowed attributes; retain earlier restrictions.
+- [ ] Integrate course catalog, shared editor, target generator and historical checks.
+- [ ] Generate and inspect all targets; verify styles, images, export/import, navigation and isolation.
+- [ ] Run full checks, inspect desktop/mobile/offline views, and record review.
+
+Scope: themes 4–7 from the supplied course sequence. Modern CSS replaces obsolete presentation attributes.
+Theme 6 consolidates prior skills; Theme 7 is an original practical assessment, not a new concept chapter.
+Images use an original local illustration bank. Export embeds bank images to keep downloaded HTML self-contained.
+Keep external requests and executable content blocked in previews. Do not commit without a separate request.
+
 # HTML/CSS — Theme 3: Вступ до CSS
 
 - [x] Read source theory/tasks and consolidate agreed course rules in tasks/lessons.md.

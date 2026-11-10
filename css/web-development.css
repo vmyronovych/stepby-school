@@ -47,6 +47,12 @@
 .web-reference { margin: 20px 0; }
 .web-reference img { display: block; width: 100%; max-width: 720px; height: auto; border: 1px solid var(--line); border-radius: 10px; background: white; }
 .web-note { color: var(--muted); font-size: 14px; }
+.web-image-options { display: flex; flex-wrap: wrap; gap: 10px; }
+.web-image-options button { display: grid; justify-items: center; gap: 5px; max-width: 100%; padding: 10px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); color: var(--ink); font: inherit; cursor: pointer; }
+.web-image-options button:hover { border-color: var(--primary); background: var(--primary-l); }
+.web-image-options button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+.web-image-options img { object-fit: contain; }
+.web-image-options code { font-size: 12px; }
 @media (max-width: 1100px) { .web-workspace { grid-template-columns: 1fr; } }
 
 .web-diagram {
