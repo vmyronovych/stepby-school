@@ -4,6 +4,12 @@ import { engine } from '../runtime';
 import type { Topic } from '../types';
 import type { DocumentSection } from '../features/documents/types';
 import { ContentSlot } from '../features/documents/components/ContentSlot';
+import { LessonDocumentExample } from '../features/documents/components/LessonDocumentExample';
+import { WordScreenshotGallery } from '../features/documents/components/WordScreenshotGallery';
+import {
+  wordGalleryGroups,
+  type WordGalleryGroup,
+} from '../features/documents/data/word2013';
 import { CircuitProjector } from '../features/circuit/CircuitProjector';
 import { KeyboardProjector } from '../features/keyboard/KeyboardProjector';
 import { GeometryLesson } from '../features/geometry/GeometryLesson';
@@ -40,6 +46,26 @@ export function documentView(
       content: (
         <ContentSlot html={source.html} selector=".web-practice-mount">
           <WebPractice key={id} {...webPractice} />
+        </ContentSlot>
+      ),
+    };
+  if (id === 'inf4-s1')
+    return {
+      section: source,
+      content: (
+        <ContentSlot
+          html={source.html}
+          selector='[data-document-example="about-me"], [data-word2013-gallery]'
+        >
+          {(mount) => {
+            const group = mount.getAttribute('data-word2013-gallery');
+            return group &&
+              Object.prototype.hasOwnProperty.call(wordGalleryGroups, group) ? (
+              <WordScreenshotGallery group={group as WordGalleryGroup} />
+            ) : (
+              <LessonDocumentExample />
+            );
+          }}
         </ContentSlot>
       ),
     };

@@ -1,3 +1,5 @@
+import type { WordGalleryGroup } from './word2013';
+
 export type InfoGrade = 'g3' | 'g4';
 export interface SchoolCalendar {
   start: string;
@@ -20,6 +22,8 @@ export interface LessonStage {
   h: string;
   tag?: string;
   show?: string;
+  documentExample?: 'about-me';
+  wordGallery?: WordGalleryGroup;
   b?: string[];
   say?: { l: string; t: string };
 }
