@@ -1,3 +1,28 @@
+# HTML/CSS — Theme 6: Повторення HTML і CSS
+
+- [x] Read course rules, source theory/tasks, and existing drafts; review implementation plan.
+- [x] Inspect source screenshots and adapt four exercises using previously taught skills only.
+- [x] Add concise review diagrams, earlier-topic links, local image downloads, and original targets.
+- [x] Register Theme 6 and verify combined preview, drafts, export/import, navigation, and earlier restrictions.
+- [x] Inspect desktop/mobile/offline views; run required checks and record review.
+
+Plan review: reuse the lesson configuration and existing image bank. Four exercises revisit text emphasis,
+indices and line breaks, class-based list styles, and a captioned gallery with local images/background.
+Remove untaught inline-block layout from the draft. Keep the review focused on the first five themes.
+No new preview capabilities, automatic grading, next theme, or commit without a separate request.
+
+Review: source theory/tasks and all four source screenshots inspected. Four original exercises cover
+semantic text emphasis and decoration, indices and escaped tag text, class-based lists, and a captioned gallery.
+Independent final review passed: task conditions, checklists, references, and integration are consistent.
+Removed untaught inline-block layout. Gallery uses centered paragraphs with known properties and a 640px target.
+Added links to all five earlier lessons, highlighted selector/class matching, and local SVG/ZIP reminders.
+Reused the existing editor, image downloads and preview permissions; no new capabilities or storage.
+Generated and inspected all four targets plus desktop/mobile lesson screenshots. Previous targets unchanged.
+Strict build, source formatting, 189 unit tests, 61 browser scenarios and git diff --check pass.
+Browser checks cover each reference, draft/anchor changes, offline exported gallery, file import,
+image download, previous-topic links, mobile overflow, preview isolation and earlier restrictions.
+Updated bundle/resource versions. Changes remain local and uncommitted.
+
 # Theme 5 — Downloadable local image materials
 
 - [x] Review plan: keep image insertion and add separate SVG downloads plus a local ZIP archive.

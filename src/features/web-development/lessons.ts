@@ -1,3 +1,4 @@
+import { reviewStarter, reviewTasks } from './review-tasks';
 import { imagesStarter, imagesTasks } from './images-tasks';
 import { listsStarter, listsTasks } from './lists-tasks';
 import { cssIntroStarter, cssIntroTasks } from './css-intro-tasks';
@@ -12,6 +13,11 @@ interface WebLessonPractice {
 }
 
 export const webLessonPractice: Record<string, WebLessonPractice> = {
+  'web-review': {
+    tasks: reviewTasks,
+    starter: reviewStarter,
+    preview: { formatting: true, classes: true, lists: true, images: true },
+  },
   'page-images': {
     tasks: imagesTasks,
     starter: imagesStarter,

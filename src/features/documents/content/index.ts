@@ -1,3 +1,4 @@
+import { reviewDocuments } from '../../web-development/review-content';
 import { imagesDocuments } from '../../web-development/images-content';
 import { listsDocuments } from '../../web-development/lists-content';
 import { catalog } from '../../../data/catalog';
@@ -26,6 +27,7 @@ export function composeDocuments(
     cssIntroDocuments,
     listsDocuments,
     imagesDocuments,
+    reviewDocuments,
   ]) {
     for (const [id, definition] of Object.entries(group)) {
       if (documents[id]) throw new Error(`Документ «${id}» уже зареєстровано`);
