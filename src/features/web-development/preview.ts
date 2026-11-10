@@ -16,6 +16,7 @@ export interface PreviewOptions {
   externalCss?: boolean;
   forms?: boolean;
   formChoices?: boolean;
+  menus?: boolean;
 }
 
 export function previewDocument(
@@ -61,6 +62,7 @@ export function previewDocument(
     'BR',
   ]);
   if (options.links) allowed.add('A');
+  if (options.menus) for (const tag of ['NAV', 'BUTTON']) allowed.add(tag);
   if (options.forms)
     for (const tag of ['FORM', 'LABEL', 'INPUT', 'TEXTAREA', 'BUTTON'])
       allowed.add(tag);
@@ -107,6 +109,10 @@ export function previewDocument(
     }
     for (const attribute of [...element.attributes]) {
       const keep =
+        (options.menus &&
+          element.tagName === 'BUTTON' &&
+          attribute.name === 'type' &&
+          attribute.value === 'button') ||
         (options.formChoices &&
           element.tagName === 'INPUT' &&
           ((attribute.name === 'type' &&

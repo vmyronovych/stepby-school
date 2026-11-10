@@ -25,6 +25,7 @@ export interface WebTask {
   hint: string;
   reference: string;
   referenceHeight?: number;
+  referenceHover?: string;
 }
 
 export const webTasks: WebTask[] = [

@@ -1,3 +1,4 @@
+import { dropdownMenuDocuments } from '../../web-development/dropdown-menu-content';
 import { formsChoiceDocuments } from '../../web-development/forms-choice-content';
 import { review3Documents } from '../../web-development/web-review-3-content';
 import { project3Documents } from '../../web-development/project3-content';
@@ -58,6 +59,7 @@ export function composeDocuments(
     formsChoiceDocuments,
     review3Documents,
     project3Documents,
+    dropdownMenuDocuments,
   ]) {
     for (const [id, definition] of Object.entries(group)) {
       if (documents[id]) throw new Error(`Документ «${id}» уже зареєстровано`);

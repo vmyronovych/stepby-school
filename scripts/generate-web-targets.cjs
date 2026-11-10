@@ -3,6 +3,7 @@ const { mkdir } = require('node:fs/promises');
 const path = require('node:path');
 const { chromium } = require('@playwright/test');
 const { loadTypeScript } = require('../tests/helpers/load-typescript.cjs');
+const { dropdownMenuTasks } = loadTypeScript('src/features/web-development/dropdown-menu-tasks.ts');
 const { formsChoiceTasks } = loadTypeScript('src/features/web-development/forms-choice-tasks.ts');
 const { review3Tasks } = loadTypeScript('src/features/web-development/web-review-3-tasks.ts');
 const { project3Tasks } = loadTypeScript('src/features/web-development/project3-tasks.ts');
@@ -39,10 +40,12 @@ const { project2Tasks } = loadTypeScript('src/features/web-development/project2-
   const browser = await chromium.launch();
   try {
     const page = await browser.newPage({ viewport: { width: 720, height: 420 }, deviceScaleFactor: 1 });
-    for (const task of [...webTasks, ...formattingTasks, ...cssIntroTasks, ...listsTasks, ...imagesTasks, ...reviewTasks, ...projectTasks, ...linksTasks, ...imageLinksTasks, ...tablesTasks, ...tableSpansTasks, ...review2Tasks, ...project2Tasks, ...blockElementsTasks, ...externalCssTasks, ...flexBasicsTasks, ...flexWrapTasks, ...formsTasks, ...formsChoiceTasks, ...review3Tasks, ...project3Tasks, { id: project3Tasks[0].id + '-map', reference: project3MapReference, referenceHeight: project3MapReferenceHeight }]) {
+    for (const task of [...dropdownMenuTasks, ...webTasks, ...formattingTasks, ...cssIntroTasks, ...listsTasks, ...imagesTasks, ...reviewTasks, ...projectTasks, ...linksTasks, ...imageLinksTasks, ...tablesTasks, ...tableSpansTasks, ...review2Tasks, ...project2Tasks, ...blockElementsTasks, ...externalCssTasks, ...flexBasicsTasks, ...flexWrapTasks, ...formsTasks, ...formsChoiceTasks, ...review3Tasks, ...project3Tasks, { id: project3Tasks[0].id + '-map', reference: project3MapReference, referenceHeight: project3MapReferenceHeight }]) {
       await page.setViewportSize({ width: 720, height: task.referenceHeight ?? 420 });
+      await page.mouse.move(0, 0);
       await page.setContent(embedLessonImages(task.reference));
       await page.locator('img').evaluateAll(images => Promise.all(images.map(img => img.decode())));
+      if (task.referenceHover) await page.locator(task.referenceHover).hover();
       await page.screenshot({ path: path.join(folder, task.id + '.png') });
     }
   } finally {

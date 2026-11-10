@@ -292,7 +292,8 @@ export function WebPractice({
           alt={`Приклад результату: ${task.title}. Текст доступний у розділі «Текст для роботи».`}
         />
         <figcaption>
-          Приклад у вікні 720 × {task.referenceHeight ?? 420} px. Шрифт і
+          Приклад у вікні 720 × {task.referenceHeight ?? 420} px.
+          {task.referenceHover ? ' Підменю відкрите наведенням.' : ''} Шрифт і
           перенесення рядків можуть відрізнятися. Перевір структуру за списком
           нижче.
         </figcaption>

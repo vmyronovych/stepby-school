@@ -1,3 +1,4 @@
+import { dropdownMenuStarter, dropdownMenuTasks } from './dropdown-menu-tasks';
 import { formsChoiceStarter, formsChoiceTasks } from './forms-choice-tasks';
 import { review3Starter, review3Tasks } from './web-review-3-tasks';
 import { project3Starter, project3Tasks } from './project3-tasks';
@@ -37,6 +38,22 @@ interface WebLessonPractice {
 }
 
 export const webLessonPractice: Record<string, WebLessonPractice> = {
+  'dropdown-menu': {
+    tasks: dropdownMenuTasks,
+    starter: dropdownMenuStarter,
+    preview: {
+      formatting: true,
+      classes: true,
+      lists: true,
+      images: true,
+      links: true,
+      tables: true,
+      tableSpans: true,
+      forms: true,
+      formChoices: true,
+      menus: true,
+    },
+  },
   'forms-choice': {
     tasks: formsChoiceTasks,
     starter: formsChoiceStarter,
