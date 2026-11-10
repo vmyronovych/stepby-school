@@ -1,3 +1,46 @@
+# Theme 5 — Downloadable local image materials
+
+- [x] Review plan: keep image insertion and add separate SVG downloads plus a local ZIP archive.
+- [x] Generate archive from the same illustration bank and include local setup instructions.
+- [x] Add accessible download links and explain matching filenames beside index.html.
+- [x] Verify individual SVG and ZIP downloads, extracted offline files, mobile layout, and required checks.
+
+Plan review: generate a static ZIP with the existing ZIP writer; no new dependency or runtime archive work.
+Keep filenames at the archive root so the lesson examples work beside index.html without path changes.
+
+Review: individual downloads preserve all eight SVG filenames and exact source bytes. Static ZIP contains
+all eight illustrations plus README.txt. Python zipfile verified CRCs and contents; extracted HTML rendered offline.
+HTTP and file:// downloads pass. Reviewed mobile layout and separate insert/download controls.
+Independent review passed. Strict build, formatting, 189 unit tests, and all 57 browser scenarios pass.
+After final button contrast and wording adjustments, all five Theme 5 browser scenarios pass again.
+Updated CSS/bundle versions. Changes remain uncommitted.
+
+# HTML/CSS — Theme 5: Зображення на сторінці
+
+- [x] Read agreed rules, source theory/tasks, existing drafts, and review the plan.
+- [x] Review source screenshots and refine original theory, visual explanations, and three exercises.
+- [x] Register Theme 5 and generate local illustration files and embedded reference targets.
+- [x] Verify images, backgrounds, sizing, float containment, safe preview, drafts, and export/import.
+- [x] Inspect desktop/mobile/offline views, run required checks, and record review.
+
+Plan review: reuse the shared image bank and isolated preview. Explain src/alt, image proportions,
+CSS backgrounds/repetition, borders, centering, and text wrapping before practice.
+Replace obsolete align/clear attributes with CSS. Export embeds local illustrations for offline homework.
+Keep Theme 6 drafts unpublished. Do not commit without a separate request.
+
+Review: read source theory/tasks and inspected both source task screenshots. Three original exercises
+cover content images, alt, backgrounds, borders, rounded corners, left/right float and centered homework.
+Added relative-path explanations, a CSS/class connection in the float diagram, and repeat-x/repeat-y visuals.
+Generated local SVG files and three reference images; previous targets are unchanged.
+Image embedding accepts quoted and unquoted src attributes without rewriting data-src or text inside alt.
+Final independent review found an edge case with > inside alt before src; fixed and covered by a regression test.
+Verified all images decode, reference pages fit their viewport, floats stay within their sections,
+styles do not leak, external resources fail with CSP, and earlier lessons keep their restrictions.
+Downloaded homework opens as a standalone offline HTML file and imports back to editable filenames.
+Inspected every target and desktop/mobile diagrams and image bank. Independent content review passed.
+Strict build, source formatting, 189 unit tests, 56 browser scenarios, and git diff --check pass.
+Bundle and resource versions updated. Theme 6 drafts remain unpublished. No commit created.
+
 # HTML/CSS — Theme 4: Списки та лінії
 
 - [x] Read agreed rules, existing work, source theory, and review the implementation plan.

@@ -1,3 +1,4 @@
+import { imagesDocuments } from '../../web-development/images-content';
 import { listsDocuments } from '../../web-development/lists-content';
 import { catalog } from '../../../data/catalog';
 import type { EngineDocument } from '../../../runtime/types';
@@ -24,6 +25,7 @@ export function composeDocuments(
     webFormattingDocuments,
     cssIntroDocuments,
     listsDocuments,
+    imagesDocuments,
   ]) {
     for (const [id, definition] of Object.entries(group)) {
       if (documents[id]) throw new Error(`Документ «${id}» уже зареєстровано`);

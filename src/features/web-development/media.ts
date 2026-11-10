@@ -81,10 +81,24 @@ function replaceImageReferences(source: string, embedded: boolean): string {
     return match ? (embedded ? match.src : match.filename) : value;
   }
   return source
-    .replace(
-      /(<img\b[^>]*?\bsrc\s*=\s*)(["'])(.*?)\2/gi,
-      (_, prefix: string, quote: string, value: string) =>
-        prefix + quote + resolve(value) + quote,
+    .replace(/<img\b(?:[^"'<>]|"[^"]*"|'[^']*')*>/gi, (tag) =>
+      tag.replace(
+        /(\s+[^\s=/>]+\s*=\s*)(?:(["'])(.*?)\2|([^\s>]+))/g,
+        (
+          _,
+          prefix: string,
+          quote: string | undefined,
+          quoted: string | undefined,
+          unquoted: string | undefined,
+        ) => {
+          if (!/^\s+src\s*=/i.test(prefix)) return _;
+          const value = quoted ?? unquoted ?? '';
+          const replacement = resolve(value);
+          return replacement === value
+            ? _
+            : prefix + (quote ?? '"') + replacement + (quote ?? '"');
+        },
+      ),
     )
     .replace(
       /url\(\s*(["']?)([^"')]+)\1\s*\)/gi,

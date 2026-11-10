@@ -1,3 +1,4 @@
+import { imagesStarter, imagesTasks } from './images-tasks';
 import { listsStarter, listsTasks } from './lists-tasks';
 import { cssIntroStarter, cssIntroTasks } from './css-intro-tasks';
 import { formattingStarter, formattingTasks } from './formatting-tasks';
@@ -11,6 +12,11 @@ interface WebLessonPractice {
 }
 
 export const webLessonPractice: Record<string, WebLessonPractice> = {
+  'page-images': {
+    tasks: imagesTasks,
+    starter: imagesStarter,
+    preview: { formatting: true, classes: true, lists: true, images: true },
+  },
   'lists-lines': {
     tasks: listsTasks,
     starter: listsStarter,
