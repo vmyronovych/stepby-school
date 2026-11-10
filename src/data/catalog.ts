@@ -169,6 +169,16 @@ export const catalog: Catalog = {
       chips: ['Повторення тем 1–5', '4 практичні завдання'],
     },
     {
+      id: 'mini-project-1',
+      cls: 'web',
+      subject: 'html-css',
+      doc: 'mini-project-1',
+      icon: '🕵️',
+      title: 'Міні-проєкт 1. Детективне бюро',
+      desc: 'Створи сайт бюро «Зелений слід»: підказки, план розслідування, ілюстровані нотатки та висновок.',
+      chips: ['Самостійний проєкт', 'HTML і CSS'],
+    },
+    {
       id: 'vectors',
       cls: '9a',
       subject: 'geometry',

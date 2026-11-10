@@ -14,13 +14,15 @@ const { embedLessonImages } = loadTypeScript('src/features/web-development/media
 
 const { reviewTasks } = loadTypeScript('src/features/web-development/review-tasks.ts');
 
+const { projectTasks } = loadTypeScript('src/features/web-development/project-tasks.ts');
+
 (async () => {
   const folder = path.resolve(__dirname, '../assets/web-development');
   await mkdir(folder, { recursive: true });
   const browser = await chromium.launch();
   try {
     const page = await browser.newPage({ viewport: { width: 720, height: 420 }, deviceScaleFactor: 1 });
-    for (const task of [...webTasks, ...formattingTasks, ...cssIntroTasks, ...listsTasks, ...imagesTasks, ...reviewTasks]) {
+    for (const task of [...webTasks, ...formattingTasks, ...cssIntroTasks, ...listsTasks, ...imagesTasks, ...reviewTasks, ...projectTasks]) {
       await page.setViewportSize({ width: 720, height: task.referenceHeight ?? 420 });
       await page.setContent(embedLessonImages(task.reference));
       await page.locator('img').evaluateAll(images => Promise.all(images.map(img => img.decode())));

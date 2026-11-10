@@ -1,3 +1,29 @@
+# HTML/CSS — Mini-project 1: Детективне бюро
+
+- [x] Read source, course rules, and current lesson integration; review original project scope.
+- [x] Inspect source example and author an original fictional detective case with staged instructions.
+- [x] Add project criteria, structure diagram, original target, and shared editor/image downloads.
+- [x] Verify reference semantics/styles, draft anchors, standalone export/import, earlier restrictions, and routes.
+- [x] Inspect desktop/mobile/offline rendering; run required checks and record independent review.
+
+Plan review: build one complete page for fictional detective bureau «Зелений слід» about a missing bookmark.
+Use existing leaf, flower, and bird illustrations as clues. Include introduction, evidence list, investigation
+steps, illustrated clue notes with contained floats, and a separate conclusion. Use only taught HTML/CSS.
+One project replaces source recipe/assessment content. Supply original text and a reference, with room for
+student choices. Keep the existing safe preview and local image downloads. Do not commit without request.
+
+Review: source theory/tasks and recipe example inspected. Authored a distinct fictional detective project
+with original story, text, step-by-step instructions, structure/class diagram, style requirements, and criteria.
+One task starts from a blank document; students can create a personal case after completing the base version.
+Uses only previously taught HTML/CSS. No artificial formulas or new layout features.
+Reference contains one h1, four h2, three h3, two lists, three contained illustrated clues, hr and conclusion.
+Generated and inspected the 720×1300 reference plus desktop/mobile diagram and workshop views.
+Independent review confirmed content/reference consistency, narrative, known properties, and integration.
+Strict build, formatting, 189 unit tests, 64 browser scenarios and git diff --check pass.
+Verified offline project export/import with embedded images, ZIP download, anchors, style isolation,
+responsive preview, earlier lessons and local file URLs. Previous reference images unchanged.
+Updated bundle/resource versions. Changes are local and uncommitted.
+
 # HTML/CSS — Theme 6: Повторення HTML і CSS
 
 - [x] Read course rules, source theory/tasks, and existing drafts; review implementation plan.

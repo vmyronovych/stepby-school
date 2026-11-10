@@ -1,3 +1,4 @@
+import { projectStarter, projectTasks } from './project-tasks';
 import { reviewStarter, reviewTasks } from './review-tasks';
 import { imagesStarter, imagesTasks } from './images-tasks';
 import { listsStarter, listsTasks } from './lists-tasks';
@@ -13,6 +14,11 @@ interface WebLessonPractice {
 }
 
 export const webLessonPractice: Record<string, WebLessonPractice> = {
+  'mini-project-1': {
+    tasks: projectTasks,
+    starter: projectStarter,
+    preview: { formatting: true, classes: true, lists: true, images: true },
+  },
   'web-review': {
     tasks: reviewTasks,
     starter: reviewStarter,
