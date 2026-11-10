@@ -158,13 +158,21 @@ export function WebPractice({
           <h4>Твій результат</h4>
           <iframe
             title="Твій результат HTML"
-            sandbox=""
+            sandbox={preview.links ? 'allow-downloads' : ''}
             srcDoc={previews[selected] ?? previewDocument(starter, preview)}
           />
           <p className="web-note">
             Натисни «Оновити результат» після змін. Перегляд підтримує елементи
             HTML цієї теми. Назву вкладки перевір у завантаженому файлі.
           </p>
+          {preview.links && (
+            <p className="web-note">
+              У перегляді працюють переходи всередині сторінки та завантаження
+              картинок із матеріалів. Зовнішні адреси, інші HTML-сторінки, пошту
+              й телефон перевіряй у завантаженому HTML. Такі посилання тут не
+              відкриваються; адресу видно в підказці.
+            </p>
+          )}
         </div>
       </div>
       <figure className="web-reference">

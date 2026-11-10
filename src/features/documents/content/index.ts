@@ -1,3 +1,8 @@
+import { linksDocuments } from '../../web-development/links-content';
+import { imageLinksDocuments } from '../../web-development/image-links-content';
+import { tablesDocuments } from '../../web-development/tables-content';
+import { tableSpansDocuments } from '../../web-development/table-spans-content';
+import { review2Documents } from '../../web-development/review2-content';
 import { projectDocuments } from '../../web-development/project-content';
 import { reviewDocuments } from '../../web-development/review-content';
 import { imagesDocuments } from '../../web-development/images-content';
@@ -30,6 +35,11 @@ export function composeDocuments(
     imagesDocuments,
     reviewDocuments,
     projectDocuments,
+    linksDocuments,
+    imageLinksDocuments,
+    tablesDocuments,
+    tableSpansDocuments,
+    review2Documents,
   ]) {
     for (const [id, definition] of Object.entries(group)) {
       if (documents[id]) throw new Error(`Документ «${id}» уже зареєстровано`);

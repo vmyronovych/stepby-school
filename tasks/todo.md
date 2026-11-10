@@ -1,3 +1,40 @@
+# HTML/CSS — Themes 8–12: Links, tables, and review
+
+- [x] Read all ten source theory/task pages, agreed rules, and preview architecture; review plan.
+- [x] Inspect source screenshots and author five original lessons with native diagrams and exercises.
+- [x] Add opt-in links, internal anchors and image downloads; retain network/script/style isolation.
+- [x] Add opt-in semantic tables and narrowly allowed span attributes; preserve previous lesson restrictions.
+- [x] Integrate five catalog entries, documents, editor configs, original targets, and local export/import.
+- [x] Verify every target and table grid, anchors/downloads/pseudo-states, mobile/offline views and drafts.
+- [x] Run full checks, inspect screenshots, and record independent review.
+
+Plan review: Themes 8 hyperlinks; 9 linked images and link states; 10 basic tables; 11 merged cells;
+12 consolidation of these skills. Delegate authorship to isolated files; integrate shared behavior centrally.
+Use existing original illustrations and downloadable SVG/ZIP. Replace obsolete align/cellpadding/cellspacing
+with modern CSS, teach caption and header scope, and avoid fabricated game/history facts.
+Preview supports internal anchor navigation and original image downloads. External/relative-page/contact
+links remain inert in preview with an explicit explanation; exported HTML retains its working destinations.
+Keep scripts, parent navigation, popups and external network requests blocked. No automatic grading or commit.
+
+Review: all ten source pages read; source screenshots reviewed by lesson authors. Added five original lessons
+with fifteen exercises, text/hints/checklists, native diagrams and generated local target images.
+Modern CSS replaces obsolete attributes; semantic tables include caption, scope and explicit rowgroups.
+Internal hrefs resolve to about:srcdoc fragments so they do not navigate the course. External, relative-page,
+contact and unsafe destinations are inert in preview; exported source retains normal link behavior.
+Only known original SVG links can download from preview; sandbox adds allow-downloads for these lessons only.
+Image embedding now covers download A[href] as well as IMG[src]/CSS and preserves unrelated attributes.
+Normal full-size image links retain filenames; instructions require the separate SVG beside HTML.
+Independent final review identified blocked top-level data navigation; fixed by preserving those local paths.
+Verified an exported full-size link opens the actual local SVG offline; legacy embedded href imports still restore.
+Table spans are narrowly opt-in for Themes 11/12; earlier previews retain their previous restrictions.
+Cross-review confirmed lesson/task consistency, scopes, sums, grids and safe preview behavior.
+Inspected all fifteen targets and mobile diagrams; references fit 720px and table wrappers contain mobile overflow.
+Verified real hover, Tab-focus, held-mouse active and Enter activation; no parent navigation or external requests.
+Verified every lesson's drafts/anchors, UTF-8 export/import, offline HTML and embedded image-link downloads.
+Strict build, formatting, 191 unit tests, 78 browser scenarios and git diff --check pass.
+Historical baselines remain unchanged; previous target images are unchanged. Bundle/resource versions updated.
+README and catalog reflect 12 lessons, 40 exercises and one mini-project. Changes remain local and uncommitted.
+
 # HTML/CSS — Mini-project 1: Детективне бюро
 
 - [x] Read source, course rules, and current lesson integration; review original project scope.

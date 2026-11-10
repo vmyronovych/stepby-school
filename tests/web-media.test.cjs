@@ -29,3 +29,22 @@ test('embedding handles angle brackets and src-like text inside other attributes
   assert.ok(embedded.includes(lessonImageAssets.find(asset => asset.filename === 'flower.svg').src));
   assert.equal(restoreLessonImages(embedded), source);
 });
+
+test('download anchors embed original images and round-trip without rewriting unrelated attributes or URLs', () => {
+  const source = '<a title="src=leaf.svg > test" href="flower.svg" download="flower.svg">Квітка</a><a href=./bird.svg download>Птах</a><a href="#end">Кінець</a><a href="https://example.com">Сайт</a>';
+  const embedded = embedLessonImages(source);
+  assert.ok(embedded.includes(lessonImageAssets.find(asset => asset.filename === 'flower.svg').src));
+  assert.ok(embedded.includes(lessonImageAssets.find(asset => asset.filename === 'bird.svg').src));
+  assert.ok(embedded.includes('title="src=leaf.svg > test"'));
+  assert.ok(embedded.includes('href="#end"'));
+  assert.ok(embedded.includes('href="https://example.com"'));
+  assert.equal(restoreLessonImages(embedded), source.replace('href=./bird.svg', 'href="bird.svg"'));
+});
+
+
+test('ordinary full-size image links keep local filenames and download detection ignores quoted text', () => {
+  const source = '<a href="flower.svg" target="_blank">Повна картинка</a><a title="has download words" href="bird.svg">Птах</a>';
+  assert.equal(embedLessonImages(source), source);
+  const legacy = `<a href="${lessonImageAssets.find(asset => asset.filename === 'flower.svg').src}">Картинка</a>`;
+  assert.equal(restoreLessonImages(legacy), '<a href="flower.svg">Картинка</a>');
+});

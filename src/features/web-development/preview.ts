@@ -1,4 +1,8 @@
-import { embedLessonImages, isLessonImageSource } from './media';
+import {
+  embedLessonImages,
+  isLessonImageSource,
+  lessonImageAssets,
+} from './media';
 
 /** Keep learner markup outside the application DOM and deny active content. */
 export interface PreviewOptions {
@@ -6,6 +10,9 @@ export interface PreviewOptions {
   classes?: boolean;
   lists?: boolean;
   images?: boolean;
+  links?: boolean;
+  tables?: boolean;
+  tableSpans?: boolean;
 }
 
 export function previewDocument(
@@ -31,6 +38,20 @@ export function previewDocument(
     'P',
     'BR',
   ]);
+  if (options.links) allowed.add('A');
+  if (options.tables)
+    for (const tag of [
+      'TABLE',
+      'CAPTION',
+      'THEAD',
+      'TBODY',
+      'TFOOT',
+      'TR',
+      'TH',
+      'TD',
+      'DIV',
+    ])
+      allowed.add(tag);
   if (options.lists)
     for (const tag of ['UL', 'OL', 'LI', 'HR']) allowed.add(tag);
   if (options.images)
@@ -58,6 +79,28 @@ export function previewDocument(
     }
     for (const attribute of [...element.attributes]) {
       const keep =
+        (options.links &&
+          element.tagName === 'A' &&
+          ['href', 'title', 'target', 'rel', 'download'].includes(
+            attribute.name,
+          )) ||
+        ((options.links || options.tableSpans) &&
+          attribute.name === 'id' &&
+          /^\S{1,100}$/.test(attribute.value)) ||
+        ((options.links || options.tables) &&
+          ['title', 'aria-label'].includes(attribute.name)) ||
+        (options.tables &&
+          element.tagName === 'TH' &&
+          attribute.name === 'scope' &&
+          /^(col|row|colgroup|rowgroup)$/.test(attribute.value)) ||
+        (options.tableSpans &&
+          ['TD', 'TH'].includes(element.tagName) &&
+          ['colspan', 'rowspan'].includes(attribute.name) &&
+          /^[1-9]\d?$/.test(attribute.value)) ||
+        (options.tableSpans &&
+          ['TD', 'TH'].includes(element.tagName) &&
+          attribute.name === 'headers' &&
+          /^[\w -]+$/.test(attribute.value)) ||
         (options.lists &&
           ['UL', 'OL'].includes(element.tagName) &&
           attribute.name === 'role' &&
@@ -79,6 +122,34 @@ export function previewDocument(
         (element.tagName === 'META' &&
           ['charset', 'name', 'content'].includes(attribute.name));
       if (!keep) element.removeAttribute(attribute.name);
+    }
+  }
+  if (options.links) {
+    for (const anchor of document.querySelectorAll('a')) {
+      const href = anchor.getAttribute('href');
+      const asset = lessonImageAssets.find((item) => item.src === href);
+      anchor.removeAttribute('target');
+      anchor.removeAttribute('rel');
+      if (href?.startsWith('#') && !/\s/.test(href)) {
+        // srcdoc inherits its parent's base URL; an explicit URL keeps anchors inside this frame.
+        anchor.setAttribute('href', 'about:srcdoc' + href);
+        anchor.removeAttribute('download');
+      } else if (options.images && asset && anchor.hasAttribute('download')) {
+        anchor.setAttribute('download', asset.filename);
+      } else {
+        anchor.removeAttribute('href');
+        anchor.removeAttribute('download');
+        if (href !== null) {
+          anchor.setAttribute('role', 'link');
+          anchor.setAttribute('aria-disabled', 'true');
+          anchor.setAttribute('tabindex', '0');
+          anchor.setAttribute('data-preview-href', asset?.filename ?? href);
+          anchor.setAttribute(
+            'title',
+            `Перевір це посилання у завантаженому HTML: ${asset?.filename ?? href}`,
+          );
+        }
+      }
     }
   }
   const policy = document.createElement('meta');

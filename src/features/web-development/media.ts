@@ -81,8 +81,21 @@ function replaceImageReferences(source: string, embedded: boolean): string {
     return match ? (embedded ? match.src : match.filename) : value;
   }
   return source
-    .replace(/<img\b(?:[^"'<>]|"[^"]*"|'[^']*')*>/gi, (tag) =>
-      tag.replace(
+    .replace(/<(?:img|a)\b(?:[^"'<>]|"[^"]*"|'[^']*')*>/gi, (tag) => {
+      const image = /^<img\b/i.test(tag);
+      const attributes = [
+        ...tag.matchAll(
+          /\s+([^\s=/>]+)(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+))?/g,
+        ),
+      ];
+      // Browsers block top-level data: navigation. Keep ordinary file links relative.
+      if (
+        embedded &&
+        !image &&
+        !attributes.some((match) => match[1].toLowerCase() === 'download')
+      )
+        return tag;
+      return tag.replace(
         /(\s+[^\s=/>]+\s*=\s*)(?:(["'])(.*?)\2|([^\s>]+))/g,
         (
           _,
@@ -91,15 +104,16 @@ function replaceImageReferences(source: string, embedded: boolean): string {
           quoted: string | undefined,
           unquoted: string | undefined,
         ) => {
-          if (!/^\s+src\s*=/i.test(prefix)) return _;
+          const attribute = image ? 'src' : 'href';
+          if (!new RegExp(`^\\s+${attribute}\\s*=`, 'i').test(prefix)) return _;
           const value = quoted ?? unquoted ?? '';
           const replacement = resolve(value);
           return replacement === value
             ? _
             : prefix + (quote ?? '"') + replacement + (quote ?? '"');
         },
-      ),
-    )
+      );
+    })
     .replace(
       /url\(\s*(["']?)([^"')]+)\1\s*\)/gi,
       (_, _quote: string, value: string) => `url("${resolve(value.trim())}")`,
