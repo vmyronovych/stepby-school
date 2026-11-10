@@ -180,7 +180,7 @@ export function composeInfoDocuments(
       return `<div class="inf-step" id="${id(k)}-${i + 1}">
         <div class="inf-clock"><b>${esc(s.t)}</b><span>${esc(s.d)}</span></div>
         <div class="inf-sbody"><h3>${esc(s.h)}${tag}</h3>
-          <ul>${(s.b || []).map((x) => '<li>' + x + '</li>').join('')}</ul>${say}${link}</div></div>`;
+          <ul>${(s.b || []).map((x) => '<li>' + x + '</li>').join('')}</ul>${say}${link}${s.documentExample ? `<div data-document-example="${esc(s.documentExample)}"></div>` : ''}${s.wordGallery ? `<div data-word2013-gallery="${esc(s.wordGallery)}"></div>` : ''}</div></div>`;
     };
 
     const lessonHtml = (k: number) => {

@@ -9,12 +9,12 @@ export function ContentSlot({
 }: {
   html: string;
   selector: string;
-  children: ReactNode;
+  children: ReactNode | ((mount: Element) => ReactNode);
 }) {
   const root = useRef<HTMLDivElement>(null);
-  const [mount, setMount] = useState<Element | null>(null);
+  const [mounts, setMounts] = useState<Element[]>([]);
   useLayoutEffect(() => {
-    setMount(root.current?.querySelector(selector) ?? null);
+    setMounts([...(root.current?.querySelectorAll(selector) ?? [])]);
   }, [html, selector]);
   return (
     <>
@@ -23,7 +23,13 @@ export function ContentSlot({
         style={{ display: 'contents' }}
         dangerouslySetInnerHTML={{ __html: html }}
       />
-      {mount && createPortal(children, mount)}
+      {mounts.map((mount, index) =>
+        createPortal(
+          typeof children === 'function' ? children(mount) : children,
+          mount,
+          String(index),
+        ),
+      )}
     </>
   );
 }
