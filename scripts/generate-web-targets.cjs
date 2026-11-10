@@ -3,6 +3,11 @@ const { mkdir } = require('node:fs/promises');
 const path = require('node:path');
 const { chromium } = require('@playwright/test');
 const { loadTypeScript } = require('../tests/helpers/load-typescript.cjs');
+const { blockElementsTasks } = loadTypeScript('src/features/web-development/block-elements-tasks.ts');
+const { externalCssTasks } = loadTypeScript('src/features/web-development/external-css-tasks.ts');
+const { flexBasicsTasks } = loadTypeScript('src/features/web-development/flex-basics-tasks.ts');
+const { flexWrapTasks } = loadTypeScript('src/features/web-development/flex-wrap-tasks.ts');
+const { formsTasks } = loadTypeScript('src/features/web-development/forms-tasks.ts');
 const { webTasks } = loadTypeScript('src/features/web-development/tasks.ts');
 const { formattingTasks } = loadTypeScript('src/features/web-development/formatting-tasks.ts');
 const { cssIntroTasks } = loadTypeScript('src/features/web-development/css-intro-tasks.ts');
@@ -30,7 +35,7 @@ const { project2Tasks } = loadTypeScript('src/features/web-development/project2-
   const browser = await chromium.launch();
   try {
     const page = await browser.newPage({ viewport: { width: 720, height: 420 }, deviceScaleFactor: 1 });
-    for (const task of [...webTasks, ...formattingTasks, ...cssIntroTasks, ...listsTasks, ...imagesTasks, ...reviewTasks, ...projectTasks, ...linksTasks, ...imageLinksTasks, ...tablesTasks, ...tableSpansTasks, ...review2Tasks, ...project2Tasks]) {
+    for (const task of [...webTasks, ...formattingTasks, ...cssIntroTasks, ...listsTasks, ...imagesTasks, ...reviewTasks, ...projectTasks, ...linksTasks, ...imageLinksTasks, ...tablesTasks, ...tableSpansTasks, ...review2Tasks, ...project2Tasks, ...blockElementsTasks, ...externalCssTasks, ...flexBasicsTasks, ...flexWrapTasks, ...formsTasks]) {
       await page.setViewportSize({ width: 720, height: task.referenceHeight ?? 420 });
       await page.setContent(embedLessonImages(task.reference));
       await page.locator('img').evaluateAll(images => Promise.all(images.map(img => img.decode())));

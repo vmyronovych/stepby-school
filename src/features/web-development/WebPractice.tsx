@@ -15,10 +15,12 @@ export function WebPractice({
 }) {
   const [selected, setSelected] = useState(tasks[0].id);
   const [drafts, setDrafts] = useState<Record<string, string>>({});
+  const [cssDrafts, setCssDrafts] = useState<Record<string, string>>({});
   const [previews, setPreviews] = useState<Record<string, string>>({});
   const [message, setMessage] = useState('');
   const task = tasks.find((item) => item.id === selected)!;
   const source = drafts[selected] ?? starter;
+  const css = cssDrafts[selected] ?? '/* Додай стилі тут. Без тегів style. */';
   const selection = useRef(selected);
   const editor = useRef<HTMLTextAreaElement>(null);
   selection.current = selected;
@@ -28,19 +30,27 @@ export function WebPractice({
     setMessage('');
   }
 
-  function download() {
+  function downloadFile(contents: string, filename: string, type: string) {
     const url = URL.createObjectURL(
-      new Blob([preview.images ? embedLessonImages(source) : source], {
-        type: 'text/html;charset=utf-8',
-      }),
+      new Blob([contents], { type: type + ';charset=utf-8' }),
     );
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'index.html';
+    link.download = filename;
     link.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
     setMessage(
-      'Файл завантажено. Передай його вчителю у звичний для вашої групи спосіб.',
+      preview.externalCss
+        ? 'Збережи index.html і style.css в одній папці. Завантаж обидва файли, щоб продовжити роботу.'
+        : 'Файл завантажено. Передай його вчителю у звичний для вашої групи спосіб.',
+    );
+  }
+
+  function download() {
+    downloadFile(
+      preview.images ? embedLessonImages(source) : source,
+      'index.html',
+      'text/html',
     );
   }
 
@@ -109,13 +119,35 @@ export function WebPractice({
             value={source}
             onChange={(event) => update(event.target.value)}
           />
+          {preview.externalCss && (
+            <>
+              <label htmlFor="web-css">Твій CSS-файл: style.css</label>
+              <textarea
+                id="web-css"
+                spellCheck={false}
+                value={css}
+                onChange={(event) => {
+                  setCssDrafts((current) => ({
+                    ...current,
+                    [selected]: event.target.value,
+                  }));
+                  setMessage('');
+                }}
+              />
+              <p className="web-note">
+                Підключи цей файл у head:{' '}
+                {'<link rel="stylesheet" href="style.css">'}. Зміни CSS
+                застосуються після оновлення результату.
+              </p>
+            </>
+          )}
           <div className="web-actions">
             <button
               className="tool"
               onClick={() =>
                 setPreviews((current) => ({
                   ...current,
-                  [selected]: previewDocument(source, preview),
+                  [selected]: previewDocument(source, preview, css),
                 }))
               }
             >
@@ -124,6 +156,20 @@ export function WebPractice({
             <button className="tool" onClick={download}>
               Завантажити HTML
             </button>
+            {preview.externalCss && (
+              <button
+                className="tool"
+                onClick={() =>
+                  downloadFile(
+                    preview.images ? embedLessonImages(css) : css,
+                    'style.css',
+                    'text/css',
+                  )
+                }
+              >
+                Завантажити CSS
+              </button>
+            )}
           </div>
           <label className="web-import">
             Відкрити HTML-файл
@@ -153,12 +199,53 @@ export function WebPractice({
               }}
             />
           </label>
+          {preview.externalCss && (
+            <label className="web-import">
+              Відкрити CSS-файл
+              <input
+                type="file"
+                accept=".css,text/css"
+                onChange={async (event) => {
+                  const file = event.target.files?.[0];
+                  const target = selected;
+                  event.target.value = '';
+                  if (!file) return;
+                  if (file.size > 200_000) {
+                    setMessage('Обери CSS-файл розміром до 200 КБ.');
+                    return;
+                  }
+                  try {
+                    const text = await file.text();
+                    setCssDrafts((current) => ({
+                      ...current,
+                      [target]: preview.images
+                        ? restoreLessonImages(text)
+                        : text,
+                    }));
+                    if (selection.current === target)
+                      setMessage(
+                        'CSS-файл відкрито. Натисни «Оновити результат».',
+                      );
+                  } catch {
+                    setMessage(
+                      'Не вдалося прочитати CSS-файл. Спробуй ще раз.',
+                    );
+                  }
+                }}
+              />
+            </label>
+          )}
         </div>
         <div>
           <h4>Твій результат</h4>
           <iframe
             title="Твій результат HTML"
-            sandbox={preview.links ? 'allow-downloads' : ''}
+            sandbox={[
+              preview.links && 'allow-downloads',
+              preview.forms && 'allow-forms',
+            ]
+              .filter(Boolean)
+              .join(' ')}
             srcDoc={previews[selected] ?? previewDocument(starter, preview)}
           />
           <p className="web-note">
@@ -171,6 +258,13 @@ export function WebPractice({
               картинок із матеріалів. Зовнішні адреси, інші HTML-сторінки, пошту
               й телефон перевіряй у завантаженому HTML. Такі посилання тут не
               відкриваються; адресу видно в підказці.
+            </p>
+          )}
+          {preview.forms && (
+            <p className="web-note">
+              Це навчальна форма. Тут можна вводити вигадані дані й перевіряти
+              скидання полів. Надсилання вимкнено. HTML сам не створює обліковий
+              запис і не зберігає повідомлення.
             </p>
           )}
         </div>
@@ -203,7 +297,8 @@ export function WebPractice({
       </ul>
       <p className="web-note">
         Чернетки зберігаються лише до виходу зі сторінки або її
-        перезавантаження. Завантаж HTML, щоб продовжити пізніше.
+        перезавантаження. Завантаж HTML{preview.externalCss ? ' і CSS' : ''},
+        щоб продовжити пізніше.
       </p>
       <p role="status">{message}</p>
     </section>

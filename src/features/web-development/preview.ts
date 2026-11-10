@@ -13,16 +13,34 @@ export interface PreviewOptions {
   links?: boolean;
   tables?: boolean;
   tableSpans?: boolean;
+  externalCss?: boolean;
+  forms?: boolean;
 }
 
 export function previewDocument(
   source: string,
   options: PreviewOptions = {},
+  css = '',
 ): string {
   const document = new DOMParser().parseFromString(
     options.images ? embedLessonImages(source) : source,
     'text/html',
   );
+  if (options.externalCss) {
+    for (const link of document.querySelectorAll('link')) {
+      if (
+        link.getAttribute('rel') === 'stylesheet' &&
+        ['style.css', './style.css'].includes(link.getAttribute('href') ?? '')
+      ) {
+        const style = document.createElement('style');
+        // CSS is raw text in HTML. Escape '<' so serialization cannot close this style element.
+        style.textContent = (
+          options.images ? embedLessonImages(css) : css
+        ).replace(/</g, '\\3c ');
+        link.replaceWith(style);
+      }
+    }
+  }
   const allowed = new Set([
     'HTML',
     'HEAD',
@@ -39,6 +57,9 @@ export function previewDocument(
     'BR',
   ]);
   if (options.links) allowed.add('A');
+  if (options.forms)
+    for (const tag of ['FORM', 'LABEL', 'INPUT', 'TEXTAREA', 'BUTTON'])
+      allowed.add(tag);
   if (options.tables)
     for (const tag of [
       'TABLE',
@@ -79,6 +100,27 @@ export function previewDocument(
     }
     for (const attribute of [...element.attributes]) {
       const keep =
+        (options.forms &&
+          attribute.name === 'id' &&
+          /^\S{1,100}$/.test(attribute.value)) ||
+        (options.forms &&
+          element.tagName === 'LABEL' &&
+          attribute.name === 'for') ||
+        (options.forms &&
+          ['INPUT', 'TEXTAREA', 'BUTTON'].includes(element.tagName) &&
+          (['name', 'value', 'placeholder', 'disabled'].includes(
+            attribute.name,
+          ) ||
+            (attribute.name === 'type' &&
+              (element.tagName === 'INPUT'
+                ? /^(text|password|submit|reset|button)$/
+                : /^(submit|reset|button)$/
+              ).test(attribute.value)) ||
+            (['INPUT', 'TEXTAREA'].includes(element.tagName) &&
+              ['required', 'readonly', 'maxlength'].includes(attribute.name)) ||
+            (element.tagName === 'TEXTAREA' &&
+              ['rows', 'cols'].includes(attribute.name) &&
+              /^[1-9]\d{0,2}$/.test(attribute.value)))) ||
         (options.links &&
           element.tagName === 'A' &&
           ['href', 'title', 'target', 'rel', 'download'].includes(

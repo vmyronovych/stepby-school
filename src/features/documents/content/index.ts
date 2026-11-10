@@ -1,3 +1,8 @@
+import { blockElementsDocuments } from '../../web-development/block-elements-content';
+import { externalCssDocuments } from '../../web-development/external-css-content';
+import { flexBasicsDocuments } from '../../web-development/flex-basics-content';
+import { flexWrapDocuments } from '../../web-development/flex-wrap-content';
+import { formsDocuments } from '../../web-development/forms-content';
 import { project2Documents } from '../../web-development/project2-content';
 import { linksDocuments } from '../../web-development/links-content';
 import { imageLinksDocuments } from '../../web-development/image-links-content';
@@ -42,6 +47,11 @@ export function composeDocuments(
     tableSpansDocuments,
     review2Documents,
     project2Documents,
+    blockElementsDocuments,
+    externalCssDocuments,
+    flexBasicsDocuments,
+    flexWrapDocuments,
+    formsDocuments,
   ]) {
     for (const [id, definition] of Object.entries(group)) {
       if (documents[id]) throw new Error(`Документ «${id}» уже зареєстровано`);
