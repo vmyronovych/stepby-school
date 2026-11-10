@@ -1,3 +1,11 @@
+import { formsChoiceStarter, formsChoiceTasks } from './forms-choice-tasks';
+import { review3Starter, review3Tasks } from './web-review-3-tasks';
+import { project3Starter, project3Tasks } from './project3-tasks';
+import {
+  project3FilesStarter,
+  project3MapReferenceHeight,
+} from './project3-tasks';
+import type { WebProject } from './project-files';
 import {
   blockElementsStarter,
   blockElementsTasks,
@@ -25,9 +33,60 @@ interface WebLessonPractice {
   tasks: WebTask[];
   starter: string;
   preview: PreviewOptions;
+  project?: WebProject;
 }
 
 export const webLessonPractice: Record<string, WebLessonPractice> = {
+  'forms-choice': {
+    tasks: formsChoiceTasks,
+    starter: formsChoiceStarter,
+    preview: {
+      formatting: true,
+      classes: true,
+      lists: true,
+      images: true,
+      links: true,
+      tables: true,
+      tableSpans: true,
+      forms: true,
+      formChoices: true,
+    },
+  },
+  'web-review-3': {
+    tasks: review3Tasks,
+    starter: review3Starter,
+    preview: {
+      formatting: true,
+      classes: true,
+      lists: true,
+      images: true,
+      links: true,
+      tables: true,
+      tableSpans: true,
+      forms: true,
+      formChoices: true,
+    },
+  },
+  'mini-project-3': {
+    tasks: project3Tasks,
+    starter: project3Starter,
+    preview: {
+      formatting: true,
+      classes: true,
+      lists: true,
+      images: true,
+      links: true,
+      tables: true,
+      tableSpans: true,
+      forms: true,
+      formChoices: true,
+      externalCss: true,
+    },
+    project: {
+      starterFiles: project3FilesStarter,
+      mapReferenceHeight: project3MapReferenceHeight,
+    },
+  },
   'block-elements': {
     tasks: blockElementsTasks,
     starter: blockElementsStarter,

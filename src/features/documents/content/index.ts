@@ -1,3 +1,6 @@
+import { formsChoiceDocuments } from '../../web-development/forms-choice-content';
+import { review3Documents } from '../../web-development/web-review-3-content';
+import { project3Documents } from '../../web-development/project3-content';
 import { blockElementsDocuments } from '../../web-development/block-elements-content';
 import { externalCssDocuments } from '../../web-development/external-css-content';
 import { flexBasicsDocuments } from '../../web-development/flex-basics-content';
@@ -52,6 +55,9 @@ export function composeDocuments(
     flexBasicsDocuments,
     flexWrapDocuments,
     formsDocuments,
+    formsChoiceDocuments,
+    review3Documents,
+    project3Documents,
   ]) {
     for (const [id, definition] of Object.entries(group)) {
       if (documents[id]) throw new Error(`Документ «${id}» уже зареєстровано`);

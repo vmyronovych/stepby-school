@@ -44,7 +44,7 @@ function workbookRows(files) {
 
 test('document IDs, lesson text, static SVG, anchors and projector metadata match the original source', () => {
   const definitions = content.composeDocuments();
-  assert.deepEqual(Object.keys(definitions).filter((id) => !['web-page', 'text-formatting', 'css-intro', 'lists-lines', 'page-images', 'web-review', 'mini-project-1', 'hyperlinks', 'image-links', 'tables-basics', 'table-spans', 'web-review-2', 'mini-project-2', 'block-elements', 'external-css', 'flex-basics', 'flex-wrap', 'forms-basics'].includes(id)).sort(), Object.keys(baseline.documents).sort());
+  assert.deepEqual(Object.keys(definitions).filter((id) => !['web-page', 'text-formatting', 'css-intro', 'lists-lines', 'page-images', 'web-review', 'mini-project-1', 'hyperlinks', 'image-links', 'tables-basics', 'table-spans', 'web-review-2', 'mini-project-2', 'block-elements', 'external-css', 'flex-basics', 'flex-wrap', 'forms-basics', 'forms-choice', 'web-review-3', 'mini-project-3'].includes(id)).sort(), Object.keys(baseline.documents).sort());
   for (const [id, expected] of Object.entries(baseline.documents)) {
     const actual = definitions[id];
     assert.equal(actual.title, expected.title, id);

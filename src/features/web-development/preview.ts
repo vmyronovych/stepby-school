@@ -15,12 +15,14 @@ export interface PreviewOptions {
   tableSpans?: boolean;
   externalCss?: boolean;
   forms?: boolean;
+  formChoices?: boolean;
 }
 
 export function previewDocument(
   source: string,
   options: PreviewOptions = {},
   css = '',
+  cssFilename = 'style.css',
 ): string {
   const document = new DOMParser().parseFromString(
     options.images ? embedLessonImages(source) : source,
@@ -30,7 +32,9 @@ export function previewDocument(
     for (const link of document.querySelectorAll('link')) {
       if (
         link.getAttribute('rel') === 'stylesheet' &&
-        ['style.css', './style.css'].includes(link.getAttribute('href') ?? '')
+        [cssFilename, './' + cssFilename].includes(
+          link.getAttribute('href') ?? '',
+        )
       ) {
         const style = document.createElement('style');
         // CSS is raw text in HTML. Escape '<' so serialization cannot close this style element.
@@ -59,6 +63,9 @@ export function previewDocument(
   if (options.links) allowed.add('A');
   if (options.forms)
     for (const tag of ['FORM', 'LABEL', 'INPUT', 'TEXTAREA', 'BUTTON'])
+      allowed.add(tag);
+  if (options.formChoices)
+    for (const tag of ['FIELDSET', 'LEGEND', 'SELECT', 'OPTION'])
       allowed.add(tag);
   if (options.tables)
     for (const tag of [
@@ -100,6 +107,20 @@ export function previewDocument(
     }
     for (const attribute of [...element.attributes]) {
       const keep =
+        (options.formChoices &&
+          element.tagName === 'INPUT' &&
+          ((attribute.name === 'type' &&
+            /^(radio|checkbox)$/.test(attribute.value)) ||
+            attribute.name === 'checked')) ||
+        (options.formChoices &&
+          ['SELECT', 'OPTION', 'FIELDSET'].includes(element.tagName) &&
+          (attribute.name === 'disabled' ||
+            (element.tagName === 'OPTION' &&
+              ['value', 'selected'].includes(attribute.name)) ||
+            (element.tagName === 'SELECT' &&
+              (['name', 'required', 'multiple'].includes(attribute.name) ||
+                (attribute.name === 'size' &&
+                  /^[1-9]\d?$/.test(attribute.value)))))) ||
         (options.forms &&
           attribute.name === 'id' &&
           /^\S{1,100}$/.test(attribute.value)) ||

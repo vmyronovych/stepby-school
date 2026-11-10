@@ -21,8 +21,8 @@ test('all 77 task models and all 656 step views match the original engines', () 
 });
 
 test('the 23 documents and pre-existing lesson catalog match the original content', () => {
- const documents = Object.fromEntries(Object.entries(engine.DOCS).filter(([id]) => !['web-page', 'text-formatting', 'css-intro', 'lists-lines', 'page-images', 'web-review', 'mini-project-1', 'hyperlinks', 'image-links', 'tables-basics', 'table-spans', 'web-review-2', 'mini-project-2', 'block-elements', 'external-css', 'flex-basics', 'flex-wrap', 'forms-basics'].includes(id)).map(([id,doc]) => [id,{title:doc.title,html:doc.html,app:doc.app}]));
+ const documents = Object.fromEntries(Object.entries(engine.DOCS).filter(([id]) => !['web-page', 'text-formatting', 'css-intro', 'lists-lines', 'page-images', 'web-review', 'mini-project-1', 'hyperlinks', 'image-links', 'tables-basics', 'table-spans', 'web-review-2', 'mini-project-2', 'block-elements', 'external-css', 'flex-basics', 'flex-wrap', 'forms-basics', 'forms-choice', 'web-review-3', 'mini-project-3'].includes(id)).map(([id,doc]) => [id,{title:doc.title,html:doc.html,app:doc.app}]));
  assert.equal(Object.keys(documents).length,23);
  assert.equal(digest(documents),baseline.documents);
- assert.equal(digest(engine.DB.topics.filter(topic => !['radian', 'web-page', 'text-formatting', 'css-intro', 'lists-lines', 'page-images', 'web-review', 'mini-project-1', 'hyperlinks', 'image-links', 'tables-basics', 'table-spans', 'web-review-2', 'mini-project-2', 'block-elements', 'external-css', 'flex-basics', 'flex-wrap', 'forms-basics'].includes(topic.id))),baseline.topics);
+ assert.equal(digest(engine.DB.topics.filter(topic => !['radian', 'web-page', 'text-formatting', 'css-intro', 'lists-lines', 'page-images', 'web-review', 'mini-project-1', 'hyperlinks', 'image-links', 'tables-basics', 'table-spans', 'web-review-2', 'mini-project-2', 'block-elements', 'external-css', 'flex-basics', 'flex-wrap', 'forms-basics', 'forms-choice', 'web-review-3', 'mini-project-3'].includes(topic.id))),baseline.topics);
 });
