@@ -1,9 +1,10 @@
+import { MediaBank } from './MediaBank';
 import { ProjectWorkspace } from './ProjectWorkspace';
 import type { WebProject } from './project-files';
 import { useRef, useState } from 'react';
 import { previewDocument, type PreviewOptions } from './preview';
 import { starterHtml, webTasks, type WebTask } from './tasks';
-import { embedLessonImages, restoreLessonImages } from './media';
+import { embedLessonMedia, restoreLessonMedia } from './media';
 import { ImageBank } from './ImageBank';
 
 export function WebPractice({
@@ -21,6 +22,7 @@ export function WebPractice({
   const [drafts, setDrafts] = useState<Record<string, string>>({});
   const [cssDrafts, setCssDrafts] = useState<Record<string, string>>({});
   const [previews, setPreviews] = useState<Record<string, string>>({});
+  const [revisions, setRevisions] = useState<Record<string, number>>({});
   const [message, setMessage] = useState('');
   const task = tasks.find((item) => item.id === selected)!;
   const source = drafts[selected] ?? starter;
@@ -52,7 +54,7 @@ export function WebPractice({
 
   function download() {
     downloadFile(
-      preview.images ? embedLessonImages(source) : source,
+      preview.images ? embedLessonMedia(source) : source,
       'index.html',
       'text/html',
     );
@@ -93,6 +95,7 @@ export function WebPractice({
         <summary>Підказка</summary>
         <p>{task.hint}</p>
       </details>
+      {preview.media && <MediaBank />}
       {project ? (
         <ProjectWorkspace project={project} preview={preview} />
       ) : (
@@ -152,12 +155,16 @@ export function WebPractice({
               <div className="web-actions">
                 <button
                   className="tool"
-                  onClick={() =>
+                  onClick={() => {
                     setPreviews((current) => ({
                       ...current,
                       [selected]: previewDocument(source, preview, css),
-                    }))
-                  }
+                    }));
+                    setRevisions((current) => ({
+                      ...current,
+                      [selected]: (current[selected] ?? 0) + 1,
+                    }));
+                  }}
                 >
                   Оновити результат
                 </button>
@@ -169,7 +176,7 @@ export function WebPractice({
                     className="tool"
                     onClick={() =>
                       downloadFile(
-                        preview.images ? embedLessonImages(css) : css,
+                        preview.images ? embedLessonMedia(css) : css,
                         'style.css',
                         'text/css',
                       )
@@ -198,7 +205,7 @@ export function WebPractice({
                       setDrafts((current) => ({
                         ...current,
                         [target]: preview.images
-                          ? restoreLessonImages(text)
+                          ? restoreLessonMedia(text)
                           : text,
                       }));
                       if (selection.current === target)
@@ -231,7 +238,7 @@ export function WebPractice({
                         setCssDrafts((current) => ({
                           ...current,
                           [target]: preview.images
-                            ? restoreLessonImages(text)
+                            ? restoreLessonMedia(text)
                             : text,
                         }));
                         if (selection.current === target)
@@ -251,6 +258,7 @@ export function WebPractice({
             <div>
               <h4>Твій результат</h4>
               <iframe
+                key={`${selected}:${revisions[selected] ?? 0}`}
                 title="Твій результат HTML"
                 sandbox={[
                   preview.links && 'allow-downloads',
@@ -273,6 +281,14 @@ export function WebPractice({
                   Такі посилання тут не відкриваються; адресу видно в підказці.
                 </p>
               )}
+              {preview.media && (
+                <p className="web-note">
+                  Плеєри використовують лише файли з матеріалів цієї теми.
+                  Запускай відтворення кнопкою плеєра. Текстовий опис
+                  залишається видимим; підтримка доріжок у перегляді залежить
+                  від браузера.
+                </p>
+              )}
               {preview.forms && (
                 <p className="web-note">
                   Це навчальна форма. Тут можна вводити вигадані дані й
@@ -293,9 +309,12 @@ export function WebPractice({
         />
         <figcaption>
           Приклад у вікні 720 × {task.referenceHeight ?? 420} px.
-          {task.referenceHover ? ' Підменю відкрите наведенням.' : ''} Шрифт і
-          перенесення рядків можуть відрізнятися. Перевір структуру за списком
-          нижче.
+          {task.referenceHover ? ' Підменю відкрите наведенням.' : ''}
+          {task.referenceTimeMs !== undefined
+            ? ` Кадр анімації на ${task.referenceTimeMs} мс.`
+            : ''}{' '}
+          Шрифт і перенесення рядків можуть відрізнятися. Перевір структуру за
+          списком нижче.
         </figcaption>
         <a
           href={`assets/web-development/${task.id}.png`}

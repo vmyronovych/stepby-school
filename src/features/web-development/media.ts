@@ -1,3 +1,5 @@
+import { embedAvMedia, restoreAvMedia } from './av-media';
+
 /** Original code-native teaching illustrations. No external files are needed in exported homework. */
 function svg(body: string, width = 300, height = 180) {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">${body}</svg>`;
@@ -102,8 +104,9 @@ function replaceImageReferences(source: string, embedded: boolean): string {
     return match ? (embedded ? match.src : match.filename) : value;
   }
   return source
-    .replace(/<(?:img|a)\b(?:[^"'<>]|"[^"]*"|'[^']*')*>/gi, (tag) => {
+    .replace(/<(?:img|a|video)\b(?:[^"'<>]|"[^"]*"|'[^']*')*>/gi, (tag) => {
       const image = /^<img\b/i.test(tag);
+      const video = /^<video\b/i.test(tag);
       const attributes = [
         ...tag.matchAll(
           /\s+([^\s=/>]+)(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+))?/g,
@@ -113,6 +116,7 @@ function replaceImageReferences(source: string, embedded: boolean): string {
       if (
         embedded &&
         !image &&
+        !video &&
         !attributes.some((match) => match[1].toLowerCase() === 'download')
       )
         return tag;
@@ -125,7 +129,7 @@ function replaceImageReferences(source: string, embedded: boolean): string {
           quoted: string | undefined,
           unquoted: string | undefined,
         ) => {
-          const attribute = image ? 'src' : 'href';
+          const attribute = image ? 'src' : video ? 'poster' : 'href';
           if (!new RegExp(`^\\s+${attribute}\\s*=`, 'i').test(prefix)) return _;
           const value = quoted ?? unquoted ?? '';
           const replacement = resolve(value);
@@ -145,6 +149,11 @@ export const embedLessonImages = (source: string) =>
   replaceImageReferences(source, true);
 export const restoreLessonImages = (source: string) =>
   replaceImageReferences(source, false);
+
+export const embedLessonMedia = (source: string) =>
+  embedAvMedia(embedLessonImages(source));
+export const restoreLessonMedia = (source: string) =>
+  restoreAvMedia(restoreLessonImages(source));
 
 export function isLessonImageSource(value: string): boolean {
   return (

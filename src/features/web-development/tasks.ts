@@ -26,6 +26,7 @@ export interface WebTask {
   reference: string;
   referenceHeight?: number;
   referenceHover?: string;
+  referenceTimeMs?: number;
 }
 
 export const webTasks: WebTask[] = [

@@ -1,3 +1,12 @@
+import {
+  semanticMediaStarter,
+  semanticMediaTasks,
+} from './semantic-media-tasks';
+import {
+  responsiveScrollStarter,
+  responsiveScrollTasks,
+} from './responsive-scroll-tasks';
+import { animationStarter, animationTasks } from './animation-tasks';
 import { dropdownMenuStarter, dropdownMenuTasks } from './dropdown-menu-tasks';
 import { formsChoiceStarter, formsChoiceTasks } from './forms-choice-tasks';
 import { review3Starter, review3Tasks } from './web-review-3-tasks';
@@ -38,6 +47,59 @@ interface WebLessonPractice {
 }
 
 export const webLessonPractice: Record<string, WebLessonPractice> = {
+  'semantic-media': {
+    tasks: semanticMediaTasks,
+    starter: semanticMediaStarter,
+    preview: {
+      formatting: true,
+      classes: true,
+      lists: true,
+      images: true,
+      links: true,
+      tables: true,
+      tableSpans: true,
+      forms: true,
+      formChoices: true,
+      menus: true,
+      semantic: true,
+      media: true,
+    },
+  },
+  'responsive-scroll': {
+    tasks: responsiveScrollTasks,
+    starter: responsiveScrollStarter,
+    preview: {
+      formatting: true,
+      classes: true,
+      lists: true,
+      images: true,
+      links: true,
+      tables: true,
+      tableSpans: true,
+      forms: true,
+      formChoices: true,
+      menus: true,
+      semantic: true,
+      scrollRegions: true,
+    },
+  },
+  'css-animation': {
+    tasks: animationTasks,
+    starter: animationStarter,
+    preview: {
+      formatting: true,
+      classes: true,
+      lists: true,
+      images: true,
+      links: true,
+      tables: true,
+      tableSpans: true,
+      forms: true,
+      formChoices: true,
+      menus: true,
+      semantic: true,
+    },
+  },
   'dropdown-menu': {
     tasks: dropdownMenuTasks,
     starter: dropdownMenuStarter,

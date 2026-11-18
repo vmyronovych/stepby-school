@@ -1,3 +1,6 @@
+import { semanticMediaDocuments } from '../../web-development/semantic-media-content';
+import { responsiveScrollDocuments } from '../../web-development/responsive-scroll-content';
+import { animationDocuments } from '../../web-development/animation-content';
 import { dropdownMenuDocuments } from '../../web-development/dropdown-menu-content';
 import { formsChoiceDocuments } from '../../web-development/forms-choice-content';
 import { review3Documents } from '../../web-development/web-review-3-content';
@@ -60,6 +63,9 @@ export function composeDocuments(
     review3Documents,
     project3Documents,
     dropdownMenuDocuments,
+    semanticMediaDocuments,
+    responsiveScrollDocuments,
+    animationDocuments,
   ]) {
     for (const [id, definition] of Object.entries(group)) {
       if (documents[id]) throw new Error(`Документ «${id}» уже зареєстровано`);

@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { ImageBank } from './ImageBank';
-import { embedLessonImages, restoreLessonImages } from './media';
+import { embedLessonMedia, restoreLessonMedia } from './media';
 import { previewDocument, type PreviewOptions } from './preview';
 import {
   projectFilenames,
@@ -32,7 +32,7 @@ export function ProjectWorkspace({
 
   function download() {
     const url = URL.createObjectURL(
-      new Blob([embedLessonImages(files[active])], {
+      new Blob([embedLessonMedia(files[active])], {
         type: (html ? 'text/html' : 'text/css') + ';charset=utf-8',
       }),
     );
@@ -117,7 +117,7 @@ export function ProjectWorkspace({
                   return;
                 }
                 try {
-                  const text = restoreLessonImages(await file.text());
+                  const text = restoreLessonMedia(await file.text());
                   setFiles((current) => ({ ...current, [target]: text }));
                   setMessage(
                     `Файл відкрито у ${target}. Натисни «Оновити результат».`,

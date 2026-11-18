@@ -1,8 +1,9 @@
 import {
-  embedLessonImages,
+  embedLessonMedia,
   isLessonImageSource,
   lessonImageAssets,
 } from './media';
+import { isLessonAvSource } from './av-media';
 
 /** Keep learner markup outside the application DOM and deny active content. */
 export interface PreviewOptions {
@@ -17,6 +18,9 @@ export interface PreviewOptions {
   forms?: boolean;
   formChoices?: boolean;
   menus?: boolean;
+  semantic?: boolean;
+  media?: boolean;
+  scrollRegions?: boolean;
 }
 
 export function previewDocument(
@@ -26,7 +30,7 @@ export function previewDocument(
   cssFilename = 'style.css',
 ): string {
   const document = new DOMParser().parseFromString(
-    options.images ? embedLessonImages(source) : source,
+    options.images || options.media ? embedLessonMedia(source) : source,
     'text/html',
   );
   if (options.externalCss) {
@@ -40,7 +44,7 @@ export function previewDocument(
         const style = document.createElement('style');
         // CSS is raw text in HTML. Escape '<' so serialization cannot close this style element.
         style.textContent = (
-          options.images ? embedLessonImages(css) : css
+          options.images ? embedLessonMedia(css) : css
         ).replace(/</g, '\\3c ');
         link.replaceWith(style);
       }
@@ -62,6 +66,11 @@ export function previewDocument(
     'BR',
   ]);
   if (options.links) allowed.add('A');
+  if (options.semantic)
+    for (const tag of ['HEADER', 'NAV', 'MAIN', 'SECTION', 'ARTICLE', 'FOOTER'])
+      allowed.add(tag);
+  if (options.media)
+    for (const tag of ['AUDIO', 'VIDEO', 'SOURCE', 'TRACK']) allowed.add(tag);
   if (options.menus) for (const tag of ['NAV', 'BUTTON']) allowed.add(tag);
   if (options.forms)
     for (const tag of ['FORM', 'LABEL', 'INPUT', 'TEXTAREA', 'BUTTON'])
@@ -109,6 +118,35 @@ export function previewDocument(
     }
     for (const attribute of [...element.attributes]) {
       const keep =
+        (options.scrollRegions &&
+          ((attribute.name === 'tabindex' && attribute.value === '0') ||
+            (attribute.name === 'role' && attribute.value === 'region'))) ||
+        (options.media &&
+          ['AUDIO', 'VIDEO', 'SOURCE', 'TRACK'].includes(element.tagName) &&
+          ((attribute.name === 'src' &&
+            isLessonAvSource(
+              attribute.value,
+              element.tagName.toLowerCase() as
+                'audio' | 'video' | 'source' | 'track',
+            )) ||
+            (['AUDIO', 'VIDEO'].includes(element.tagName) &&
+              (['controls', 'loop', 'muted'].includes(attribute.name) ||
+                (attribute.name === 'preload' &&
+                  /^(none|metadata|auto)$/.test(attribute.value)))) ||
+            (element.tagName === 'VIDEO' &&
+              ((attribute.name === 'poster' &&
+                isLessonImageSource(attribute.value)) ||
+                (['width', 'height'].includes(attribute.name) &&
+                  /^[1-9]\d{0,3}$/.test(attribute.value)))) ||
+            (element.tagName === 'SOURCE' &&
+              attribute.name === 'type' &&
+              /^(audio\/wav|video\/webm)$/.test(attribute.value)) ||
+            (element.tagName === 'TRACK' &&
+              (['srclang', 'label', 'default'].includes(attribute.name) ||
+                (attribute.name === 'kind' &&
+                  /^(captions|subtitles|descriptions)$/.test(
+                    attribute.value,
+                  )))))) ||
         (options.menus &&
           element.tagName === 'BUTTON' &&
           attribute.name === 'type' &&
@@ -226,6 +264,7 @@ export function previewDocument(
   policy.content = "default-src 'none'; form-action 'none'; base-uri 'none'";
   if (options.formatting) policy.content += "; style-src 'unsafe-inline'";
   if (options.images) policy.content += '; img-src data:';
+  if (options.media) policy.content += '; media-src data:';
   document.head.prepend(policy);
   return '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
 }
