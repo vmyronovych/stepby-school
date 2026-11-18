@@ -1,7 +1,7 @@
 const { mkdir, writeFile } = require('node:fs/promises');
 const path = require('node:path');
 const { loadTypeScript } = require('../tests/helpers/load-typescript.cjs');
-const { lessonImageAssets } = loadTypeScript('src/features/web-development/media.ts');
+const { lessonImageAssets, moonImageAssets } = loadTypeScript('src/features/web-development/media.ts');
 const { zipStore } = loadTypeScript('src/features/documents/services/workbook.ts');
 const instructions = `Зображення для курсу веброзробки
 
@@ -30,4 +30,8 @@ HTML і картинки мають лежати поруч. Якщо перен
     { name: 'README.txt', data: encoder.encode(instructions) },
   ]);
   await writeFile(path.join(folder, 'images.zip'), archive);
+  for (const asset of moonImageAssets) await writeFile(path.join(folder, asset.filename), asset.svg);
+  await writeFile(path.join(folder, 'moon-images.zip'), zipStore(
+    moonImageAssets.map(asset => ({ name: asset.filename, data: encoder.encode(asset.svg) })),
+  ));
 })().catch(error => { console.error(error); process.exitCode = 1; });

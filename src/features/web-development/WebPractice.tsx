@@ -12,11 +12,13 @@ export function WebPractice({
   starter = starterHtml,
   preview = {},
   project,
+  imageCollection,
 }: {
   tasks?: WebTask[];
   starter?: string;
   preview?: PreviewOptions;
   project?: WebProject;
+  imageCollection?: 'moon';
 }) {
   const [selected, setSelected] = useState(tasks[0].id);
   const [drafts, setDrafts] = useState<Record<string, string>>({});
@@ -102,6 +104,7 @@ export function WebPractice({
         <>
           {preview.images && (
             <ImageBank
+              collection={imageCollection}
               onInsert={(snippet) => {
                 const body = source.match(/<body\b[^>]*>/i);
                 const start = body ? (body.index ?? 0) + body[0].length : 0;

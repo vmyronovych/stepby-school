@@ -1,3 +1,4 @@
+import { moonArt } from './moon-art';
 import { embedAvMedia, restoreAvMedia } from './av-media';
 
 /** Original code-native teaching illustrations. No external files are needed in exported homework. */
@@ -87,16 +88,20 @@ const drawings = [
   },
 ];
 
-export const lessonImageAssets = drawings.map((drawing) => ({
+const toImageAsset = (drawing: (typeof drawings)[number]) => ({
   ...drawing,
   src:
     'data:image/svg+xml,' +
     encodeURIComponent(drawing.svg).replace(/'/g, '%27'),
-}));
+});
+
+export const lessonImageAssets = drawings.map(toImageAsset);
+export const moonImageAssets = moonArt.map(toImageAsset);
+const allImageAssets = [...lessonImageAssets, ...moonImageAssets];
 
 function replaceImageReferences(source: string, embedded: boolean): string {
   function resolve(value: string) {
-    const match = lessonImageAssets.find((asset) =>
+    const match = allImageAssets.find((asset) =>
       embedded
         ? value === asset.filename || value === './' + asset.filename
         : value === asset.src,
@@ -157,7 +162,7 @@ export const restoreLessonMedia = (source: string) =>
 
 export function isLessonImageSource(value: string): boolean {
   return (
-    lessonImageAssets.some((asset) => value === asset.src) ||
+    allImageAssets.some((asset) => value === asset.src) ||
     /^data:image\/(?:png|jpeg|gif|webp);base64,[A-Za-z0-9+/=\s]+$/i.test(value)
   );
 }

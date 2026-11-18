@@ -1,23 +1,41 @@
-import { lessonImageAssets } from './media';
+import { lessonImageAssets, moonImageAssets } from './media';
 
-export function ImageBank({ onInsert }: { onInsert(snippet: string): void }) {
+export function ImageBank({
+  onInsert,
+  collection,
+}: {
+  onInsert(snippet: string): void;
+  collection?: 'moon';
+}) {
+  const moon = collection === 'moon';
+  const assets = moon ? moonImageAssets : lessonImageAssets;
+  const archive = moon ? 'moon-images.zip' : 'images.zip';
+  const example = moon ? 'moon-01.svg' : 'flower.svg';
   return (
     <details className="web-image-bank">
-      <summary>Зображення для завдань</summary>
+      <summary>{moon ? 'Ілюстрації Місяця' : 'Зображення для завдань'}</summary>
       <p>
-        Постав курсор у body й обери зображення. Для фону використовуй назву
-        файлу в CSS: <code>background-image: url("meadow.svg");</code>
+        Постав курсор у body й обери зображення.
+        {!moon && (
+          <>
+            {' '}
+            Для фону використовуй назву файлу в CSS:{' '}
+            <code>background-image: url("meadow.svg");</code>
+          </>
+        )}
       </p>
       <p>
         Для роботи в локальному редакторі завантаж картинки окремо або весь
         комплект.
       </p>
       <a
-        href="assets/web-development/media/images.zip"
-        download="images.zip"
+        href={`assets/web-development/media/${archive}`}
+        download={archive}
         className="btn ghost"
       >
-        Завантажити всі картинки (ZIP)
+        {moon
+          ? 'Завантажити ілюстрації Місяця (ZIP)'
+          : 'Завантажити всі картинки (ZIP)'}
       </a>
       <ol>
         <li>Розпакуй архів в окрему папку.</li>
@@ -25,12 +43,19 @@ export function ImageBank({ onInsert }: { onInsert(snippet: string): void }) {
           Створи в цій папці файл <code>index.html</code> поруч із картинками.
         </li>
         <li>
-          Використовуй назви файлів без змін: <code>src="flower.svg"</code> або{' '}
-          <code>url("meadow.svg")</code> у внутрішньому CSS.
+          Використовуй назви файлів без змін, наприклад{' '}
+          <code>{`src="${example}"`}</code>
+          {!moon && (
+            <>
+              {' '}
+              або <code>url("meadow.svg")</code> у внутрішньому CSS
+            </>
+          )}
+          .
         </li>
       </ol>
       <div className="web-image-options">
-        {lessonImageAssets.map((asset) => (
+        {assets.map((asset) => (
           <div className="web-image-card" key={asset.filename}>
             <button
               type="button"

@@ -1,3 +1,5 @@
+import { review4Starter, review4Tasks } from './web-review-4-tasks';
+import { project4Starter, project4Tasks } from './project4-tasks';
 import {
   semanticMediaStarter,
   semanticMediaTasks,
@@ -44,9 +46,48 @@ interface WebLessonPractice {
   starter: string;
   preview: PreviewOptions;
   project?: WebProject;
+  imageCollection?: 'moon';
 }
 
 export const webLessonPractice: Record<string, WebLessonPractice> = {
+  'web-review-4': {
+    tasks: review4Tasks,
+    starter: review4Starter,
+    preview: {
+      formatting: true,
+      classes: true,
+      lists: true,
+      images: true,
+      links: true,
+      tables: true,
+      tableSpans: true,
+      forms: true,
+      formChoices: true,
+      menus: true,
+      semantic: true,
+      media: true,
+      scrollRegions: true,
+    },
+  },
+  'mini-project-4': {
+    tasks: project4Tasks,
+    starter: project4Starter,
+    preview: {
+      formatting: true,
+      classes: true,
+      lists: true,
+      images: true,
+      links: true,
+      tables: true,
+      tableSpans: true,
+      forms: true,
+      formChoices: true,
+      menus: true,
+      semantic: true,
+      externalCss: true,
+    },
+    imageCollection: 'moon',
+  },
   'semantic-media': {
     tasks: semanticMediaTasks,
     starter: semanticMediaStarter,

@@ -3,6 +3,8 @@ const { mkdir } = require('node:fs/promises');
 const path = require('node:path');
 const { chromium } = require('@playwright/test');
 const { loadTypeScript } = require('../tests/helpers/load-typescript.cjs');
+const { review4Tasks } = loadTypeScript('src/features/web-development/web-review-4-tasks.ts');
+const { project4Tasks } = loadTypeScript('src/features/web-development/project4-tasks.ts');
 const { semanticMediaTasks } = loadTypeScript('src/features/web-development/semantic-media-tasks.ts');
 const { responsiveScrollTasks } = loadTypeScript('src/features/web-development/responsive-scroll-tasks.ts');
 const { animationTasks } = loadTypeScript('src/features/web-development/animation-tasks.ts');
@@ -43,7 +45,7 @@ const { project2Tasks } = loadTypeScript('src/features/web-development/project2-
   const browser = await chromium.launch();
   try {
     const page = await browser.newPage({ viewport: { width: 720, height: 420 }, deviceScaleFactor: 1 });
-    for (const task of [...semanticMediaTasks, ...responsiveScrollTasks, ...animationTasks, ...dropdownMenuTasks, ...webTasks, ...formattingTasks, ...cssIntroTasks, ...listsTasks, ...imagesTasks, ...reviewTasks, ...projectTasks, ...linksTasks, ...imageLinksTasks, ...tablesTasks, ...tableSpansTasks, ...review2Tasks, ...project2Tasks, ...blockElementsTasks, ...externalCssTasks, ...flexBasicsTasks, ...flexWrapTasks, ...formsTasks, ...formsChoiceTasks, ...review3Tasks, ...project3Tasks, { id: project3Tasks[0].id + '-map', reference: project3MapReference, referenceHeight: project3MapReferenceHeight }]) {
+    for (const task of [...review4Tasks, ...project4Tasks, ...semanticMediaTasks, ...responsiveScrollTasks, ...animationTasks, ...dropdownMenuTasks, ...webTasks, ...formattingTasks, ...cssIntroTasks, ...listsTasks, ...imagesTasks, ...reviewTasks, ...projectTasks, ...linksTasks, ...imageLinksTasks, ...tablesTasks, ...tableSpansTasks, ...review2Tasks, ...project2Tasks, ...blockElementsTasks, ...externalCssTasks, ...flexBasicsTasks, ...flexWrapTasks, ...formsTasks, ...formsChoiceTasks, ...review3Tasks, ...project3Tasks, { id: project3Tasks[0].id + '-map', reference: project3MapReference, referenceHeight: project3MapReferenceHeight }]) {
       await page.setViewportSize({ width: 720, height: task.referenceHeight ?? 420 });
       await page.mouse.move(0, 0);
       await page.setContent(embedLessonMedia(task.reference));

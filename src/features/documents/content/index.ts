@@ -1,3 +1,5 @@
+import { review4Documents } from '../../web-development/web-review-4-content';
+import { project4Documents } from '../../web-development/project4-content';
 import { semanticMediaDocuments } from '../../web-development/semantic-media-content';
 import { responsiveScrollDocuments } from '../../web-development/responsive-scroll-content';
 import { animationDocuments } from '../../web-development/animation-content';
@@ -66,6 +68,8 @@ export function composeDocuments(
     semanticMediaDocuments,
     responsiveScrollDocuments,
     animationDocuments,
+    review4Documents,
+    project4Documents,
   ]) {
     for (const [id, definition] of Object.entries(group)) {
       if (documents[id]) throw new Error(`Документ «${id}» уже зареєстровано`);
