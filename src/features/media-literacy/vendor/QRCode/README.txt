@@ -1,0 +1,1 @@
+Vendored from locally installed npm dependency qrcode-terminal/vendor/QRCode. Original encoder: Kazuhiko Arase (MIT); Node modifications distributed with qrcode-terminal (see LICENSE). JavaScript logic unchanged; trailing whitespace normalized; index.d.ts is a local type adapter. Encodes ASCII URL serializations without network requests.

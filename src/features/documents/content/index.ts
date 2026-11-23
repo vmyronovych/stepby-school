@@ -1,3 +1,4 @@
+import { mediaDocuments } from '../../media-literacy/content';
 import { review4Documents } from '../../web-development/web-review-4-content';
 import { project4Documents } from '../../web-development/project4-content';
 import { semanticMediaDocuments } from '../../web-development/semantic-media-content';
@@ -39,6 +40,7 @@ export function composeDocuments(
 ): Record<string, EngineDocument> {
   const documents: Record<string, EngineDocument> = {};
   for (const group of [
+    mediaDocuments,
     roboticsSections,
     roboticsModule1,
     roboticsModule2,

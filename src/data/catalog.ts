@@ -1,17 +1,11 @@
 import type { Catalog } from '../types';
+import { mediaTopics } from '../features/media-literacy/content';
 import { radianExamples } from '../features/tools/data/radian';
 
 // Repository-owned school data. Runtime composition installs typed tool definitions.
 export const catalog: Catalog = {
   // label — повна назва, коли до неї не додається слово «клас» (гуртки).
   classes: [
-    {
-      id: 'web',
-      name: 'Веброзробка',
-      label: 'Курс веброзробки',
-      icon: '🌐',
-      note: 'HTML і CSS для підлітків: пояснення, практика та власні вебсторінки.',
-    },
     { id: '3a', name: '3', icon: '🏫' },
     { id: '4a', name: '4', icon: '🏫' },
     { id: '5a', name: '5', icon: '🏫' },
@@ -25,9 +19,34 @@ export const catalog: Catalog = {
       label: 'Гурток робототехніки для 3-тіх та 4-тих класів',
       note: 'Позакласний курс на 32 заняття: електричні кола, Pico й MicroBlocks, робот-візок.',
     },
+    {
+      id: 'media',
+      name: 'Медіаграмотність',
+      label: 'Медіаграмотність',
+      icon: '🔎',
+      courseSubject: 'literacy',
+      cover: 'assets/media-literacy/learning-together.png',
+      note: 'Для 1–4 класів: перевіряємо інформацію, відповідально публікуємо та безпечно діємо в інтернеті.',
+    },
+    {
+      id: 'web',
+      name: 'Веброзробка',
+      label: 'Курс веброзробки',
+      icon: '🌐',
+      note: 'HTML і CSS для підлітків: пояснення, практика та власні вебсторінки.',
+    },
   ],
   // cls — у яких класах предмет узагалі показувати
   subjects: [
+    {
+      id: 'literacy',
+      name: 'Медіаграмотність',
+      icon: '🔎',
+      color: 'var(--primary)',
+      bg: 'var(--primary-l)',
+      active: true,
+      cls: ['media'],
+    },
     {
       id: 'html-css',
       name: 'HTML і CSS',
@@ -108,6 +127,7 @@ export const catalog: Catalog = {
   },
   // теми: кожна прив'язана до класу + предмета, містить матеріали і завдання-інструменти
   topics: [
+    ...mediaTopics,
     {
       id: 'web-page',
       cls: 'web',

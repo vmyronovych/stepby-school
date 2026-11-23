@@ -1,0 +1,26 @@
+{
+  "created": "2026-11-14",
+  "tool": "Built-in image_gen",
+  "assets": [
+    {
+      "id": "truth",
+      "prompt": "Use case: illustration-story. Asset type: one wide 3:1 landscape banner for a Ukrainian primary school media-literacy course, ages 7–10. Style: polished warm children's-book gouache illustration, subtle paper texture, natural expressive faces, contemporary clean shapes, lavender, teal, warm ivory palette. Composition: a complete single scene, horizontally composed; keep all key subjects and objects within the middle horizontal band so a shallow website card crop preserves the meaning. No lettering, words, numbers, brand logos, watermarks, UI screenshot or scary imagery. Topic: checking whether information is true. Two curious primary-school children at a library table compare a message on a small tablet with an open reference book, one holding a magnifying glass over a picture in the book, librarian beside them pointing to the source. The big magnifying glass and book are the central visual focus; message has only abstract lines and a question symbol, no readable text. Calm thoughtful investigation, distinct book/library setting.",
+      "path": "assets/media-literacy/topic-truth.jpg"
+    },
+    {
+      "id": "publishing",
+      "prompt": "Use case: illustration-story. Asset type: one wide 3:1 landscape banner for a Ukrainian primary school media-literacy course, ages 7–10. Style: polished warm children's-book gouache illustration, subtle paper texture, natural expressive faces, contemporary clean shapes, lavender, teal, warm ivory palette. Composition: a complete single scene, horizontally composed; keep all key subjects and objects within the middle horizontal band so a shallow website card crop preserves the meaning. No lettering, words, numbers, brand logos, watermarks, UI screenshot or scary imagery. Topic: asking permission before publishing a photo. Two primary-school friends beside their colorful handmade paper rocket in a classroom. One child holds a smartphone horizontally to photograph the rocket and pauses to ask the other child; the friend responds with an open-hand conversational gesture. Camera lens, phone, craft rocket and both faces clearly visible at the center, not selfie composition. Warm peach and lavender accents; respect and friendly conversation, no warning symbols.",
+      "path": "assets/media-literacy/topic-publishing.jpg"
+    },
+    {
+      "id": "games",
+      "prompt": "Use case: illustration-story. Asset type: one wide 3:1 landscape banner for a Ukrainian primary school media-literacy course, ages 7–10. Style: polished warm children's-book gouache illustration, subtle paper texture, natural expressive faces, contemporary clean shapes, lavender, teal, warm ivory palette. Composition: a complete single scene, horizontally composed; keep all key subjects and objects within the middle horizontal band so a shallow website card crop preserves the meaning. No lettering, words, numbers, brand logos, watermarks, UI screenshot or scary imagery. Topic: balancing gaming with other activities. A primary-school child at a desk places a game controller down beside a small unnumbered sand timer. A monitor shows a simple colorful fictional block-building world. Nearby by the desk a ball and drawing notebook suggest the next activities. Center focus on controller, child's hand and hourglass, child's face visible. Calm cheerful transition, teal with warm gold accents, no piles of treasure or flashing rewards.",
+      "path": "assets/media-literacy/topic-games.jpg"
+    },
+    {
+      "id": "safety",
+      "prompt": "Use case: illustration-story. Asset type: one wide 3:1 landscape banner for a Ukrainian primary school media-literacy course, ages 7–10. Style: polished warm children's-book gouache illustration, subtle paper texture, natural expressive faces, contemporary clean shapes, lavender, teal, warm ivory palette. Composition: a complete single scene, horizontally composed; keep all key subjects and objects within the middle horizontal band so a shallow website card crop preserves the meaning. No lettering, words, numbers, brand logos, watermarks, UI screenshot or scary imagery. Topic: protecting an account and asking an adult for help. A primary-school child with a tablet sits beside a supportive parent at a table, pointing to a simple closed padlock symbol on the screen. A large friendly translucent shield shape behind the tablet visually anchors account protection; parent calmly listening. Entire faces and tablet at center, lavender and mint accents. Reassuring and empowering, no villains, masks, sinister shadows, codes, or visible passwords.",
+      "path": "assets/media-literacy/topic-safety.jpg"
+    }
+  ]
+}

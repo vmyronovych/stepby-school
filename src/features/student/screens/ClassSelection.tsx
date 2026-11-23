@@ -12,8 +12,8 @@ export function ClassSelection({
   return (
     <>
       <PageHeading
-        title="Оберіть клас 👋"
-        description="Оберіть клас, щоб перейти до предметів і покрокових інтерактивних інструментів."
+        title="Оберіть клас або курс"
+        description="Шкільні предмети, окремі курси й інтерактивні інструменти для навчання крок за кроком."
       />
       <div className="grid c3">
         {classes.map((schoolClass) => (

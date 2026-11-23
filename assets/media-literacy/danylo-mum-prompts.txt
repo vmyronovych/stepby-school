@@ -1,0 +1,11 @@
+Generated with built-in image_gen on 2026-11-23.
+Panel 1 references: topic-safety.jpg (mother and style), topic-games.jpg (boy and style).
+Panel 2 edit target: danylo-mum-1.png.
+
+PANEL 1
+Use case: illustration-story. Create a new landscape 3:2 comic panel illustration for a Ukrainian primary-school lesson. The supplied images are STYLE and CHARACTER REFERENCES, not edit targets. Match their warm, polished, textured gouache children's-book illustration style, expressive faces, softly painterly edges, teal and lavender clothing, natural golden daylight.
+Scene: a 9-year-old boy Danylo (same friendly brown-haired boy in teal hoodie as reference 2) sits LEFT of his mother (same adult brown-haired woman with hair in a loose bun, cream sweater, lavender cardigan as reference 1), who sits RIGHT. They are together at a wooden desk in a cozy home, looking at a laptop placed between them, back of laptop towards viewer. Medium close two-shot, both faces and upper bodies fully visible, hands on the desk. Panel 1 of a dialogue: boy is speaking with a small hopeful smile and one open-hand gesture as if asking permission to share a photo of his craft; mother listens warmly with mouth closed and looks toward the boy. No anxiety or exaggerated excitement.
+Composition: characters and laptop are the main subjects; subtle bookshelf, window and plant in background; matching eye line, no cropping heads or hands. The image will sit directly below an HTML speech bubble, so DO NOT draw any speech bubbles, captions, text, numbering, frames, badges, floating shields, padlocks, or watermarks. This is a live conversation, not a messaging screenshot. No girl, no game controllers, no symbolic safety icons. A single illustration, not a collage. Keep background understated and faces legible at small sizes.
+
+PANEL 2
+undefined

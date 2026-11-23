@@ -18,6 +18,16 @@ export function TopicCard({
   const tool = t.kind === 'tool';
   return (
     <Card href={hrefTopic(t)}>
+      {t.cover && (
+        <img
+          className="course-card-cover"
+          src={t.cover}
+          alt=""
+          loading="lazy"
+          width="1536"
+          height="1024"
+        />
+      )}
       <div style={rowStyle}>
         <Icon
           background={

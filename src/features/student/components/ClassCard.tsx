@@ -12,6 +12,16 @@ export function ClassCard({
 }) {
   return (
     <Card href={hrefCls(schoolClass.id)}>
+      {schoolClass.cover && (
+        <img
+          className="course-card-cover"
+          src={schoolClass.cover}
+          alt=""
+          loading="lazy"
+          width="1536"
+          height="1024"
+        />
+      )}
       <Icon
         background={schoolClass.label ? 'var(--green-l)' : 'var(--primary-l)'}
       >
@@ -25,7 +35,16 @@ export function ClassCard({
             <br />
           </>
         )}
-        {topicCount} {schoolClass.label ? 'розділів курсу' : 'навчальних тем'}
+        {topicCount}{' '}
+        {schoolClass.courseSubject
+          ? topicCount % 10 >= 2 &&
+            topicCount % 10 <= 4 &&
+            (topicCount % 100 < 12 || topicCount % 100 > 14)
+            ? 'розділи курсу'
+            : 'розділів курсу'
+          : schoolClass.label
+            ? 'розділів курсу'
+            : 'навчальних тем'}
       </p>
     </Card>
   );

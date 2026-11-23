@@ -1,3 +1,5 @@
+import { MediaTopicPage } from '../features/media-literacy/MediaTopicPage';
+import { mediaContent } from '../features/media-literacy/content';
 import { WindowsProjector } from '../features/windows/WindowsProjector';
 import type { ReactNode } from 'react';
 import { engine } from '../runtime';
@@ -30,9 +32,24 @@ function reactSection(id: string) {
 export function documentView(
   topic: Topic,
   sub: string | null,
+  pageUrl = '',
 ): { section: DocumentSection | undefined; content?: ReactNode } {
   const id = topic.doc!;
   const source = engine.DOCS[id];
+  const media = mediaContent[id];
+  if (media)
+    return {
+      section: reactSection(id),
+      content: (
+        <MediaTopicPage
+          key={id}
+          content={media}
+          topic={topic}
+          sub={sub}
+          pageUrl={pageUrl}
+        />
+      ),
+    };
   const webPractice = webLessonPractice[id];
   if (webPractice)
     return {
