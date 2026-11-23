@@ -97,7 +97,7 @@ test('lesson modes have direct routes; default is classroom and QR entry is stud
   }
 });
 
-test('student QR links preserve local paths and deployed base paths without cross-environment fallback', () => {
+test('student QR links use the agreed public base while preserving local test URLs', () => {
   const file = 'file:///Users/teacher/Documents/медіа урок/index.html#/media/literacy/safety/robux';
   const local = new URL(studentLessonUrl(file, safetyTopic, true));
   assert.equal(local.protocol, 'file:');
@@ -106,6 +106,15 @@ test('student QR links preserve local paths and deployed base paths without cros
   const deployed = studentLessonUrl('https://vmyronovych.github.io/stepby-school/?preview=1#/media/literacy/safety', safetyTopic, false);
   assert.equal(deployed, 'https://vmyronovych.github.io/stepby-school/#/media/literacy/safety/student');
   assert.equal(new URL(studentLessonUrl('http://localhost:4173/index.html#/media', safetyTopic, true)).origin, 'http://localhost:4173');
+  for (const pageUrl of [
+    'https://vmyronovych.github.io/stepby-school/index.html?preview=1#/media',
+    'https://preview.example.org/temporary/index.html#/media',
+  ]) {
+    for (const topic of catalog.topics.filter(item => item.cls === 'media')) {
+      assert.equal(studentLessonUrl(pageUrl, topic, false), `https://vmyronovych.github.io/stepby-school/#/media/literacy/${topic.id}/student`);
+    }
+    assert.equal(studentLessonUrl(pageUrl, safetyTopic, true), 'https://vmyronovych.github.io/stepby-school/#/media/literacy/safety/robux-student');
+  }
   for (const url of [local.href, deployed]) {
     const matrix = qrMatrix(url);
     assert(matrix.length >= 21 && matrix.length <= 177);

@@ -1,6 +1,8 @@
 import type { Topic } from '../../types';
 import { hrefTopic } from '../../navigation/routes';
 
+const publicCourseBaseUrl = 'https://vmyronovych.github.io/stepby-school/';
+
 export type LessonView = 'classroom' | 'practice' | 'teacher' | 'student';
 export function mediaLessonRoute(sub: string | null) {
   const robux = sub === 'robux' || !!sub?.startsWith('robux-');
@@ -32,9 +34,13 @@ export function studentLessonUrl(
   topic: Topic,
   robux: boolean,
 ) {
-  const url = new URL(pageUrl);
+  const current = new URL(pageUrl);
+  const local =
+    current.protocol === 'file:' ||
+    ['localhost', '127.0.0.1', '[::1]'].includes(current.hostname);
+  const url = local ? current : new URL(publicCourseBaseUrl);
   url.hash = mediaLessonHref(topic, robux, 'student');
-  // Keep the actual document path (including file:// and GitHub Pages subpaths).
+  // Local tests keep their document; published QR links use the agreed site base.
   url.search = '';
   return url.href;
 }
