@@ -32,7 +32,7 @@ test('all teacher plans credit sources without placing the source section in stu
         assert.equal(html.includes('aria-label="Джерела курсу"'), mode === 'teacher');
         if (mode === 'teacher') {
           assert(html.includes('#КодПравди'));
-          assert(html.includes('drive.google.com/drive/folders/'));
+          assert(!html.includes('drive.google.com/drive/folders/'));
         }
       }
     }
