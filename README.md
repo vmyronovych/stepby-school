@@ -106,4 +106,4 @@ node --test tests/irrational.test.cjs
 
 Маршрути `#/media/literacy/truth/student` та `#/media/literacy/safety/robux-student` показують лише практику. Це спрощення навігації, а не обмеження доступу. У практиці — 21 окрема ситуація на навички з демонстрації, вибір дії й пояснення та повторні спроби. Стан зберігається лише в пам’яті вкладки.
 
-Навчальні правила для подальших змін збережено в `CLAUDE.md`. Походження ілюстрацій — `assets/media-literacy/illustrations.txt` та `topic-cover-prompts.json`. Ліцензія QR-бібліотеки — `assets/media-literacy/qr-LICENSE.txt`.
+Навчальні правила для подальших змін збережено в [окремому документі](docs/media-literacy-guidelines.md). Походження ілюстрацій — `assets/media-literacy/illustrations.txt` та `topic-cover-prompts.json`. Ліцензія QR-бібліотеки — `assets/media-literacy/qr-LICENSE.txt`.
