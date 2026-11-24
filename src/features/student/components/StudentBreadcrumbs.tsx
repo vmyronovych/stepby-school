@@ -15,13 +15,22 @@ export function StudentBreadcrumbs({
   topic,
 }: StudentBreadcrumbsProps) {
   const parts = [
-    { text: 'Класи', href: hrefHome() },
+    {
+      text: schoolClass.courseSubject ? 'Класи та курси' : 'Класи',
+      href: hrefHome(),
+    },
     {
       text: clsCrumb(schoolClass),
-      href: subject ? hrefCls(schoolClass.id) : undefined,
+      href: schoolClass.courseSubject
+        ? topic
+          ? hrefSubj(schoolClass.id, schoolClass.courseSubject)
+          : undefined
+        : subject
+          ? hrefCls(schoolClass.id)
+          : undefined,
     },
   ];
-  if (subject)
+  if (subject && !schoolClass.courseSubject)
     parts.push({
       text: subject.name,
       href: topic ? hrefSubj(schoolClass.id, subject.id) : undefined,

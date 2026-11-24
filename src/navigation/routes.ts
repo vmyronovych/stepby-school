@@ -89,7 +89,18 @@ export function resolveRoute(
   if (!route.cls) return { state: {} };
   const schoolClass = catalog.classes.find((item) => item.id === route.cls);
   if (!schoolClass) return { redirect: hrefHome() };
-  if (!route.subject) return { state: { cls: schoolClass.id } };
+  if (!route.subject) {
+    if (schoolClass.courseSubject) {
+      const course = catalog.subjects.find(
+        (item) =>
+          item.id === schoolClass.courseSubject &&
+          item.active &&
+          item.cls.includes(schoolClass.id),
+      );
+      if (course) return { redirect: hrefSubj(schoolClass.id, course.id) };
+    }
+    return { state: { cls: schoolClass.id } };
+  }
   const subject = catalog.subjects.find(
     (item) =>
       item.id === route.subject &&

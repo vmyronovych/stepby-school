@@ -5,11 +5,12 @@ const path = require('node:path');
 const projectRoot = path.resolve(__dirname, '../..');
 
 /** Compile a fresh TypeScript module instance without sharing the require cache. */
-function loadTypeScript(relativePath) {
+function loadTypeScript(relativePath, { external = [] } = {}) {
   const filename = path.resolve(projectRoot, relativePath);
   const result = buildSync({
     entryPoints: [filename],
     bundle: true,
+    external,
     platform: 'node',
     format: 'cjs',
     target: 'node22',

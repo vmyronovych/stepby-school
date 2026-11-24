@@ -4,6 +4,8 @@ export interface SchoolClass {
   label?: string;
   icon?: string;
   note?: string;
+  courseSubject?: string;
+  cover?: string;
 }
 export interface Subject {
   color?: string;
@@ -32,6 +34,7 @@ export interface Topic {
   kind?: string;
   icon?: string;
   chips?: string[];
+  cover?: string;
   lesson?: string;
   tasks?: Task[];
   materials?: { type: string; title: string }[];

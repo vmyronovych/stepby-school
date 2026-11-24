@@ -33,7 +33,7 @@ test('invalid routes, malformed encoding and legacy anchors resolve safely', asy
   const errors = [];
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto('/#/%E0%A4%A');
-  await expect(page.locator('h1')).toHaveText('Оберіть клас 👋');
+  await expect(page.locator('h1')).toHaveText('Оберіть клас або курс');
   await page.goto('/#/5a/ukr');
   await expect(page).toHaveURL(/#\/5a$/);
   await expect(page.locator('h1')).toContainText('Предмети');

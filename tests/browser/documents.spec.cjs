@@ -20,7 +20,7 @@ test.afterEach(async ({ page }) => {
   expect(page.documentErrors).toEqual([]);
 });
 
-test('every document route mounts through the React document page', async ({
+test('every document route mounts through its React document or media lesson page', async ({
   page,
 }) => {
   test.setTimeout(60000);
@@ -32,11 +32,18 @@ test('every document route mounts through the React document page', async ({
         href: `#/${topic.cls}/${topic.subject}/${topic.id}`,
         title: topic.title,
         id: topic.id,
+        media: topic.cls === 'media' && topic.subject === 'literacy',
       })),
   );
   expect(documents.length).toBeGreaterThan(20);
   for (const document of documents) {
     await navigate(page, document.href);
+    if (document.media) {
+      await expect(page.locator('.media-projector'), document.id).toBeVisible();
+      await expect(page.locator('.media-lesson-heading h1')).toHaveText(document.title);
+      await expect(page.getByRole('link', { name: 'Разом у класі', exact: true })).toHaveAttribute('aria-current', 'page');
+      continue;
+    }
     await expect(page.locator('#roboBody'), document.id).toBeVisible();
     await expect(
       page.locator('#roboBody h1.page'),

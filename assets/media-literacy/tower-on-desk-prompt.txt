@@ -1,0 +1,15 @@
+Generated with built-in image_gen on 2026-11-23.
+
+Use case: illustration-story.
+Asset type: landscape educational scene image for a Ukrainian primary-school media literacy lesson, 1536x1024 or larger, 3:2 landscape.
+Create one coherent illustrated snapshot of a child's craft on a real-looking wooden desk, in a warm polished children's graphic-novel / cartoon storybook style with subtle paper texture and believable perspective.
+The main subject is a tall colorful tower built from wooden blocks, proudly photographed on the desk. The tower dominates the center-left and draws the eye first, vivid blue, ochre, coral and sage blocks, a triangular roof and an arch at the base. Slightly elevated camera angle shows the tabletop. Quiet home background and soft daylight.
+Incidentally lying FLAT on the same desk to the right, slightly behind the tower, is an ordinary small muted sage-green school exercise notebook. It occupies only around 20–25 percent of the image, is physically integrated with the scene in perspective, with natural contact shadows. Its cream ownership label is visible but not large, bright or visually emphasized. It must look like an accidental background detail in a photo of the tower, not like a second featured product. The notebook's label must remain in sufficient focus to read when the complete image is enlarged.
+Exact Ukrainian text on the small notebook label, neatly printed as part of the physical notebook:
+"ЗОШИТ"
+"Данило Коваль"
+"Школа «Веселка»"
+"Телефон мами"
+"000 000 00 00"
+These details are fictional teaching props, the all-zero number is deliberately nonfunctional. Spell the Ukrainian text exactly.
+No people, no computer, no smartphone frame, no separate panels, no inset, no diagram, no warning icons, no red circles, no arrows, no highlighting of the notebook, no callouts, no extra text outside the notebook, no watermarks. Show the entire notebook and the tower within one continuous desk scene. Tower is the obvious subject; notebook is a detail discovered by looking carefully.

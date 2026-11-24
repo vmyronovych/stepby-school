@@ -1,7 +1,9 @@
+import { mediaLessonRoute } from '../features/media-literacy/lesson-routes';
 import { documentView } from './documentViews';
 import { useLayoutEffect, useSyncExternalStore } from 'react';
 import { engine } from '../runtime';
 import { StudentPage } from '../features/student/StudentPage';
+import { StudentBreadcrumbs } from '../features/student/components/StudentBreadcrumbs';
 import { ToolPage } from '../features/tools/ToolPage';
 import { DocumentPage } from '../features/documents/DocumentPage';
 import { hrefCls, hrefHome, hrefSubj, hrefTopic } from '../navigation/routes';
@@ -27,8 +29,13 @@ export function App() {
       item.cls === state.cls &&
       item.subject === state.subject,
   );
+  const isMedia = topic?.cls === 'media' && topic.subject === 'literacy';
+  const studentOnly = isMedia && mediaLessonRoute(state.sub).view === 'student';
   const isDocument = !state.tool && !!topic?.doc;
-  const document = isDocument && topic ? documentView(topic, state.sub) : null;
+  const document =
+    isDocument && topic
+      ? documentView(topic, state.sub, window.location.href)
+      : null;
   useLayoutEffect(() => {
     if (state.scrollTop !== null) window.scrollTo(0, state.scrollTop);
   }, [state.hash, state.revision, state.scrollTop]);
@@ -38,12 +45,23 @@ export function App() {
   const definition = state.tool ? catalog.tools[state.tool] : undefined;
   return (
     <>
-      <Header />
+      {!studentOnly && <Header />}
       <main
         className={`wrap${state.tool || isDocument ? ' wide' : ''}`}
         id="app"
       >
-        {definition ? (
+        {isMedia ? (
+          <>
+            {!studentOnly && schoolClass && (
+              <StudentBreadcrumbs
+                schoolClass={schoolClass}
+                subject={subject}
+                topic={topic}
+              />
+            )}
+            {document?.content}
+          </>
+        ) : definition ? (
           <ToolPage
             key={state.revision}
             state={state}
@@ -64,12 +82,18 @@ export function App() {
               { text: 'Класи', href: hrefHome() },
               {
                 text: schoolClass ? clsCrumb(schoolClass) : '',
-                href: hrefCls(topic.cls),
+                href: schoolClass?.courseSubject
+                  ? hrefSubj(topic.cls, schoolClass.courseSubject)
+                  : hrefCls(topic.cls),
               },
-              {
-                text: subject?.name || 'Предмет',
-                href: hrefSubj(topic.cls, topic.subject),
-              },
+              ...(!schoolClass?.courseSubject
+                ? [
+                    {
+                      text: subject?.name || 'Предмет',
+                      href: hrefSubj(topic.cls, topic.subject),
+                    },
+                  ]
+                : []),
               { text: topic.title },
             ]}
             hrefForSub={(sub) => hrefTopic(topic, sub)}
