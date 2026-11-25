@@ -1,0 +1,907 @@
+.robotics-course {
+  font-size: 1rem;
+}
+.robotics-course [hidden] {
+  display: none !important;
+}
+.robotics-nav {
+  display: flex;
+  gap: 6px;
+  margin: 14px 0 24px;
+  padding: 5px;
+  width: fit-content;
+  background: var(--primary-l);
+  border-radius: 12px;
+}
+.robotics-nav a {
+  padding: 10px 22px;
+  border-radius: 9px;
+  text-decoration: none;
+  color: var(--ink);
+  font-weight: 650;
+}
+.robotics-nav a[aria-current] {
+  background: var(--primary);
+  color: #fff;
+}
+.robotics-course a:focus-visible,
+.robotics-course button:focus-visible,
+.robotics-nav a:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 4px;
+}
+.robotics-stage {
+  margin: 32px 0;
+}
+.robotics-stage > h2 {
+  font-size: 1.35rem;
+  margin-bottom: 16px;
+}
+.robotics-stage .card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.robotics-course .card p {
+  font-size: 1rem;
+  line-height: 1.65;
+  color: #515775;
+}
+.robotics-status {
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  background: #eef0f7;
+  color: #515775;
+  border-radius: 20px;
+}
+.robotics-status.ready {
+  background: var(--green-l);
+  color: #146340;
+}
+.robotics-tool-icon {
+  display: block;
+  font-size: 2rem;
+  margin-bottom: 14px;
+}
+.robotics-tool-grid h2 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+.robotics-tool-grid .robotics-status {
+  margin-top: 18px;
+}
+.robotics-student-only h1 {
+  font-size: clamp(1.65rem, 3vw, 2.3rem);
+  line-height: 1.25;
+  margin: 8px 0 12px;
+}
+.robotics-eyebrow {
+  color: #515775;
+  font-size: 0.875rem;
+  font-weight: 650;
+}
+.robotics-mode-nav,
+.robotics-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 20px 0;
+}
+.robotics-course .btn {
+  text-decoration: none;
+  font-size: 1rem;
+}
+.robotics-panel,
+.robotics-classroom,
+.robotics-practice-tools {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+.robotics-panel p {
+  margin: 12px 0;
+}
+.robotics-classroom {
+  padding: 0;
+  overflow: hidden;
+}
+.robotics-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 24px;
+  background: #f5f4fd;
+}
+.robotics-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--line);
+}
+.robotics-steps button {
+  font-size: 1rem;
+  padding: 9px 14px;
+  border-radius: 9px;
+  background: #f0f2f8;
+  color: var(--ink);
+}
+.robotics-steps button[aria-current] {
+  background: var(--primary-l);
+  color: var(--primary-d);
+  box-shadow: inset 0 0 0 2px var(--primary);
+}
+.robotics-slide {
+  min-height: 430px;
+  padding: 30px clamp(20px, 4vw, 60px);
+  font-size: clamp(1.1rem, 1.7vw, 1.4rem);
+}
+.robotics-slide h2 {
+  font-size: clamp(1.6rem, 2.5vw, 2rem);
+  margin: 8px 0 18px;
+}
+.robotics-slide p,
+.robotics-slide ol,
+.robotics-slide ul {
+  margin: 16px 0;
+}
+.robotics-slide li {
+  margin: 12px 0;
+}
+.robotics-slide ol,
+.robotics-slide ul {
+  padding-left: 28px;
+}
+.robotics-lead {
+  font-size: 1.2em;
+  line-height: 1.6;
+}
+.robotics-callout {
+  border-left: 4px solid var(--primary);
+  background: #f4f2ff;
+  border-radius: 0 10px 10px 0;
+  padding: 16px 20px;
+}
+.robotics-blocks > img {
+  width: auto;
+  max-width: 100%;
+  max-height: 650px;
+  object-fit: contain;
+  object-position: left;
+}
+.robotics-blocks {
+  max-width: 540px;
+}
+.robotics-wiring {
+  margin: 18px 0;
+}
+.robotics-wiring > img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+}
+.robotics-wiring figcaption {
+  font-size: 0.875rem;
+  color: #515775;
+  margin: 10px 0;
+}
+.robotics-diagram-dialog {
+  margin: auto;
+  border: 0;
+  border-radius: 14px;
+  padding: 16px;
+  width: min(1250px, 96vw);
+  max-height: 94vh;
+  overflow: auto;
+}
+.robotics-diagram-dialog::backdrop {
+  background: #12182db8;
+}
+.robotics-diagram-dialog img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin-top: 12px;
+}
+.robotics-diagram-dialog .btn {
+  display: flex;
+  margin-left: auto;
+}
+.robotics-practice {
+  display: grid;
+  grid-template-columns: minmax(260px, 360px) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+.robotics-practice-tools {
+  position: sticky;
+  top: 90px;
+}
+.robotics-practice-tools h2 {
+  font-size: 1.15rem;
+}
+.robotics-practice-tools p {
+  font-size: 0.875rem;
+  margin: 12px 0;
+  color: #515775;
+}
+.robotics-practice-tools > a:last-child {
+  display: block;
+  line-height: 1.6;
+}
+.robotics-prose .robotics-panel {
+  margin-bottom: 20px;
+}
+.robotics-prose,
+.robotics-practice-tools {
+  min-width: 0;
+}
+.robotics-prose h2 {
+  font-size: 1.35rem;
+  margin-bottom: 14px;
+}
+.robotics-prose h3 {
+  font-size: 1.1rem;
+  margin: 20px 0 12px;
+}
+.robotics-prose p,
+.robotics-prose li {
+  line-height: 1.75;
+}
+.robotics-prose ul,
+.robotics-prose ol {
+  padding-left: 24px;
+  margin: 14px 0;
+}
+.robotics-prose li {
+  margin: 10px 0;
+}
+.robotics-prose code {
+  font-size: 0.95em;
+}
+.robotics-prose pre {
+  padding: 20px;
+  overflow: auto;
+  border-radius: 10px;
+  background: #f1f3f9;
+  line-height: 1.7;
+}
+.robotics-prose a {
+  overflow-wrap: anywhere;
+}
+.robotics-table {
+  overflow: auto;
+  margin: 16px 0;
+}
+.robotics-table table {
+  border-collapse: collapse;
+  width: 100%;
+  text-align: left;
+}
+.robotics-table th,
+.robotics-table td {
+  padding: 12px;
+  border: 1px solid var(--line);
+  vertical-align: top;
+  min-width: 120px;
+}
+.robotics-table th {
+  background: #f4f3fa;
+}
+.robotics-teacher {
+  max-width: 960px;
+  margin: auto;
+}
+.robotics-teacher-contents {
+  display: flex;
+  gap: 10px 18px;
+  flex-wrap: wrap;
+  margin: 24px 0;
+}
+.robotics-teacher-contents button {
+  font: inherit;
+  color: var(--primary-d);
+  text-decoration: underline;
+  text-align: left;
+}
+.robotics-teacher .robotics-panel {
+  scroll-margin-top: 90px;
+}
+.robotics-lesson-footer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 30px 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+.robotics-student-only {
+  padding-top: 26px;
+}
+.robotics-student-only > .robotics-lead {
+  margin: 12px 0 28px;
+}
+.robotics-student-only .robotics-practice-tools {
+  top: 20px;
+}
+@media (max-width: 850px) {
+  .robotics-practice {
+    grid-template-columns: 1fr;
+  }
+  .robotics-practice-tools {
+    position: static;
+  }
+  .robotics-wiring.compact {
+    max-width: 620px;
+  }
+  .robotics-panel,
+  .robotics-practice-tools {
+    padding: 20px;
+  }
+  .robotics-toolbar {
+    flex-wrap: wrap;
+    padding: 14px;
+  }
+  .robotics-toolbar .btn {
+    padding: 10px 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .robotics-course * {
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+@media print {
+  .robotics-nav,
+  .robotics-mode-nav,
+  .robotics-lesson-footer,
+  .robotics-toolbar,
+  .robotics-steps,
+  .robotics-course .btn,
+  .robotics-teacher-contents {
+    display: none !important;
+  }
+  .robotics-practice {
+    display: block;
+  }
+  .robotics-practice-tools {
+    position: static;
+  }
+  .robotics-panel {
+    break-inside: avoid;
+  }
+}
+.robotics-course-practice,
+.robotics-course-teacher,
+.robotics-practice-steps {
+  display: grid;
+  gap: 20px;
+  margin-top: 20px;
+  min-width: 0;
+}
+.robotics-course .robotics-panel ul,
+.robotics-course .robotics-panel ol {
+  padding-left: 24px;
+}
+.robotics-course .robotics-panel li {
+  margin: 10px 0;
+  line-height: 1.65;
+}
+.robotics-course summary {
+  cursor: pointer;
+  font-weight: 650;
+  line-height: 1.6;
+}
+.robotics-program-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+  gap: 24px;
+  align-items: start;
+  min-width: 0;
+}
+.robotics-program-gallery .robotics-wiring {
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+}
+.robotics-program-gallery .robotics-wiring > img {
+  max-height: 780px;
+  object-fit: contain;
+  object-position: top left;
+}
+.robotics-observation {
+  display: flex;
+  align-items: start;
+  gap: 10px;
+  margin-top: 18px;
+  line-height: 1.5;
+}
+.robotics-observation input {
+  width: 22px;
+  height: 22px;
+  flex: none;
+}
+.robotics-timeline {
+  list-style: none;
+  padding: 0 !important;
+}
+.robotics-timeline > li {
+  border-left: 3px solid var(--line);
+  padding: 8px 18px;
+}
+.robotics-table-wrap {
+  overflow-x: auto;
+  max-width: 100%;
+}
+.robotics-table-wrap table {
+  border-collapse: collapse;
+  width: 100%;
+  text-align: left;
+}
+.robotics-table-wrap td,
+.robotics-table-wrap th {
+  border: 1px solid var(--line);
+  padding: 12px;
+}
+.robotics-table-wrap caption {
+  text-align: left;
+  padding: 14px 0;
+  font-weight: 650;
+}
+.robotics-course dd {
+  margin: 8px 0 20px;
+  line-height: 1.65;
+}
+.robotics-lesson-visuals {
+  margin: 22px 0;
+  min-width: 0;
+}
+.robotics-lesson-visuals.with-rule {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+.robotics-lesson-visuals > section,
+.robotics-line-rule {
+  min-width: 0;
+}
+.robotics-lesson-visuals .robotics-program-gallery {
+  grid-template-columns: 1fr;
+}
+@media (max-width: 850px) {
+  .robotics-lesson-visuals.with-rule {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Lesson layout C: compact context, visible teaching material, no repeated hero. */
+header.topbar.robotics-topbar {
+  height: 48px;
+  padding: 6px 24px;
+  box-shadow: none;
+  position: relative;
+}
+.robotics-topbar .logo .mark {
+  width: 28px;
+  height: 28px;
+  font-size: 17px;
+}
+.robotics-topbar .logo .brand .bn {
+  font-size: 17px;
+}
+.robotics-topbar .logo .brand .bt {
+  display: none;
+}
+.wrap.wide.robotics-lesson-wrap {
+  max-width: 1600px;
+  padding: 8px 24px 24px;
+}
+.robotics-lesson-screen {
+  min-width: 0;
+}
+.robotics-lesson-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  margin-bottom: 8px;
+}
+.robotics-lesson-bar h1 {
+  flex: 1;
+  min-width: 0;
+  font-size: clamp(18px, 1.7vw, 23px);
+  line-height: 1.3;
+  letter-spacing: -0.35px;
+  margin: 0;
+}
+.robotics-back {
+  font-size: 22px;
+  text-decoration: none;
+  color: var(--primary);
+  padding: 4px 2px;
+  flex: none;
+}
+.robotics-lesson-bar .robotics-mode-nav {
+  margin: 0;
+  gap: 4px;
+  flex-wrap: nowrap;
+  flex: none;
+}
+.robotics-lesson-bar .robotics-mode-nav a {
+  padding: 8px 9px;
+  font-size: 13px;
+  font-weight: 650;
+  color: #626884;
+  text-decoration: none;
+  border-radius: 7px;
+  white-space: nowrap;
+}
+.robotics-lesson-bar .robotics-mode-nav a[aria-current] {
+  background: var(--primary-l);
+  color: var(--primary-d);
+}
+.robotics-fullscreen {
+  font: inherit;
+  font-size: 12px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: white;
+  white-space: nowrap;
+}
+.robotics-lesson-info {
+  position: relative;
+  font-size: 12px;
+  flex: none;
+}
+.robotics-lesson-info summary {
+  padding: 8px 4px;
+  font-weight: 500;
+  white-space: nowrap;
+  color: var(--muted);
+}
+.robotics-lesson-info > div {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  z-index: 20;
+  width: min(320px, calc(100vw - 28px));
+  padding: 16px;
+  border: 1px solid var(--line);
+  background: white;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.robotics-lesson-info p {
+  margin-bottom: 10px;
+}
+.robotics-lesson-info a {
+  color: var(--primary-d);
+}
+.robotics-lesson-screen button:focus-visible,
+.robotics-lesson-screen a:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 3px;
+}
+.robotics-screen-notice {
+  font-size: 14px;
+  padding: 10px;
+  border-left: 3px solid var(--primary);
+}
+.robotics-lesson-screen .robotics-classroom {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
+}
+.robotics-stage-bar {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+  border-block: 1px solid var(--line);
+  margin-bottom: 12px;
+  min-width: 0;
+}
+.robotics-lesson-screen .robotics-steps {
+  padding: 0;
+  gap: 16px;
+  flex-wrap: nowrap;
+  border: 0;
+  overflow-x: auto;
+  min-width: 0;
+}
+.robotics-lesson-screen .robotics-steps button {
+  border-radius: 0;
+  background: transparent;
+  font-size: 14px;
+  padding: 10px 0;
+  color: #626884;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  flex: none;
+}
+.robotics-lesson-screen .robotics-steps button[aria-current] {
+  color: var(--primary-d);
+  box-shadow: none;
+  border-bottom-color: var(--primary);
+  font-weight: 650;
+}
+.robotics-stage-prompt {
+  font-size: 14px;
+  color: #626884;
+  flex: 1;
+  min-width: 180px;
+  line-height: 1.45;
+}
+.robotics-lesson-screen .robotics-slide {
+  padding: 0;
+  min-height: 0;
+  font-size: 17px;
+  line-height: 1.6;
+}
+.robotics-sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.robotics-lesson-screen .robotics-slide > p {
+  margin: 10px 0;
+  font-size: 17px;
+}
+.robotics-lesson-screen .robotics-slide > .robotics-panel {
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+}
+.robotics-lesson-screen .robotics-slide > .robotics-panel > h3 {
+  font-size: 16px;
+  margin: 10px 0;
+}
+.robotics-lesson-screen .robotics-slide > details.robotics-panel > summary {
+  font-size: 14px;
+  padding: 8px 0;
+}
+.robotics-lesson-screen .robotics-lesson-visuals {
+  margin: 12px 0;
+}
+.robotics-lesson-screen .robotics-lesson-visuals h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--muted);
+}
+.robotics-lesson-screen .robotics-classroom .robotics-wiring {
+  margin: 8px 0 14px;
+}
+.robotics-lesson-screen .robotics-classroom .robotics-wiring > img {
+  width: 100%;
+  max-height: calc(100dvh - 260px);
+  object-fit: contain;
+  background: white;
+  border-radius: 10px;
+}
+.robotics-lesson-screen .robotics-classroom .robotics-blocks {
+  max-width: none;
+}
+.robotics-lesson-screen .robotics-classroom .robotics-blocks > img {
+  object-position: left top;
+  width: auto;
+  max-height: none;
+}
+.robotics-lesson-screen .robotics-classroom .robotics-wiring figcaption {
+  font-size: 13px;
+  margin: 6px 0;
+  line-height: 1.5;
+}
+.robotics-lesson-screen .robotics-classroom .btn {
+  font-size: 13px;
+  padding: 7px 11px;
+  border-radius: 7px;
+}
+.robotics-lesson-screen .robotics-toolbar {
+  padding: 10px 0;
+  background: transparent;
+  font-size: 13px;
+}
+.robotics-discussion {
+  margin: 14px 0;
+  display: flex;
+  align-items: start;
+  gap: 12px 20px;
+  flex-wrap: wrap;
+}
+.robotics-discussion > p:first-child {
+  flex: 1;
+  min-width: min(100%, 360px);
+  margin: 0;
+  font-size: 17px;
+}
+.robotics-discussion > .btn {
+  flex: none;
+}
+.robotics-discussion > .robotics-callout {
+  flex-basis: 100%;
+  margin: 0;
+}
+.robotics-recall {
+  font-size: 14px;
+  color: #626884;
+  margin: 12px 0;
+}
+.robotics-recall p {
+  font-size: 16px;
+  margin: 8px 0;
+}
+.robotics-lesson-screen .robotics-lesson-footer {
+  font-size: 13px;
+  margin: 18px 0 0;
+  padding-top: 12px;
+  gap: 12px;
+}
+.robotics-lesson-screen .robotics-practice,
+.robotics-lesson-screen .robotics-course-practice,
+.robotics-lesson-screen .robotics-course-teacher {
+  margin-top: 12px;
+  gap: 18px;
+}
+.robotics-lesson-screen .robotics-panel,
+.robotics-lesson-screen .robotics-practice-tools {
+  padding: 20px;
+}
+.robotics-lesson-screen .robotics-teacher-contents {
+  margin: 16px 0;
+  gap: 8px 14px;
+  font-size: 14px;
+}
+.robotics-lesson-screen:fullscreen {
+  background: var(--bg);
+  padding: 12px 24px;
+  overflow: auto;
+}
+.robotics-lesson-screen:fullscreen .robotics-classroom .robotics-slide {
+  max-width: none;
+  margin: 0;
+}
+.robotics-lesson-screen .cb-compact .cb-stage svg {
+  max-height: calc(100dvh - 260px);
+}
+.robotics-lesson-screen .cb-compact.cb-zoomed .cb-stage svg {
+  max-height: none;
+}
+@media (max-width: 1150px) {
+  .robotics-lesson-bar {
+    flex-wrap: wrap;
+    gap: 6px 10px;
+  }
+  .robotics-lesson-bar h1 {
+    flex-basis: calc(100% - 44px);
+  }
+  .robotics-lesson-bar .robotics-mode-nav {
+    margin-right: auto;
+  }
+  .robotics-stage-bar {
+    display: block;
+  }
+  .robotics-stage-prompt {
+    padding: 6px 0 10px;
+  }
+}
+@media (max-width: 700px) {
+  header.topbar.robotics-topbar {
+    padding-inline: 14px;
+  }
+  .wrap.wide.robotics-lesson-wrap {
+    padding: 8px 14px 20px;
+  }
+  .robotics-lesson-bar h1 {
+    font-size: 20px;
+  }
+  .robotics-lesson-bar .robotics-mode-nav a {
+    font-size: 12px;
+    padding: 8px 6px;
+  }
+  .robotics-lesson-info {
+    order: 5;
+    margin-right: auto;
+  }
+  .robotics-lesson-info > div {
+    right: auto;
+    left: 0;
+  }
+  .robotics-fullscreen {
+    order: 6;
+    font-size: 12px;
+    padding: 7px 9px;
+  }
+  .robotics-lesson-screen .robotics-steps {
+    gap: 14px;
+  }
+  .robotics-lesson-screen .robotics-steps button {
+    font-size: 13px;
+  }
+  .robotics-stage-prompt {
+    font-size: 14px;
+  }
+  .robotics-lesson-screen .robotics-slide {
+    font-size: 16px;
+  }
+  .robotics-lesson-screen .robotics-classroom .robotics-wiring > img,
+  .robotics-lesson-screen .cb-compact .cb-stage svg {
+    max-height: none;
+  }
+  .robotics-lesson-screen .robotics-classroom .robotics-blocks > img {
+    max-height: none;
+    width: auto;
+    max-width: 100%;
+  }
+  .robotics-lesson-screen .robotics-panel,
+  .robotics-lesson-screen .robotics-practice-tools {
+    padding: 16px;
+  }
+  .robotics-lesson-screen:fullscreen {
+    padding: 10px 14px;
+  }
+  .robotics-lesson-screen .robotics-lesson-footer {
+    font-size: 14px;
+  }
+}
+@media print {
+  .robotics-lesson-info,
+  .robotics-back,
+  .robotics-fullscreen {
+    display: none !important;
+  }
+  .robotics-lesson-screen .robotics-classroom .robotics-wiring > img {
+    max-height: none;
+  }
+}
+
+/* Material tabs describe what opens; questions belong to the selected material. */
+.robotics-lesson-screen .robotics-material-tabs button[aria-selected='true'] {
+  color: var(--primary-d);
+  border-bottom-color: var(--primary);
+  font-weight: 650;
+}
+.robotics-material-panel:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 4px;
+}
+.robotics-material-discussion {
+  margin: 14px 0;
+  font-size: 17px;
+  line-height: 1.6;
+  max-width: 1000px;
+}
+.robotics-material-discussion > p {
+  margin: 10px 0;
+}
+.robotics-material-discussion details {
+  margin: 10px 0;
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+}
+.robotics-material-discussion summary {
+  font-size: 16px;
+}
+.robotics-material-discussion details p {
+  margin: 8px 0;
+  color: #515775;
+}

@@ -98,7 +98,7 @@ test('list diagrams and responsive references work offline on desktop and mobile
   page.on('pageerror', error => errors.push(error.message));
   page.on('request', request => { if (/^https?:/.test(request.url())) requests.push(request.url()); });
   await page.context().setOffline(true);
-  await page.goto(pathToFileURL(path.resolve('index.html')).href + route);
+  await page.goto(pathToFileURL(path.resolve('dist/index.html')).href + route);
   for (const width of [1440, 390]) {
     await page.setViewportSize({ width, height: 1000 });
     await page.locator('figure').filter({ has: page.locator('#lists-lines-marker-caption') }).screenshot({ path: `/tmp/stepby-lists-diagram-${width}.png` });

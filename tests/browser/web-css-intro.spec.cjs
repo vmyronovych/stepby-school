@@ -125,7 +125,7 @@ test('class diagrams and tasks work offline at desktop/mobile sizes', async ({ p
   page.on('pageerror', error => errors.push(error.message));
   page.on('request', request => { if (/^https?:/.test(request.url())) external.push(request.url()); });
   await page.context().setOffline(true);
-  await page.goto(pathToFileURL(path.resolve('index.html')).href + route);
+  await page.goto(pathToFileURL(path.resolve('dist/index.html')).href + route);
   for (const width of [1440, 390]) {
     await page.setViewportSize({ width, height: 1000 });
     await expect(page.locator('#css-intro-class-caption')).toBeVisible();

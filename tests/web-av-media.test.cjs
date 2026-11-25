@@ -8,7 +8,7 @@ const { embedLessonMedia, restoreLessonMedia, lessonImageAssets } = loadTypeScri
 test('original audio/video/caption sources match downloadable bytes and allowed playback kinds', () => {
   for (const asset of lessonAvAssets) {
     const data = Buffer.from(asset.src.split(',')[1], 'base64');
-    assert.deepEqual(data, fs.readFileSync('assets/web-development/av/' + asset.filename));
+    assert.deepEqual(data, fs.readFileSync('dist/assets/web-development/av/' + asset.filename));
     assert.equal(isLessonAvSource(asset.src, asset.mime.startsWith('audio') ? 'audio' : asset.mime.startsWith('video') ? 'video' : 'track'), true);
     assert.equal(isLessonAvSource('https://example.com/' + asset.filename, 'source'), false);
   }

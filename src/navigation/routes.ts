@@ -9,7 +9,10 @@ export function hrefCls(id: string) {
 export function hrefSubj(classId: string, subject: string) {
   return `#/${classId}/${subject}`;
 }
-export function hrefTopic(topic: Topic, sub?: string | null) {
+export function hrefTopic(
+  topic: Pick<Topic, 'cls' | 'subject' | 'id'>,
+  sub?: string | null,
+) {
   return `#/${topic.cls}/${topic.subject}/${topic.id}${sub ? '/' + encodeURIComponent(sub) : ''}`;
 }
 export function cfgQuery(config?: ToolConfig | null) {
@@ -67,6 +70,12 @@ export function resolveRoute(
   catalog: Catalog,
 ): RouteResult {
   if (route.legacy !== undefined) {
+    if (
+      ['ktp', 'start', 'frame', 'mod2', 'later', 'risks'].some(
+        (id) => route.legacy === id || route.legacy?.startsWith(id + '-'),
+      )
+    )
+      return { redirect: '#/robo/robot/lessons' };
     for (
       let id = route.legacy;
       id;
@@ -108,8 +117,23 @@ export function resolveRoute(
       item.cls.includes(schoolClass.id),
   );
   if (!subject) return { redirect: hrefCls(schoolClass.id) };
-  if (!route.topic)
+  if (!route.topic) {
+    if (schoolClass.courseHome && schoolClass.courseSubject === subject.id)
+      return {
+        redirect: hrefTopic({
+          cls: schoolClass.id,
+          subject: subject.id,
+          id: schoolClass.courseHome,
+        }),
+      };
     return { state: { cls: schoolClass.id, subject: subject.id } };
+  }
+  if (
+    schoolClass.id === 'robo' &&
+    subject.id === 'robot' &&
+    ['r1', 'r2', 'r4', 'r6', 'r7', 'r10'].includes(route.topic)
+  )
+    return { redirect: '#/robo/robot/lessons' };
   const topic = catalog.topics.find(
     (item) =>
       item.id === route.topic &&
@@ -122,6 +146,11 @@ export function resolveRoute(
     subject: subject.id,
     topic: topic.id,
   };
+  if (topic.views) {
+    if (route.sub && !topic.views.includes(route.sub))
+      return { redirect: hrefTopic(topic) };
+    return { state: { ...state, sub: route.sub ?? null } };
+  }
   if (topic.doc && !(topic.tasks ?? []).some((task) => task.id === route.sub))
     return { state: { ...state, sub: route.sub ?? null } };
   if (!route.sub) return { state };

@@ -12,6 +12,7 @@ export interface DocumentSection {
 }
 
 export interface DocumentServices {
+  handleAction?(action: string, body: HTMLElement): void;
   getKtp(): Record<string, string>;
   clearKtp(): void;
   notify(message: string): void;

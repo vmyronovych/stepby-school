@@ -1,8 +1,8 @@
 import { hrefHome } from '../navigation/routes';
 
-export function Header() {
+export function Header({ compact = false }: { compact?: boolean }) {
   return (
-    <header className="topbar">
+    <header className={`topbar${compact ? ' robotics-topbar' : ''}`}>
       <a className="logo" href={hrefHome()}>
         <span className="mark">🧮</span>
         <span className="brand">

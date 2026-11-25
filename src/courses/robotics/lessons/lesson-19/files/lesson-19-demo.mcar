@@ -1,0 +1,1132 @@
+{
+  "format": "mandrivnyk-usb",
+  "version": 1,
+  "name": "Заняття 19 — показ",
+  "workspace": {
+    "wiring": {
+      "version": 1,
+      "components": [
+        {
+          "id": "esp",
+          "kind": "esp32",
+          "name": "ESP32 + розширення",
+          "x": 700,
+          "y": 910,
+          "expansion": "esp32s-38p"
+        },
+        {
+          "id": "d1",
+          "kind": "driver",
+          "name": "D1 · ліві мотори",
+          "x": 450,
+          "y": 360,
+          "breadboardMount": {
+            "boardId": "bb-d1",
+            "holes": {
+              "SLEEP": "D11",
+              "OUT1": "D10",
+              "OUT2": "D9",
+              "OUT3": "D8",
+              "OUT4": "D7",
+              "FAULT": "D6",
+              "IN4": "H11",
+              "IN3": "H10",
+              "GND": "H9",
+              "VCC": "H8",
+              "IN2": "H7",
+              "IN1": "H6"
+            }
+          },
+          "rotation": 0
+        },
+        {
+          "id": "d2",
+          "kind": "driver",
+          "name": "D2 · праві мотори",
+          "x": 1450,
+          "y": 360,
+          "rotation": 180,
+          "breadboardMount": {
+            "boardId": "bb-d2",
+            "holes": {
+              "SLEEP": "D11",
+              "OUT1": "D10",
+              "OUT2": "D9",
+              "OUT3": "D8",
+              "OUT4": "D7",
+              "FAULT": "D6",
+              "IN4": "H11",
+              "IN3": "H10",
+              "GND": "H9",
+              "VCC": "H8",
+              "IN2": "H7",
+              "IN1": "H6"
+            }
+          }
+        },
+        {
+          "id": "m1",
+          "kind": "motor",
+          "name": "M1 · ліворуч",
+          "x": 80,
+          "y": 260,
+          "rotation": 90
+        },
+        {
+          "id": "m2",
+          "kind": "motor",
+          "name": "M2 · ліворуч",
+          "x": 80,
+          "y": 660,
+          "rotation": 90
+        },
+        {
+          "id": "m3",
+          "kind": "motor",
+          "name": "M3 · праворуч",
+          "x": 1850,
+          "y": 260,
+          "rotation": 270
+        },
+        {
+          "id": "m4",
+          "kind": "motor",
+          "name": "M4 · праворуч",
+          "x": 1850,
+          "y": 660,
+          "rotation": 270
+        },
+        {
+          "id": "battery",
+          "kind": "battery",
+          "name": "4 × AA NiMH · підготовлено",
+          "x": 1550,
+          "y": 1310,
+          "rotation": 180
+        },
+        {
+          "id": "usb",
+          "kind": "usb",
+          "name": "Комп’ютер · USB",
+          "x": 700,
+          "y": 1310
+        },
+        {
+          "id": "bb-d1",
+          "kind": "breadboard",
+          "name": "Mini breadboard · D1",
+          "x": 346.6913385826772,
+          "y": 195.49133858267714,
+          "rotation": 270
+        },
+        {
+          "id": "bb-d2",
+          "kind": "breadboard",
+          "name": "Mini breadboard · D2",
+          "x": 1368.291338582677,
+          "y": 217.09133858267717,
+          "rotation": 90
+        }
+      ],
+      "wires": [
+        {
+          "id": "w0",
+          "a": "usb:USB",
+          "b": "esp:USB",
+          "color": "#748699",
+          "vertices": [
+            {
+              "x": 1256,
+              "y": 1521.2
+            },
+            {
+              "x": 1256,
+              "y": 1114
+            }
+          ]
+        },
+        {
+          "id": "w1",
+          "a": "battery:PLUS",
+          "b": "bb-d1:J8",
+          "color": "#b83c38",
+          "vertices": [
+            {
+              "x": 1748,
+              "y": 780
+            },
+            {
+              "x": 1110,
+              "y": 780
+            },
+            {
+              "x": 1110,
+              "y": 460.09133858267717
+            }
+          ]
+        },
+        {
+          "id": "w2",
+          "a": "battery:GND",
+          "b": "bb-d1:J9",
+          "color": "#384854",
+          "vertices": [
+            {
+              "x": 1616,
+              "y": 810
+            },
+            {
+              "x": 1140,
+              "y": 810
+            },
+            {
+              "x": 1140,
+              "y": 438.49133858267714
+            }
+          ]
+        },
+        {
+          "id": "w3",
+          "a": "esp:exp-top-S-9",
+          "b": "bb-d1:J6",
+          "color": "#3478b4",
+          "vertices": [
+            {
+              "x": 927.16,
+              "y": 503.2913385826771
+            }
+          ]
+        },
+        {
+          "id": "w4",
+          "a": "esp:exp-top-S-8",
+          "b": "bb-d1:J7",
+          "color": "#8455a0",
+          "vertices": [
+            {
+              "x": 911.9200000000001,
+              "y": 481.69133858267713
+            }
+          ]
+        },
+        {
+          "id": "w5",
+          "a": "esp:exp-top-S-6",
+          "b": "bb-d1:J10",
+          "color": "#27816a",
+          "vertices": [
+            {
+              "x": 881.44,
+              "y": 416.8913385826771
+            }
+          ]
+        },
+        {
+          "id": "w6",
+          "a": "esp:exp-top-S-5",
+          "b": "bb-d1:J11",
+          "color": "#b56725",
+          "vertices": [
+            {
+              "x": 866.2,
+              "y": 395.29133858267716
+            }
+          ]
+        },
+        {
+          "id": "w7",
+          "a": "bb-d1:A10",
+          "b": "m1:A",
+          "color": "#b97806",
+          "vertices": [
+            {
+              "x": 300,
+              "y": 416.8913385826771
+            },
+            {
+              "x": 300,
+              "y": 239.2
+            },
+            {
+              "x": 166.4,
+              "y": 239.2
+            }
+          ]
+        },
+        {
+          "id": "w8",
+          "a": "bb-d1:A9",
+          "b": "m1:B",
+          "color": "#b97806",
+          "vertices": [
+            {
+              "x": 280,
+              "y": 438.49133858267714
+            },
+            {
+              "x": 280,
+              "y": 209.2
+            },
+            {
+              "x": 128,
+              "y": 209.2
+            }
+          ]
+        },
+        {
+          "id": "w9",
+          "a": "bb-d1:A8",
+          "b": "m2:A",
+          "color": "#b97806",
+          "vertices": [
+            {
+              "x": 260,
+              "y": 460.09133858267717
+            },
+            {
+              "x": 260,
+              "y": 639.2
+            },
+            {
+              "x": 166.4,
+              "y": 639.2
+            }
+          ]
+        },
+        {
+          "id": "w10",
+          "a": "bb-d1:A7",
+          "b": "m2:B",
+          "color": "#b97806",
+          "vertices": [
+            {
+              "x": 240,
+              "y": 481.69133858267713
+            },
+            {
+              "x": 240,
+              "y": 609.2
+            },
+            {
+              "x": 128,
+              "y": 609.2
+            }
+          ]
+        },
+        {
+          "id": "w11",
+          "a": "battery:PLUS",
+          "b": "bb-d2:J8",
+          "color": "#b83c38",
+          "vertices": [
+            {
+              "x": 1748,
+              "y": 750
+            },
+            {
+              "x": 1380,
+              "y": 750
+            },
+            {
+              "x": 1380,
+              "y": 438.49133858267714
+            }
+          ]
+        },
+        {
+          "id": "w12",
+          "a": "battery:GND",
+          "b": "bb-d2:J9",
+          "color": "#384854",
+          "vertices": [
+            {
+              "x": 1616,
+              "y": 840
+            },
+            {
+              "x": 1350,
+              "y": 840
+            },
+            {
+              "x": 1350,
+              "y": 460.09133858267717
+            }
+          ]
+        },
+        {
+          "id": "w13",
+          "a": "esp:exp-top-S-0",
+          "b": "bb-d2:J6",
+          "color": "#3478b4",
+          "vertices": [
+            {
+              "x": 790,
+              "y": 180
+            },
+            {
+              "x": 1320,
+              "y": 180
+            },
+            {
+              "x": 1320,
+              "y": 395.2913385826772
+            }
+          ]
+        },
+        {
+          "id": "w14",
+          "a": "esp:exp-bottom-S-7",
+          "b": "bb-d2:J7",
+          "color": "#8455a0",
+          "vertices": [
+            {
+              "x": 896.6800000000001,
+              "y": 1450
+            },
+            {
+              "x": 1320,
+              "y": 1450
+            },
+            {
+              "x": 1320,
+              "y": 416.8913385826772
+            }
+          ]
+        },
+        {
+          "id": "w15",
+          "a": "esp:exp-bottom-S-8",
+          "b": "bb-d2:J10",
+          "color": "#27816a",
+          "vertices": [
+            {
+              "x": 911.9200000000001,
+              "y": 1420
+            },
+            {
+              "x": 1290,
+              "y": 1420
+            },
+            {
+              "x": 1290,
+              "y": 481.6913385826772
+            }
+          ]
+        },
+        {
+          "id": "w16",
+          "a": "esp:exp-bottom-S-9",
+          "b": "bb-d2:J11",
+          "color": "#b56725",
+          "vertices": [
+            {
+              "x": 927.16,
+              "y": 1390
+            },
+            {
+              "x": 1260,
+              "y": 1390
+            },
+            {
+              "x": 1260,
+              "y": 503.29133858267716
+            }
+          ]
+        },
+        {
+          "id": "w17",
+          "a": "bb-d2:A10",
+          "b": "m3:A",
+          "color": "#b97806",
+          "vertices": [
+            {
+              "x": 1760,
+              "y": 481.6913385826772
+            },
+            {
+              "x": 1760,
+              "y": 616.8
+            },
+            {
+              "x": 1898,
+              "y": 616.8
+            }
+          ]
+        },
+        {
+          "id": "w18",
+          "a": "bb-d2:A9",
+          "b": "m3:B",
+          "color": "#b97806",
+          "vertices": [
+            {
+              "x": 1780,
+              "y": 460.09133858267717
+            },
+            {
+              "x": 1780,
+              "y": 646.8
+            },
+            {
+              "x": 1936.4,
+              "y": 646.8
+            }
+          ]
+        },
+        {
+          "id": "w19",
+          "a": "bb-d2:A8",
+          "b": "m4:A",
+          "color": "#b97806",
+          "vertices": [
+            {
+              "x": 1800,
+              "y": 438.49133858267714
+            },
+            {
+              "x": 1800,
+              "y": 1016.8
+            },
+            {
+              "x": 1898,
+              "y": 1016.8
+            }
+          ]
+        },
+        {
+          "id": "w20",
+          "a": "bb-d2:A7",
+          "b": "m4:B",
+          "color": "#b97806",
+          "vertices": [
+            {
+              "x": 1820,
+              "y": 416.8913385826772
+            },
+            {
+              "x": 1820,
+              "y": 1046.8
+            },
+            {
+              "x": 1936.4,
+              "y": 1046.8
+            }
+          ]
+        },
+        {
+          "id": "w21",
+          "a": "esp:exp-aux-top-3",
+          "b": "bb-d1:I9",
+          "color": "#384854",
+          "vertices": [
+            {
+              "x": 1105.72,
+              "y": 438.49133858267714
+            }
+          ]
+        }
+      ],
+      "checked": []
+    },
+    "myBlocks": [
+      {
+        "id": "stop",
+        "name": "Стоп",
+        "body": {
+          "type": "usb_pin_write",
+          "fields": {
+            "PIN": "16",
+            "STATE": "OFF"
+          },
+          "next": {
+            "block": {
+              "type": "usb_pin_write",
+              "fields": {
+                "PIN": "17",
+                "STATE": "OFF"
+              },
+              "next": {
+                "block": {
+                  "type": "usb_pin_write",
+                  "fields": {
+                    "PIN": "18",
+                    "STATE": "OFF"
+                  },
+                  "next": {
+                    "block": {
+                      "type": "usb_pin_write",
+                      "fields": {
+                        "PIN": "19",
+                        "STATE": "OFF"
+                      },
+                      "next": {
+                        "block": {
+                          "type": "usb_pin_write",
+                          "fields": {
+                            "PIN": "23",
+                            "STATE": "OFF"
+                          },
+                          "next": {
+                            "block": {
+                              "type": "usb_pin_write",
+                              "fields": {
+                                "PIN": "25",
+                                "STATE": "OFF"
+                              },
+                              "next": {
+                                "block": {
+                                  "type": "usb_pin_write",
+                                  "fields": {
+                                    "PIN": "26",
+                                    "STATE": "OFF"
+                                  },
+                                  "next": {
+                                    "block": {
+                                      "type": "usb_pin_write",
+                                      "fields": {
+                                        "PIN": "27",
+                                        "STATE": "OFF"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "id": "forward",
+        "name": "Вперед",
+        "body": {
+          "type": "my_block_call",
+          "extraState": {
+            "definitionId": "stop"
+          },
+          "next": {
+            "block": {
+              "type": "usb_pin_pwm",
+              "fields": {
+                "PIN": "16"
+              },
+              "inputs": {
+                "DUTY": {
+                  "block": {
+                    "type": "variables_get",
+                    "fields": {
+                      "VAR": {
+                        "id": "speed"
+                      }
+                    }
+                  }
+                }
+              },
+              "next": {
+                "block": {
+                  "type": "usb_pin_pwm",
+                  "fields": {
+                    "PIN": "18"
+                  },
+                  "inputs": {
+                    "DUTY": {
+                      "block": {
+                        "type": "variables_get",
+                        "fields": {
+                          "VAR": {
+                            "id": "speed"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "next": {
+                    "block": {
+                      "type": "usb_pin_pwm",
+                      "fields": {
+                        "PIN": "23"
+                      },
+                      "inputs": {
+                        "DUTY": {
+                          "block": {
+                            "type": "variables_get",
+                            "fields": {
+                              "VAR": {
+                                "id": "speed"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "next": {
+                        "block": {
+                          "type": "usb_pin_pwm",
+                          "fields": {
+                            "PIN": "26"
+                          },
+                          "inputs": {
+                            "DUTY": {
+                              "block": {
+                                "type": "variables_get",
+                                "fields": {
+                                  "VAR": {
+                                    "id": "speed"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "id": "backward",
+        "name": "Назад",
+        "body": {
+          "type": "my_block_call",
+          "extraState": {
+            "definitionId": "stop"
+          },
+          "next": {
+            "block": {
+              "type": "usb_pin_pwm",
+              "fields": {
+                "PIN": "17"
+              },
+              "inputs": {
+                "DUTY": {
+                  "block": {
+                    "type": "variables_get",
+                    "fields": {
+                      "VAR": {
+                        "id": "speed"
+                      }
+                    }
+                  }
+                }
+              },
+              "next": {
+                "block": {
+                  "type": "usb_pin_pwm",
+                  "fields": {
+                    "PIN": "19"
+                  },
+                  "inputs": {
+                    "DUTY": {
+                      "block": {
+                        "type": "variables_get",
+                        "fields": {
+                          "VAR": {
+                            "id": "speed"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "next": {
+                    "block": {
+                      "type": "usb_pin_pwm",
+                      "fields": {
+                        "PIN": "25"
+                      },
+                      "inputs": {
+                        "DUTY": {
+                          "block": {
+                            "type": "variables_get",
+                            "fields": {
+                              "VAR": {
+                                "id": "speed"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "next": {
+                        "block": {
+                          "type": "usb_pin_pwm",
+                          "fields": {
+                            "PIN": "27"
+                          },
+                          "inputs": {
+                            "DUTY": {
+                              "block": {
+                                "type": "variables_get",
+                                "fields": {
+                                  "VAR": {
+                                    "id": "speed"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "id": "left",
+        "name": "Ліворуч",
+        "body": {
+          "type": "my_block_call",
+          "extraState": {
+            "definitionId": "stop"
+          },
+          "next": {
+            "block": {
+              "type": "usb_pin_pwm",
+              "fields": {
+                "PIN": "23"
+              },
+              "inputs": {
+                "DUTY": {
+                  "block": {
+                    "type": "variables_get",
+                    "fields": {
+                      "VAR": {
+                        "id": "speed"
+                      }
+                    }
+                  }
+                }
+              },
+              "next": {
+                "block": {
+                  "type": "usb_pin_pwm",
+                  "fields": {
+                    "PIN": "26"
+                  },
+                  "inputs": {
+                    "DUTY": {
+                      "block": {
+                        "type": "variables_get",
+                        "fields": {
+                          "VAR": {
+                            "id": "speed"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "id": "right",
+        "name": "Праворуч",
+        "body": {
+          "type": "my_block_call",
+          "extraState": {
+            "definitionId": "stop"
+          },
+          "next": {
+            "block": {
+              "type": "usb_pin_pwm",
+              "fields": {
+                "PIN": "16"
+              },
+              "inputs": {
+                "DUTY": {
+                  "block": {
+                    "type": "variables_get",
+                    "fields": {
+                      "VAR": {
+                        "id": "speed"
+                      }
+                    }
+                  }
+                }
+              },
+              "next": {
+                "block": {
+                  "type": "usb_pin_pwm",
+                  "fields": {
+                    "PIN": "18"
+                  },
+                  "inputs": {
+                    "DUTY": {
+                      "block": {
+                        "type": "variables_get",
+                        "fields": {
+                          "VAR": {
+                            "id": "speed"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ],
+    "variables": [
+      {
+        "id": "speed",
+        "name": "швидкість"
+      }
+    ],
+    "blocks": {
+      "languageVersion": 0,
+      "blocks": [
+        {
+          "type": "usb_remote",
+          "fields": {
+            "COMMAND": "1",
+            "EVENT": "PRESS"
+          },
+          "next": {
+            "block": {
+              "type": "variables_set",
+              "fields": {
+                "VAR": {
+                  "id": "speed"
+                }
+              },
+              "inputs": {
+                "VALUE": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 100
+                    }
+                  }
+                }
+              },
+              "next": {
+                "block": {
+                  "type": "my_block_call",
+                  "extraState": {
+                    "definitionId": "forward"
+                  }
+                }
+              }
+            }
+          },
+          "x": 40,
+          "y": 40
+        },
+        {
+          "type": "usb_remote",
+          "fields": {
+            "COMMAND": "1",
+            "EVENT": "RELEASE"
+          },
+          "next": {
+            "block": {
+              "type": "my_block_call",
+              "extraState": {
+                "definitionId": "stop"
+              }
+            }
+          },
+          "x": 40,
+          "y": 380
+        },
+        {
+          "type": "usb_remote",
+          "fields": {
+            "COMMAND": "2",
+            "EVENT": "PRESS"
+          },
+          "next": {
+            "block": {
+              "type": "variables_set",
+              "fields": {
+                "VAR": {
+                  "id": "speed"
+                }
+              },
+              "inputs": {
+                "VALUE": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 100
+                    }
+                  }
+                }
+              },
+              "next": {
+                "block": {
+                  "type": "my_block_call",
+                  "extraState": {
+                    "definitionId": "backward"
+                  }
+                }
+              }
+            }
+          },
+          "x": 640,
+          "y": 40
+        },
+        {
+          "type": "usb_remote",
+          "fields": {
+            "COMMAND": "2",
+            "EVENT": "RELEASE"
+          },
+          "next": {
+            "block": {
+              "type": "my_block_call",
+              "extraState": {
+                "definitionId": "stop"
+              }
+            }
+          },
+          "x": 640,
+          "y": 380
+        },
+        {
+          "type": "usb_remote",
+          "fields": {
+            "COMMAND": "3",
+            "EVENT": "PRESS"
+          },
+          "next": {
+            "block": {
+              "type": "variables_set",
+              "fields": {
+                "VAR": {
+                  "id": "speed"
+                }
+              },
+              "inputs": {
+                "VALUE": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 100
+                    }
+                  }
+                }
+              },
+              "next": {
+                "block": {
+                  "type": "my_block_call",
+                  "extraState": {
+                    "definitionId": "left"
+                  }
+                }
+              }
+            }
+          },
+          "x": 1240,
+          "y": 40
+        },
+        {
+          "type": "usb_remote",
+          "fields": {
+            "COMMAND": "3",
+            "EVENT": "RELEASE"
+          },
+          "next": {
+            "block": {
+              "type": "my_block_call",
+              "extraState": {
+                "definitionId": "stop"
+              }
+            }
+          },
+          "x": 1240,
+          "y": 380
+        },
+        {
+          "type": "usb_remote",
+          "fields": {
+            "COMMAND": "4",
+            "EVENT": "PRESS"
+          },
+          "next": {
+            "block": {
+              "type": "variables_set",
+              "fields": {
+                "VAR": {
+                  "id": "speed"
+                }
+              },
+              "inputs": {
+                "VALUE": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 100
+                    }
+                  }
+                }
+              },
+              "next": {
+                "block": {
+                  "type": "my_block_call",
+                  "extraState": {
+                    "definitionId": "right"
+                  }
+                }
+              }
+            }
+          },
+          "x": 1840,
+          "y": 40
+        },
+        {
+          "type": "usb_remote",
+          "fields": {
+            "COMMAND": "4",
+            "EVENT": "RELEASE"
+          },
+          "next": {
+            "block": {
+              "type": "my_block_call",
+              "extraState": {
+                "definitionId": "stop"
+              }
+            }
+          },
+          "x": 1840,
+          "y": 380
+        },
+        {
+          "type": "usb_remote",
+          "fields": {
+            "COMMAND": "7",
+            "EVENT": "PRESS"
+          },
+          "next": {
+            "block": {
+              "type": "my_block_call",
+              "extraState": {
+                "definitionId": "stop"
+              }
+            }
+          },
+          "x": 3640,
+          "y": 40
+        }
+      ]
+    }
+  }
+}

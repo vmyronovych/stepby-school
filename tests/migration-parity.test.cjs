@@ -20,7 +20,7 @@ test('all 77 task models and all 656 step views match the original engines', () 
  assert.equal(steps,656);
 });
 
-test('the 23 documents and pre-existing lesson catalog match the original content', () => {
+test('the 23 preserved documents and reviewed lesson catalog match their baselines', () => {
  const documents = Object.fromEntries(Object.entries(engine.DOCS).filter(([id]) => !['media-truth', 'media-publishing', 'media-games', 'media-safety', 'web-page', 'text-formatting', 'css-intro', 'lists-lines', 'page-images', 'web-review', 'mini-project-1', 'hyperlinks', 'image-links', 'tables-basics', 'table-spans', 'web-review-2', 'mini-project-2', 'block-elements', 'external-css', 'flex-basics', 'flex-wrap', 'forms-basics', 'forms-choice', 'web-review-3', 'mini-project-3', 'dropdown-menu', 'semantic-media', 'responsive-scroll', 'css-animation', 'web-review-4', 'mini-project-4'].includes(id)).map(([id,doc]) => [id,{title:doc.title,html:doc.html,app:doc.app}]));
  assert.equal(Object.keys(documents).length,23);
  assert.equal(digest(documents),baseline.documents);

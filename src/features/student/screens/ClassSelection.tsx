@@ -21,7 +21,12 @@ export function ClassSelection({
             key={schoolClass.id}
             schoolClass={schoolClass}
             topicCount={
-              topics.filter((topic) => topic.cls === schoolClass.id).length
+              topics.filter(
+                (topic) =>
+                  topic.cls === schoolClass.id &&
+                  (schoolClass.id !== 'robo' ||
+                    topic.kind === 'robotics-lesson'),
+              ).length
             }
           />
         ))}

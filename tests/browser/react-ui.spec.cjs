@@ -143,7 +143,7 @@ test('offline classic bundle supports file URLs', async ({ page }) => {
   await page.route('http://**/*', (route) => route.abort());
   await page.route('https://**/*', (route) => route.abort());
   await page.goto(
-    pathToFileURL(path.resolve('index.html')).href +
+    pathToFileURL(path.resolve('dist/index.html')).href +
       '#/9a/geometry/vector-scaling/scaling-2',
   );
   await expect(page.locator('.paper.sheet')).toBeVisible();

@@ -174,21 +174,13 @@ test('circuit views and component state persist across React route changes', asy
   await expect(page.locator('#cbParts [data-part]')).toHaveCount(initialParts);
 });
 
-test('editable KTP fields persist in memory and clear after confirmation', async ({
-  page,
-}) => {
-  await page.goto('/#/robo/robot/r2');
-  const field = page.locator('[contenteditable][data-k="d1"]');
-  await field.fill('31.10.2026');
-  await page.locator('h1.page').click();
-  await navigate(page, '#/');
-  await expect(page.locator('h1.page')).toContainText('Оберіть клас');
-  await navigate(page, '#/robo/robot/r2');
-  await expect(field).toHaveText('31.10.2026');
-  page.once('dialog', (dialog) => dialog.accept());
-  await page.locator('#ktpClear').click();
-  await expect(field).toBeEmpty();
-  await expect(page.locator('#toast')).toContainText('Поля КТП очищено');
+test('removed robotics planning routes return to the lesson catalog', async ({ page }) => {
+  for (const route of ['#/robo/robot/r2', '#ktp', '#/robo/robot/r6']) {
+    await page.goto('/' + route);
+    await expect(page).toHaveURL(/#\/robo\/robot\/lessons$/);
+    await expect(page.getByRole('heading', { name: 'Заняття з робототехніки' })).toBeVisible();
+    await expect(page.locator('#ktpPrint, #ktpClear, [contenteditable][data-k="d1"]')).toHaveCount(0);
+  }
 });
 
 test('figures open a React lightbox, preserve article state, and close with Escape', async ({

@@ -1,0 +1,176 @@
+{
+  "format": "mandrivnyk-usb",
+  "version": 1,
+  "name": "Заняття 06 — показ",
+  "workspace": {
+    "wiring": {
+      "version": 1,
+      "components": [
+        {
+          "id": "esp",
+          "kind": "esp32",
+          "name": "ESP32 + розширення",
+          "x": 80,
+          "y": 150,
+          "expansion": "esp32s-38p"
+        },
+        {
+          "id": "r",
+          "kind": "resistor",
+          "name": "330 Ом",
+          "x": 890.6,
+          "y": 166.2,
+          "resistance": 330,
+          "breadboardMount": {
+            "boardId": "bb",
+            "holes": {
+              "A": "A3",
+              "B": "A7"
+            }
+          },
+          "rotation": 0
+        },
+        {
+          "id": "led",
+          "kind": "led",
+          "name": "LED",
+          "x": 953,
+          "y": 274.20000000000005,
+          "breadboardMount": {
+            "boardId": "bb",
+            "holes": {
+              "A": "E7",
+              "K": "E6"
+            }
+          },
+          "rotation": 180
+        },
+        {
+          "id": "usb",
+          "kind": "usb",
+          "name": "Комп’ютер",
+          "x": 80,
+          "y": 650
+        },
+        {
+          "id": "bb",
+          "kind": "breadboard",
+          "name": "Mini breadboard · 330 Ом + LED",
+          "x": 800,
+          "y": 150
+        }
+      ],
+      "wires": [
+        {
+          "id": "w0",
+          "a": "usb:USB",
+          "b": "esp:USB",
+          "color": "#748699",
+          "vertices": [
+            {
+              "x": 656,
+              "y": 861.2
+            },
+            {
+              "x": 656,
+              "y": 354
+            }
+          ]
+        },
+        {
+          "id": "w1",
+          "a": "esp:exp-top-S-12",
+          "b": "bb:D3",
+          "color": "#3478b4",
+          "vertices": [
+            {
+              "x": 352.88,
+              "y": 114
+            },
+            {
+              "x": 913.4,
+              "y": 114
+            }
+          ]
+        },
+        {
+          "id": "w3",
+          "a": "bb:C6",
+          "b": "esp:exp-aux-top-3",
+          "color": "#384854",
+          "vertices": [
+            {
+              "x": 978.2,
+              "y": 279
+            },
+            {
+              "x": 840,
+              "y": 279
+            },
+            {
+              "x": 840,
+              "y": 126
+            },
+            {
+              "x": 485.72,
+              "y": 126
+            }
+          ]
+        }
+      ],
+      "checked": []
+    },
+    "blocks": {
+      "languageVersion": 0,
+      "blocks": [
+        {
+          "type": "usb_start",
+          "next": {
+            "block": {
+              "type": "usb_pin_write",
+              "fields": {
+                "PIN": "2",
+                "STATE": "OFF"
+              },
+              "next": {
+                "block": {
+                  "type": "usb_pin_write",
+                  "fields": {
+                    "PIN": "2",
+                    "STATE": "ON"
+                  },
+                  "next": {
+                    "block": {
+                      "type": "robot_wait",
+                      "inputs": {
+                        "TIME": {
+                          "shadow": {
+                            "type": "math_number",
+                            "fields": {
+                              "NUM": 1
+                            }
+                          }
+                        }
+                      },
+                      "next": {
+                        "block": {
+                          "type": "usb_pin_write",
+                          "fields": {
+                            "PIN": "2",
+                            "STATE": "OFF"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "x": 40,
+          "y": 40
+        }
+      ]
+    }
+  }
+}

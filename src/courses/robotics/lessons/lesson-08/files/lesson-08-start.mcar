@@ -1,0 +1,278 @@
+{
+  "format": "mandrivnyk-usb",
+  "version": 1,
+  "name": "Заняття 08 — старт",
+  "workspace": {
+    "wiring": {
+      "version": 1,
+      "components": [
+        {
+          "id": "esp",
+          "kind": "esp32",
+          "name": "ESP32",
+          "x": 80,
+          "y": 260,
+          "expansion": "esp32s-38p"
+        },
+        {
+          "id": "drv",
+          "kind": "driver",
+          "name": "Драйвер HW-627",
+          "x": 820,
+          "y": 260,
+          "rotation": 180,
+          "breadboardMount": {
+            "boardId": "bb-drv",
+            "holes": {
+              "SLEEP": "D11",
+              "OUT1": "D10",
+              "OUT2": "D9",
+              "OUT3": "D8",
+              "OUT4": "D7",
+              "FAULT": "D6",
+              "IN4": "H11",
+              "IN3": "H10",
+              "GND": "H9",
+              "VCC": "H8",
+              "IN2": "H7",
+              "IN1": "H6"
+            }
+          }
+        },
+        {
+          "id": "motor",
+          "kind": "motor",
+          "name": "Один мотор",
+          "x": 1160,
+          "y": 240,
+          "rotation": 270
+        },
+        {
+          "id": "battery",
+          "kind": "battery",
+          "name": "Батарейне живлення",
+          "x": 760,
+          "y": 760,
+          "rotation": 180
+        },
+        {
+          "id": "usb",
+          "kind": "usb",
+          "name": "Комп’ютер",
+          "x": 80,
+          "y": 760
+        },
+        {
+          "id": "bb-drv",
+          "kind": "breadboard",
+          "name": "Mini breadboard · HW-627",
+          "x": 738.2913385826771,
+          "y": 117.09133858267717,
+          "rotation": 90
+        }
+      ],
+      "wires": [
+        {
+          "id": "wire0",
+          "a": "usb:USB",
+          "b": "esp:USB",
+          "color": "#748699",
+          "vertices": [
+            {
+              "x": 656,
+              "y": 971.2
+            },
+            {
+              "x": 656,
+              "y": 464
+            }
+          ]
+        },
+        {
+          "id": "wire1",
+          "a": "battery:PLUS",
+          "b": "bb-drv:J8",
+          "color": "#b83c38",
+          "vertices": [
+            {
+              "x": 958,
+              "y": 450.583
+            },
+            {
+              "x": 800,
+              "y": 450.583
+            },
+            {
+              "x": 800,
+              "y": 338.491
+            }
+          ]
+        },
+        {
+          "id": "wire2",
+          "a": "battery:GND",
+          "b": "bb-drv:J9",
+          "color": "#384854",
+          "vertices": [
+            {
+              "x": 826,
+              "y": 736
+            },
+            {
+              "x": 760,
+              "y": 736
+            },
+            {
+              "x": 760,
+              "y": 360.091
+            }
+          ]
+        },
+        {
+          "id": "wire3",
+          "a": "esp:exp-aux-top-3",
+          "b": "bb-drv:I9",
+          "color": "#384854",
+          "vertices": [
+            {
+              "x": 485.72,
+              "y": 252
+            },
+            {
+              "x": 740,
+              "y": 252
+            },
+            {
+              "x": 740,
+              "y": 328.891
+            },
+            {
+              "x": 812.091,
+              "y": 328.891
+            }
+          ]
+        },
+        {
+          "id": "wire4",
+          "a": "esp:exp-top-S-9",
+          "b": "bb-drv:J6",
+          "color": "#246fa9",
+          "vertices": [
+            {
+              "x": 307.16,
+              "y": 228
+            },
+            {
+              "x": 764,
+              "y": 228
+            },
+            {
+              "x": 764,
+              "y": 295.291
+            }
+          ]
+        },
+        {
+          "id": "wire5",
+          "a": "esp:exp-top-S-8",
+          "b": "bb-drv:J7",
+          "color": "#8053a0",
+          "vertices": [
+            {
+              "x": 291.92,
+              "y": 204
+            },
+            {
+              "x": 800,
+              "y": 204
+            },
+            {
+              "x": 800,
+              "y": 316.891
+            }
+          ]
+        },
+        {
+          "id": "wire6",
+          "a": "bb-drv:A10",
+          "b": "motor:A",
+          "color": "#b97806",
+          "vertices": [
+            {
+              "x": 1049.691,
+              "y": 600
+            },
+            {
+              "x": 1208,
+              "y": 600
+            }
+          ]
+        },
+        {
+          "id": "wire7",
+          "a": "bb-drv:A9",
+          "b": "motor:B",
+          "color": "#b97806",
+          "vertices": [
+            {
+              "x": 1020,
+              "y": 360.091
+            },
+            {
+              "x": 1020,
+              "y": 640
+            },
+            {
+              "x": 1246.4,
+              "y": 640
+            }
+          ]
+        }
+      ],
+      "checked": []
+    },
+    "blocks": {
+      "languageVersion": 0,
+      "blocks": [
+        {
+          "type": "usb_start",
+          "next": {
+            "block": {
+              "type": "usb_pin_write",
+              "fields": {
+                "PIN": "16",
+                "STATE": "OFF"
+              },
+              "next": {
+                "block": {
+                  "type": "usb_pin_write",
+                  "fields": {
+                    "PIN": "17",
+                    "STATE": "OFF"
+                  },
+                  "next": {
+                    "block": {
+                      "type": "robot_wait",
+                      "inputs": {
+                        "TIME": {
+                          "shadow": {
+                            "type": "math_number",
+                            "fields": {
+                              "NUM": 3
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "x": 45,
+          "y": 35
+        }
+      ]
+    }
+  }
+}

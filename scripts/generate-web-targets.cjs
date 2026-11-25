@@ -40,7 +40,7 @@ const { review2Tasks } = loadTypeScript('src/features/web-development/review2-ta
 const { project2Tasks } = loadTypeScript('src/features/web-development/project2-tasks.ts');
 
 (async () => {
-  const folder = path.resolve(__dirname, '../assets/web-development');
+  const folder = path.resolve(__dirname, '../src/features/web-development/assets');
   await mkdir(folder, { recursive: true });
   const browser = await chromium.launch();
   try {

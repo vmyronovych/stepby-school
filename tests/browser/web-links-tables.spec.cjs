@@ -129,7 +129,7 @@ test('all five lessons and targets work offline at desktop and mobile sizes', as
   page.on('request', request => { if (/^https?:/.test(request.url())) requests.push(request.url()); });
   await page.context().setOffline(true);
   for (const lesson of lessons) {
-    await page.goto(pathToFileURL(path.resolve('index.html')).href + '#/web/html-css/' + lesson.route);
+    await page.goto(pathToFileURL(path.resolve('dist/index.html')).href + '#/web/html-css/' + lesson.route);
     for (const width of [1440, 390]) {
       await page.setViewportSize({ width, height: 1000 });
       const diagram = page.locator('figure.web-diagram').first();

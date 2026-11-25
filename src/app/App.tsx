@@ -1,4 +1,7 @@
 import { mediaLessonRoute } from '../features/media-literacy/lesson-routes';
+import { RoboticsPage } from '../courses/robotics/ui';
+import { RoboticsNav } from '../courses/robotics/ui';
+import { roboticsHref } from '../courses/robotics';
 import { documentView } from './documentViews';
 import { useLayoutEffect, useSyncExternalStore } from 'react';
 import { engine } from '../runtime';
@@ -30,7 +33,16 @@ export function App() {
       item.subject === state.subject,
   );
   const isMedia = topic?.cls === 'media' && topic.subject === 'literacy';
-  const studentOnly = isMedia && mediaLessonRoute(state.sub).view === 'student';
+  const isRobotics = state.cls === 'robo' && state.subject === 'robot';
+  const isRoboticsPage =
+    isRobotics &&
+    (topic?.kind === 'robotics-lesson' || topic?.kind === 'course-navigation');
+  const isRoboticsLesson = isRoboticsPage && topic?.kind === 'robotics-lesson';
+  const studentOnly =
+    (isMedia && mediaLessonRoute(state.sub).view === 'student') ||
+    (isRoboticsPage &&
+      topic?.kind === 'robotics-lesson' &&
+      state.sub === 'student');
   const isDocument = !state.tool && !!topic?.doc;
   const document =
     isDocument && topic
@@ -45,12 +57,14 @@ export function App() {
   const definition = state.tool ? catalog.tools[state.tool] : undefined;
   return (
     <>
-      {!studentOnly && <Header />}
+      {!studentOnly && <Header compact={isRoboticsLesson} />}
       <main
-        className={`wrap${state.tool || isDocument ? ' wide' : ''}`}
+        className={`wrap${state.tool || isDocument || isRoboticsPage ? ' wide' : ''}${isRoboticsLesson ? ' robotics-lesson-wrap' : ''}`}
         id="app"
       >
-        {isMedia ? (
+        {isRoboticsPage && topic ? (
+          <RoboticsPage key={topic.id} topic={topic} sub={state.sub} />
+        ) : isMedia ? (
           <>
             {!studentOnly && schoolClass && (
               <StudentBreadcrumbs
@@ -73,34 +87,57 @@ export function App() {
             onStepChange={changeStep}
           />
         ) : isDocument && topic ? (
-          <DocumentPage
-            key={`${topic.cls}/${topic.subject}/${topic.id}`}
-            topic={topic}
-            section={document?.section}
-            sub={state.sub}
-            breadcrumbs={[
-              { text: 'Класи', href: hrefHome() },
-              {
-                text: schoolClass ? clsCrumb(schoolClass) : '',
-                href: schoolClass?.courseSubject
-                  ? hrefSubj(topic.cls, schoolClass.courseSubject)
-                  : hrefCls(topic.cls),
-              },
-              ...(!schoolClass?.courseSubject
-                ? [
-                    {
-                      text: subject?.name || 'Предмет',
-                      href: hrefSubj(topic.cls, topic.subject),
-                    },
-                  ]
-                : []),
-              { text: topic.title },
-            ]}
-            hrefForSub={(sub) => hrefTopic(topic, sub)}
-            services={documentServices}
-          >
-            {document?.content}
-          </DocumentPage>
+          <>
+            {isRobotics && (
+              <RoboticsNav
+                section={['r8', 'r9'].includes(topic.id) ? 'tools' : 'lessons'}
+              />
+            )}
+            <DocumentPage
+              key={`${topic.cls}/${topic.subject}/${topic.id}`}
+              topic={topic}
+              section={document?.section}
+              sub={state.sub}
+              breadcrumbs={
+                isRobotics
+                  ? [
+                      { text: 'Головна', href: hrefHome() },
+                      { text: 'Робототехніка', href: roboticsHref() },
+                      {
+                        text: ['r8', 'r9'].includes(topic.id)
+                          ? 'Інструменти'
+                          : 'Заняття',
+                        href: roboticsHref(
+                          ['r8', 'r9'].includes(topic.id) ? 'tools' : 'lessons',
+                        ),
+                      },
+                      { text: topic.title },
+                    ]
+                  : [
+                      { text: 'Класи', href: hrefHome() },
+                      {
+                        text: schoolClass ? clsCrumb(schoolClass) : '',
+                        href: schoolClass?.courseSubject
+                          ? hrefSubj(topic.cls, schoolClass.courseSubject)
+                          : hrefCls(topic.cls),
+                      },
+                      ...(!schoolClass?.courseSubject
+                        ? [
+                            {
+                              text: subject?.name || 'Предмет',
+                              href: hrefSubj(topic.cls, topic.subject),
+                            },
+                          ]
+                        : []),
+                      { text: topic.title },
+                    ]
+              }
+              hrefForSub={(sub) => hrefTopic(topic, sub)}
+              services={documentServices}
+            >
+              {document?.content}
+            </DocumentPage>
+          </>
         ) : (
           <StudentPage
             catalog={catalog}

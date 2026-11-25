@@ -21,7 +21,7 @@ export interface EngineRuntime {
   VectorPractice: import('../features/geometry/types').GeometryEngines['practice'];
   VectorScaling: import('../features/geometry/types').GeometryEngines['scaling'];
   ScalarProduct: import('../features/geometry/types').GeometryEngines['scalar'];
-  CircuitEngine: import('../features/circuit/types').CircuitController;
+  CircuitEngine: import('../courses/robotics/circuit').CircuitController;
   KeyboardEngine: import('../features/keyboard/types').KeyboardController;
   DB: Catalog;
   DOCS: Record<string, EngineDocument>;

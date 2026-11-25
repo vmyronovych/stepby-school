@@ -1,4 +1,10 @@
 import type { Catalog } from '../types';
+import {
+  roboticsTopics,
+  roboticsDocumentTopics,
+  roboticsClass,
+  roboticsSubject,
+} from '../courses/robotics';
 import { mediaTopics } from '../features/media-literacy/content';
 import { radianExamples } from '../features/tools/data/radian';
 
@@ -12,13 +18,7 @@ export const catalog: Catalog = {
     { id: '6a', name: '6', icon: '🏫' },
     { id: '9a', name: '9', icon: '🏫' },
     { id: '10a', name: '10', icon: '🏫' },
-    {
-      id: 'robo',
-      name: 'Гурток робототехніки',
-      icon: '🤖',
-      label: 'Гурток робототехніки для 3-тіх та 4-тих класів',
-      note: 'Позакласний курс на 32 заняття: електричні кола, Pico й MicroBlocks, робот-візок.',
-    },
+    roboticsClass,
     {
       id: 'media',
       name: 'Медіаграмотність',
@@ -101,15 +101,7 @@ export const catalog: Catalog = {
       active: false,
       cls: ['5a', '6a', '10a'],
     },
-    {
-      id: 'robot',
-      name: 'Робототехніка',
-      icon: '🤖',
-      color: 'var(--green)',
-      bg: 'var(--green-l)',
-      active: true,
-      cls: ['robo'],
-    },
+    roboticsSubject,
     {
       id: 'info',
       name: 'Інформатика',
@@ -127,6 +119,7 @@ export const catalog: Catalog = {
   },
   // теми: кожна прив'язана до класу + предмета, містить матеріали і завдання-інструменти
   topics: [
+    ...roboticsTopics,
     ...mediaTopics,
     {
       id: 'web-page',
@@ -1177,98 +1170,7 @@ export const catalog: Catalog = {
         done: false,
       })),
     },
-    /* --- Гурток робототехніки: тема = розділ курсу, показується документом
-           (поле doc -> ROBO.sections), а не списком завдань-інструментів --- */
-    {
-      id: 'r1',
-      cls: 'robo',
-      subject: 'robot',
-      doc: 'start',
-      icon: '🤖',
-      title: 'Про курс',
-      desc: 'Що це за гурток, що є в порталі та як цим користуватися.',
-    },
-    {
-      id: 'r2',
-      cls: 'robo',
-      subject: 'robot',
-      doc: 'ktp',
-      icon: '📋',
-      title: 'КТП для узгодження',
-      desc: 'Календарно-тематичне планування на 64 год: пояснювальна записка, план на 32 заняття, очікувані результати. Поля заповнюються просто на сторінці й друкуються.',
-    },
-    {
-      id: 'r3',
-      cls: 'robo',
-      subject: 'robot',
-      doc: 'rules',
-      icon: '🦺',
-      title: 'Правила безпеки',
-      desc: 'Шість правил гуртка з поясненням «навіщо», плакат на стіну й картка на парту. Що робить учитель, а не діти.',
-    },
-    {
-      id: 'r4',
-      cls: 'robo',
-      subject: 'robot',
-      doc: 'frame',
-      icon: '🧰',
-      title: 'Рамка курсу',
-      desc: 'Структура заняття, набір деталей на пару, постійна розпіновка Pico й підготовка вчителя до старту.',
-    },
-    {
-      id: 'r5',
-      cls: 'robo',
-      subject: 'robot',
-      doc: 'mod1',
-      icon: '💡',
-      title: 'Модуль 1 · заняття 1-5',
-      desc: 'Електричне коло без мікроконтролера: перше коло, кнопка й Морзе, резистори, потенціометр і фоторезистор, проєкт «Нервовий дріт».',
-    },
-    {
-      id: 'r6',
-      cls: 'robo',
-      subject: 'robot',
-      doc: 'mod2',
-      icon: '🔌',
-      title: 'Модуль 2 · заняття 6-12',
-      desc: 'Pico і MicroBlocks: цикл, власні блоки, зумер і мелодії, ШІМ і змінна, RGB, проєкт «Перехрестя».',
-    },
-    {
-      id: 'r7',
-      cls: 'robo',
-      subject: 'robot',
-      doc: 'later',
-      icon: '🚗',
-      title: 'Модулі 3-6 · заняття 13-32',
-      desc: 'Короткі плани решти року: входи та умови, серво й мотори, сенсори робота, змагання й показ для батьків.',
-    },
-    {
-      id: 'r8',
-      cls: 'robo',
-      subject: 'robot',
-      doc: 'morse',
-      icon: '📡',
-      title: 'Азбука Морзе',
-      desc: 'Як вона працює, звідки взялася, де використовується зараз, українські літери та друкована картка.',
-    },
-    {
-      id: 'r9',
-      cls: 'robo',
-      subject: 'robot',
-      doc: 'sim',
-      icon: '⚡',
-      title: 'Конструктор кола',
-      desc: 'Збери коло на проєкторі й подивись, як біжать електрони: резистор змінює яскравість, без резистора світлодіод згорає, а коротке замикання псує батарейку.',
-    },
-    {
-      id: 'r10',
-      cls: 'robo',
-      subject: 'robot',
-      doc: 'risks',
-      icon: '⏳',
-      title: 'Резерв і ризики',
-      desc: 'Що стискати, коли заняття випадають через свята чи карантин.',
-    },
+    ...roboticsDocumentTopics,
 
     /* --- Інформатика 3–4 (НУШ): КТП і конспекти для вчителя — документи
            (розділи збирає src/features/documents/content/info-sections.ts з даних INFO). kind:'tool' —

@@ -116,7 +116,7 @@ test('review diagrams, topic links and every exercise work offline on desktop an
   page.on('pageerror', error => errors.push(error.message));
   page.on('request', request => { if (/^https?:/.test(request.url())) requests.push(request.url()); });
   await page.context().setOffline(true);
-  await page.goto(pathToFileURL(path.resolve('index.html')).href + route);
+  await page.goto(pathToFileURL(path.resolve('dist/index.html')).href + route);
   for (const width of [1440, 390]) {
     await page.setViewportSize({ width, height: 1000 });
     await page.locator('figure').filter({ has: page.locator('#web-review-file-caption') }).screenshot({ path: `/tmp/stepby-review-file-${width}.png` });

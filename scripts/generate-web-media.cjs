@@ -21,7 +21,7 @@ HTML і картинки мають лежати поруч. Якщо перен
 `;
 
 (async () => {
-  const folder = path.resolve(__dirname, '../assets/web-development/media');
+  const folder = path.resolve(__dirname, '../src/features/web-development/assets/media');
   await mkdir(folder, { recursive: true });
   for (const asset of lessonImageAssets) await writeFile(path.join(folder, asset.filename), asset.svg);
   const encoder = new TextEncoder();

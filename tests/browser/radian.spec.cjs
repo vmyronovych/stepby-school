@@ -47,7 +47,7 @@ test('radian works offline and animates only the appended segment', async ({ pag
   const external = [];
   page.on('pageerror', error => errors.push(error.message));
   page.on('request', request => { if (/^https?:/.test(request.url())) external.push(request.url()); });
-  await page.goto(pathToFileURL(path.resolve('index.html')).href + '#/10a/math/radian/radian-4');
+  await page.goto(pathToFileURL(path.resolve('dist/index.html')).href + '#/10a/math/radian/radian-4');
   await expect(page.locator('#i_radexample')).toBeVisible();
   await page.getByRole('button', { name: 'Далі →', exact: true }).click();
   await expect(page.locator('[data-step="1"] .hwa').first()).toBeAttached();

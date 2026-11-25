@@ -1,0 +1,70 @@
+/* ===== правила гуртка ===== */
+[data-course='robo'] .robo-body .rules {
+  margin: 18px 0;
+}
+[data-course='robo'] .robo-body .rule {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin: 10px 0;
+  box-shadow: var(--shadow);
+}
+[data-course='robo'] .robo-body .rule .rn {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+}
+[data-course='robo'] .robo-body .rule .rtitle {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+[data-course='robo'] .robo-body .rule .rsub {
+  margin-top: 3px;
+}
+[data-course='robo'] .robo-body .rule .rwhy {
+  margin-top: 7px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* ===== азбука Морзе ===== */
+[data-course='robo'] .robo-body .mgrid {
+  overflow-x: auto;
+  margin: 14px 0;
+}
+[data-course='robo'] .robo-body table.morse {
+  width: 100%;
+  display: table;
+  font-size: 16px;
+}
+[data-course='robo'] .robo-body table.morse th.ltr {
+  background: var(--primary-l);
+  text-align: center;
+  width: 42px;
+  font-size: 19px;
+  padding: 6px 4px;
+}
+[data-course='robo'] .robo-body table.morse td.code {
+  font-family: var(--mono);
+  font-size: 19px;
+  letter-spacing: 2px;
+  white-space: nowrap;
+  padding: 6px 10px;
+}
+[data-course='robo'] .robo-body table.morse th:empty,
+[data-course='robo'] .robo-body table.morse td:empty {
+  border: none;
+  background: none;
+}

@@ -107,7 +107,7 @@ test('all menus support touch focus, mobile flow and offline lesson diagrams', a
   page.on('pageerror', error => errors.push(error.message));
   page.on('request', request => { if (/^https?:/.test(request.url())) requests.push(request.url()); });
   await context.setOffline(true);
-  await page.goto(pathToFileURL(path.resolve('index.html')).href + route);
+  await page.goto(pathToFileURL(path.resolve('dist/index.html')).href + route);
   await page.locator('figure.web-diagram').first().screenshot({ path: '/tmp/stepby-dropdown-diagram-390.png' });
   for (const task of dropdownMenuTasks) {
     await render(page, task);

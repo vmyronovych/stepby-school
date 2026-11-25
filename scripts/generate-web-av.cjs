@@ -55,15 +55,15 @@ const fs = require('node:fs/promises');
       for (const byte of bytes) binary += String.fromCharCode(byte);
       return btoa(binary);
     });
-    await fs.mkdir('assets/web-development/av', { recursive: true });
+    await fs.mkdir('src/features/web-development/assets/av', { recursive: true });
     await fs.writeFile(
-      'assets/web-development/av/motion.webm',
+      'src/features/web-development/assets/av/motion.webm',
       Buffer.from(base64, 'base64'),
     );
   } finally {
     await browser.close();
   }
-  const folder = 'assets/web-development/av/';
+  const folder = 'src/features/web-development/assets/av/';
   const wav = Buffer.alloc(44 + 4800 * 2);
   wav.write('RIFF');
   wav.writeUInt32LE(wav.length - 8, 4);
@@ -112,7 +112,7 @@ const fs = require('node:fs/promises');
   await fs.writeFile(
     'src/features/web-development/av-assets.ts',
     await prettier.format(
-      '// Original local teaching media. Generated from assets/web-development/av/.\nexport const lessonAvAssets = ' +
+      '// Original local teaching media. Generated from src/features/web-development/assets/av/.\nexport const lessonAvAssets = ' +
         JSON.stringify(assets, null, 2) +
         ';\n',
       { parser: 'typescript', singleQuote: true },

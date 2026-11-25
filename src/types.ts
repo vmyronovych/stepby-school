@@ -5,6 +5,7 @@ export interface SchoolClass {
   icon?: string;
   note?: string;
   courseSubject?: string;
+  courseHome?: string;
   cover?: string;
 }
 export interface Subject {
@@ -32,6 +33,7 @@ export interface Topic {
   desc: string;
   doc?: string;
   kind?: string;
+  views?: string[];
   icon?: string;
   chips?: string[];
   cover?: string;

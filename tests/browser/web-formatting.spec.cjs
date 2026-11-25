@@ -110,7 +110,7 @@ test('formatting lesson works offline at desktop and mobile widths', async ({ pa
   page.on('pageerror', error => errors.push(error.message));
   page.on('request', request => { if (/^https?:/.test(request.url())) external.push(request.url()); });
   await page.context().setOffline(true);
-  await page.goto(pathToFileURL(path.resolve('index.html')).href + route + '/text-formatting-practice');
+  await page.goto(pathToFileURL(path.resolve('dist/index.html')).href + route + '/text-formatting-practice');
   for (const width of [1280, 390]) {
     await page.setViewportSize({ width, height: 900 });
     await run(page, formattingTasks[4]);

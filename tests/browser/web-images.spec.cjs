@@ -116,7 +116,7 @@ test('image diagrams, local media and responsive tasks work offline at mobile an
   page.on('pageerror', error => errors.push(error.message));
   page.on('request', request => { if (/^https?:/.test(request.url())) external.push(request.url()); });
   await page.context().setOffline(true);
-  await page.goto(pathToFileURL(path.resolve('index.html')).href + route);
+  await page.goto(pathToFileURL(path.resolve('dist/index.html')).href + route);
   for (const width of [1440, 390]) {
     await page.setViewportSize({ width, height: 1000 });
     for (const name of ['meaning', 'sizing', 'float', 'repeat']) {
@@ -142,7 +142,7 @@ test('image diagrams, local media and responsive tasks work offline at mobile an
 test('the full local archive downloads over HTTP and offline file URLs', async ({ page }, testInfo) => {
   for (const offline of [false, true]) {
     await page.context().setOffline(offline);
-    await page.goto(offline ? pathToFileURL(path.resolve('index.html')).href + route : '/' + route);
+    await page.goto(offline ? pathToFileURL(path.resolve('dist/index.html')).href + route : '/' + route);
     await page.locator('.web-image-bank summary').click();
     const downloading = page.waitForEvent('download');
     await page.getByRole('link', { name: 'Завантажити всі картинки (ZIP)', exact: true }).click();
@@ -150,7 +150,7 @@ test('the full local archive downloads over HTTP and offline file URLs', async (
     expect(download.suggestedFilename()).toBe('images.zip');
     const file = testInfo.outputPath(offline ? 'offline-images.zip' : 'http-images.zip');
     await download.saveAs(file);
-    expect(await readFile(file)).toEqual(await readFile(path.resolve('assets/web-development/media/images.zip')));
+    expect(await readFile(file)).toEqual(await readFile(path.resolve('dist/assets/web-development/media/images.zip')));
     await expect(page.locator('#web-source')).toBeVisible();
     await page.setViewportSize({ width: 390, height: 1000 });
     await page.locator('.web-image-bank').screenshot({ path: `/tmp/stepby-images-downloads-${offline ? 'offline' : 'http'}.png` });
@@ -164,7 +164,7 @@ for (const asset of loadTypeScript('src/features/web-development/media.ts').less
   test(`original SVG ${asset.filename} downloads over HTTP and offline file URLs`, async ({ page }) => {
     for (const offline of [false, true]) {
       await page.context().setOffline(offline);
-      await page.goto(offline ? pathToFileURL(path.resolve('index.html')).href + route : '/' + route);
+      await page.goto(offline ? pathToFileURL(path.resolve('dist/index.html')).href + route : '/' + route);
       await page.locator('.web-image-bank summary').click();
       const downloading = page.waitForEvent('download');
       await page.getByRole('link', { name: `Завантажити ${asset.filename}`, exact: true }).click();
