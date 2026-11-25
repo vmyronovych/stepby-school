@@ -7,7 +7,7 @@
 ```text
 src/courses/robotics/
   CLAUDE.md                       правила курсу й навігатор для AI
-  .agents/skills/prepare-wiring/   процедура підготовки схем і зображень
+  .agents/skills/capture-mcar/     отримання зображень схем і блоків із Mcar
   course.ts                       каталог і порядок занять
   index.ts                        публічний каталог і посилання
   publication.cjs                 опис публікації матеріалів
