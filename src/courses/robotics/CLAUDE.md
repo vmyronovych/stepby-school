@@ -9,7 +9,7 @@
 | Назва, зміст і матеріали заняття | `lessons/lesson-NN/` |
 | Компоненти й матеріали кількох занять | `shared/` |
 | Екрани та навігація курсу | `ui/` |
-| Реалізація інструмента «Електричне коло» | `tools/circuit/`; прочитай його [README](tools/circuit/README.md) |
+| Реалізація інструмента «Електричне коло» | `tools/circuit/`; публічний вхід — [index.ts](tools/circuit/index.ts) |
 | Інтерактивне коло в занятті | Використай [embed-circuit](.agents/skills/embed-circuit/SKILL.md) |
 | Зображення схем і блоків Mcar | Використай [capture-mcar](.agents/skills/capture-mcar/SKILL.md) |
 

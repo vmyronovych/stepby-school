@@ -9,8 +9,9 @@ src/main.tsx                   запуск React та малий API для в�
 src/app/                       App, controller, Header, Toast, підключення документів
 src/navigation/                чистий типізований hash-роутер і підписи
 src/data/catalog.ts            класи, предмети, теми, завдання
+src/courses/robotics/           заняття, інструменти, матеріали й правила робототехніки
 src/features/student/          екрани, картки, секції уроків
-src/features/tools/            зошит, кроки, форми всіх інструментів, хук анімації
+src/features/tools/            зошит, кроки, форми математичних інструментів, хук анімації
 src/features/documents/        статті, зміст, друк, КТП, lightbox
 src/features/geometry/         React-досліди, SVG-ручки, практика й перевірка відповідей
 src/features/keyboard/         React-клавіатура й редактор тексту

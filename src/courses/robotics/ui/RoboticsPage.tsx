@@ -1,4 +1,3 @@
-import { transistorMotorPreset } from '../lessons/lesson-07/experiment';
 import type { Topic } from '../../../types';
 import { Card, LinkButton, PageHeading } from '../../../components/ui';
 import { roboticsLessons, roboticsStages } from '../course';
@@ -32,7 +31,6 @@ export function RoboticsPage({
         ) : (
           <CourseLesson
             key={lesson.number}
-            experiment={lesson.number === 7 ? transistorMotorPreset : undefined}
             lesson={lessonContents.find(
               (item) => item.number === lesson.number,
             )!}

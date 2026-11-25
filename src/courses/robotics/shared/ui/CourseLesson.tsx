@@ -668,12 +668,10 @@ function Teacher({ lesson }: { lesson: RoboticsLessonContent }) {
   );
 }
 export function CourseLesson({
-  experiment,
   lesson,
   view,
 }: {
   lesson: RoboticsLessonContent;
-  experiment?: CircuitPreset;
   view: RoboticsView;
 }) {
   const meta = roboticsLessons.find((l) => l.number === lesson.number)!;
@@ -695,7 +693,7 @@ export function CourseLesson({
     >
       <div hidden={view !== 'classroom'}>
         <Classroom
-          experiment={experiment}
+          experiment={lesson.experiment}
           lesson={lesson}
           active={view === 'classroom'}
         />

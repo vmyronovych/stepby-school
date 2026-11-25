@@ -1,3 +1,5 @@
+import type { CircuitPreset } from '../../tools/circuit';
+
 export interface LessonStep {
   title: string;
   text: string;
@@ -16,6 +18,7 @@ export interface LessonSlide {
 }
 export interface RoboticsLessonContent {
   number: number;
+  experiment?: CircuitPreset;
   classroomMaterials: { kind: LessonMaterial; title: string }[];
   circuitActivity?: {
     headings: { all: string; wiring: string; assembly?: string };

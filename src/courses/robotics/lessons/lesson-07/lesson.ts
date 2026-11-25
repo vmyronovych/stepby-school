@@ -1,7 +1,9 @@
 import type { RoboticsLessonContent } from '../../shared/content/types';
+import { transistorMotorPreset } from './experiment';
 
 export const content: RoboticsLessonContent = {
   number: 7,
+  experiment: transistorMotorPreset,
   classroomMaterials: [
     { kind: 'experiment', title: 'Дослід' },
     { kind: 'wiring', title: 'Підключення' },

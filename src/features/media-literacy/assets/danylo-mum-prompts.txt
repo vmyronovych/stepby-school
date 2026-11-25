@@ -8,4 +8,4 @@ Scene: a 9-year-old boy Danylo (same friendly brown-haired boy in teal hoodie as
 Composition: characters and laptop are the main subjects; subtle bookshelf, window and plant in background; matching eye line, no cropping heads or hands. The image will sit directly below an HTML speech bubble, so DO NOT draw any speech bubbles, captions, text, numbering, frames, badges, floating shields, padlocks, or watermarks. This is a live conversation, not a messaging screenshot. No girl, no game controllers, no symbolic safety icons. A single illustration, not a collage. Keep background understated and faces legible at small sizes.
 
 PANEL 2
-undefined
+The original edit prompt was not saved. The recorded edit target is danylo-mum-1.png.

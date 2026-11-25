@@ -1,11 +1,11 @@
-import paths from './paths.cjs';
-const { coursePath, projectPath, projectRelative, assetPath, publicPath } =
-  paths;
-import { assertClearWires } from './wire-clearance.mjs';
-import { physicalLayout } from '../../../../../mcar/web/src/wiring-physical.js';
-import { BREADBOARD_PINS } from '../../../../../mcar/web/src/breadboard.js';
+import { assertClearWires } from '../../../../scripts/wire-clearance.mjs';
 // Expose existing pin/hole names for a static image, without altering the circuit.
-export async function captureWiring(page, state, path) {
+export async function captureWiring(
+  page,
+  state,
+  path,
+  { physicalLayout, BREADBOARD_PINS },
+) {
   await page.locator('#openWiring').click();
   if (
     (await page
@@ -57,7 +57,17 @@ export async function captureWiring(page, state, path) {
                   ? ' · ' + names.join(' / ')
                   : '');
           }
-          return [c.id + ':' + id, { side: p.side, label }];
+          return [
+            c.id + ':' + id,
+            {
+              side: p.side,
+              label,
+              rotate:
+                c.kind === 'esp32' &&
+                id.startsWith('exp-') &&
+                id.includes('-S-'),
+            },
+          ];
         }),
     ),
   );
@@ -83,19 +93,7 @@ export async function captureWiring(page, state, path) {
             bottom: 'auto',
             transform: 'none',
           });
-          if (ref === 'bb:D3')
-            Object.assign(label.style, {
-              right: 'calc(100% + 7px)',
-              top: '50%',
-              transform: 'translateY(-50%)',
-            });
-          else if (ref === 'bb:C6')
-            Object.assign(label.style, {
-              left: 'calc(100% + 7px)',
-              top: '50%',
-              transform: 'translateY(-50%)',
-            });
-          else if (ref.startsWith('esp:exp-') && ref.includes('-S-'))
+          if (info.rotate)
             Object.assign(label.style, {
               left: '50%',
               transformOrigin: '0 50%',
