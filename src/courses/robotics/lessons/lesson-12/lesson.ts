@@ -3,6 +3,10 @@ import { programLesson as lesson } from '../../shared/content/helpers';
 
 export const content: RoboticsLessonContent = lesson({
   number: 12,
+  classroomMaterials: [
+    { kind: 'program', title: 'Програма' },
+    { kind: 'wiring', title: 'Підключення' },
+  ],
   preview:
     'На відкритій програмі покажіть, які вісім вимкнень увійдуть у «Стоп». Потім назвіть складові «Вперед» і «Назад». Напарник перевіряє за картою моторів. Покажіть, де в головній програмі залишиться очікування.',
   prerequisites: [11],

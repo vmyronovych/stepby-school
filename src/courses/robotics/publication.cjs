@@ -13,7 +13,7 @@ function walk(directory) {
 function publicationFiles() {
   const sources = [
     ...walk(coursePath('lessons')).filter((filename) =>
-      /\/(assets|files)\//.test(filename),
+      /[\\/](assets|files)[\\/]/.test(filename),
     ),
     ...walk(coursePath('shared/assets')),
     coursePath('shared/styles/course.css'),

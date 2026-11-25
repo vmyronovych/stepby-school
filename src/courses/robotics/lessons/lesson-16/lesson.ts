@@ -3,6 +3,10 @@ import { programLesson as lesson } from '../../shared/content/helpers';
 
 export const content: RoboticsLessonContent = lesson({
   number: 16,
+  classroomMaterials: [
+    { kind: 'program', title: 'Програма' },
+    { kind: 'wiring', title: 'Підключення' },
+  ],
   preview:
     'У своєму файлі покажіть одну незавершену частину: поворот, повторення або швидкість. Назвіть конкретну зміну та очікувану поведінку після неї. Учитель погоджує одну перевірку для кожної пари.',
   prerequisites: [12, 13, 14, 15],

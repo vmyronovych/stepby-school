@@ -2,6 +2,23 @@ import type { RoboticsLessonContent } from '../../shared/content/types';
 
 export const content: RoboticsLessonContent = {
   number: 1,
+  classroomMaterials: [{ kind: 'wiring', title: 'Схема' }],
+  circuitActivity: {
+    headings: {
+      all: 'Зберіть і перевірте коло',
+      wiring: 'Зберіть і перевірте коло',
+    },
+    wiringImage: 'circuit-first.png',
+    instructions:
+      'Відкрийте «Електричне коло». Перемикайте «Схема / Макетка», простежуйте повний шлях і перевіряйте свою зміну.',
+    links: [
+      {
+        href: '#/robo/robot/r9',
+        title: 'Електричне коло · нова вкладка',
+        button: true,
+      },
+    ],
+  },
   prerequisites: [],
   figure: 'circuit',
   recall:

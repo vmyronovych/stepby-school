@@ -3,6 +3,11 @@ import { programLesson as lesson } from '../../shared/content/helpers';
 import { sensor } from '../../shared/content/line-preparation';
 export const content: RoboticsLessonContent = lesson({
   number: 27,
+  classroomMaterials: [
+    { kind: 'rule', title: 'Правило руху' },
+    { kind: 'program', title: 'Програма' },
+    { kind: 'wiring', title: 'Підключення' },
+  ],
   preview:
     'За готовою схемою станів простежте лінія → втрата → повернення лінії. Назвіть значення дозволу на кожному кроці. У блоках покажіть, де одиниця має стояти перед циклом, а де після втрати записується нуль.',
   prerequisites: [15, 26],

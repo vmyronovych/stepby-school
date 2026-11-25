@@ -3,6 +3,11 @@ import { programLesson as lesson } from '../../shared/content/helpers';
 import { sensor } from '../../shared/content/line-preparation';
 export const content: RoboticsLessonContent = lesson({
   number: 26,
+  classroomMaterials: [
+    { kind: 'rule', title: 'Правило руху' },
+    { kind: 'program', title: 'Програма' },
+    { kind: 'wiring', title: 'Підключення' },
+  ],
   preview:
     'На відкритих блоках покажіть три читання, які треба перенести всередину «завжди». Назвіть тестове очікування, яке прибираємо, та гілку «Стоп», яку залишаємо. Передбачте послідовність центр → ліво → світле → центр.',
   prerequisites: [25],

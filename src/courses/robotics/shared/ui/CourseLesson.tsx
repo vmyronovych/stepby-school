@@ -204,38 +204,23 @@ function Hardware({
               : n >= 11
                 ? 'lesson-11-wiring.png'
                 : 'lesson-08-wiring.png';
+  const activity = lesson.circuitActivity;
   const circuitImage = courseImages.find(
-    (i) =>
-      i.filename ===
-      (n === 1
-        ? 'circuit-first.png'
-        : n === 2
-          ? 'circuit-button.png'
-          : 'circuit-contact.png'),
+    (image) => image.filename === activity?.wiringImage,
   );
-  if (n <= 3)
+  if (activity)
     return (
       <div className="robotics-panel">
         <h3>
-          {n === 3
-            ? material === 'assembly'
-              ? 'Готова гра'
-              : material === 'wiring'
-                ? 'Коло гри'
-                : 'Готова гра та її коло'
-            : 'Зберіть і перевірте коло'}
+          {material === 'assembly'
+            ? activity.headings.assembly
+            : material === 'wiring'
+              ? activity.headings.wiring
+              : activity.headings.all}
         </h3>
-        {n === 3 && material !== 'wiring' && (
-          <McarFigure
-            src="assets/robotics/wire-game-assembly.svg"
-            width={1200}
-            height={780}
-            active={active}
-            alt="Гра Нервовий дріт: металева траса, петля з ізольованою ручкою, активна пищалка на mini breadboard та джерело 3,3 В. Три з’єднувальні проводи не перетинаються."
-            caption="Малюнок готової гри. Плюс джерела → плюс пищалки; мінус пищалки → траса; петля → мінус джерела. Дотик петлі до траси замикає коло."
-          />
+        {activity.assembly && material !== 'wiring' && (
+          <McarFigure {...activity.assembly} active={active} />
         )}
-
         {material !== 'assembly' && circuitImage && (
           <McarFigure
             {...circuitImage}
@@ -246,33 +231,26 @@ function Hardware({
         )}
         {material !== 'assembly' && (
           <>
-            <p>
-              Відкрийте «Електричне коло». Перемикайте «Схема / Макетка»,
-              простежуйте повний шлях і перевіряйте свою зміну.
-              {n >= 2 &&
-                ' Для цього заняття приберіть LED і резистор, додайте активну пищалку та кнопку за схемою. У властивостях пищалки виберіть гучність «тихо»: початкове налаштування — «без звуку». Натискайте кнопку по черзі.'}
-              {n === 3 &&
-                ' На електричній схемі кнопка позначає контакт петлі з трасою; у готовій грі окремої кнопки немає.'}
-            </p>
-            <LinkButton
-              href={roboticsHref('r9')}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Електричне коло · нова вкладка
-            </LinkButton>
+            <p>{activity.instructions}</p>
+            {activity.links.map((link) =>
+              link.button ? (
+                <LinkButton
+                  key={link.href}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {link.title}
+                </LinkButton>
+              ) : (
+                <p key={link.href}>
+                  <a href={link.href} target="_blank" rel="noopener noreferrer">
+                    {link.title}
+                  </a>
+                </p>
+              ),
+            )}
           </>
-        )}
-        {n === 2 && (
-          <p>
-            <a
-              href={roboticsHref('r8')}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Таблиця азбуки Морзе
-            </a>
-          </p>
         )}
       </div>
     );
@@ -436,25 +414,6 @@ function Classroom({
   active: boolean;
 }) {
   const n = lesson.number;
-  const kinds: LessonMaterial[] =
-    n <= 2
-      ? ['wiring']
-      : n === 3
-        ? ['assembly', 'wiring']
-        : n <= 5 || n >= 31
-          ? ['assembly']
-          : n === 7
-            ? ['experiment', 'wiring', 'program']
-            : n >= 25
-              ? ['rule', 'program', 'wiring']
-              : ['program', 'wiring'];
-  const titles: Record<LessonMaterial, string> = {
-    experiment: 'Дослід',
-    wiring: n <= 3 ? 'Схема' : 'Підключення',
-    program: 'Програма',
-    assembly: n === 3 || n >= 31 ? 'Виріб' : 'Складання',
-    rule: 'Правило руху',
-  };
   const prompts: Record<LessonMaterial, string> = {
     experiment: 'Простежте шлях струму керування та струму мотора.',
     wiring:
@@ -468,13 +427,13 @@ function Classroom({
   return (
     <MaterialPanels
       active={active}
-      materials={kinds.map((kind) => {
+      materials={lesson.classroomMaterials.map(({ kind, title }) => {
         const discussions = lesson.slides.filter(
           (slide) => slide.material === kind,
         );
         return {
           id: kind,
-          title: titles[kind],
+          title,
           prompt: discussions[0]?.prompt ?? prompts[kind],
           render: (visible) => (
             <>
@@ -511,7 +470,7 @@ function Classroom({
                   </div>
                 ))}
               </div>
-              {kind === kinds[0] && (
+              {kind === lesson.classroomMaterials[0].kind && (
                 <details className="robotics-recall">
                   <summary>Пригадати перед дослідом</summary>
                   <p>{lesson.recall}</p>

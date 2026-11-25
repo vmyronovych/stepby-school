@@ -3,6 +3,10 @@ import { programLesson as lesson } from '../../shared/content/helpers';
 import { sensor } from '../../shared/content/line-preparation';
 export const content: RoboticsLessonContent = lesson({
   number: 22,
+  classroomMaterials: [
+    { kind: 'program', title: 'Програма' },
+    { kind: 'wiring', title: 'Підключення' },
+  ],
   preview:
     'Покажіть середнє віконце датчика та дві поверхні. Один називає очікуване повідомлення для світлого й темного, інший стежить за однаковою висотою. Учитель показує, де читати відповідь діагностики; мотори вимкнені.',
   prerequisites: [15, 21],

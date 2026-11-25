@@ -1,6 +1,7 @@
 import { programLesson as lesson } from '../../shared/content/helpers';
 export const content = lesson({
   number: 32,
+  classroomMaterials: [{ kind: 'assembly', title: 'Виріб' }],
   preview:
     'Кожен коротко репетирує своє пояснення біля машинки. Назвіть порядок двох показів і дії між ними: вимкнути моторне живлення, на столі передати іншу програму, перевірити зупинку на підставці.',
   prerequisites: [31],

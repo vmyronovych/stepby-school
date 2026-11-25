@@ -2,6 +2,35 @@ import type { RoboticsLessonContent } from '../../shared/content/types';
 
 export const content: RoboticsLessonContent = {
   number: 3,
+  classroomMaterials: [
+    { kind: 'assembly', title: 'Виріб' },
+    { kind: 'wiring', title: 'Схема' },
+  ],
+  circuitActivity: {
+    headings: {
+      all: 'Готова гра та її коло',
+      wiring: 'Коло гри',
+      assembly: 'Готова гра',
+    },
+    wiringImage: 'circuit-contact.png',
+    instructions:
+      'Відкрийте «Електричне коло». Перемикайте «Схема / Макетка», простежуйте повний шлях і перевіряйте свою зміну. Для цього заняття приберіть LED і резистор, додайте активну пищалку та кнопку за схемою. У властивостях пищалки виберіть гучність «тихо»: початкове налаштування — «без звуку». Натискайте кнопку по черзі. На електричній схемі кнопка позначає контакт петлі з трасою; у готовій грі окремої кнопки немає.',
+    links: [
+      {
+        href: '#/robo/robot/r9',
+        title: 'Електричне коло · нова вкладка',
+        button: true,
+      },
+    ],
+    assembly: {
+      src: 'assets/robotics/wire-game-assembly.svg',
+      width: 1200,
+      height: 780,
+      alt: 'Гра Нервовий дріт: металева траса, петля з ізольованою ручкою, активна пищалка на mini breadboard та джерело 3,3 В. Три з’єднувальні проводи не перетинаються.',
+      caption:
+        'Малюнок готової гри. Плюс джерела → плюс пищалки; мінус пищалки → траса; петля → мінус джерела. Дотик петлі до траси замикає коло.',
+    },
+  },
   prerequisites: [1, 2],
   figure: 'wire-game',
   recall:

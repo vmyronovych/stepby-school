@@ -1,6 +1,11 @@
 import { programLesson as lesson } from '../../shared/content/helpers';
 export const content = lesson({
   number: 30,
+  classroomMaterials: [
+    { kind: 'rule', title: 'Правило руху' },
+    { kind: 'program', title: 'Програма' },
+    { kind: 'wiring', title: 'Підключення' },
+  ],
   preview:
     'Назвіть одну проблему з попередніх заїздів і перевірку, яка допоможе знайти її причину. Покажіть пов’язане налаштування у своєму файлі. Передбачте результат однієї зміни.',
   prerequisites: [29],

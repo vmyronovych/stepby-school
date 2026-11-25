@@ -30,7 +30,7 @@ const options = {
         builder.onStart(() => {
           publish();
         });
-        builder.onLoad({ filter: /src\/main\.tsx$/ }, (args) => {
+        builder.onLoad({ filter: /src[\\/]main\.tsx$/ }, (args) => {
           const inputs = siteInputs();
           return {
             contents: readFileSync(args.path, 'utf8'),

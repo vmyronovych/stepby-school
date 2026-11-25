@@ -3,6 +3,10 @@ import { programLesson as lesson } from '../../shared/content/helpers';
 import { preparation } from '../../shared/content/remote-preparation';
 export const content: RoboticsLessonContent = lesson({
   number: 20,
+  classroomMaterials: [
+    { kind: 'program', title: 'Програма' },
+    { kind: 'wiring', title: 'Підключення' },
+  ],
   preview:
     'Огляньте підготовлені станції. Кожен показує місце зупинки й називає дію: відпустити кнопку, дочекатися нерухомості, лише потім торкатися вантажу. Передбачте, як виправити надто далекий під’їзд.',
   prerequisites: [19],

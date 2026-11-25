@@ -3,6 +3,10 @@ import { programLesson as lesson } from '../../shared/content/helpers';
 import { preparation } from '../../shared/content/remote-preparation';
 export const content: RoboticsLessonContent = lesson({
   number: 17,
+  classroomMaterials: [
+    { kind: 'program', title: 'Програма' },
+    { kind: 'wiring', title: 'Підключення' },
+  ],
   preview:
     'У Mcar знайдіть подію натискання «Кнопка 2» та команду виведення тексту. Назвіть своє повідомлення й передбачте, де воно з’явиться після натискання. Поясніть, чому без натискання повідомлення не має з’являтися.',
   prerequisites: [6, 15, 16],

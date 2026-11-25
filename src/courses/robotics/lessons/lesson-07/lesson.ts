@@ -2,6 +2,11 @@ import type { RoboticsLessonContent } from '../../shared/content/types';
 
 export const content: RoboticsLessonContent = {
   number: 7,
+  classroomMaterials: [
+    { kind: 'experiment', title: 'Дослід' },
+    { kind: 'wiring', title: 'Підключення' },
+    { kind: 'program', title: 'Програма' },
+  ],
   prerequisites: [5, 6],
   figure: 'motor',
   recall:

@@ -3,6 +3,10 @@ import { programLesson as lesson } from '../../shared/content/helpers';
 
 export const content: RoboticsLessonContent = lesson({
   number: 15,
+  classroomMaterials: [
+    { kind: 'program', title: 'Програма' },
+    { kind: 'wiring', title: 'Підключення' },
+  ],
   preview:
     'Покажіть у програмі місце початкового присвоєння «швидкість» і всі числа ШІМ, які треба замінити читанням змінної. Напарник пояснює, що станеться, якщо залишити одне старе число. Поміняйтеся ролями.',
   prerequisites: [13, 14],

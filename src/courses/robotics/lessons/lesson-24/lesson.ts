@@ -3,6 +3,10 @@ import { programLesson as lesson } from '../../shared/content/helpers';
 import { sensor } from '../../shared/content/line-preparation';
 export const content: RoboticsLessonContent = lesson({
   number: 24,
+  classroomMaterials: [
+    { kind: 'program', title: 'Програма' },
+    { kind: 'wiring', title: 'Підключення' },
+  ],
   preview:
     'За таблицею підключень зіставте GPIO32, GPIO34 і GPIO36 з трьома змінними. Передбачте, які повідомлення з’являться для темної смужки лише під лівим, середнім або правим віконцем. Поміняйтеся ролями.',
   prerequisites: [23],

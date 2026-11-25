@@ -3,6 +3,11 @@ import { programLesson as lesson } from '../../shared/content/helpers';
 import { sensor } from '../../shared/content/line-preparation';
 export const content: RoboticsLessonContent = lesson({
   number: 25,
+  classroomMaterials: [
+    { kind: 'rule', title: 'Правило руху' },
+    { kind: 'program', title: 'Програма' },
+    { kind: 'wiring', title: 'Підключення' },
+  ],
   preview:
     'На готовій схемі вибору дії простежте комбінації 111, 101 і 000 у порядку ліво — центр — право. Кожен пояснює, яка перевірка спрацьовує першою, й показує місце завершального «Стоп» у одноразовій програмі.',
   prerequisites: [12, 14, 15, 24],

@@ -3,6 +3,10 @@ import { programLesson as lesson } from '../../shared/content/helpers';
 import { preparation } from '../../shared/content/remote-preparation';
 export const content: RoboticsLessonContent = lesson({
   number: 19,
+  classroomMaterials: [
+    { kind: 'program', title: 'Програма' },
+    { kind: 'wiring', title: 'Підключення' },
+  ],
   preview:
     'На пульті знайдіть чотири напрямки. Для кожного назвіть команду натискання та команду відпускання. У Mcar покажіть, яку пару подій копіюватимете й яке поле кнопки зміните. Кнопку «Стоп» перевіряємо окремо.',
   prerequisites: [14, 18],

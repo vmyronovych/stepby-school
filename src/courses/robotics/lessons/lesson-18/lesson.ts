@@ -3,6 +3,10 @@ import { programLesson as lesson } from '../../shared/content/helpers';
 import { preparation } from '../../shared/content/remote-preparation';
 export const content: RoboticsLessonContent = lesson({
   number: 18,
+  classroomMaterials: [
+    { kind: 'program', title: 'Програма' },
+    { kind: 'wiring', title: 'Підключення' },
+  ],
   preview:
     'Покажіть у Mcar два обробники однієї кнопки: натискання та відпускання. Один називає команди для початку руху, інший — для зупинки. Передбачте результат короткого й довшого утримання; поміняйтеся ролями.',
   prerequisites: [12, 15, 17],

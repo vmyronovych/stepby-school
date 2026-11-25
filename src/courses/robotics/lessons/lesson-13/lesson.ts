@@ -3,6 +3,10 @@ import { programLesson as lesson } from '../../shared/content/helpers';
 
 export const content: RoboticsLessonContent = lesson({
   number: 13,
+  classroomMaterials: [
+    { kind: 'program', title: 'Програма' },
+    { kind: 'wiring', title: 'Підключення' },
+  ],
   preview:
     'Назвіть два погоджені значення ШІМ. Передбачте, за якого рух буде повільнішим. Знайдіть у програмі чотири числа для зміни та очікування, яке в обох спробах залишиться однаковим.',
   prerequisites: [12],

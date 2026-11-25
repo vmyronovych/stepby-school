@@ -3,6 +3,10 @@ import { programLesson as lesson } from '../../shared/content/helpers';
 
 export const content: RoboticsLessonContent = lesson({
   number: 14,
+  classroomMaterials: [
+    { kind: 'program', title: 'Програма' },
+    { kind: 'wiring', title: 'Підключення' },
+  ],
   preview:
     'У Mcar простежте один відрізок «вперед — зупинка — поворот — зупинка». Покажіть межі майбутнього повторення. Кожен передбачає кількість поворотів для двох і трьох повторів; запуск — після перевірки одного відрізка.',
   prerequisites: [11, 12, 13],

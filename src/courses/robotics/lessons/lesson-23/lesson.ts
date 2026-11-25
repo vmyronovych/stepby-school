@@ -3,6 +3,10 @@ import { programLesson as lesson } from '../../shared/content/helpers';
 import { sensor } from '../../shared/content/line-preparation';
 export const content: RoboticsLessonContent = lesson({
   number: 23,
+  classroomMaterials: [
+    { kind: 'program', title: 'Програма' },
+    { kind: 'wiring', title: 'Підключення' },
+  ],
   preview:
     'У показаному блоці порівняння знайдіть поріг. По черзі назвіть очікуване повідомлення для числа меншого за поріг, рівного йому та більшого. Напарник показує відповідну гілку на екрані.',
   prerequisites: [15, 22],

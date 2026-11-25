@@ -3,6 +3,10 @@ import { programLesson as lesson } from '../../shared/content/helpers';
 import { preparation } from '../../shared/content/remote-preparation';
 export const content: RoboticsLessonContent = lesson({
   number: 21,
+  classroomMaterials: [
+    { kind: 'program', title: 'Програма' },
+    { kind: 'wiring', title: 'Підключення' },
+  ],
   preview:
     'За результатом огляду виберіть одну проблему пульта. Покажіть пов’язаний із нею обробник у Mcar й поясніть майбутню зміну. Домовтеся, якою однаковою пробою порівняєте поведінку до та після.',
   prerequisites: [18, 19, 20],

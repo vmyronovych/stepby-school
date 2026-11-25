@@ -3,6 +3,10 @@ import { programLesson as lesson } from '../../shared/content/helpers';
 
 export const content: RoboticsLessonContent = lesson({
   number: 11,
+  classroomMaterials: [
+    { kind: 'program', title: 'Програма' },
+    { kind: 'wiring', title: 'Підключення' },
+  ],
   preview:
     'На схемі Mcar по черзі простежте М1–М4 до їхніх пар GPIO. Напарник називає один мотор, інший показує, які два входи ним керують і які входи решти моторів мають залишитися вимкненими. Поміняйтеся ролями.',
   prerequisites: [5, 10],

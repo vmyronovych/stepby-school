@@ -1,6 +1,11 @@
 import { programLesson as lesson } from '../../shared/content/helpers';
 export const content = lesson({
   number: 29,
+  classroomMaterials: [
+    { kind: 'rule', title: 'Правило руху' },
+    { kind: 'program', title: 'Програма' },
+    { kind: 'wiring', title: 'Підключення' },
+  ],
   preview:
     'Огляньте трасу та покажіть складний поворот і кінець лінії. Назвіть очікувані дії машинки в цих місцях. Для першої спроби залиште перевірену програму без змін.',
   prerequisites: [28],

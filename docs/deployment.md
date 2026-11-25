@@ -38,7 +38,7 @@ npm run preview
 Перевірене початкове налаштування: GitHub Pages публікує корінь гілки `main` (`build_type: legacy`). Ця міграція готує workflow, але сама не перемикає налаштування живого сайту й не виконує push.
 
 1. У [Settings → Pages](https://github.com/vmyronovych/stepby-school/settings/pages) встановити **Build and deployment → Source → GitHub Actions**.
-2. Закомітити джерела, переміщення матеріалів, видалення старих вихідних копій і workflow; `dist/` не додавати. Надіслати зміни в `main`.
+2. Після перемикання джерела злити перевірений PR із цією міграцією в `main`; `dist/` не додавати до Git. Не зливати міграцію, доки Pages публікує корінь гілки: у ньому вже немає готового бандла.
 3. У вкладці Actions перевірити workflow **Checks and Pages**: спочатку `test`, потім `deploy`.
 
 Налаштування джерела та кроки публікації відповідають [офіційній схемі GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages).
@@ -51,8 +51,8 @@ npm run preview
 
 ## Перевірено під час переходу
 
-- `npm run build`, `npm run format:check`, `npm test`: PASS; 230 модульних тестів.
+- `npm run build`, `npm run format:check`, `npm test`: PASS; 231 модульний тест, включно з публікацією матеріалів за Windows-шляхами.
 - `npm run test:browser`: 149/149, включно з копією `dist/` поза репозиторієм без мережі.
 - Усі 133 перенесені файли матеріалів медіаграмотності та веброзробки побайтово збігаються з попередніми джерелами.
 - Dev-сервер перевірено в тимчасовій копії: зміни HTML/CSS, додавання й видалення матеріалів; запити до `/src/main.tsx`, `/CLAUDE.md`, `/package.json` повертають 404.
-- `dist/index.html` ігнорується Git. Workflow перевірено локально як YAML; віддалений запуск і публікація ще не виконувалися.
+- `dist/index.html` ігнорується Git. Workflow перевірено локально як YAML; статус віддалених перевірок доступний у PR. Публікацію `main` потрібно перевірити після першого злиття.

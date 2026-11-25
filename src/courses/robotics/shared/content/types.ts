@@ -16,6 +16,20 @@ export interface LessonSlide {
 }
 export interface RoboticsLessonContent {
   number: number;
+  classroomMaterials: { kind: LessonMaterial; title: string }[];
+  circuitActivity?: {
+    headings: { all: string; wiring: string; assembly?: string };
+    wiringImage: string;
+    instructions: string;
+    links: { href: string; title: string; button: boolean }[];
+    assembly?: {
+      src: string;
+      width: number;
+      height: number;
+      alt: string;
+      caption: string;
+    };
+  };
   prerequisites: number[];
   recall: string;
   materials: string[];

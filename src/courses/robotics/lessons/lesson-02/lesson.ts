@@ -2,6 +2,24 @@ import type { RoboticsLessonContent } from '../../shared/content/types';
 
 export const content: RoboticsLessonContent = {
   number: 2,
+  classroomMaterials: [{ kind: 'wiring', title: 'Схема' }],
+  circuitActivity: {
+    headings: {
+      all: 'Зберіть і перевірте коло',
+      wiring: 'Зберіть і перевірте коло',
+    },
+    wiringImage: 'circuit-button.png',
+    instructions:
+      'Відкрийте «Електричне коло». Перемикайте «Схема / Макетка», простежуйте повний шлях і перевіряйте свою зміну. Для цього заняття приберіть LED і резистор, додайте активну пищалку та кнопку за схемою. У властивостях пищалки виберіть гучність «тихо»: початкове налаштування — «без звуку». Натискайте кнопку по черзі.',
+    links: [
+      {
+        href: '#/robo/robot/r9',
+        title: 'Електричне коло · нова вкладка',
+        button: true,
+      },
+      { href: '#/robo/robot/r8', title: 'Таблиця азбуки Морзе', button: false },
+    ],
+  },
   prerequisites: [1],
   figure: 'button',
   recall:

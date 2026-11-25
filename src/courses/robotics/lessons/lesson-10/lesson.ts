@@ -3,6 +3,10 @@ import { programLesson as lesson } from '../../shared/content/helpers';
 
 export const content: RoboticsLessonContent = lesson({
   number: 10,
+  classroomMaterials: [
+    { kind: 'program', title: 'Програма' },
+    { kind: 'wiring', title: 'Підключення' },
+  ],
   preview:
     'У відкритій програмі знайдіть GPIO16 і GPIO17. Один учасник називає стан кожного входу для першого напрямку, зупинки та другого напрямку; інший показує відповідні блоки. Передбачте обертання, якщо поміняти напрямки місцями. Поки не запускайте змінену програму.',
   prerequisites: [8, 9],

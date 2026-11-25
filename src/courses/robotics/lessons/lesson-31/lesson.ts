@@ -1,6 +1,7 @@
 import { programLesson as lesson } from '../../shared/content/helpers';
 export const content = lesson({
   number: 31,
+  classroomMaterials: [{ kind: 'assembly', title: 'Виріб' }],
   preview:
     'Покажіть два збережені файли та усно домовтеся про порядок репетиції. Кожен називає власне пояснення, практичну дію та спосіб перевірити зупинку перед показом.',
   prerequisites: [21, 30],

@@ -1,6 +1,11 @@
 import { programLesson as lesson } from '../../shared/content/helpers';
 export const content = lesson({
   number: 28,
+  classroomMaterials: [
+    { kind: 'rule', title: 'Правило руху' },
+    { kind: 'program', title: 'Програма' },
+    { kind: 'wiring', title: 'Підключення' },
+  ],
   preview:
     'Назвіть два значення швидкості для порівняння й передбачте поведінку на тому самому повороті. Покажіть у Mcar лише одне початкове присвоєння, яке змінюватимете. Пороги, старт і поверхня залишаються однаковими.',
   prerequisites: [27],
