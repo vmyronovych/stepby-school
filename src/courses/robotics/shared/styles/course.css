@@ -384,6 +384,7 @@
 .robotics-course-teacher,
 .robotics-practice-steps {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 20px;
   margin-top: 20px;
   min-width: 0;

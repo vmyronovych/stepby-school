@@ -1,6 +1,33 @@
 const { test, expect } = require('@playwright/test');
 const { pathToFileURL } = require('node:url');
 const path = require('node:path');
+test('student motor and sensor tables scroll inside the panel on narrow phones', async ({
+  page,
+}) => {
+  const entry = pathToFileURL(path.resolve('dist/index.html')).href;
+  for (const number of [11, 22]) {
+    for (const width of [360, 390]) {
+      await page.setViewportSize({ width, height: 844 });
+      await page.goto(`${entry}#/robo/robot/lesson-${number}/student`);
+      await expect(page.locator('.robotics-student-only')).toBeVisible();
+      expect(
+        await page.evaluate(() => document.documentElement.scrollWidth),
+        `lesson ${number}, viewport ${width}`,
+      ).toBeLessThanOrEqual(width + 1);
+      const table = page.locator('.robotics-table-wrap').first();
+      const panelWidth = await table.evaluate((el) => el.clientWidth);
+      expect(panelWidth).toBeLessThan(width);
+      if (width === 360) {
+        expect(
+          await table.evaluate((el) => {
+            el.scrollLeft = el.scrollWidth;
+            return el.scrollLeft;
+          }),
+        ).toBeGreaterThan(0);
+      }
+    }
+  }
+});
 for (const mobile of [false, true])
   test(`all 32 lessons and four modes: ${mobile ? 'mobile file URL' : 'desktop HTTP'}`, async ({
     page,
