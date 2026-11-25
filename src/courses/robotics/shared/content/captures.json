@@ -1,0 +1,1174 @@
+[
+  {
+    "filename": "lesson-11-start-blocks-1.svg",
+    "source": "lessons/lesson-11/files/lesson-11-start.mcar",
+    "sha256": "819f496ae3e32816ad621505b4a633015f0e99d2d6116646d9477f8dda64dc43",
+    "width": 323,
+    "height": 504,
+    "caption": "Початок для власної роботи"
+  },
+  {
+    "filename": "lesson-11-wiring.png",
+    "source": "lessons/lesson-11/files/lesson-11-start.mcar",
+    "sha256": "819f496ae3e32816ad621505b4a633015f0e99d2d6116646d9477f8dda64dc43",
+    "width": 1800,
+    "height": 1352,
+    "caption": "Кожен драйвер встановлений в окрему mini breadboard. Чотири мотори та ESP32 у платі розширення; схема з Mcar."
+  },
+  {
+    "filename": "lesson-11-demo-blocks-1.svg",
+    "source": "lessons/lesson-11/files/lesson-11-demo.mcar",
+    "sha256": "32344e1d6059510eca804cd7374c84dc59ad3804d7b3d58f23c50a32f5cc24dd",
+    "width": 326,
+    "height": 1068,
+    "caption": "Показ учителя"
+  },
+  {
+    "filename": "lesson-11-solution-blocks-1.svg",
+    "source": "lessons/lesson-11/files/lesson-11-solution.mcar",
+    "sha256": "aad8252cc7168b21d978e91d61e2f18380ec8948bedfd03f2538e1623702628c",
+    "width": 326,
+    "height": 1944,
+    "caption": "Приклад учителя"
+  },
+  {
+    "filename": "lesson-12-start-blocks-1.svg",
+    "source": "lessons/lesson-12/files/lesson-12-start.mcar",
+    "sha256": "50956f0be3dcee5f98a39ae427c8196ceeaab6107f5b33f9e3c7dd980c81c0aa",
+    "width": 323,
+    "height": 552,
+    "caption": "Початок для власної роботи"
+  },
+  {
+    "filename": "lesson-12-demo-blocks-1.svg",
+    "source": "lessons/lesson-12/files/lesson-12-demo.mcar",
+    "sha256": "084c902b4451741b03ca62feabfaf336a526e1f9f368efcc170d5eef2df6a8fc",
+    "width": 227,
+    "height": 520,
+    "caption": "Показ учителя"
+  },
+  {
+    "filename": "lesson-12-solution-blocks-1.svg",
+    "source": "lessons/lesson-12/files/lesson-12-solution.mcar",
+    "sha256": "004661cd8c5afd657cf91a936ccd5bbc94667091f14b560dc32125ced0bb4fa9",
+    "width": 227,
+    "height": 520,
+    "caption": "Приклад учителя"
+  },
+  {
+    "filename": "lesson-13-start-blocks-1.svg",
+    "source": "lessons/lesson-13/files/lesson-13-start.mcar",
+    "sha256": "0fd28b66648847341cf3d0d278000edcac5f497f5e747f61deceb13f0d560209",
+    "width": 227,
+    "height": 184,
+    "caption": "Початок для власної роботи"
+  },
+  {
+    "filename": "lesson-13-demo-blocks-1.svg",
+    "source": "lessons/lesson-13/files/lesson-13-demo.mcar",
+    "sha256": "5dbad7908f57b5c156892de3b9d194b80aef1a4a80410fbd7632a4dc47480483",
+    "width": 227,
+    "height": 520,
+    "caption": "Показ учителя"
+  },
+  {
+    "filename": "lesson-13-solution-blocks-1.svg",
+    "source": "lessons/lesson-13/files/lesson-13-solution.mcar",
+    "sha256": "c303426e477eca68be3b7a1b962d3581b2df25725af94eb82b8e36f556311552",
+    "width": 227,
+    "height": 520,
+    "caption": "Приклад учителя"
+  },
+  {
+    "filename": "lesson-14-start-blocks-1.svg",
+    "source": "lessons/lesson-14/files/lesson-14-start.mcar",
+    "sha256": "b3856527ebaf7722122645cb4034bda3a5d27324c48954985351e91795f6c110",
+    "width": 227,
+    "height": 184,
+    "caption": "Початок для власної роботи"
+  },
+  {
+    "filename": "lesson-14-demo-blocks-1.svg",
+    "source": "lessons/lesson-14/files/lesson-14-demo.mcar",
+    "sha256": "116c213ca660c9e728fa23b1dba5303449ff57412719ed1569fbd68500886d0e",
+    "width": 299,
+    "height": 648,
+    "caption": "Показ учителя"
+  },
+  {
+    "filename": "lesson-14-solution-blocks-1.svg",
+    "source": "lessons/lesson-14/files/lesson-14-solution.mcar",
+    "sha256": "4c5ad2b5a58e7d665b507560291ee7ceffc9aef6365e1e6fed470bd9f55d9217",
+    "width": 299,
+    "height": 648,
+    "caption": "Приклад учителя"
+  },
+  {
+    "filename": "lesson-15-start-blocks-1.svg",
+    "source": "lessons/lesson-15/files/lesson-15-start.mcar",
+    "sha256": "2b07ddbdf567820e82bb312176830aec4ecdc3fcd181e9a0c3c779b4da498b84",
+    "width": 347,
+    "height": 236,
+    "caption": "Початок для власної роботи"
+  },
+  {
+    "filename": "lesson-15-demo-blocks-1.svg",
+    "source": "lessons/lesson-15/files/lesson-15-demo.mcar",
+    "sha256": "f7a9dffb0811a0981f139a43659a8f138a07f2d18366b4904c97d2d9c72af408",
+    "width": 347,
+    "height": 700,
+    "caption": "Показ учителя"
+  },
+  {
+    "filename": "lesson-15-solution-blocks-1.svg",
+    "source": "lessons/lesson-15/files/lesson-15-solution.mcar",
+    "sha256": "f9c04eb6376f56882c1a2854bde178d90c82ad5c528288c5814df463ce20a9b7",
+    "width": 347,
+    "height": 700,
+    "caption": "Приклад учителя"
+  },
+  {
+    "filename": "lesson-16-start-blocks-1.svg",
+    "source": "lessons/lesson-16/files/lesson-16-start.mcar",
+    "sha256": "464b5751a76a2bee74eb3212597f7f4557c4480c1f78be9b2b82f23ec68c405d",
+    "width": 347,
+    "height": 236,
+    "caption": "Початок для власної роботи"
+  },
+  {
+    "filename": "lesson-16-demo-blocks-1.svg",
+    "source": "lessons/lesson-16/files/lesson-16-demo.mcar",
+    "sha256": "03ee422b1c150cf7f32a6d9507e99386570d4f0fcdaa3548322942b52ea11263",
+    "width": 347,
+    "height": 700,
+    "caption": "Показ учителя"
+  },
+  {
+    "filename": "lesson-16-solution-blocks-1.svg",
+    "source": "lessons/lesson-16/files/lesson-16-solution.mcar",
+    "sha256": "81e549f00662ef2584b29fef10ac58a584e3ab00077f63a74c01dfa6478ceae0",
+    "width": 347,
+    "height": 700,
+    "caption": "Приклад учителя"
+  },
+  {
+    "filename": "lesson-17-start-blocks-1.svg",
+    "source": "lessons/lesson-17/files/lesson-17-start.mcar",
+    "sha256": "ef5eb96659419c6df5a2fa2366c6cf269d642790086b687b3ec5a32efe26dfcf",
+    "width": 416,
+    "height": 144,
+    "caption": "Початок для власної роботи"
+  },
+  {
+    "filename": "lesson-17-demo-blocks-1.svg",
+    "source": "lessons/lesson-17/files/lesson-17-demo.mcar",
+    "sha256": "8692ecfe416f35ffe83c2f21adb71fa05994549bb28cb617cc1ee8b872bad88b",
+    "width": 416,
+    "height": 144,
+    "caption": "Показ учителя"
+  },
+  {
+    "filename": "lesson-17-solution-blocks-1.svg",
+    "source": "lessons/lesson-17/files/lesson-17-solution.mcar",
+    "sha256": "1dc03bfb33ff4e3eb2d0a327fca968a6d211699a47bdd11ad8b0c42c438cb00a",
+    "width": 416,
+    "height": 144,
+    "caption": "Приклад учителя"
+  },
+  {
+    "filename": "lesson-18-start-blocks-1.svg",
+    "source": "lessons/lesson-18/files/lesson-18-start.mcar",
+    "sha256": "23a7fac92ff28840c20ec6794305b52f56b9a62517912d06963f1c6e6b476f78",
+    "width": 416,
+    "height": 144,
+    "caption": "Початок для власної роботи"
+  },
+  {
+    "filename": "lesson-18-demo-blocks-1.svg",
+    "source": "lessons/lesson-18/files/lesson-18-demo.mcar",
+    "sha256": "d0bb1618da454b65a2958dfd5dd03798a12231f80d70f119bc9425508f5a0952",
+    "width": 403,
+    "height": 192,
+    "caption": "Показ учителя · 1"
+  },
+  {
+    "filename": "lesson-18-demo-blocks-2.svg",
+    "source": "lessons/lesson-18/files/lesson-18-demo.mcar",
+    "sha256": "d0bb1618da454b65a2958dfd5dd03798a12231f80d70f119bc9425508f5a0952",
+    "width": 407,
+    "height": 140,
+    "caption": "Показ учителя · 2"
+  },
+  {
+    "filename": "lesson-18-solution-blocks-1.svg",
+    "source": "lessons/lesson-18/files/lesson-18-solution.mcar",
+    "sha256": "e30793f4e9417effdad6e73b7e5fbfd5084e35c86819930c926bfa2867281d67",
+    "width": 403,
+    "height": 192,
+    "caption": "Приклад учителя · 1"
+  },
+  {
+    "filename": "lesson-18-solution-blocks-2.svg",
+    "source": "lessons/lesson-18/files/lesson-18-solution.mcar",
+    "sha256": "e30793f4e9417effdad6e73b7e5fbfd5084e35c86819930c926bfa2867281d67",
+    "width": 407,
+    "height": 140,
+    "caption": "Приклад учителя · 2"
+  },
+  {
+    "filename": "lesson-19-start-blocks-1.svg",
+    "source": "lessons/lesson-19/files/lesson-19-start.mcar",
+    "sha256": "d1c4aecbdaa1ba9390d51702d7a620cc1a4d623ee70b445703f4899ff47de592",
+    "width": 403,
+    "height": 192,
+    "caption": "Початок для власної роботи · 1"
+  },
+  {
+    "filename": "lesson-19-start-blocks-2.svg",
+    "source": "lessons/lesson-19/files/lesson-19-start.mcar",
+    "sha256": "d1c4aecbdaa1ba9390d51702d7a620cc1a4d623ee70b445703f4899ff47de592",
+    "width": 407,
+    "height": 140,
+    "caption": "Початок для власної роботи · 2"
+  },
+  {
+    "filename": "lesson-19-demo-blocks-1.svg",
+    "source": "lessons/lesson-19/files/lesson-19-demo.mcar",
+    "sha256": "3d9b896ffbf30aff5a661f9b800433a29cf20f2885fe55404f11438e3b98293f",
+    "width": 403,
+    "height": 192,
+    "caption": "Показ учителя · 1"
+  },
+  {
+    "filename": "lesson-19-demo-blocks-2.svg",
+    "source": "lessons/lesson-19/files/lesson-19-demo.mcar",
+    "sha256": "3d9b896ffbf30aff5a661f9b800433a29cf20f2885fe55404f11438e3b98293f",
+    "width": 407,
+    "height": 140,
+    "caption": "Показ учителя · 2"
+  },
+  {
+    "filename": "lesson-19-demo-blocks-3.svg",
+    "source": "lessons/lesson-19/files/lesson-19-demo.mcar",
+    "sha256": "3d9b896ffbf30aff5a661f9b800433a29cf20f2885fe55404f11438e3b98293f",
+    "width": 392,
+    "height": 192,
+    "caption": "Показ учителя · 3"
+  },
+  {
+    "filename": "lesson-19-demo-blocks-4.svg",
+    "source": "lessons/lesson-19/files/lesson-19-demo.mcar",
+    "sha256": "3d9b896ffbf30aff5a661f9b800433a29cf20f2885fe55404f11438e3b98293f",
+    "width": 396,
+    "height": 140,
+    "caption": "Показ учителя · 4"
+  },
+  {
+    "filename": "lesson-19-demo-blocks-5.svg",
+    "source": "lessons/lesson-19/files/lesson-19-demo.mcar",
+    "sha256": "3d9b896ffbf30aff5a661f9b800433a29cf20f2885fe55404f11438e3b98293f",
+    "width": 407,
+    "height": 192,
+    "caption": "Показ учителя · 5"
+  },
+  {
+    "filename": "lesson-19-demo-blocks-6.svg",
+    "source": "lessons/lesson-19/files/lesson-19-demo.mcar",
+    "sha256": "3d9b896ffbf30aff5a661f9b800433a29cf20f2885fe55404f11438e3b98293f",
+    "width": 411,
+    "height": 140,
+    "caption": "Показ учителя · 6"
+  },
+  {
+    "filename": "lesson-19-demo-blocks-7.svg",
+    "source": "lessons/lesson-19/files/lesson-19-demo.mcar",
+    "sha256": "3d9b896ffbf30aff5a661f9b800433a29cf20f2885fe55404f11438e3b98293f",
+    "width": 422,
+    "height": 192,
+    "caption": "Показ учителя · 7"
+  },
+  {
+    "filename": "lesson-19-demo-blocks-8.svg",
+    "source": "lessons/lesson-19/files/lesson-19-demo.mcar",
+    "sha256": "3d9b896ffbf30aff5a661f9b800433a29cf20f2885fe55404f11438e3b98293f",
+    "width": 426,
+    "height": 140,
+    "caption": "Показ учителя · 8"
+  },
+  {
+    "filename": "lesson-19-demo-blocks-9.svg",
+    "source": "lessons/lesson-19/files/lesson-19-demo.mcar",
+    "sha256": "3d9b896ffbf30aff5a661f9b800433a29cf20f2885fe55404f11438e3b98293f",
+    "width": 416,
+    "height": 140,
+    "caption": "Показ учителя · 9"
+  },
+  {
+    "filename": "lesson-19-solution-blocks-1.svg",
+    "source": "lessons/lesson-19/files/lesson-19-solution.mcar",
+    "sha256": "28016d6dacd9ca56ba08cfa20e6ff12175719a8b8c6ffba08d390a2cecb9dbdd",
+    "width": 403,
+    "height": 192,
+    "caption": "Приклад учителя · 1"
+  },
+  {
+    "filename": "lesson-19-solution-blocks-2.svg",
+    "source": "lessons/lesson-19/files/lesson-19-solution.mcar",
+    "sha256": "28016d6dacd9ca56ba08cfa20e6ff12175719a8b8c6ffba08d390a2cecb9dbdd",
+    "width": 407,
+    "height": 140,
+    "caption": "Приклад учителя · 2"
+  },
+  {
+    "filename": "lesson-19-solution-blocks-3.svg",
+    "source": "lessons/lesson-19/files/lesson-19-solution.mcar",
+    "sha256": "28016d6dacd9ca56ba08cfa20e6ff12175719a8b8c6ffba08d390a2cecb9dbdd",
+    "width": 392,
+    "height": 192,
+    "caption": "Приклад учителя · 3"
+  },
+  {
+    "filename": "lesson-19-solution-blocks-4.svg",
+    "source": "lessons/lesson-19/files/lesson-19-solution.mcar",
+    "sha256": "28016d6dacd9ca56ba08cfa20e6ff12175719a8b8c6ffba08d390a2cecb9dbdd",
+    "width": 396,
+    "height": 140,
+    "caption": "Приклад учителя · 4"
+  },
+  {
+    "filename": "lesson-19-solution-blocks-5.svg",
+    "source": "lessons/lesson-19/files/lesson-19-solution.mcar",
+    "sha256": "28016d6dacd9ca56ba08cfa20e6ff12175719a8b8c6ffba08d390a2cecb9dbdd",
+    "width": 407,
+    "height": 192,
+    "caption": "Приклад учителя · 5"
+  },
+  {
+    "filename": "lesson-19-solution-blocks-6.svg",
+    "source": "lessons/lesson-19/files/lesson-19-solution.mcar",
+    "sha256": "28016d6dacd9ca56ba08cfa20e6ff12175719a8b8c6ffba08d390a2cecb9dbdd",
+    "width": 411,
+    "height": 140,
+    "caption": "Приклад учителя · 6"
+  },
+  {
+    "filename": "lesson-19-solution-blocks-7.svg",
+    "source": "lessons/lesson-19/files/lesson-19-solution.mcar",
+    "sha256": "28016d6dacd9ca56ba08cfa20e6ff12175719a8b8c6ffba08d390a2cecb9dbdd",
+    "width": 422,
+    "height": 192,
+    "caption": "Приклад учителя · 7"
+  },
+  {
+    "filename": "lesson-19-solution-blocks-8.svg",
+    "source": "lessons/lesson-19/files/lesson-19-solution.mcar",
+    "sha256": "28016d6dacd9ca56ba08cfa20e6ff12175719a8b8c6ffba08d390a2cecb9dbdd",
+    "width": 426,
+    "height": 140,
+    "caption": "Приклад учителя · 8"
+  },
+  {
+    "filename": "lesson-19-solution-blocks-9.svg",
+    "source": "lessons/lesson-19/files/lesson-19-solution.mcar",
+    "sha256": "28016d6dacd9ca56ba08cfa20e6ff12175719a8b8c6ffba08d390a2cecb9dbdd",
+    "width": 416,
+    "height": 140,
+    "caption": "Приклад учителя · 9"
+  },
+  {
+    "filename": "lesson-20-start-blocks-1.svg",
+    "source": "lessons/lesson-20/files/lesson-20-start.mcar",
+    "sha256": "eb3521b63b9ae76ba7d6e2f13dc19b8aae3849c8063fe8b3fe7b6b4f2183645e",
+    "width": 403,
+    "height": 192,
+    "caption": "Початок для власної роботи · 1"
+  },
+  {
+    "filename": "lesson-20-start-blocks-2.svg",
+    "source": "lessons/lesson-20/files/lesson-20-start.mcar",
+    "sha256": "eb3521b63b9ae76ba7d6e2f13dc19b8aae3849c8063fe8b3fe7b6b4f2183645e",
+    "width": 407,
+    "height": 140,
+    "caption": "Початок для власної роботи · 2"
+  },
+  {
+    "filename": "lesson-20-start-blocks-3.svg",
+    "source": "lessons/lesson-20/files/lesson-20-start.mcar",
+    "sha256": "eb3521b63b9ae76ba7d6e2f13dc19b8aae3849c8063fe8b3fe7b6b4f2183645e",
+    "width": 392,
+    "height": 192,
+    "caption": "Початок для власної роботи · 3"
+  },
+  {
+    "filename": "lesson-20-start-blocks-4.svg",
+    "source": "lessons/lesson-20/files/lesson-20-start.mcar",
+    "sha256": "eb3521b63b9ae76ba7d6e2f13dc19b8aae3849c8063fe8b3fe7b6b4f2183645e",
+    "width": 396,
+    "height": 140,
+    "caption": "Початок для власної роботи · 4"
+  },
+  {
+    "filename": "lesson-20-start-blocks-5.svg",
+    "source": "lessons/lesson-20/files/lesson-20-start.mcar",
+    "sha256": "eb3521b63b9ae76ba7d6e2f13dc19b8aae3849c8063fe8b3fe7b6b4f2183645e",
+    "width": 407,
+    "height": 192,
+    "caption": "Початок для власної роботи · 5"
+  },
+  {
+    "filename": "lesson-20-start-blocks-6.svg",
+    "source": "lessons/lesson-20/files/lesson-20-start.mcar",
+    "sha256": "eb3521b63b9ae76ba7d6e2f13dc19b8aae3849c8063fe8b3fe7b6b4f2183645e",
+    "width": 411,
+    "height": 140,
+    "caption": "Початок для власної роботи · 6"
+  },
+  {
+    "filename": "lesson-20-start-blocks-7.svg",
+    "source": "lessons/lesson-20/files/lesson-20-start.mcar",
+    "sha256": "eb3521b63b9ae76ba7d6e2f13dc19b8aae3849c8063fe8b3fe7b6b4f2183645e",
+    "width": 422,
+    "height": 192,
+    "caption": "Початок для власної роботи · 7"
+  },
+  {
+    "filename": "lesson-20-start-blocks-8.svg",
+    "source": "lessons/lesson-20/files/lesson-20-start.mcar",
+    "sha256": "eb3521b63b9ae76ba7d6e2f13dc19b8aae3849c8063fe8b3fe7b6b4f2183645e",
+    "width": 426,
+    "height": 140,
+    "caption": "Початок для власної роботи · 8"
+  },
+  {
+    "filename": "lesson-20-start-blocks-9.svg",
+    "source": "lessons/lesson-20/files/lesson-20-start.mcar",
+    "sha256": "eb3521b63b9ae76ba7d6e2f13dc19b8aae3849c8063fe8b3fe7b6b4f2183645e",
+    "width": 416,
+    "height": 140,
+    "caption": "Початок для власної роботи · 9"
+  },
+  {
+    "filename": "lesson-20-demo-blocks-1.svg",
+    "source": "lessons/lesson-20/files/lesson-20-demo.mcar",
+    "sha256": "b936286ac718957efb667794ddc6cb90431d511565a7b30e168e0d23ada5a2fa",
+    "width": 403,
+    "height": 192,
+    "caption": "Показ учителя · 1"
+  },
+  {
+    "filename": "lesson-20-demo-blocks-2.svg",
+    "source": "lessons/lesson-20/files/lesson-20-demo.mcar",
+    "sha256": "b936286ac718957efb667794ddc6cb90431d511565a7b30e168e0d23ada5a2fa",
+    "width": 407,
+    "height": 140,
+    "caption": "Показ учителя · 2"
+  },
+  {
+    "filename": "lesson-20-demo-blocks-3.svg",
+    "source": "lessons/lesson-20/files/lesson-20-demo.mcar",
+    "sha256": "b936286ac718957efb667794ddc6cb90431d511565a7b30e168e0d23ada5a2fa",
+    "width": 392,
+    "height": 192,
+    "caption": "Показ учителя · 3"
+  },
+  {
+    "filename": "lesson-20-demo-blocks-4.svg",
+    "source": "lessons/lesson-20/files/lesson-20-demo.mcar",
+    "sha256": "b936286ac718957efb667794ddc6cb90431d511565a7b30e168e0d23ada5a2fa",
+    "width": 396,
+    "height": 140,
+    "caption": "Показ учителя · 4"
+  },
+  {
+    "filename": "lesson-20-demo-blocks-5.svg",
+    "source": "lessons/lesson-20/files/lesson-20-demo.mcar",
+    "sha256": "b936286ac718957efb667794ddc6cb90431d511565a7b30e168e0d23ada5a2fa",
+    "width": 407,
+    "height": 192,
+    "caption": "Показ учителя · 5"
+  },
+  {
+    "filename": "lesson-20-demo-blocks-6.svg",
+    "source": "lessons/lesson-20/files/lesson-20-demo.mcar",
+    "sha256": "b936286ac718957efb667794ddc6cb90431d511565a7b30e168e0d23ada5a2fa",
+    "width": 411,
+    "height": 140,
+    "caption": "Показ учителя · 6"
+  },
+  {
+    "filename": "lesson-20-demo-blocks-7.svg",
+    "source": "lessons/lesson-20/files/lesson-20-demo.mcar",
+    "sha256": "b936286ac718957efb667794ddc6cb90431d511565a7b30e168e0d23ada5a2fa",
+    "width": 422,
+    "height": 192,
+    "caption": "Показ учителя · 7"
+  },
+  {
+    "filename": "lesson-20-demo-blocks-8.svg",
+    "source": "lessons/lesson-20/files/lesson-20-demo.mcar",
+    "sha256": "b936286ac718957efb667794ddc6cb90431d511565a7b30e168e0d23ada5a2fa",
+    "width": 426,
+    "height": 140,
+    "caption": "Показ учителя · 8"
+  },
+  {
+    "filename": "lesson-20-demo-blocks-9.svg",
+    "source": "lessons/lesson-20/files/lesson-20-demo.mcar",
+    "sha256": "b936286ac718957efb667794ddc6cb90431d511565a7b30e168e0d23ada5a2fa",
+    "width": 416,
+    "height": 140,
+    "caption": "Показ учителя · 9"
+  },
+  {
+    "filename": "lesson-20-solution-blocks-1.svg",
+    "source": "lessons/lesson-20/files/lesson-20-solution.mcar",
+    "sha256": "bd5210433de65dc2b0f118e49e94f8a783819d71e977ce6134ea1344264c7ece",
+    "width": 403,
+    "height": 192,
+    "caption": "Приклад учителя · 1"
+  },
+  {
+    "filename": "lesson-20-solution-blocks-2.svg",
+    "source": "lessons/lesson-20/files/lesson-20-solution.mcar",
+    "sha256": "bd5210433de65dc2b0f118e49e94f8a783819d71e977ce6134ea1344264c7ece",
+    "width": 407,
+    "height": 140,
+    "caption": "Приклад учителя · 2"
+  },
+  {
+    "filename": "lesson-20-solution-blocks-3.svg",
+    "source": "lessons/lesson-20/files/lesson-20-solution.mcar",
+    "sha256": "bd5210433de65dc2b0f118e49e94f8a783819d71e977ce6134ea1344264c7ece",
+    "width": 392,
+    "height": 192,
+    "caption": "Приклад учителя · 3"
+  },
+  {
+    "filename": "lesson-20-solution-blocks-4.svg",
+    "source": "lessons/lesson-20/files/lesson-20-solution.mcar",
+    "sha256": "bd5210433de65dc2b0f118e49e94f8a783819d71e977ce6134ea1344264c7ece",
+    "width": 396,
+    "height": 140,
+    "caption": "Приклад учителя · 4"
+  },
+  {
+    "filename": "lesson-20-solution-blocks-5.svg",
+    "source": "lessons/lesson-20/files/lesson-20-solution.mcar",
+    "sha256": "bd5210433de65dc2b0f118e49e94f8a783819d71e977ce6134ea1344264c7ece",
+    "width": 407,
+    "height": 192,
+    "caption": "Приклад учителя · 5"
+  },
+  {
+    "filename": "lesson-20-solution-blocks-6.svg",
+    "source": "lessons/lesson-20/files/lesson-20-solution.mcar",
+    "sha256": "bd5210433de65dc2b0f118e49e94f8a783819d71e977ce6134ea1344264c7ece",
+    "width": 411,
+    "height": 140,
+    "caption": "Приклад учителя · 6"
+  },
+  {
+    "filename": "lesson-20-solution-blocks-7.svg",
+    "source": "lessons/lesson-20/files/lesson-20-solution.mcar",
+    "sha256": "bd5210433de65dc2b0f118e49e94f8a783819d71e977ce6134ea1344264c7ece",
+    "width": 422,
+    "height": 192,
+    "caption": "Приклад учителя · 7"
+  },
+  {
+    "filename": "lesson-20-solution-blocks-8.svg",
+    "source": "lessons/lesson-20/files/lesson-20-solution.mcar",
+    "sha256": "bd5210433de65dc2b0f118e49e94f8a783819d71e977ce6134ea1344264c7ece",
+    "width": 426,
+    "height": 140,
+    "caption": "Приклад учителя · 8"
+  },
+  {
+    "filename": "lesson-20-solution-blocks-9.svg",
+    "source": "lessons/lesson-20/files/lesson-20-solution.mcar",
+    "sha256": "bd5210433de65dc2b0f118e49e94f8a783819d71e977ce6134ea1344264c7ece",
+    "width": 416,
+    "height": 140,
+    "caption": "Приклад учителя · 9"
+  },
+  {
+    "filename": "lesson-21-start-blocks-1.svg",
+    "source": "lessons/lesson-21/files/lesson-21-start.mcar",
+    "sha256": "fbfdd3c47a10194a81e23fad86f2556e31329d6de97924ca87efc855023f5526",
+    "width": 403,
+    "height": 192,
+    "caption": "Початок для власної роботи · 1"
+  },
+  {
+    "filename": "lesson-21-start-blocks-2.svg",
+    "source": "lessons/lesson-21/files/lesson-21-start.mcar",
+    "sha256": "fbfdd3c47a10194a81e23fad86f2556e31329d6de97924ca87efc855023f5526",
+    "width": 407,
+    "height": 140,
+    "caption": "Початок для власної роботи · 2"
+  },
+  {
+    "filename": "lesson-21-start-blocks-3.svg",
+    "source": "lessons/lesson-21/files/lesson-21-start.mcar",
+    "sha256": "fbfdd3c47a10194a81e23fad86f2556e31329d6de97924ca87efc855023f5526",
+    "width": 392,
+    "height": 192,
+    "caption": "Початок для власної роботи · 3"
+  },
+  {
+    "filename": "lesson-21-start-blocks-4.svg",
+    "source": "lessons/lesson-21/files/lesson-21-start.mcar",
+    "sha256": "fbfdd3c47a10194a81e23fad86f2556e31329d6de97924ca87efc855023f5526",
+    "width": 396,
+    "height": 140,
+    "caption": "Початок для власної роботи · 4"
+  },
+  {
+    "filename": "lesson-21-start-blocks-5.svg",
+    "source": "lessons/lesson-21/files/lesson-21-start.mcar",
+    "sha256": "fbfdd3c47a10194a81e23fad86f2556e31329d6de97924ca87efc855023f5526",
+    "width": 407,
+    "height": 192,
+    "caption": "Початок для власної роботи · 5"
+  },
+  {
+    "filename": "lesson-21-start-blocks-6.svg",
+    "source": "lessons/lesson-21/files/lesson-21-start.mcar",
+    "sha256": "fbfdd3c47a10194a81e23fad86f2556e31329d6de97924ca87efc855023f5526",
+    "width": 411,
+    "height": 140,
+    "caption": "Початок для власної роботи · 6"
+  },
+  {
+    "filename": "lesson-21-start-blocks-7.svg",
+    "source": "lessons/lesson-21/files/lesson-21-start.mcar",
+    "sha256": "fbfdd3c47a10194a81e23fad86f2556e31329d6de97924ca87efc855023f5526",
+    "width": 422,
+    "height": 192,
+    "caption": "Початок для власної роботи · 7"
+  },
+  {
+    "filename": "lesson-21-start-blocks-8.svg",
+    "source": "lessons/lesson-21/files/lesson-21-start.mcar",
+    "sha256": "fbfdd3c47a10194a81e23fad86f2556e31329d6de97924ca87efc855023f5526",
+    "width": 426,
+    "height": 140,
+    "caption": "Початок для власної роботи · 8"
+  },
+  {
+    "filename": "lesson-21-start-blocks-9.svg",
+    "source": "lessons/lesson-21/files/lesson-21-start.mcar",
+    "sha256": "fbfdd3c47a10194a81e23fad86f2556e31329d6de97924ca87efc855023f5526",
+    "width": 416,
+    "height": 140,
+    "caption": "Початок для власної роботи · 9"
+  },
+  {
+    "filename": "lesson-21-demo-blocks-1.svg",
+    "source": "lessons/lesson-21/files/lesson-21-demo.mcar",
+    "sha256": "8a06687b0d44f1f88697cf05e694adce93116cd1d91f32694a3130953b95ef22",
+    "width": 403,
+    "height": 192,
+    "caption": "Показ учителя · 1"
+  },
+  {
+    "filename": "lesson-21-demo-blocks-2.svg",
+    "source": "lessons/lesson-21/files/lesson-21-demo.mcar",
+    "sha256": "8a06687b0d44f1f88697cf05e694adce93116cd1d91f32694a3130953b95ef22",
+    "width": 407,
+    "height": 140,
+    "caption": "Показ учителя · 2"
+  },
+  {
+    "filename": "lesson-21-demo-blocks-3.svg",
+    "source": "lessons/lesson-21/files/lesson-21-demo.mcar",
+    "sha256": "8a06687b0d44f1f88697cf05e694adce93116cd1d91f32694a3130953b95ef22",
+    "width": 392,
+    "height": 192,
+    "caption": "Показ учителя · 3"
+  },
+  {
+    "filename": "lesson-21-demo-blocks-4.svg",
+    "source": "lessons/lesson-21/files/lesson-21-demo.mcar",
+    "sha256": "8a06687b0d44f1f88697cf05e694adce93116cd1d91f32694a3130953b95ef22",
+    "width": 396,
+    "height": 140,
+    "caption": "Показ учителя · 4"
+  },
+  {
+    "filename": "lesson-21-demo-blocks-5.svg",
+    "source": "lessons/lesson-21/files/lesson-21-demo.mcar",
+    "sha256": "8a06687b0d44f1f88697cf05e694adce93116cd1d91f32694a3130953b95ef22",
+    "width": 407,
+    "height": 192,
+    "caption": "Показ учителя · 5"
+  },
+  {
+    "filename": "lesson-21-demo-blocks-6.svg",
+    "source": "lessons/lesson-21/files/lesson-21-demo.mcar",
+    "sha256": "8a06687b0d44f1f88697cf05e694adce93116cd1d91f32694a3130953b95ef22",
+    "width": 411,
+    "height": 140,
+    "caption": "Показ учителя · 6"
+  },
+  {
+    "filename": "lesson-21-demo-blocks-7.svg",
+    "source": "lessons/lesson-21/files/lesson-21-demo.mcar",
+    "sha256": "8a06687b0d44f1f88697cf05e694adce93116cd1d91f32694a3130953b95ef22",
+    "width": 422,
+    "height": 192,
+    "caption": "Показ учителя · 7"
+  },
+  {
+    "filename": "lesson-21-demo-blocks-8.svg",
+    "source": "lessons/lesson-21/files/lesson-21-demo.mcar",
+    "sha256": "8a06687b0d44f1f88697cf05e694adce93116cd1d91f32694a3130953b95ef22",
+    "width": 426,
+    "height": 140,
+    "caption": "Показ учителя · 8"
+  },
+  {
+    "filename": "lesson-21-demo-blocks-9.svg",
+    "source": "lessons/lesson-21/files/lesson-21-demo.mcar",
+    "sha256": "8a06687b0d44f1f88697cf05e694adce93116cd1d91f32694a3130953b95ef22",
+    "width": 416,
+    "height": 140,
+    "caption": "Показ учителя · 9"
+  },
+  {
+    "filename": "lesson-21-solution-blocks-1.svg",
+    "source": "lessons/lesson-21/files/lesson-21-solution.mcar",
+    "sha256": "57ad1ac0b0098126d93b599f55ab077dc885ea5f819c4d68f0afa1b59caad41a",
+    "width": 403,
+    "height": 192,
+    "caption": "Приклад учителя · 1"
+  },
+  {
+    "filename": "lesson-21-solution-blocks-2.svg",
+    "source": "lessons/lesson-21/files/lesson-21-solution.mcar",
+    "sha256": "57ad1ac0b0098126d93b599f55ab077dc885ea5f819c4d68f0afa1b59caad41a",
+    "width": 407,
+    "height": 140,
+    "caption": "Приклад учителя · 2"
+  },
+  {
+    "filename": "lesson-21-solution-blocks-3.svg",
+    "source": "lessons/lesson-21/files/lesson-21-solution.mcar",
+    "sha256": "57ad1ac0b0098126d93b599f55ab077dc885ea5f819c4d68f0afa1b59caad41a",
+    "width": 392,
+    "height": 192,
+    "caption": "Приклад учителя · 3"
+  },
+  {
+    "filename": "lesson-21-solution-blocks-4.svg",
+    "source": "lessons/lesson-21/files/lesson-21-solution.mcar",
+    "sha256": "57ad1ac0b0098126d93b599f55ab077dc885ea5f819c4d68f0afa1b59caad41a",
+    "width": 396,
+    "height": 140,
+    "caption": "Приклад учителя · 4"
+  },
+  {
+    "filename": "lesson-21-solution-blocks-5.svg",
+    "source": "lessons/lesson-21/files/lesson-21-solution.mcar",
+    "sha256": "57ad1ac0b0098126d93b599f55ab077dc885ea5f819c4d68f0afa1b59caad41a",
+    "width": 407,
+    "height": 192,
+    "caption": "Приклад учителя · 5"
+  },
+  {
+    "filename": "lesson-21-solution-blocks-6.svg",
+    "source": "lessons/lesson-21/files/lesson-21-solution.mcar",
+    "sha256": "57ad1ac0b0098126d93b599f55ab077dc885ea5f819c4d68f0afa1b59caad41a",
+    "width": 411,
+    "height": 140,
+    "caption": "Приклад учителя · 6"
+  },
+  {
+    "filename": "lesson-21-solution-blocks-7.svg",
+    "source": "lessons/lesson-21/files/lesson-21-solution.mcar",
+    "sha256": "57ad1ac0b0098126d93b599f55ab077dc885ea5f819c4d68f0afa1b59caad41a",
+    "width": 422,
+    "height": 192,
+    "caption": "Приклад учителя · 7"
+  },
+  {
+    "filename": "lesson-21-solution-blocks-8.svg",
+    "source": "lessons/lesson-21/files/lesson-21-solution.mcar",
+    "sha256": "57ad1ac0b0098126d93b599f55ab077dc885ea5f819c4d68f0afa1b59caad41a",
+    "width": 426,
+    "height": 140,
+    "caption": "Приклад учителя · 8"
+  },
+  {
+    "filename": "lesson-21-solution-blocks-9.svg",
+    "source": "lessons/lesson-21/files/lesson-21-solution.mcar",
+    "sha256": "57ad1ac0b0098126d93b599f55ab077dc885ea5f819c4d68f0afa1b59caad41a",
+    "width": 416,
+    "height": 140,
+    "caption": "Приклад учителя · 9"
+  },
+  {
+    "filename": "lesson-22-demo-blocks-1.svg",
+    "source": "lessons/lesson-22/files/lesson-22-demo.mcar",
+    "sha256": "78561da7785a341c93090aa2bd5d326b4c2694e4ddb307d5ff894453718107bf",
+    "width": 618,
+    "height": 508,
+    "caption": "Показ учителя"
+  },
+  {
+    "filename": "lesson-23-start-blocks-1.svg",
+    "source": "lessons/lesson-23/files/lesson-23-start.mcar",
+    "sha256": "0bc7194831b329271b03c0353e823377335db9fe242e4c8d03b2403370f962fa",
+    "width": 227,
+    "height": 136,
+    "caption": "Початок для власної роботи"
+  },
+  {
+    "filename": "lesson-23-demo-blocks-1.svg",
+    "source": "lessons/lesson-23/files/lesson-23-demo.mcar",
+    "sha256": "d312f20a3df0e3c936128fcc190db2cee67544f5c34315769c576aa71471e4da",
+    "width": 544,
+    "height": 412,
+    "caption": "Показ учителя"
+  },
+  {
+    "filename": "lesson-23-solution-blocks-1.svg",
+    "source": "lessons/lesson-23/files/lesson-23-solution.mcar",
+    "sha256": "37816c26070a7a325a4b5ba1a752cc50d9e851ad6b80a0ace5e3fd285f02f356",
+    "width": 544,
+    "height": 412,
+    "caption": "Приклад учителя"
+  },
+  {
+    "filename": "lesson-24-start-blocks-1.svg",
+    "source": "lessons/lesson-24/files/lesson-24-start.mcar",
+    "sha256": "fa447219018c0e07748f0857ea7cc9ee5c3b062c0d6a7a33732c01c286ed94f6",
+    "width": 544,
+    "height": 412,
+    "caption": "Початок для власної роботи"
+  },
+  {
+    "filename": "lesson-24-demo-blocks-1.svg",
+    "source": "lessons/lesson-24/files/lesson-24-demo.mcar",
+    "sha256": "6390aa58d2e885da73960f26ea5fcd9d15596161d66daf967329d0c6e5c7438f",
+    "width": 573,
+    "height": 964,
+    "caption": "Показ учителя"
+  },
+  {
+    "filename": "lesson-24-solution-blocks-1.svg",
+    "source": "lessons/lesson-24/files/lesson-24-solution.mcar",
+    "sha256": "03e33d188e714ba05ffa02f5fe150d8dea7908971f92d8bb95448154fdc17a25",
+    "width": 573,
+    "height": 964,
+    "caption": "Приклад учителя"
+  },
+  {
+    "filename": "lesson-25-start-blocks-1.svg",
+    "source": "lessons/lesson-25/files/lesson-25-start.mcar",
+    "sha256": "c5df641504a2918b9ae5faf24f0ee7228a1b0e2aa205d1ac8b3e0d468c41d42d",
+    "width": 573,
+    "height": 568,
+    "caption": "Початок для власної роботи"
+  },
+  {
+    "filename": "lesson-25-demo-blocks-1.svg",
+    "source": "lessons/lesson-25/files/lesson-25-demo.mcar",
+    "sha256": "964b4fdb1c20a13748f5a028cbd23bf69dd50312cc0e9d01b88a99f8f1a368e8",
+    "width": 588,
+    "height": 992,
+    "caption": "Показ учителя"
+  },
+  {
+    "filename": "lesson-25-solution-blocks-1.svg",
+    "source": "lessons/lesson-25/files/lesson-25-solution.mcar",
+    "sha256": "689163ef8f4bf99d9c07ebc46b11f21315e620bd60933ec7ea1cccedf60153d2",
+    "width": 588,
+    "height": 992,
+    "caption": "Приклад учителя"
+  },
+  {
+    "filename": "lesson-26-start-blocks-1.svg",
+    "source": "lessons/lesson-26/files/lesson-26-start.mcar",
+    "sha256": "011df0ad759e627c204513c334afe3fcc84db9a1f290502785111c8f67685cca",
+    "width": 588,
+    "height": 992,
+    "caption": "Початок для власної роботи"
+  },
+  {
+    "filename": "lesson-26-demo-blocks-1.svg",
+    "source": "lessons/lesson-26/files/lesson-26-demo.mcar",
+    "sha256": "db476712fa57ed10ae0e3bcb1fdac75593f88d8f6f24be89fe6804dffe3921c0",
+    "width": 662,
+    "height": 944,
+    "caption": "Показ учителя"
+  },
+  {
+    "filename": "lesson-26-solution-blocks-1.svg",
+    "source": "lessons/lesson-26/files/lesson-26-solution.mcar",
+    "sha256": "fa7e7b128df2fc828a507229e4457c619c7940c20457f2e570e0b13c47a7a20a",
+    "width": 662,
+    "height": 944,
+    "caption": "Приклад учителя"
+  },
+  {
+    "filename": "lesson-27-start-blocks-1.svg",
+    "source": "lessons/lesson-27/files/lesson-27-start.mcar",
+    "sha256": "cbc8c702da60d3c6b543289c4654b8f57bcf091b62e5e471052118244cb3355d",
+    "width": 662,
+    "height": 996,
+    "caption": "Початок для власної роботи"
+  },
+  {
+    "filename": "lesson-27-demo-blocks-1.svg",
+    "source": "lessons/lesson-27/files/lesson-27-demo.mcar",
+    "sha256": "c4a1e5547257559130e226e3ab70af8892f924f587b7871a29049b7c0dc867cd",
+    "width": 799,
+    "height": 1216,
+    "caption": "Показ учителя"
+  },
+  {
+    "filename": "lesson-27-solution-blocks-1.svg",
+    "source": "lessons/lesson-27/files/lesson-27-solution.mcar",
+    "sha256": "3b60fffd08f891ca056ccb63e1ee3b3302295d5730111998ae0e4c28b5483141",
+    "width": 799,
+    "height": 1216,
+    "caption": "Приклад учителя"
+  },
+  {
+    "filename": "lesson-28-start-blocks-1.svg",
+    "source": "lessons/lesson-28/files/lesson-28-start.mcar",
+    "sha256": "ec0624f9a67536d92bc4110199d3531110d827399be612f0572d80764bc227b4",
+    "width": 799,
+    "height": 1216,
+    "caption": "Початок для власної роботи"
+  },
+  {
+    "filename": "lesson-28-demo-blocks-1.svg",
+    "source": "lessons/lesson-28/files/lesson-28-demo.mcar",
+    "sha256": "93f74ed4ac9388f1f8599d69936629711c5131ed4e9c15adfb3eec86b6173b99",
+    "width": 799,
+    "height": 1216,
+    "caption": "Показ учителя"
+  },
+  {
+    "filename": "lesson-28-solution-blocks-1.svg",
+    "source": "lessons/lesson-28/files/lesson-28-solution.mcar",
+    "sha256": "389291081089ff74c0367f1e6397d613a436240f26792d00d16a99ba30b35e3c",
+    "width": 799,
+    "height": 1216,
+    "caption": "Приклад учителя"
+  },
+  {
+    "filename": "lesson-29-start-blocks-1.svg",
+    "source": "lessons/lesson-29/files/lesson-29-start.mcar",
+    "sha256": "79808d3167c5ab7bae08e4f093795f3d62973c6c9912b44c056f89892a97ff9e",
+    "width": 799,
+    "height": 1216,
+    "caption": "Початок для власної роботи"
+  },
+  {
+    "filename": "lesson-29-demo-blocks-1.svg",
+    "source": "lessons/lesson-29/files/lesson-29-demo.mcar",
+    "sha256": "a5d6fda987fd2cf0112fa207b091c2107fa6934c162d1e932aded41809c6629a",
+    "width": 799,
+    "height": 1216,
+    "caption": "Показ учителя"
+  },
+  {
+    "filename": "lesson-29-solution-blocks-1.svg",
+    "source": "lessons/lesson-29/files/lesson-29-solution.mcar",
+    "sha256": "c787c324bed78dd4456809be7ceff518f1df98063eb3c2af76636322b8cbc8ca",
+    "width": 799,
+    "height": 1216,
+    "caption": "Приклад учителя"
+  },
+  {
+    "filename": "lesson-30-start-blocks-1.svg",
+    "source": "lessons/lesson-30/files/lesson-30-start.mcar",
+    "sha256": "d1d09b05e5c386f90bb47e3a1d28d90ac4abf2388d8b4074d8a971111e0fe207",
+    "width": 799,
+    "height": 1216,
+    "caption": "Початок для власної роботи"
+  },
+  {
+    "filename": "lesson-30-demo-blocks-1.svg",
+    "source": "lessons/lesson-30/files/lesson-30-demo.mcar",
+    "sha256": "3e62f220228cdb4b052e3567ee430ab64eb5c6599cff1e1c016b1ef3ad33e668",
+    "width": 799,
+    "height": 1216,
+    "caption": "Показ учителя"
+  },
+  {
+    "filename": "lesson-30-solution-blocks-1.svg",
+    "source": "lessons/lesson-30/files/lesson-30-solution.mcar",
+    "sha256": "7a4d81f692021f692bf92e44b1bff3e3197754facc6aa4663f84af53e4cb66fa",
+    "width": 799,
+    "height": 1216,
+    "caption": "Приклад учителя"
+  },
+  {
+    "filename": "mcar-chassis.png",
+    "source": "Mcar assembly guide",
+    "width": 1176,
+    "height": 936,
+    "caption": "Модель складання з Mcar"
+  },
+  {
+    "filename": "mcar-wheels.png",
+    "source": "Mcar assembly guide",
+    "width": 1176,
+    "height": 936,
+    "caption": "Модель складання з Mcar"
+  },
+  {
+    "filename": "mcar-robot.png",
+    "source": "Mcar assembly guide",
+    "width": 1176,
+    "height": 936,
+    "caption": "Модель складання з Mcar"
+  },
+  {
+    "filename": "mcar-sensor.png",
+    "source": "Mcar assembly guide",
+    "width": 1176,
+    "height": 936,
+    "caption": "Модель складання з Mcar"
+  },
+  {
+    "filename": "lesson-06-start-blocks-1.svg",
+    "source": "lessons/lesson-06/files/lesson-06-start.mcar",
+    "sha256": "8c36f4e96c98e1e636624c952050b53c60dd8ba2e30cc5719d8df3300401acd4",
+    "width": 313,
+    "height": 140,
+    "caption": "Початок для власної роботи"
+  },
+  {
+    "filename": "lesson-06-wiring.png",
+    "source": "lessons/lesson-06/files/lesson-06-start.mcar",
+    "sha256": "8c36f4e96c98e1e636624c952050b53c60dd8ba2e30cc5719d8df3300401acd4",
+    "width": 1800,
+    "height": 1352,
+    "caption": "Резистор 330 Ом і LED встановлені в mini breadboard. ESP32 — у платі розширення. Схема з Mcar."
+  },
+  {
+    "filename": "lesson-06-demo-blocks-1.svg",
+    "source": "lessons/lesson-06/files/lesson-06-demo.mcar",
+    "sha256": "8d6943e1b6390c35cddeb64526aae4f7abe0084cbe27b99649c773517e3c0f5b",
+    "width": 316,
+    "height": 292,
+    "caption": "Показ учителя"
+  },
+  {
+    "filename": "lesson-06-solution-blocks-1.svg",
+    "source": "lessons/lesson-06/files/lesson-06-solution.mcar",
+    "sha256": "4475dc1ac80a86594f74ae05d164db20ae980b3b056a076ffd0485e572d9643f",
+    "width": 316,
+    "height": 292,
+    "caption": "Приклад учителя"
+  },
+  {
+    "filename": "lesson-07-start-blocks-1.svg",
+    "source": "lessons/lesson-07/files/lesson-07-start.mcar",
+    "sha256": "8111935d848e9d84fe170f7d97200da2a079cdfe92515c9a0609a27263cef0ed",
+    "width": 323,
+    "height": 240,
+    "caption": "Початок для власної роботи"
+  },
+  {
+    "filename": "lesson-07-demo-blocks-1.svg",
+    "source": "lessons/lesson-07/files/lesson-07-demo.mcar",
+    "sha256": "ed3bf7d2a84f4142ce918eb6ecc1b0d9c6de93642b0d17ec953c2bc1cc117cbb",
+    "width": 323,
+    "height": 240,
+    "caption": "Показ учителя"
+  },
+  {
+    "filename": "lesson-07-solution-blocks-1.svg",
+    "source": "lessons/lesson-07/files/lesson-07-solution.mcar",
+    "sha256": "841fef8287d86f98e68d4483bc33835dc5a1dea2f062986b490fde3a4fd78bf9",
+    "width": 323,
+    "height": 240,
+    "caption": "Приклад учителя"
+  },
+  {
+    "filename": "lesson-09-start-blocks-1.svg",
+    "source": "lessons/lesson-09/files/lesson-09-start.mcar",
+    "sha256": "02d63af24ab6ce14c90b6d9f6cd36308f60d1dd480132933f9f479f24d311e92",
+    "width": 323,
+    "height": 240,
+    "caption": "Початок для власної роботи"
+  },
+  {
+    "filename": "lesson-09-demo-blocks-1.svg",
+    "source": "lessons/lesson-09/files/lesson-09-demo.mcar",
+    "sha256": "7534b5779c8dad720f7d32f23896eb30075bb6beeffa47832dcab5fee9aea649",
+    "width": 326,
+    "height": 444,
+    "caption": "Показ учителя"
+  },
+  {
+    "filename": "lesson-09-solution-blocks-1.svg",
+    "source": "lessons/lesson-09/files/lesson-09-solution.mcar",
+    "sha256": "7d228697db5989c369b0d10767e363b977986bfa52e0374f3332d52ee63b4f61",
+    "width": 326,
+    "height": 444,
+    "caption": "Приклад учителя"
+  },
+  {
+    "filename": "lesson-10-start-blocks-1.svg",
+    "source": "lessons/lesson-10/files/lesson-10-start.mcar",
+    "sha256": "4b7b6c8ef3a0c1e1d7a36b3c848dc317ffbc3283d447954d8f33dbe2f45c28d7",
+    "width": 323,
+    "height": 240,
+    "caption": "Початок для власної роботи"
+  },
+  {
+    "filename": "lesson-10-demo-blocks-1.svg",
+    "source": "lessons/lesson-10/files/lesson-10-demo.mcar",
+    "sha256": "91ae226ca9266b06d178dee77d8bfe307baf3b41b84b0c7b982ca665323a5d9f",
+    "width": 326,
+    "height": 696,
+    "caption": "Показ учителя"
+  },
+  {
+    "filename": "lesson-10-solution-blocks-1.svg",
+    "source": "lessons/lesson-10/files/lesson-10-solution.mcar",
+    "sha256": "3bc8ba77b206da90c03ff45fd2d7cf6fac1a20fa01eb5e5b8e3606ae31222bb8",
+    "width": 326,
+    "height": 696,
+    "caption": "Приклад учителя"
+  },
+  {
+    "filename": "circuit-first.png",
+    "source": "shared/content/circuit-examples.json",
+    "width": 2400,
+    "height": 1360,
+    "caption": "Перше коло: джерело 3,3 В, резистор 330 Ом і LED.",
+    "sha256": "b53b8e877163bb6009b85b59976e7fa89ef8a31bd6174d68b89b2d2ceccb8413"
+  },
+  {
+    "filename": "circuit-button.png",
+    "source": "shared/content/circuit-examples.json",
+    "width": 2400,
+    "height": 1360,
+    "caption": "Звукове Морзе: активна пищалка та кнопка. Кнопка відпущена — коло розімкнене, звуку немає.",
+    "sha256": "b53b8e877163bb6009b85b59976e7fa89ef8a31bd6174d68b89b2d2ceccb8413"
+  },
+  {
+    "filename": "circuit-contact.png",
+    "source": "shared/content/circuit-examples.json",
+    "width": 2400,
+    "height": 1360,
+    "caption": "Звукова гра: кнопка на цій схемі позначає дотик петлі до траси. Контакт замкнений — пищалка звучить; у виробі окремої кнопки немає.",
+    "sha256": "b53b8e877163bb6009b85b59976e7fa89ef8a31bd6174d68b89b2d2ceccb8413"
+  },
+  {
+    "filename": "wire-game-assembly.svg",
+    "source": "scripts/render-wire-game.mjs",
+    "sha256": "93c3ed780fe884bc82f63128c4a6557016a7aa4cbccec35800688497f39e92ff",
+    "width": 1200,
+    "height": 780,
+    "caption": "Готова гра «Нервовий дріт» із активною пищалкою на mini breadboard."
+  }
+]

@@ -36,15 +36,17 @@ export function ClassCard({
           </>
         )}
         {topicCount}{' '}
-        {schoolClass.courseSubject
-          ? topicCount % 10 >= 2 &&
-            topicCount % 10 <= 4 &&
-            (topicCount % 100 < 12 || topicCount % 100 > 14)
-            ? 'розділи курсу'
-            : 'розділів курсу'
-          : schoolClass.label
-            ? 'розділів курсу'
-            : 'навчальних тем'}
+        {schoolClass.id === 'robo'
+          ? 'заняття'
+          : schoolClass.courseSubject
+            ? topicCount % 10 >= 2 &&
+              topicCount % 10 <= 4 &&
+              (topicCount % 100 < 12 || topicCount % 100 > 14)
+              ? 'розділи курсу'
+              : 'розділів курсу'
+            : schoolClass.label
+              ? 'розділів курсу'
+              : 'навчальних тем'}
       </p>
     </Card>
   );

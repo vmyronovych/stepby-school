@@ -1,3 +1,4 @@
+import { handleRoboticsDocumentAction } from '../courses/robotics/shared/documents';
 import { radianExamples } from '../features/tools/data/radian';
 import { LegacyHtml } from '../components/ui';
 import { engine } from '../runtime';
@@ -31,6 +32,8 @@ export const inputServices: ToolInputServices = {
   ),
 };
 export const documentServices: DocumentServices = {
+  handleAction: (action, body) =>
+    handleRoboticsDocumentAction(action, body, notify),
   getKtp: () => engine.ROBO.ktp,
   clearKtp: () => {
     engine.ROBO.ktp = {};

@@ -35,7 +35,10 @@ export function DocumentPage({
   return (
     <>
       <Breadcrumbs parts={breadcrumbs} />
-      <div className={`robo-doc${headings.length ? '' : ' no-toc'}`}>
+      <div
+        data-course={topic.cls}
+        className={`robo-doc${headings.length ? '' : ' no-toc'}`}
+      >
         <DocumentContents headings={headings} hrefForSub={hrefForSub} />
         <DocumentArticle
           topic={topic}

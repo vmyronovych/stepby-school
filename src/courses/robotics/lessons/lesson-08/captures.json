@@ -1,0 +1,25 @@
+{
+  "renderer": "Mcar web/dist; Chromium, deviceScaleFactor 2",
+  "captures": [
+    {
+      "filename": "lesson-08-start-blocks.png",
+      "source": "lessons/lesson-08/files/lesson-08-start.mcar",
+      "sha256": "650de39da79415d938c2fe2d33bb4a199b96f87d3acb1d1f3ed8365b794a9bb6"
+    },
+    {
+      "filename": "lesson-08-wiring.png",
+      "source": "lessons/lesson-08/files/lesson-08-start.mcar",
+      "sha256": "650de39da79415d938c2fe2d33bb4a199b96f87d3acb1d1f3ed8365b794a9bb6"
+    },
+    {
+      "filename": "lesson-08-demo-blocks.png",
+      "source": "lessons/lesson-08/files/lesson-08-demo.mcar",
+      "sha256": "60fec0df619f4923037888614b462308bd72c2275c71fb10d1fe0cc240aa5e18"
+    },
+    {
+      "filename": "lesson-08-solution-blocks.png",
+      "source": "lessons/lesson-08/files/lesson-08-solution.mcar",
+      "sha256": "31797eac825d6f1813b2df75426160491a09a92a3682495d31542106fd9eae9d"
+    }
+  ]
+}

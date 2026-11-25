@@ -23,7 +23,7 @@ test('course is discoverable, modern theory and all visual tasks render', async 
     await expect.poll(() => frame.locator('title').textContent()).toBe(task.reference.match(/<title>(.*?)<\/title>/)[1]);
     await expect(frame.locator('body')).not.toBeEmpty();
     await expect(page.locator('.web-reference img')).toBeVisible();
-    expect(await page.locator('.web-reference img').evaluate((image) => image.naturalWidth)).toBe(720);
+    await expect.poll(() => page.locator('.web-reference img').evaluate((image) => image.naturalWidth)).toBe(720);
   }
   expect(errors).toEqual([]);
 });
@@ -63,7 +63,7 @@ test('lesson works offline through file:// on a narrow screen', async ({ page })
   page.on('request', (request) => { if (/^https?:/.test(request.url())) external.push(request.url()); });
   await page.setViewportSize({ width: 390, height: 844 });
   await page.context().setOffline(true);
-  await page.goto(pathToFileURL(path.resolve('index.html')).href + route + '/web-page-practice');
+  await page.goto(pathToFileURL(path.resolve('dist/index.html')).href + route + '/web-page-practice');
   await expect(page.locator('#web-source')).toBeVisible();
   await page.locator('[data-web-task="homework"]').click();
   await page.locator('#web-source').fill(webTasks[3].reference);

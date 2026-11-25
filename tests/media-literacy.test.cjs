@@ -54,7 +54,7 @@ test('every course theme has a complete journey and real local illustration file
     assert(journey, 'topic opens an authored journey');
     assert.equal(journey.scenes.length, 4);
     assert(journey.finalTask && journey.success);
-    const image = fs.readFileSync(path.resolve(__dirname, '..', topic.cover));
+    const image = fs.readFileSync(path.resolve(__dirname, '../dist', topic.cover));
     let width;
     if (topic.cover.endsWith('.jpg')) {
       assert.equal(image.subarray(0, 2).toString('hex'), 'ffd8');
@@ -264,7 +264,7 @@ test('all live conversations use storybook artwork matching their speakers', () 
     const authors = [...new Set(story.messages.map(message => message.author))];
     for (const message of story.messages) {
       assert(message.comicArt, `${story.name}: illustration for ${message.author}`);
-      const image = fs.readFileSync(path.resolve(__dirname, '..', message.comicArt.src));
+      const image = fs.readFileSync(path.resolve(__dirname, '../dist', message.comicArt.src));
       assert.equal(image.subarray(1, 4).toString(), 'PNG');
       const width = image.readUInt32BE(16), height = image.readUInt32BE(20);
       if (message.comicArt.panel !== undefined) {

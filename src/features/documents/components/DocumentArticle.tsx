@@ -7,7 +7,6 @@ import {
 import type { Topic } from '../../../types';
 import type { DocumentSection, DocumentServices } from '../types';
 import { useDocumentLifecycle } from '../hooks/useDocumentLifecycle';
-import { printKtp, printMorse, printRules } from '../printing';
 
 interface DocumentArticleProps {
   children?: ReactNode;
@@ -58,23 +57,8 @@ export function DocumentArticle({
       return;
     }
     const button = target.closest('button');
-    switch (button?.id) {
-      case 'rulesPoster':
-        printRules(body, true, services.notify);
-        break;
-      case 'rulesCard':
-        printRules(body, false, services.notify);
-        break;
-      case 'morsePrint':
-        printMorse(body, services.notify);
-        break;
-      case 'ktpPrint':
-        printKtp(body, services.notify);
-        break;
-      case 'ktpClear':
-        clearKtp(body);
-        break;
-    }
+    if (button?.id === 'ktpClear') clearKtp(body);
+    else if (button?.id) services.handleAction?.(button.id, body);
   }
 
   return (

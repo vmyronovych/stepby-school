@@ -6,7 +6,7 @@ const lesson = '#/media/literacy/safety/robux';
 test('all illustrated conversations load offline and fit a phone screen', async ({ page }) => {
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
-  const file = pathToFileURL(path.resolve('index.html')).href;
+  const file = pathToFileURL(path.resolve('dist/index.html')).href;
   await page.setViewportSize({ width: 390, height: 844 });
   let conversations = 0;
   for (const topic of ['truth', 'publishing', 'games', 'safety', 'safety/robux']) {
@@ -71,7 +71,7 @@ test('practice and teacher routes support browser history without losing practic
 });
 
 test('local QR targets the exact file and opens isolated practice at a narrow viewport', async ({ page }) => {
-  const file = pathToFileURL(path.resolve('index.html')).href;
+  const file = pathToFileURL(path.resolve('dist/index.html')).href;
   await page.goto(file + lesson);
   await page.locator('.media-projector').getByRole('button', { name: 'Перейти до практики', exact: true }).click();
   await expect(page.getByRole('link', { name: 'Відкрити практику', exact: true })).toHaveAttribute('href', file + '#/media/literacy/safety/robux-student');
@@ -136,7 +136,7 @@ test('practice checks action and reason together and retains attempts between ta
 });
 
 test('craft photo can be enlarged, inspected on mobile and closed with keyboard offline', async ({ page }) => {
-  const file = pathToFileURL(path.resolve('index.html')).href;
+  const file = pathToFileURL(path.resolve('dist/index.html')).href;
   await page.goto(file + '#/media/literacy/publishing');
   await page.getByRole('button', { name: '2. Що видно на задньому плані?', exact: true }).click();
   const panels = page.locator('.media-projector .media-comic-illustration');
