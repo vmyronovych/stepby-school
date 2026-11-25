@@ -1,5 +1,7 @@
 import type { Topic } from '../../../types';
-import { Card, LinkButton, PageHeading } from '../../../components/ui';
+import { Card } from '../../../components/card';
+import { LinkButton } from '../../../components/button';
+import { PageHeading } from '../../../components/page-heading';
 import { roboticsLessons, roboticsStages } from '../course';
 import { mcarUrl, roboticsHref, roboticsView } from '../shared/routes';
 import { RoboticsBreadcrumbs, RoboticsNav } from './RoboticsNav';

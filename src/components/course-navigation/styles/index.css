@@ -1,0 +1,25 @@
+.course-navigation {
+  display: flex;
+  gap: 6px;
+  margin: 14px 0 24px;
+  padding: 5px;
+  width: fit-content;
+  background: var(--primary-l);
+  border-radius: 12px;
+}
+.course-navigation a {
+  padding: 10px 22px;
+  border-radius: 9px;
+  text-decoration: none;
+  color: var(--ink);
+  font-weight: 650;
+}
+.course-navigation a[aria-current] {
+  background: var(--primary);
+  color: #fff;
+}
+.course-navigation a:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 4px;
+}
+@media print { .course-navigation { display: none !important; } }

@@ -33,10 +33,10 @@ test('invalid routes, malformed encoding and legacy anchors resolve safely', asy
   const errors = [];
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto('/#/%E0%A4%A');
-  await expect(page.locator('h1')).toHaveText('Оберіть клас або курс');
+  await expect(page.locator('h1')).toHaveText('Оберіть курс');
   await page.goto('/#/5a/ukr');
-  await expect(page).toHaveURL(/#\/5a$/);
-  await expect(page.locator('h1')).toContainText('Предмети');
+  await expect(page).toHaveURL(/#\/$/);
+  await expect(page.locator('h1')).toContainText('Оберіть курс');
   await page.goto('/#mod1-3');
   await expect(page).toHaveURL(/#\/robo\/robot\/[^/]+\/mod1-3$/);
   await expect(page.locator('#mod1-3')).toBeVisible();

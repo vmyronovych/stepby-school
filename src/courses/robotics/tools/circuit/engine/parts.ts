@@ -1,7 +1,7 @@
 import { powerParts } from './power-parts';
 import { CIRC_WIRE_R } from './constants';
 import { numberProperty, stringProperty, stateNumber, required } from './types';
-import type { CircuitPart, PartState, PartDefinition, Point } from './types';
+import type { CircuitPart, PartState, PartDefinition } from './types';
 /* =========================================================
    ДЕТАЛІ КОНСТРУКТОРА КОЛА
    ---------------------------------------------------------

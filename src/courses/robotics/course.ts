@@ -1,3 +1,4 @@
+import type { Course } from '../../types';
 import { metadata as lesson1 } from './lessons/lesson-01/metadata';
 import { metadata as lesson2 } from './lessons/lesson-02/metadata';
 import { metadata as lesson3 } from './lessons/lesson-03/metadata';
@@ -30,7 +31,7 @@ import { metadata as lesson29 } from './lessons/lesson-29/metadata';
 import { metadata as lesson30 } from './lessons/lesson-30/metadata';
 import { metadata as lesson31 } from './lessons/lesson-31/metadata';
 import { metadata as lesson32 } from './lessons/lesson-32/metadata';
-import type { Topic, SchoolClass, Subject } from '../../types';
+import type { Topic, Subject } from '../../types';
 
 export const roboticsStages = [
   'Перші електричні кола',
@@ -144,22 +145,15 @@ export const roboticsDocumentTopics: Topic[] = [
   },
 ];
 
-export const roboticsClass: SchoolClass = {
-  id: 'robo',
-  name: 'Робототехніка',
-  icon: '🤖',
-  label: 'Робототехніка',
-  courseSubject: 'robot',
-  courseHome: 'lessons',
-  note: 'Для 3–4 класів: від першого кола до власного Мандрівника на ESP32.',
-};
-
 export const roboticsSubject: Subject = {
   id: 'robot',
   name: 'Робототехніка',
   icon: '🤖',
-  color: 'var(--green)',
   bg: 'var(--green-l)',
-  active: true,
   cls: ['robo'],
+};
+
+export const robotics: Course = {
+  subject: roboticsSubject,
+  topics: [...roboticsTopics, ...roboticsDocumentTopics],
 };

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { Button } from '../../../../components/ui';
+import { Button } from '../../../../components/button';
 export function McarFigure({
   src,
   alt,

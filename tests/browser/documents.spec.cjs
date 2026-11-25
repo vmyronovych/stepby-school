@@ -40,8 +40,12 @@ test('every document route mounts through its React document or media lesson pag
     await navigate(page, document.href);
     if (document.media) {
       await expect(page.locator('.media-projector'), document.id).toBeVisible();
-      await expect(page.locator('.media-lesson-heading h1')).toHaveText(document.title);
-      await expect(page.getByRole('link', { name: 'Разом у класі', exact: true })).toHaveAttribute('aria-current', 'page');
+      await expect(page.locator('.media-lesson-heading h1')).toHaveText(
+        document.title,
+      );
+      await expect(
+        page.getByRole('link', { name: 'Разом у класі', exact: true }),
+      ).toHaveAttribute('aria-current', 'page');
       continue;
     }
     await expect(page.locator('#roboBody'), document.id).toBeVisible();
@@ -166,7 +170,7 @@ test('circuit views and component state persist across React route changes', asy
   await page.locator('[data-view="bb"]').click();
   await expect(page.locator('#cbMain')).toHaveClass(/bb/);
   await navigate(page, '#/');
-  await expect(page.locator('h1.page')).toContainText('Оберіть клас');
+  await expect(page.locator('h1.page')).toContainText('Оберіть курс');
   await navigate(page, '#/robo/robot/r9');
   await expect(page.locator('#cbMain')).toHaveClass(/bb/);
   await page.locator('[data-view="schem"]').click();
@@ -174,12 +178,18 @@ test('circuit views and component state persist across React route changes', asy
   await expect(page.locator('#cbParts [data-part]')).toHaveCount(initialParts);
 });
 
-test('removed robotics planning routes return to the lesson catalog', async ({ page }) => {
+test('removed robotics planning routes return to the lesson catalog', async ({
+  page,
+}) => {
   for (const route of ['#/robo/robot/r2', '#ktp', '#/robo/robot/r6']) {
     await page.goto('/' + route);
     await expect(page).toHaveURL(/#\/robo\/robot\/lessons$/);
-    await expect(page.getByRole('heading', { name: 'Заняття з робототехніки' })).toBeVisible();
-    await expect(page.locator('#ktpPrint, #ktpClear, [contenteditable][data-k="d1"]')).toHaveCount(0);
+    await expect(
+      page.getByRole('heading', { name: 'Заняття з робототехніки' }),
+    ).toBeVisible();
+    await expect(
+      page.locator('#ktpPrint, #ktpClear, [contenteditable][data-k="d1"]'),
+    ).toHaveCount(0);
   }
 });
 

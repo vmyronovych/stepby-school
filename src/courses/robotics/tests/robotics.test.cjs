@@ -11,7 +11,7 @@ const { createHash } = require('node:crypto');
 const {
   loadTypeScript,
 } = require('../../../../tests/helpers/load-typescript.cjs');
-const { catalog } = loadTypeScript('src/data/catalog.ts');
+const { catalog } = loadTypeScript('src/app/catalog/catalog.ts');
 const { parseRoute, resolveRoute } = loadTypeScript('src/navigation/routes.ts');
 const resolve = (hash) => resolveRoute(parseRoute(hash), catalog);
 
@@ -41,7 +41,7 @@ test('robotics has 32 sequential lessons and exposes every authored lesson as re
 });
 
 test('robotics course shortcuts, lesson modes and removed routes resolve deliberately', () => {
-  assert.equal(resolve('#/robo').redirect, '#/robo/robot');
+  assert.equal(resolve('#/robo').redirect, '#/robo/robot/lessons');
   assert.equal(resolve('#/robo/robot').redirect, '#/robo/robot/lessons');
   for (const view of ['practice', 'teacher', 'student', 'classroom']) {
     const state = resolve('#/robo/robot/lesson-08/' + view).state;

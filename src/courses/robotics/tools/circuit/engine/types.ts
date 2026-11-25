@@ -11,15 +11,6 @@ export interface Endpoint {
   p: string;
   t: number;
 }
-export type PartType =
-  | 'battery'
-  | 'resistor'
-  | 'led'
-  | 'buzzer'
-  | 'switch'
-  | 'button'
-  | 'npn'
-  | 'motor';
 export interface PartProperties {
   [key: string]: string | number | boolean | undefined;
   src?: string;

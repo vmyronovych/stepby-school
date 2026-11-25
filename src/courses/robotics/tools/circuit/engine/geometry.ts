@@ -1,6 +1,6 @@
 import { CIRC } from './parts';
 import { CB_GRID } from './constants';
-import type { CircuitPart, Terminal, Point, Polyline, Position } from './types';
+import type { CircuitPart, Terminal, Point, Polyline } from './types';
 import { required } from './types';
 export function cbRot(rot: number, x: number, y: number): Point {
   return rot === 1

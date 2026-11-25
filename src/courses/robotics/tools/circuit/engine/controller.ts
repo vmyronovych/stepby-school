@@ -1,15 +1,7 @@
 import type { Drag } from './interaction';
 import { CIRC, circFlow, partMessage } from './parts';
 import { CB_W, CB_H, CB_GRID } from './constants';
-import {
-  cbRot,
-  cbTerm,
-  cbBox,
-  cbPoly,
-  cbAt,
-  cbSimplify,
-  cbRoute,
-} from './geometry';
+import { cbRot, cbTerm, cbPoly, cbAt, cbRoute } from './geometry';
 import {
   cbNewBoard,
   cbAddPart,
@@ -44,22 +36,19 @@ import {
 import { solveCircuit } from './solver';
 import { createCircuitAudio } from './audio';
 import { circuitState } from './state';
-import { esc, prefersReducedMotion } from '../../../../../engines/core/util';
+import { esc } from '../../../../../components/legacy-html';
+import { prefersReducedMotion } from '../../../../../components/motion';
 import { required, numberProperty, stateNumber } from './types';
 import type {
   CircuitPart,
-  CircuitBoard,
   Wire,
   Endpoint,
   Point,
   Hole,
-  Jumper,
   Placement,
   Conductor,
   BreadboardLayout,
-  Position,
   LayoutTransform,
-  Polyline,
 } from './types';
 import type {
   CircuitMountOptions,
@@ -124,8 +113,7 @@ export function initRoboSim(
   let lastControls = '',
     frameId = 0;
   let lastLabels: string | null = '',
-    lastMsg = '',
-    lastPop = '';
+    lastMsg = '';
   let drag: Drag | null = null,
     pending: Endpoint | null = null,
     hoverTerm: string | null = null;
@@ -288,7 +276,6 @@ export function initRoboSim(
           )
           .join('') + selWireEnds();
     lastLabels = null;
-    lastPop = '';
     chainDirty = true;
     renderLabels();
     renderPalette();

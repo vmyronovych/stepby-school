@@ -1,0 +1,137 @@
+/* =========================================================
+   ЗОШИТ У КЛІТИНКУ + РУКОПИСНЕ ПИСЬМО
+   Спільні примітиви рендера, які перевикористовують усі інструменти.
+   ========================================================= */
+:root{--cell:30px; --grid:#c4d8ef; --graphite:#2f3550; --paper:#fbfdff}
+.paper{
+  background-color:var(--paper);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size:var(--cell) var(--cell);
+  border:1px solid #d3e2f4;border-radius:8px;
+  box-shadow:0 2px 10px rgba(60,90,140,.08);
+}
+.paper.sheet{flex:1;padding:var(--cell);box-sizing:border-box;min-height:calc(var(--cell)*13);overflow:auto}
+
+/* колонкова сітка (множення / ділення) */
+.notebook{display:inline-grid;grid-auto-rows:var(--cell)}
+.nk{width:var(--cell);height:var(--cell);display:grid;place-items:center;
+  font-family:'JetBrains Mono','Consolas',monospace;font-size:19px;color:var(--graphite);position:relative}
+.nk.res{color:var(--green);font-weight:700}
+.nk.op{color:var(--pink);font-weight:800}
+.nk.muted{color:#98a0bd}
+.nk.ul::after{content:"";position:absolute;left:-1px;right:-1px;bottom:0;height:2px;background:var(--graphite);border-radius:2px}
+
+/* підсумковий рядок «284 × 36 = 10224» */
+.eqline{font-size:22px;font-family:'JetBrains Mono',monospace;display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;color:var(--graphite)}
+.eqline .hl{background:var(--amber-l);color:var(--amber);border-radius:6px;padding:0 6px}
+.eqline .res{color:var(--green);font-weight:700}
+
+/* рукописні гліфи: перо малює контур (stroke-dashoffset) */
+.hwg{height:1.02em;width:.6em;display:inline-block;vertical-align:-.19em;overflow:visible}
+.hwg path{fill:none;stroke:currentColor;stroke-width:7.5;stroke-linecap:round;stroke-linejoin:round}
+.hwt{font-family:inherit}
+@keyframes hwdraw{to{stroke-dashoffset:0}}
+@media(prefers-reduced-motion:reduce){.hwg path{animation:none!important;stroke-dashoffset:0!important}}
+
+/* =========================================================
+   ФОРМУЛИ (src/components/notebook/rendering/formula.ts): дроби з виразами, корені, степені.
+   Вкладені inline-flex span; розмір — від font-size обгортки.
+   ========================================================= */
+.fml{display:inline-flex;align-items:center;font-family:'JetBrains Mono','Consolas',monospace;color:var(--graphite);line-height:1}
+.fx{display:inline-flex;align-items:center;position:relative}
+.fx-function{gap:.2em}
+.fo{display:inline-flex;margin:0 .1em}
+.fpar{display:inline-flex}
+.ffrac{flex-direction:column;align-items:center;vertical-align:middle;margin:0 .1em}
+.ffn,.ffd{display:inline-flex;align-items:center;padding:.1em .18em}
+.ffbar{align-self:stretch;height:2px;background:currentColor;margin:.16em 0;border-radius:1px;transform-origin:left}
+/* корінь: гачок тягнеться на всю висоту, дах — на всю ширину підкореневого виразу */
+.fx-root{align-items:stretch}
+.rhook{position:relative;width:.6em;flex:none;margin-left:.04em}
+.rhook svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.rhook path{fill:none;stroke:currentColor;stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round}
+.rbody{display:inline-flex;align-items:center;position:relative;padding:.24em .12em .04em .1em}
+.rbar{position:absolute;left:-1px;right:0;top:0;height:2.3px;background:currentColor;border-radius:1px;transform-origin:left}
+.ridx{display:inline-flex;font-size:.5em;align-self:flex-start;margin:.3em -.5em 0 0;position:relative;z-index:1}
+/* Симетричні поля тримають основу на спільній осі формули.
+   Дріб показника повністю розміщується над основою. */
+.fx-pow{display:inline-grid;grid-template-columns:auto auto;grid-template-rows:1fr auto 1fr;align-items:center}
+.fx-pow>:first-child{grid-column:1;grid-row:2}
+.fpow{display:inline-flex;font-size:.62em;grid-column:2;grid-row:1;align-self:end;margin:0 0 -.25em .04em}
+/* обведений підвираз («небезпечне місце») із номером умови */
+/* рамка — з просвітом (outline-offset), щоб не зливатися з дахом кореня чи рискою дробу */
+.fmark{border-radius:5px;background:rgba(224,152,42,.1);outline:2px solid var(--mk,rgba(224,152,42,.6));outline-offset:3px}
+.fbadge{position:absolute;right:-13px;top:-12px;font:700 11px/1 'Segoe UI',sans-serif;color:#fff;background:var(--amber);border-radius:9px;padding:2px 4px;z-index:2}
+
+/* такти пера для не-гліфових штрихів (hwTick) */
+@keyframes hwwipe{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes hwwipeV{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes hwbar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes hwfade{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
+@keyframes hwpop{0%{opacity:0;transform:scale(.3)}70%{opacity:1;transform:scale(1.2)}100%{opacity:1;transform:scale(1)}}
+@media(prefers-reduced-motion:reduce){.hwa{animation:none!important}}
+
+/* числова пряма (src/components/notebook/rendering/number-line.ts) */
+.nl{position:relative;display:inline-block;flex:none}
+.nl>svg{position:absolute;left:0;top:0;overflow:visible}
+.nl>svg path{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+.nlaxis{color:var(--graphite);stroke-width:2}
+.nlarc{color:#98a0bd;stroke-width:1.5}
+.nlpt{stroke:var(--graphite);stroke-width:2;transform-box:fill-box;transform-origin:center}
+.nlpt.fill{fill:var(--graphite)}
+.nlpt.hole{fill:#fff}
+.nlh{opacity:.85}
+.nlh path{stroke-width:2}
+.nlh rect{stroke:none}
+.nlres{color:var(--green);stroke-width:5}
+.nllbl{position:absolute;transform:translateX(-50%);font-size:15px;white-space:nowrap;color:var(--graphite);line-height:1}
+.nllbl .hwg{height:1.02em}
+.nlsign{font-size:17px;color:var(--pink);font-weight:700}
+/* кольори умов ①②③④ — однакові в системі, блоках і на прямій */
+.lv0{color:var(--primary)} .lv1{color:var(--pink)} .lv2{color:var(--amber)} .lv3{color:#1596a8}
+pattern path{stroke-width:1.6;fill:none}
+pattern path.lv0{stroke:var(--primary)} pattern path.lv1{stroke:var(--pink)}
+pattern path.lv2{stroke:var(--amber)} pattern path.lv3{stroke:#1596a8}
+@keyframes hwdash{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
+
+/* =========================================================
+   ОБЧИСЛЕННЯ СТОВПЧИКОМ (src/components/notebook/rendering/column.ts): число «в умі», чернетка, польоти
+   ========================================================= */
+/* дрібна цифра в правому верхньому куті клітинки (colGrid: поле sup) — «в умі», «позичили» */
+.nk-sup{position:absolute;right:2px;top:1px;font-size:11px;line-height:1;color:var(--amber);display:flex;border-radius:3px}
+.nk-sup .hwg path{stroke-width:10}
+.nk-sup.used{color:#b3b9d0}
+.nk-sup.dot{font-size:14px;right:1px;top:-1px}          /* крапка «позичили» — жирна */
+.nk-sup.dot .hwg path{stroke-width:34}
+.nk-sup.hlc{background:var(--amber-l);box-shadow:0 0 0 2px var(--amber-l)}
+.nk-sup.out{animation:colOut .5s ease forwards}
+@keyframes colOut{to{opacity:0}}
+@media(prefers-reduced-motion:reduce){.nk-sup.out{visibility:hidden}}
+/* нотатка на полях: посилання на урок, де крок розібрано докладно (lessonNote) — дрібно, не на письмі */
+.lnote{align-self:flex-start;max-width:calc(var(--cell)*7);padding:6px 10px;
+  border-left:3px solid var(--primary);background:rgba(91,75,230,.06);border-radius:0 8px 8px 0;
+  font:600 12px/1.4 'Segoe UI',sans-serif;color:var(--muted)}
+.lnote a{color:var(--primary);font-weight:700}
+/* що саме зараз рахуємо */
+.nk.hl{background:var(--primary-l);border-radius:6px}
+/* знак дії (×, +, −) — на лінії сітки між двома операндами */
+.nk.mid>.hwg{transform:translateY(calc(var(--cell) * -.5))}
+/* вертикальна риска «куточка» ділення — по лівому краю клітинки */
+.nk.vl::before{content:"";position:absolute;left:-1px;top:0;bottom:0;width:2px;background:var(--graphite);border-radius:2px}
+/* чернетка кроку праворуч від стовпчика: жовте — «в умі», темне — те, що йде в стовпчик */
+.nk.sc{color:#98a0bd}
+.nk.sc.m{color:var(--amber);font-weight:700}
+.nk.sc.w{color:var(--graphite);font-weight:700}
+/* полотно стовпчика: підпис і клони польотів позиціонуються від нього */
+.col-wrap{position:relative;display:inline-block}
+.col-ann{position:absolute;height:var(--cell);display:flex;align-items:center;padding-left:6px;
+  white-space:nowrap;font-size:14px;color:var(--muted)}
+.col-ann b.w{color:var(--graphite)}
+.col-ann b.m{color:var(--amber)}
+.col-final{margin-top:var(--cell)}
+/* ціль польоту — схована до посадки: fw — головна цифра, fws — дрібна в куті */
+.nk.fw>.hwg,.nk.fws .nk-sup .hwg{visibility:hidden}
+.col-clone{position:absolute;transform-origin:0 0;pointer-events:none;display:flex}
+.col-clone .hwg{width:100%;height:100%;vertical-align:top}

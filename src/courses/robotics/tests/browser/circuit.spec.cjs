@@ -56,7 +56,7 @@ test('React circuit controls add, edit, wire, undo and preserve the drawing', as
   await expect(parts).toHaveCount(2);
 
   await page.locator('.logo').click();
-  await expect(page.locator('h1')).toContainText('Оберіть клас');
+  await expect(page.locator('h1')).toContainText('Оберіть курс');
   await page.keyboard.press('ControlOrMeta+z');
   await page.goBack();
   await expect(parts).toHaveCount(2);

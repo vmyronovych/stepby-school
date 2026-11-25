@@ -1,17 +1,20 @@
 import { flushSync } from 'react-dom';
-import { engine, configureRuntimeServices } from '../runtime';
-import type { AppState, ToolConfig } from '../types';
+import { catalog } from './catalog/catalog';
+import { documents } from './documents/registry';
+import { initializeApplication } from './composition';
+import { configureRuntimeServices } from '../runtime/services';
+import { engineState } from '../runtime/state';
+import { readField } from './tools/read-field';
+import { prefersReducedMotion } from '../components/motion';
+import type { AppState } from '../types';
 import {
   cfgQuery,
-  hrefCls,
   hrefHome,
-  hrefSubj,
   hrefTool,
   hrefTopic,
   parseRoute,
   resolveRoute,
 } from '../navigation/routes';
-import { clsCrumb, clsTitle } from '../navigation/labels';
 import { notify } from './notifications';
 
 export interface AppSnapshot extends AppState {
@@ -44,7 +47,7 @@ const scrollPositions = new Map<string, number>();
 let clickNavigation = false;
 let started = false;
 export const getSnapshot = () => snapshot;
-export const getCatalog = () => engine.DB;
+export const getCatalog = () => catalog;
 export function subscribe(listener: () => void) {
   listeners.add(listener);
   return () => {
@@ -53,13 +56,13 @@ export function subscribe(listener: () => void) {
 }
 function publish(next: AppSnapshot) {
   snapshot = next;
-  Object.assign(engine.S, next);
+  Object.assign(engineState, next);
   // Diagram engines read positions immediately before and after a step transition.
   flushSync(() => listeners.forEach((listener) => listener()));
-  engine.S.anim = null;
+  engineState.anim = null;
 }
 function documentTopic() {
-  return engine.DB.topics.find(
+  return catalog.topics.find(
     (topic) =>
       topic.id === snapshot.topic &&
       topic.cls === snapshot.cls &&
@@ -67,10 +70,10 @@ function documentTopic() {
   );
 }
 export function getToolDefinition(id = snapshot.tool) {
-  return id ? engine.DB.tools[id] : undefined;
+  return id ? catalog.tools[id] : undefined;
 }
 function taskTopic() {
-  return engine.DB.topics.find((topic) =>
+  return catalog.topics.find((topic) =>
     topic.tasks?.some((task) => task.id === snapshot.toolTaskId),
   );
 }
@@ -79,7 +82,7 @@ export function toolBackHref() {
   return topic ? hrefTopic(topic) : snapshot.toolFrom || hrefHome();
 }
 function buildTool(state: AppSnapshot) {
-  const definition = state.tool ? engine.DB.tools[state.tool] : undefined;
+  const definition = state.tool ? catalog.tools[state.tool] : undefined;
   if (!definition || !state.toolCfg) return;
   try {
     const model = definition.build(state.toolCfg);
@@ -100,28 +103,31 @@ function buildTool(state: AppSnapshot) {
 }
 export function pageTitle(state = snapshot) {
   const brand = 'StepBy School';
-  if (state.tool) return `${engine.DB.tools[state.tool].name} — ${brand}`;
-  const schoolClass = engine.DB.classes.find((item) => item.id === state.cls);
-  if (!schoolClass) return `${brand} — шкільні предмети крок за кроком`;
-  const subject = engine.DB.subjects.find((item) => item.id === state.subject);
-  if (!subject) return `${clsTitle(schoolClass)} — ${brand}`;
-  const topic = engine.DB.topics.find(
+  if (state.tool) return `${catalog.tools[state.tool].name} — ${brand}`;
+  const subject = catalog.subjects.find((item) => item.id === state.subject);
+  if (!subject) return `${brand} — шкільні предмети крок за кроком`;
+  const topic = catalog.topics.find(
     (item) =>
       item.id === state.topic &&
       item.cls === state.cls &&
       item.subject === state.subject,
   );
-  return `${topic ? topic.title + ' · ' : ''}${subject.name}${schoolClass.label ? '' : ', ' + clsCrumb(schoolClass)} — ${brand}`;
+  const prefix = topic
+    ? topic.title + ' · '
+    : state.sub === 'tools'
+      ? 'Інструменти · '
+      : '';
+  return `${prefix}${subject.name} — ${brand}`;
 }
 export function route() {
   const hash = location.hash || '#/';
-  const result = resolveRoute(parseRoute(hash), engine.DB);
+  const result = resolveRoute(parseRoute(hash), catalog);
   if (result.state === undefined) {
     location.replace(result.redirect);
     return;
   }
   const state = result.state;
-  const topic = engine.DB.topics.find(
+  const topic = catalog.topics.find(
     (item) =>
       item.id === state.topic &&
       item.cls === state.cls &&
@@ -145,7 +151,7 @@ export function route() {
       hash,
       sub: state.sub || null,
       scrollTop:
-        topic?.doc && engine.DOCS[topic.doc]?.onSub
+        topic?.doc && documents[topic.doc]?.onSub
           ? null
           : (restore ?? (state.sub ? null : 0)),
     });
@@ -158,7 +164,7 @@ export function route() {
     !parseRoute(snapshot.hash).tool
       ? snapshot.hash
       : snapshot.toolFrom;
-  const anchored = topic?.doc && state.sub && !engine.DOCS[topic.doc]?.onSub;
+  const anchored = topic?.doc && state.sub && !documents[topic.doc]?.onSub;
   const next: AppSnapshot = {
     ...emptyState,
     ...state,
@@ -167,7 +173,7 @@ export function route() {
     revision: snapshot.revision + 1,
     scrollTop: restore ?? (anchored ? null : 0),
   };
-  Object.assign(engine.S, next);
+  Object.assign(engineState, next);
   if (next.tool) buildTool(next);
   publish(next);
   document.title = pageTitle(next);
@@ -181,7 +187,7 @@ export function changeStep(index: number) {
   if (index < 0 || index >= snapshot.steps.length) return;
   const definition = getToolDefinition();
   const anim =
-    definition?.prepare && snapshot.model && !engine.prefersReducedMotion()
+    definition?.prepare && snapshot.model && !prefersReducedMotion()
       ? definition.prepare(snapshot.model, snapshot.step, index) || null
       : null;
   publish({
@@ -195,7 +201,7 @@ export function changeStep(index: number) {
 export function applyTool() {
   const definition = getToolDefinition();
   if (!definition || !snapshot.tool) return;
-  const config = definition.read(engine.readField);
+  const config = definition.read(readField);
   const topic = taskTopic();
   const hash = topic
     ? hrefTopic(topic, snapshot.toolTaskId) + cfgQuery(config)
@@ -217,15 +223,14 @@ function replaceDocumentSub(sub: string | null) {
 }
 export function startApplication() {
   if (started) return;
+  initializeApplication();
   started = true;
   configureRuntimeServices({
     hrefHome,
-    hrefCls,
-    hrefSubj,
     hrefTopic,
     hrefTool,
     hrefDoc: (id: string, sub?: string | null) => {
-      const topic = engine.DB.topics.find((item) => item.doc === id);
+      const topic = catalog.topics.find((item) => item.doc === id);
       return topic ? hrefTopic(topic, sub) : hrefHome();
     },
     docReplaceSub: replaceDocumentSub,

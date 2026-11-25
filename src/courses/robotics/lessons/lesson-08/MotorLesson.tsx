@@ -1,6 +1,8 @@
 import { McarFigure } from '../../shared/ui/McarFigure';
 import { useState } from 'react';
-import { Button, LegacyHtml, LinkButton } from '../../../../components/ui';
+import { Button } from '../../../../components/button';
+import { LegacyHtml } from '../../../../components/legacy-html';
+import { LinkButton } from '../../../../components/button';
 import { LessonScreen } from '../../shared/ui/LessonScreen';
 import { MaterialPanels } from '../../shared/ui/MaterialPanels';
 import { CoursePreparation } from '../../shared/ui/CoursePreparation';

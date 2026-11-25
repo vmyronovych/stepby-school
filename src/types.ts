@@ -1,21 +1,16 @@
-export interface SchoolClass {
-  id: string;
-  name: string;
-  label?: string;
-  icon?: string;
-  note?: string;
-  courseSubject?: string;
-  courseHome?: string;
-  cover?: string;
-}
 export interface Subject {
-  color?: string;
+  description?: string;
   id: string;
   name: string;
-  active: boolean;
+  /** Address namespaces retained for existing links; not lesson grade groups. */
   cls: string[];
   bg: string;
   icon: string;
+}
+/** A course owns its metadata and complete list of lessons and materials. */
+export interface Course {
+  subject: Subject;
+  topics: readonly Topic[];
 }
 export type ToolConfig = Record<string, unknown>;
 export interface Task {
@@ -26,6 +21,9 @@ export interface Task {
   done: boolean;
 }
 export interface Topic {
+  /** Explicit grade groups; omitted for lessons without grade grouping. */
+  grades?: number[];
+  aliases?: { cls: string; subject: string; id: string }[];
   id: string;
   cls: string;
   subject: string;
@@ -39,7 +37,6 @@ export interface Topic {
   cover?: string;
   lesson?: string;
   tasks?: Task[];
-  materials?: { type: string; title: string }[];
 }
 export interface Step {
   text: string;
@@ -55,7 +52,6 @@ export interface ToolModel {
   steps: Step[];
 }
 export interface ToolDefinition {
-  color: string;
   id: string;
   errorHint?: string;
   build(config: ToolConfig): ToolModel;
@@ -85,8 +81,6 @@ export interface AppState {
 }
 
 export interface Catalog {
-  users?: Record<string, { name: string; cls?: string; subject?: string }>;
-  classes: SchoolClass[];
   subjects: Subject[];
   topics: Topic[];
   tools: Record<string, ToolDefinition>;

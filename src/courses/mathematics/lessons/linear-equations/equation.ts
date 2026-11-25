@@ -1,0 +1,40 @@
+import { defineTool } from '../../../../runtime/tool';
+import type { LinearRow } from '../../../../lib/math';
+import { buildLinearRows, linearSteps, parseSide } from '../../../../lib/math';
+import { linearToolBase } from '../../../../components/notebook/rendering';
+/* =========================================================
+   РОЗВ'ЯЗУВАННЯ РІВНЯНЬ — тонкий адаптер: розбирає текст і
+   делегує лінійному ядру (src/lib/math/linear.ts).
+   ========================================================= */
+// Будуємо структуровану модель розв'язання: рядки з токенами, кожен токен має стійкий id
+// (щоб анімувати переліт цифри зі старої позиції на нову), і тип переходу для кожного рядка.
+// Тонка обгортка: розбирає текст рівняння й делегує лінійному ядру
+export function buildEqModel(text: unknown) {
+  if (typeof text !== 'string' || !text.includes('='))
+    throw 'Введіть рівняння зі знаком «=». Приклад: 3x + 5 = 20.';
+  if (/[:/]/.test(text))
+    throw 'Цей інструмент поки розв’язує лінійні рівняння виду ax + b = cx + d (напр. 3x + 5 = 20). Для пропорцій є окремий інструмент «Пропорції».';
+  if (text.split('=').length !== 2)
+    throw 'У рівнянні має бути один знак «=». Приклад: 5x − 4 = 2x + 11.';
+  if (!/x/i.test(text))
+    throw 'У рівнянні має бути змінна x. Приклад: 3x + 5 = 20.';
+  const [L, R] = text.split('=');
+  return { rows: buildLinearRows(parseSide(L), parseSide(R)) };
+}
+
+export const equationTool = defineTool<{
+  rows: LinearRow[];
+  steps: { text: string }[];
+}>('eq', {
+  ...linearToolBase,
+  name: 'Розв’язування рівнянь',
+  icon: '🟰',
+  bg: 'var(--pink-l)',
+  errorHint:
+    'Не вдалося прочитати рівняння. Приклад: 3x + 5 = 20 або 5x − 4 = 2x + 11.',
+  build(cfg) {
+    const model = buildEqModel(cfg.text);
+    return { ...model, steps: linearSteps(model.rows) };
+  },
+  read: (v) => ({ text: v('i_text') }),
+});
