@@ -1,5 +1,5 @@
-import { printHtml } from '../../../../features/documents/printing';
-import { esc as escapeHtml } from '../../../../engines/core/util';
+import { printHtml } from '../../../../components/document';
+import { esc as escapeHtml } from '../../../../components/legacy-html';
 
 export function printRules(
   body: HTMLElement,
@@ -108,8 +108,19 @@ export function handleRoboticsDocumentAction(
   action: string,
   body: HTMLElement,
   notify: (message: string) => void,
+  clearFields: () => void,
 ) {
   switch (action) {
+    case 'ktpClear':
+      if (!window.confirm('Очистити всі заповнені поля КТП?')) return;
+      clearFields();
+      body
+        .querySelectorAll<HTMLElement>('[contenteditable][data-k]')
+        .forEach((field) => {
+          if (/^[dn]\d/.test(field.dataset.k ?? '')) field.textContent = '';
+        });
+      notify('Поля КТП очищено');
+      break;
     case 'rulesPoster':
       printRules(body, true, notify);
       break;

@@ -1,6 +1,5 @@
 import type { RoboticsLessonContent } from '../../shared/content/types';
 import { programLesson as lesson } from '../../shared/content/helpers';
-import { preparation } from '../../shared/content/remote-preparation';
 export const content: RoboticsLessonContent = lesson({
   number: 21,
   classroomMaterials: [

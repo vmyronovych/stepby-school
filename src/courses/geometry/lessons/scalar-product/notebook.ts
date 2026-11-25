@@ -1,7 +1,7 @@
-import { catalog as DB } from '../../../../data/catalog';
-import type { FormulaNode } from '../../../../engines/core/formula';
-import { F } from '../../../../engines/core/formula';
-import { defineTool } from '../../../../engines/core/registry';
+import { lesson as topic } from './lesson';
+import type { FormulaNode } from '../../../../lib/math';
+import { F } from '../../../../lib/math';
+import { defineTool } from '../../../../runtime/tool';
 import { runtimeServices } from '../../../../runtime/services';
 import type { ToolConfig } from '../../../../types';
 import type {
@@ -187,7 +187,6 @@ export const ScalarNotebook = (() => {
     return e ? { group: e.group, part: e.part } : { group: -1, part: -1 };
   }
   function nextHref(example: { group: number; part: number }) {
-    const topic = DB.topics.find((t) => t.id === 'scalar-product');
     const task =
       topic &&
       (topic.tasks || []).find(
@@ -216,7 +215,6 @@ export const scalarTool = defineTool<ReturnType<typeof ScalarNotebook.build>>(
   {
     name: 'Скалярний добуток векторів',
     icon: '↗',
-    color: 'var(--primary)',
     bg: 'var(--primary-l)',
     inputHint:
       'Кроки записуються на аркуші послідовно. Після відповіді відкрий наступну задачу.',
@@ -229,7 +227,7 @@ export const scalarTool = defineTool<ReturnType<typeof ScalarNotebook.build>>(
       return `<div class="rp-sheet sp-tool-sheet"><div class="rp-condition sp-tool-condition"><p>Задача ${m.index + 1} із ${ScalarNotebook.examples.length}</p><div>${m.condition}</div></div>${rows}${ctx.index === m.steps.length - 1 ? `<div class="sp-tool-next">${next ? `<a class="btn sm" href="${ScalarNotebook.nextHref(next)}">Наступна задача →</a>` : '<p>Усі задачі теми розглянуто.</p>'}</div>` : ''}</div>`;
     },
     animate: VectorNotebook.scrollCurrent,
-    prepare: (m, from, to) => (to === from + 1 ? { writing: true } : null),
+    prepare: (_m, from, to) => (to === from + 1 ? { writing: true } : null),
     read: (v) => ScalarNotebook.readFields(v, 'i_spexample'),
   },
 );

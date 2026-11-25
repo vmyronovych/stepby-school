@@ -28,7 +28,8 @@ test('all application engines are strict TypeScript modules without a legacy loa
   ])
     assert.equal(fs.existsSync(path.join(root, filename)), false, filename);
   for (const [filename, source] of files) {
-    if (!filename.includes('/engine')) continue;
+    if (!/\/(engine|math|runtime)\b|\/notebook\/rendering\//.test(filename))
+      continue;
     assert.equal(ts.isExternalModule(source), true, filename);
     assert(!source.text.includes('@ts-nocheck'), filename);
     const visit = (node) => {
@@ -110,21 +111,26 @@ test('courses expose explicit entrypoints and lessons do not import their siblin
   const publicFiles = new Set([
     'index.ts',
     'ui/index.ts',
+    'ui/index.tsx',
     'runtime/index.ts',
+    'routing.ts',
     'tools/circuit/index.ts',
+    'tools/keyboard/index.ts',
+    'tools/windows/index.ts',
+    'documents/index.ts',
     'shared/documents/index.ts',
   ]);
   const composition = new Set([
-    'src/app/App.tsx',
-    'src/app/services.tsx',
-    'src/app/math-runtime.ts',
-    'src/app/math-tools.ts',
-    'src/app/math-inputs/ToolInputs.tsx',
-    'src/app/documentViews.tsx',
-    'src/data/catalog.ts',
-    'src/runtime/index.ts',
-    'src/runtime/types.ts',
-    'src/features/documents/content/index.ts',
+    'src/app/course-pages.ts',
+    'src/app/composition.ts',
+    'src/app/tools/registry.ts',
+    'src/app/tools/ToolInputs.tsx',
+    'src/app/documents/registry.ts',
+    'src/app/documents/views.tsx',
+    'src/app/documents/services.ts',
+    'src/app/documents/navigation.ts',
+    'src/app/catalog/registry.ts',
+    'src/navigation/course-registry.ts',
   ]);
   for (const [filename, source] of files) {
     function check(node) {
@@ -141,6 +147,31 @@ test('courses expose explicit entrypoints and lessons do not import their siblin
           ts.sys,
         ).resolvedModule?.resolvedFileName;
         if (target) {
+          if (/\/src\/(runtime|lib\/math|navigation)\//.test(filename))
+            assert(
+              !target.includes('/src/app/'),
+              'Shared foundations must not import application composition: ' +
+                filename +
+                ' → ' +
+                target,
+            );
+          if (
+            filename.endsWith('/src/navigation/course-registry.ts') &&
+            target.includes('/src/courses/')
+          )
+            assert(
+              target.endsWith('/routing.ts'),
+              'Navigation may compose only data-only routing entries: ' +
+                target,
+            );
+          if (filename.includes('/src/runtime/'))
+            assert(
+              !/\/src\/(app|courses)\//.test(target),
+              'Runtime must not assemble the application or import courses: ' +
+                filename +
+                ' → ' +
+                target,
+            );
           const fromCourse = courseOf(filename),
             toCourse = courseOf(target);
           if (toCourse && fromCourse !== toCourse) {
@@ -170,6 +201,14 @@ test('courses expose explicit entrypoints and lessons do not import their siblin
               lesson,
               targetLesson,
               'Cross-lesson import: ' + filename + ' → ' + target,
+            );
+          if (fromCourse)
+            assert(
+              !/\/src\/(app|data)\//.test(target),
+              'Courses receive application data through their interface: ' +
+                filename +
+                ' → ' +
+                target,
             );
           if (fromCourse && filename.includes('/shared/'))
             assert(
@@ -208,6 +247,7 @@ test('shared components own their implementation and expose explicit public entr
     'notebook/handwriting/index.ts',
     'notebook/grid/index.ts',
     'notebook/inputs/index.ts',
+    'notebook/rendering/index.ts',
   ]);
   for (const [filename, source] of files) {
     const owner = moduleOf(filename);
@@ -254,4 +294,51 @@ test('shared components own their implementation and expose explicit public entr
       }
     }
   }
+});
+
+test('the repository uses course ownership instead of a parallel features tree', () => {
+  assert.equal(fs.existsSync(path.join(root, 'src/features')), false);
+});
+
+test('shared mathematics has no browser or application dependencies', () => {
+  assert.equal(fs.existsSync(path.join(root, 'src/engines')), false);
+  const mathRoot = path.join(root, 'src/lib/math') + path.sep;
+  for (const [filename, source] of files.filter(([filename]) =>
+    filename.startsWith(mathRoot),
+  )) {
+    for (const statement of source.statements) {
+      if (
+        !ts.isImportDeclaration(statement) &&
+        !ts.isExportDeclaration(statement)
+      )
+        continue;
+      const specifier = statement.moduleSpecifier;
+      if (!specifier || !ts.isStringLiteral(specifier)) continue;
+      const target = ts.resolveModuleName(
+        specifier.text,
+        filename,
+        config.options,
+        ts.sys,
+      ).resolvedModule?.resolvedFileName;
+      assert(
+        target?.startsWith(mathRoot),
+        'Mathematics must be independent: ' + filename + ' → ' + specifier.text,
+      );
+    }
+  }
+  const program = ts.createProgram([path.join(mathRoot, 'index.ts')], {
+    strict: true,
+    noEmit: true,
+    target: ts.ScriptTarget.ES2022,
+    lib: ['lib.es2022.d.ts'],
+    types: [],
+    skipLibCheck: true,
+  });
+  const diagnostics = ts.getPreEmitDiagnostics(program);
+  assert.deepEqual(
+    diagnostics.map((d) =>
+      ts.flattenDiagnosticMessageText(d.messageText, '\n'),
+    ),
+    [],
+  );
 });

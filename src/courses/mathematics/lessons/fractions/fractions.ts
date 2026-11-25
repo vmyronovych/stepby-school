@@ -4,13 +4,10 @@ import {
   HW_STEP,
   hwGlyphs,
 } from '../../../../components/notebook/handwriting';
-import type { EngineStepContext } from '../../../../engines/core/registry';
-import { defineTool } from '../../../../engines/core/registry';
-import {
-  fmtNum,
-  gcd,
-  prefersReducedMotion,
-} from '../../../../engines/core/util';
+import type { EngineStepContext } from '../../../../runtime/tool';
+import { defineTool } from '../../../../runtime/tool';
+import { fmtNum, gcd } from '../../../../lib/math';
+import { prefersReducedMotion } from '../../../../components/motion';
 type FractionUnit =
   | { type: 'frac'; n: number | string; d: number | string }
   | { type: 'op' | 'num'; t: string }
@@ -333,7 +330,7 @@ function fracStageInner(
 }
 // Анімація: множники (×3, ×2) вилітають із чипів НСК і летять у дроби (в чисельник і знаменник)
 function runFracMulAnim(
-  model: FractionModel,
+  _model: FractionModel,
   ctx: EngineStepContext<FractionStep>,
 ) {
   const st = ctx.step;
@@ -425,7 +422,7 @@ function prepareFracAnim(model: FractionModel, from: number, to: number) {
 // Виконуємо FLIP: число ВИЛІТАЄ зі старого місця (оригінал ховаємо, щоб не було здвоєння)
 // і перетворюється на результат у новому.
 function runFracFlip(
-  model: FractionModel,
+  _model: FractionModel,
   ctx: EngineStepContext<FractionStep>,
 ) {
   const flip = ctx.anim;
@@ -578,7 +575,6 @@ function runFracFlip(
 export const fracTool = defineTool('frac', {
   name: 'Дії з дробами',
   icon: '½',
-  color: 'var(--amber)',
   bg: 'var(--amber-l)',
   build: (cfg) =>
     buildFracModel(

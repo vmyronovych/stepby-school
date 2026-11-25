@@ -3,7 +3,7 @@ import type {
   ColumnAddend,
   ColumnMark,
   ColumnNote,
-} from '../../../../engines/core/column';
+} from '../../../../components/notebook/rendering';
 import {
   COL_GEN,
   COL_INS,
@@ -17,9 +17,9 @@ import {
   colSheet,
   colToolBase,
   colWritten,
-} from '../../../../engines/core/column';
+} from '../../../../components/notebook/rendering';
 import { hwEqline } from '../../../../components/notebook/handwriting';
-import { defineTool } from '../../../../engines/core/registry';
+import { defineTool } from '../../../../runtime/tool';
 interface MultiplicationOperation extends ColumnNote {
   ad: number;
   aCol: number;
@@ -37,7 +37,7 @@ interface MultiplicationPart extends ColumnAddend {
   ops: MultiplicationOperation[];
 }
 /* =========================================================
-   МНОЖЕННЯ В СТОВПЧИК (ядро — src/engines/core/column.ts)
+   МНОЖЕННЯ В СТОВПЧИК (ядро — src/components/notebook/rendering/column.ts)
    Кожна цифра першого множника — три кроки: «6×4=» → «24 (4 — записуємо, 2 — запам'ятовуємо)» →
    4 летить у неповний добуток, 2 — у правий верхній кут наступної цифри першого множника.
    Потім неповні добутки додаються стовпчиком так само, як у інструменті додавання.
@@ -293,7 +293,6 @@ export const multTool = defineTool('mult', {
   ...colToolBase,
   name: 'Множення в стовпчик',
   icon: '✖️',
-  color: 'var(--primary)',
   bg: 'var(--primary-l)',
   build: (cfg) => ({ steps: multSteps(Number(cfg.a), Number(cfg.b)) }),
   read: (v) => ({ a: +v('i_a'), b: +v('i_b') }),

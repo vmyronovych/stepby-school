@@ -1,4 +1,4 @@
-import type { ColumnNote } from '../../../../engines/core/column';
+import type { ColumnNote } from '../../../../components/notebook/rendering';
 import {
   COL_GEN,
   colAnn,
@@ -8,9 +8,9 @@ import {
   colSheet,
   colToolBase,
   colWritten,
-} from '../../../../engines/core/column';
+} from '../../../../components/notebook/rendering';
 import { hwEqline } from '../../../../components/notebook/handwriting';
-import { defineTool } from '../../../../engines/core/registry';
+import { defineTool } from '../../../../runtime/tool';
 interface SubOperation extends ColumnNote {
   col: number;
   k: number;
@@ -24,7 +24,7 @@ interface SubOperation extends ColumnNote {
   lead: boolean;
 }
 /* =========================================================
-   ВІДНІМАННЯ В СТОВПЧИК (ядро — src/engines/core/column.ts)
+   ВІДНІМАННЯ В СТОВПЧИК (ядро — src/components/notebook/rendering/column.ts)
    Розряд за розрядом справа наліво. Якщо цифри зменшуваного не вистачає — позичаємо 1
    у сусіда зліва: над ним з'являється крапка (дрібно, у правому верхньому куті), а тут
    маємо на 10 більше. Коли доходимо до цифри з крапкою — спершу віднімаємо від неї 1;
@@ -201,7 +201,6 @@ export const subTool = defineTool('sub', {
   ...colToolBase,
   name: 'Віднімання в стовпчик',
   icon: '➖',
-  color: 'var(--pink)',
   bg: 'var(--pink-l)',
   build: (cfg) => ({ steps: subSteps(Number(cfg.a), Number(cfg.b)) }),
   read: (v) => ({ a: +v('i_a'), b: +v('i_b') }),

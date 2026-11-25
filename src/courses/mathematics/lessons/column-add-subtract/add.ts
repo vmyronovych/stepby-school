@@ -4,11 +4,11 @@ import {
   colNum,
   colSheet,
   colToolBase,
-} from '../../../../engines/core/column';
+} from '../../../../components/notebook/rendering';
 import { hwEqline } from '../../../../components/notebook/handwriting';
-import { defineTool } from '../../../../engines/core/registry';
+import { defineTool } from '../../../../runtime/tool';
 /* =========================================================
-   ДОДАВАННЯ В СТОВПЧИК (ядро — src/engines/core/column.ts)
+   ДОДАВАННЯ В СТОВПЧИК (ядро — src/components/notebook/rendering/column.ts)
    Розряд за розрядом справа наліво: «7+5=» → «12 (2 — записуємо, 1 — запам'ятовуємо)» →
    2 летить під риску, 1 — у правий верхній кут наступної цифри першого доданка.
    ========================================================= */
@@ -59,7 +59,6 @@ export const addTool = defineTool('add', {
   ...colToolBase,
   name: 'Додавання в стовпчик',
   icon: '➕',
-  color: 'var(--amber)',
   bg: 'var(--amber-l)',
   build: (cfg) => ({ steps: addSteps(Number(cfg.a), Number(cfg.b)) }),
   read: (v) => ({ a: +v('i_a'), b: +v('i_b') }),

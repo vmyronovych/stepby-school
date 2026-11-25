@@ -1,3 +1,4 @@
+import type { Course } from '../../types';
 import type { Subject } from '../../types';
 import { lesson as functionDomain } from './lessons/function-domain/lesson';
 import { lesson as irrationalEquations } from './lessons/irrational-equations/lesson';
@@ -15,8 +16,11 @@ export const algebraSubject: Subject = {
   name: 'Алгебра',
   description: 'Функції, рівняння, степені та тригонометричні вирази.',
   icon: '𝑥',
-  color: 'var(--primary)',
   bg: 'var(--primary-l)',
-  active: true,
   cls: ['10a'],
+};
+
+export const algebra: Course = {
+  subject: algebraSubject,
+  topics: algebraTopics,
 };

@@ -6,8 +6,8 @@ import {
   hwTick,
 } from '../../../components/notebook/handwriting';
 import { lessonNote } from '../../../runtime/lesson-note';
-import type { EngineStepContext } from '../../../engines/core/registry';
-import { defineTool } from '../../../engines/core/registry';
+import type { EngineStepContext } from '../../../runtime/tool';
+import { defineTool } from '../../../runtime/tool';
 import type { ToolConfig } from '../../../types';
 export interface FactorLadder {
   n: number;
@@ -267,7 +267,7 @@ function nskState(m: NskModel, st: NskStep) {
 }
 // такти пера для розмітки кроку — у порядку пояснення, а не в порядку рендера стовпчиків
 // (стовпчик найбільшого числа може стояти й праворуч від того, що звіряємо)
-function nskTicks(m: NskModel, st: NskStep, S: NskState, pen: Pen) {
+function nskTicks(_m: NskModel, st: NskStep, S: NskState, pen: Pen) {
   const T: Record<string, string> = {};
   if (st.kind === 'main') {
     T.cap = hwTick(pen, 'hwfade');
@@ -430,7 +430,7 @@ function prepareNskAnim(model: NskModel, from: number, to: number) {
     return { fly: true };
   return null;
 }
-function runNskFly(model: NskModel, ctx: EngineStepContext<NskStep>) {
+function runNskFly(_model: NskModel, ctx: EngineStepContext<NskStep>) {
   if (!ctx.anim) return;
   const wrap = document.querySelector('.nsk');
   if (!wrap) return;
@@ -484,7 +484,6 @@ export function nskFlySlots(wrap: Element) {
 export const nskTool = defineTool('nsk', {
   name: 'Найменше спільне кратне',
   icon: '🎯',
-  color: 'var(--amber)',
   bg: 'var(--amber-l)',
   build: buildNskModel,
   view: nskView,

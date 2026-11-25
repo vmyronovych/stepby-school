@@ -1,4 +1,4 @@
-import { defineTool } from '../../../../engines/core/registry';
+import { defineTool } from '../../../../runtime/tool';
 /* =========================================================
    ДІЛЬНИКИ І КРАТНІ — інструмент-контраст (чому це різне)
    ========================================================= */
@@ -157,7 +157,6 @@ function pairsText(m: ReturnType<typeof buildDvkModel>) {
 export const dvkTool = defineTool('dvk', {
   name: 'Дільники і кратні',
   icon: '↔️',
-  color: 'var(--green)',
   bg: 'var(--green-l)',
   build: (cfg) => buildDvkModel(Number(cfg.n)),
   view: (model, ctx) => dvkView(model, ctx.step.phase),

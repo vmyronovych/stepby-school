@@ -13,7 +13,6 @@ import type {
   RailNet,
   NetLookup,
   BreadboardLayout,
-  BreadboardWire,
 } from './types';
 /* =========================================================
    МАКЕТКА: ТЕ САМЕ КОЛО НА МАКЕТНІЙ ПЛАТІ 830

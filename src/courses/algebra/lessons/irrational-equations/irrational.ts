@@ -1,14 +1,9 @@
-import type {
-  FormulaNode,
-  Polynomial,
-  Rational,
-} from '../../../../engines/core/formula';
+import type { FormulaNode, Polynomial, Rational } from '../../../../lib/math';
 import {
   F,
   Q,
   fStrip,
   fmlText,
-  formulaHtml,
   parseFormula,
   polyAdd,
   polyAst,
@@ -22,17 +17,19 @@ import {
   qMul,
   qNeg,
   toPoly,
-} from '../../../../engines/core/formula';
+} from '../../../../lib/math';
+import { formulaHtml } from '../../../../components/notebook/rendering';
 import type { Pen } from '../../../../components/notebook/handwriting';
 import { hwTick } from '../../../../components/notebook/handwriting';
 import { lessonNote } from '../../../../runtime/lesson-note';
 import type {
   NumberLinePoint,
   NumberLineRange,
-} from '../../../../engines/core/numline';
-import type { EngineStepContext } from '../../../../engines/core/registry';
-import { defineTool } from '../../../../engines/core/registry';
-import { esc, gcd } from '../../../../engines/core/util';
+} from '../../../../components/notebook/rendering';
+import type { EngineStepContext } from '../../../../runtime/tool';
+import { defineTool } from '../../../../runtime/tool';
+import { esc } from '../../../../components/legacy-html';
+import { gcd } from '../../../../lib/math';
 import type { DomainPart } from '../../shared/domain';
 import {
   dRootsParts,
@@ -43,14 +40,14 @@ import {
   domPieces,
   domQuad,
 } from '../../shared/domain';
-import type { LinearRow } from '../../../../engines/core/linear';
+import type { LinearRow } from '../../../../lib/math';
+import { buildLinearRows } from '../../../../lib/math';
 import {
-  buildLinearRows,
   captureEqRects,
   eqRowsHtml,
   isRecord,
   runEqAnim,
-} from '../../../../engines/core/linear';
+} from '../../../../components/notebook/rendering';
 export interface BigRational {
   n: bigint;
   d: bigint;
@@ -741,7 +738,6 @@ export function irView(
 export const irrationalTool = defineTool<IrrationalModel>('irrational', {
   name: 'Ірраціональні рівняння',
   icon: '√',
-  color: 'var(--primary)',
   bg: 'var(--primary-l)',
   build: (c) =>
     c.method === 'substitution'

@@ -2,6 +2,11 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '../..');
 exports.publicationFiles = () =>
   [
+    ['src/components/document/styles/index.css', 'css/documents.css'],
+    [
+      'src/components/course-navigation/styles/index.css',
+      'css/components/course-navigation.css',
+    ],
     ['src/components/notebook/styles/notebook.css', 'css/notebook.css'],
     [
       'src/components/notebook/styles/vector-notebook.css',

@@ -1,9 +1,5 @@
-import type {
-  FormulaNode,
-  FormulaOptions,
-  Polynomial,
-  Rational,
-} from '../../../engines/core/formula';
+import type { FormulaNode, Polynomial, Rational } from '../../../lib/math';
+import type { FormulaOptions } from '../../../components/notebook/rendering';
 import {
   constInt,
   F,
@@ -26,10 +22,10 @@ import {
   qNum,
   qSqrt,
   qSub,
-  renderFormula,
   SUPS,
   toPoly,
-} from '../../../engines/core/formula';
+} from '../../../lib/math';
+import { renderFormula } from '../../../components/notebook/rendering';
 import type { Pen } from '../../../components/notebook/handwriting';
 import {
   HW_DUR,
@@ -42,23 +38,21 @@ import type {
   NumberLineHatch,
   NumberLinePoint,
   NumberLineRange,
-} from '../../../engines/core/numline';
-import { numLine } from '../../../engines/core/numline';
-import type { EngineStepContext } from '../../../engines/core/registry';
-import { defineTool } from '../../../engines/core/registry';
-import { esc } from '../../../engines/core/util';
-import type {
-  EquationAnimation,
-  LinearRow,
-} from '../../../engines/core/linear';
+} from '../../../components/notebook/rendering';
+import { numLine } from '../../../components/notebook/rendering';
+import type { EngineStepContext } from '../../../runtime/tool';
+import { defineTool } from '../../../runtime/tool';
+import { esc } from '../../../components/legacy-html';
+import type { EquationAnimation } from '../../../components/notebook/rendering';
+import type { LinearRow } from '../../../lib/math';
+import { buildLinearRows } from '../../../lib/math';
 import {
-  buildLinearRows,
   captureEqRects,
   eqRowsHtml,
   isEquationAnimation,
   isRecord,
   runEqAnim,
-} from '../../../engines/core/linear';
+} from '../../../components/notebook/rendering';
 export type DomainRelation = '≠' | '≥' | '>';
 export type DangerKind =
   'den' | 'root' | 'rootden' | 'rootdenodd' | 'negpow' | 'odd';
@@ -141,7 +135,7 @@ export function isDomainAnimation(value: unknown): value is DomainAnimation {
    від'ємний степінь) → система умов → розв'язок кожної умови →
    перетин на числовій прямій → D(y).
 
-   Формули — спільний модуль src/engines/core/formula.ts, прямі — src/engines/core/numline.ts.
+   Формули — спільний модуль src/lib/math/formula.ts, прямі — src/components/notebook/rendering/number-line.ts.
    Лінійні умови розв'язує лінійне ядро (buildLinearRows у режимі нерівності),
    квадратні — корені (швидкий шлях або D) і метод інтервалів.
    ========================================================= */
@@ -1058,7 +1052,6 @@ export function domPreviewHtml(text: unknown) {
 export const domainTool = defineTool('domain', {
   name: 'Область визначення функції',
   icon: '🔎',
-  color: 'var(--primary)',
   bg: 'var(--primary-l)',
   errorHint: 'Не вдалося прочитати функцію. Приклад: sqrt(x - 2)/(x^2 - 9).',
   build: (cfg) => buildDomainModel(cfg.f),

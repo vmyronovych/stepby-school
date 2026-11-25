@@ -11,7 +11,7 @@ export const lesson: Topic = {
       tool: 'mult',
       title: 'Обчисли 284 × 36',
       cfg: { a: 284, b: 36 },
-      done: true,
+      done: false,
     },
     {
       id: 'k2',

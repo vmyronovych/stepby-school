@@ -1,18 +1,10 @@
-import { defineTool } from '../../../../engines/core/registry';
-import type {
-  LinearRow,
-  LinearSide,
-  LinearToken,
-} from '../../../../engines/core/linear';
-import {
-  buildLinearRows,
-  linearSteps,
-  linearToolBase,
-  parseSide,
-} from '../../../../engines/core/linear';
+import { defineTool } from '../../../../runtime/tool';
+import type { LinearRow, LinearSide, LinearToken } from '../../../../lib/math';
+import { buildLinearRows, linearSteps, parseSide } from '../../../../lib/math';
+import { linearToolBase } from '../../../../components/notebook/rendering';
 /* =========================================================
    ПРОПОРЦІЇ — своя частина (записати → навхрест → перемножити),
-   далі делегування лінійному ядру (src/engines/core/linear.ts).
+   далі делегування лінійному ядру (src/lib/math/linear.ts).
    ========================================================= */
 export function mulLin(u: LinearSide, v: LinearSide) {
   if (u.a && v.a) return null;
@@ -81,7 +73,6 @@ export const proportionTool = defineTool<{
   ...linearToolBase,
   name: 'Пропорції',
   icon: '⚖️',
-  color: 'var(--pink)',
   bg: 'var(--pink-l)',
   build(cfg) {
     const model = buildProportion(cfg.a, cfg.b, cfg.c, cfg.d);

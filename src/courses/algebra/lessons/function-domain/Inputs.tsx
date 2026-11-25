@@ -1,4 +1,6 @@
-import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';
+import { LegacyHtml } from '../../../../components/legacy-html';
+import { domPreviewHtml } from '../../shared/domain';
+import { useLayoutEffect, useRef, useState } from 'react';
 import type { ToolConfig } from '../../../../types';
 import { configValue } from '../../../../components/notebook/inputs';
 
@@ -12,13 +14,7 @@ const palette = [
   ['x', 'x'],
 ] as const;
 
-export function DomainInputs({
-  config,
-  renderPreview,
-}: {
-  config: ToolConfig;
-  renderPreview: (formula: string) => ReactNode;
-}) {
+export function DomainInputs({ config }: { config: ToolConfig }) {
   const [formula, setFormula] = useState(() =>
     configValue(config, 'f', 'sqrt(x - 2)/(x^2 - 9)'),
   );
@@ -76,7 +72,9 @@ export function DomainInputs({
           ))}
         </div>
       </div>
-      <div id="dprev">{renderPreview(formula)}</div>
+      <div id="dprev">
+        <LegacyHtml html={domPreviewHtml(formula)} />
+      </div>
       <p className="helper">
         Корінь — sqrt( ), корінь 3-го степеня — root(3, …), степінь — ^, дріб —
         /. Під коренем і в знаменнику — многочлен до x².

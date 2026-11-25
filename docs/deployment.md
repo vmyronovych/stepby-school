@@ -8,10 +8,11 @@
 |---|---|---|
 | HTML входу | `index.html` | `dist/index.html` |
 | JavaScript застосунку | `src/` | `dist/assets/app.js` і файл ліцензій |
-| Загальні та ще не перенесені стилі | `css/` | `dist/css/` |
+| Токени та каркас порталу | `css/base.css` | `dist/css/base.css` |
+| Стилі спільних модулів і курсів | Папки власників, перелік у `publication.cjs` | Чинні адреси в `dist/css/` |
 | Робототехніка | `src/courses/robotics/` | `dist/assets/robotics/` |
-| Медіаграмотність: зображення, походження, ліцензії | `src/features/media-literacy/assets/` | `dist/assets/media-literacy/` |
-| Веброзробка: навчальні медіа та зразки | `src/features/web-development/assets/` | `dist/assets/web-development/` |
+| Медіаграмотність: зображення, походження, ліцензії | `src/courses/media-literacy/lessons/*/assets/`, `shared/assets/` | `dist/assets/media-literacy/` |
+| Веброзробка: навчальні медіа та зразки | `src/courses/web-development/lessons/*/assets/`, `shared/assets/` | `dist/assets/web-development/` |
 
 Збережені навчальні зображення та проєкти Mcar є канонічними матеріалами курсу, навіть якщо для їх підготовки використовувалися генератори. Вони версіонуються. Автоматично відтворювані копії публікації та бандл у `dist/` — ні. Звичайна збірка не потребує Mcar, генерації зображень або доступу до зовнішніх джерел.
 
@@ -33,15 +34,11 @@ npm run preview
 
 `npm test` і `npm run test:robotics` самі виконують збірку перед перевірками. `npm run test:browser` перевіряє `dist/` через preview-сервер і `file://`. Окремий браузерний сценарій копіює `dist/` у тимчасову папку поза репозиторієм і перевіряє його без інтернету.
 
-## Перше ввімкнення Actions для цього репозиторію
+## Налаштування GitHub Pages
 
-Перед першою публікацією перевір джерело в Settings → Pages. Якщо вибрано публікацію з гілки (`Deploy from a branch`), виконай кроки нижче. Файли репозиторію не перемикають це налаштування автоматично. Якщо джерелом уже є GitHub Actions, перевір успішний запуск workflow для `main`.
+Публікація потребує **GitHub Actions** як джерела в [Settings → Pages](https://github.com/vmyronovych/stepby-school/settings/pages). Файли репозиторію самі не перемикають це налаштування. Публікація кореня гілки не підходить: готовий сайт збирається в `dist/`.
 
-1. У [Settings → Pages](https://github.com/vmyronovych/stepby-school/settings/pages) встановити **Build and deployment → Source → GitHub Actions**.
-2. Після перемикання джерела злити перевірений PR із цією міграцією в `main`; `dist/` не додавати до Git. Не зливати міграцію, доки Pages публікує корінь гілки: у ньому вже немає готового бандла.
-3. У вкладці Actions перевірити workflow **Checks and Pages**: спочатку `test`, потім `deploy`.
-
-Налаштування джерела та кроки публікації відповідають [офіційній схемі GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages).
+Після налаштування джерела workflow **Checks and Pages** має успішно виконати `test`, а потім `deploy` для `main`. Поточні тригери та дозволи визначені в [checks.yml](../.github/workflows/checks.yml).
 
 ## Подальші публікації
 

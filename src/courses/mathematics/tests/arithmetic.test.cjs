@@ -5,8 +5,9 @@ const {
 } = require('../../../../tests/helpers/load-typescript.cjs');
 const { digest } = require('../../../../tests/helpers/parity.cjs');
 const baseline = require('../../../../tests/fixtures/migration-parity.json');
-const arithmetic = loadTypeScript('src/courses/mathematics/runtime/index.ts');
-for (const definition of arithmetic.arithmeticTools) {
+// Rendering lesson links needs the same explicit service setup as the application.
+const arithmetic = loadTypeScript('tests/entries/math.ts');
+for (const definition of arithmetic.mathematicsTools) {
   test(`${definition.id}: canonical task models and every rendered step match the pre-migration baseline`, () => {
     const tasks = baseline.tasks.filter((t) => t.tool === definition.id);
     assert(tasks.length);

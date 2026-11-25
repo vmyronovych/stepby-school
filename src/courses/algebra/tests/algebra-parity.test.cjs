@@ -7,7 +7,7 @@ const { digest } = require('../../../../tests/helpers/parity.cjs');
 const baseline = require('../../../../tests/fixtures/migration-parity.json');
 const algebra = loadTypeScript('tests/entries/math.ts');
 // The new radian tool has its own tests and no pre-migration baseline.
-for (const definition of algebra.algebraCoreTools.filter(
+for (const definition of algebra.algebraTools.filter(
   (tool) => tool.id !== 'radian',
 )) {
   test(`${definition.id}: canonical task models and every rendered step match the pre-migration baseline`, () => {

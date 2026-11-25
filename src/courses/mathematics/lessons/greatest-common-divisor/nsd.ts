@@ -5,8 +5,8 @@ import {
   hwTick,
 } from '../../../../components/notebook/handwriting';
 import { lessonNote } from '../../../../runtime/lesson-note';
-import type { EngineStepContext } from '../../../../engines/core/registry';
-import { defineTool } from '../../../../engines/core/registry';
+import type { EngineStepContext } from '../../../../runtime/tool';
+import { defineTool } from '../../../../runtime/tool';
 import type { ToolConfig } from '../../../../types';
 import { nskCells, nskFlySlots, nskLadder } from '../../shared/nsk';
 interface NsdCheck {
@@ -368,7 +368,7 @@ function prepareNsdAnim(model: NsdModel, from: number, to: number) {
   if (to !== from + 1) return null; // стрибок через крок — без польотів
   return model.steps[to].kind === 'hit' ? { fly: true } : null;
 }
-function runNsdFly(model: NsdModel, ctx: EngineStepContext<NsdStep>) {
+function runNsdFly(_model: NsdModel, ctx: EngineStepContext<NsdStep>) {
   if (!ctx.anim) return;
   const wrap = document.querySelector('.nsd');
   if (wrap) nskFlySlots(wrap);
@@ -377,7 +377,6 @@ function runNsdFly(model: NsdModel, ctx: EngineStepContext<NsdStep>) {
 export const nsdTool = defineTool('nsd', {
   name: 'Найбільший спільний дільник',
   icon: '🧩',
-  color: 'var(--green)',
   bg: 'var(--green-l)',
   build: buildNsdModel,
   view: nsdView,

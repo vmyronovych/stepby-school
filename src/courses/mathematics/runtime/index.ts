@@ -7,12 +7,16 @@ import { multTool } from '../lessons/column-multiply/mult';
 import { nsdTool } from '../lessons/greatest-common-divisor/nsd';
 import { nskTool } from '../shared/nsk';
 import { subTool } from '../lessons/column-add-subtract/sub';
-export const arithmeticTools = [
+import { equationTool } from '../lessons/linear-equations/equation';
+import { proportionTool } from '../lessons/proportions/proportion';
+export const mathematicsTools = [
   dvkTool,
   factorTool,
   nsdTool,
   nskTool,
   fracTool,
+  equationTool,
+  proportionTool,
   addTool,
   subTool,
   multTool,

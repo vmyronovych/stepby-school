@@ -1,7 +1,7 @@
 import type { EngineDocument } from '../../../runtime/types';
 import { scalarTool } from '../lessons/scalar-product/notebook';
 import { scalingTool } from '../lessons/vector-scaling/notebook';
-export { F, fmlText } from '../../../engines/core/formula';
+export { F, fmlText } from '../../../lib/math';
 export { ScalarProduct } from '../lessons/scalar-product/scalar-product';
 export { ScalarNotebook, scalarTool } from '../lessons/scalar-product/notebook';
 export {

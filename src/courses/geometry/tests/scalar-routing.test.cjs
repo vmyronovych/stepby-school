@@ -3,7 +3,7 @@ const assert = require('node:assert/strict');
 const {
   loadTypeScript,
 } = require('../../../../tests/helpers/load-typescript.cjs');
-const { catalog } = loadTypeScript('src/data/catalog.ts');
+const { catalog } = loadTypeScript('src/app/catalog/catalog.ts');
 const { parseRoute, resolveRoute, hrefTopic, hrefTool } = loadTypeScript(
   'src/navigation/routes.ts',
 );

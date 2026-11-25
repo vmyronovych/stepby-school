@@ -3,16 +3,16 @@ const assert = require('node:assert/strict');
 const { createElement } = require('react');
 const { renderToStaticMarkup } = require('react-dom/server');
 const { loadTypeScript } = require('./helpers/load-typescript.cjs');
-const { catalog } = loadTypeScript('src/data/catalog.ts');
-const { mediaContent } = loadTypeScript('src/features/media-literacy/content.ts');
-const { MediaTopicPage } = loadTypeScript('src/features/media-literacy/MediaTopicPage.tsx', { external: ['react', 'react-dom'] });
-const { composeDocuments } = loadTypeScript('src/features/documents/content/index.ts');
+const { catalog } = loadTypeScript('src/app/catalog/catalog.ts');
+const { mediaContent } = loadTypeScript('src/courses/media-literacy/ui/index.ts');
+const { MediaTopicPage } = loadTypeScript('src/courses/media-literacy/ui/index.ts', { external: ['react', 'react-dom'] });
+const { composeDocuments } = loadTypeScript('src/app/documents/registry.ts');
 const { resolveRoute, parseRoute } = loadTypeScript('src/navigation/routes.ts');
 
 test('media integration preserves all 27 web lessons and their registered documents', () => {
   const topics = catalog.topics.filter(topic => topic.cls === 'web');
   assert.equal(topics.length, 27);
-  const docs = composeDocuments();
+  const docs = composeDocuments(catalog);
   for (const topic of topics) {
     assert(docs[topic.doc], topic.doc);
     assert.equal(resolveRoute(parseRoute(`#/web/html-css/${topic.id}`), catalog).state.topic, topic.id);

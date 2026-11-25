@@ -8,8 +8,6 @@ import type {
   Wire,
   Point,
   PartProperties,
-  PartState,
-  Breadboard,
 } from './types';
 import { required } from './types';
 import { parseSnapshot } from './snapshot';

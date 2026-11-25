@@ -1,16 +1,9 @@
-import {
-  hrefHome,
-  hrefCls,
-  hrefSubj,
-  hrefTopic,
-  hrefTool,
-} from '../navigation/routes';
+import { hrefHome, hrefTopic, hrefTool } from '../navigation/routes';
 import type { ToolConfig, Topic } from '../types';
 
 export interface RuntimeServices {
+  topicForTool(id: string): Topic | null;
   hrefHome(): string;
-  hrefCls(id: string): string;
-  hrefSubj(classId: string, subjectId: string): string;
   hrefTopic(topic: Topic, sub?: string | null): string;
   hrefTool(id: string, config?: ToolConfig | null): string;
   hrefDoc(id: string, sub?: string | null): string;
@@ -21,9 +14,8 @@ export interface RuntimeServices {
 // Link defaults allow repository lesson getters to run before the app mounts.
 // React installs document navigation and notifications during application setup.
 export const runtimeServices: RuntimeServices = {
+  topicForTool: () => null,
   hrefHome,
-  hrefCls,
-  hrefSubj,
   hrefTopic,
   hrefTool,
   hrefDoc: () => '#/',
@@ -35,6 +27,6 @@ export const runtimeServices: RuntimeServices = {
   },
 };
 
-export function configureRuntimeServices(services: RuntimeServices) {
+export function configureRuntimeServices(services: Partial<RuntimeServices>) {
   Object.assign(runtimeServices, services);
 }

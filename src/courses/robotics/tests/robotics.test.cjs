@@ -11,7 +11,7 @@ const { createHash } = require('node:crypto');
 const {
   loadTypeScript,
 } = require('../../../../tests/helpers/load-typescript.cjs');
-const { catalog } = loadTypeScript('src/data/catalog.ts');
+const { catalog } = loadTypeScript('src/app/catalog/catalog.ts');
 const { parseRoute, resolveRoute } = loadTypeScript('src/navigation/routes.ts');
 const resolve = (hash) => resolveRoute(parseRoute(hash), catalog);
 

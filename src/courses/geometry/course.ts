@@ -1,3 +1,4 @@
+import type { Course } from '../../types';
 import type { Subject } from '../../types';
 import { lesson as vectors } from './lessons/vectors/lesson';
 import { lesson as vectorScaling } from './lessons/vector-scaling/lesson';
@@ -9,8 +10,11 @@ export const geometrySubject: Subject = {
   name: 'Геометрія',
   description: 'Вектори: інтерактивні досліди, пояснення та задачі.',
   icon: '📐',
-  color: 'var(--primary)',
   bg: 'var(--primary-l)',
-  active: true,
   cls: ['9a'],
+};
+
+export const geometry: Course = {
+  subject: geometrySubject,
+  topics: geometryTopics,
 };

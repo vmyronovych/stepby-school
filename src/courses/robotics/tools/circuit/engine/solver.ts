@@ -1,11 +1,6 @@
 import { CIRC } from './parts';
 import { CIRC_WIRE_R, CIRC_LEAK } from './constants';
-import type {
-  CircuitPart,
-  Wire,
-  SolverBranch,
-  ElectricalElement,
-} from './types';
+import type { CircuitPart, Wire, SolverBranch } from './types';
 /* =========================================================
    РОЗВ'ЯЗУВАЧ ЕЛЕКТРИЧНОГО КОЛА (метод вузлових потенціалів)
    ---------------------------------------------------------

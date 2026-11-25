@@ -1,24 +1,27 @@
+import { courseRouting } from './course-registry';
 import type { AppState, Catalog, ToolConfig, Topic } from '../types';
 
 export function hrefHome() {
   return '#/';
 }
-export function hrefCourse(subject: string) {
-  return subject === 'robot' ? '#/robo/robot/lessons' : `#/courses/${subject}`;
+export function hrefCourse(
+  subject: string,
+  section: 'lessons' | 'tools' = 'lessons',
+) {
+  return (
+    courseRouting[subject]?.[section === 'tools' ? 'tools' : 'home'] ??
+    `#/courses/${subject}${section === 'tools' ? '/tools' : ''}`
+  );
 }
-export function hrefCls(id: string) {
-  return `#/${id}`;
-}
-export function hrefSubj(classId: string, subject: string) {
-  return `#/${classId}/${subject}`;
-}
+
 export function hrefTopic(
   topic: Pick<Topic, 'cls' | 'subject' | 'id'>,
   sub?: string | null,
 ) {
-  const base = ['math', 'algebra', 'geometry'].includes(topic.subject)
-    ? `${hrefCourse(topic.subject)}/${topic.id}`
-    : `#/${topic.cls}/${topic.subject}/${topic.id}`;
+  const base =
+    courseRouting[topic.subject]?.topicUrls === 'course'
+      ? `${hrefCourse(topic.subject)}/${topic.id}`
+      : `#/${topic.cls}/${topic.subject}/${topic.id}`;
   return base + (sub ? '/' + encodeURIComponent(sub) : '');
 }
 export function cfgQuery(config?: ToolConfig | null) {
@@ -84,12 +87,14 @@ export function resolveRoute(
   catalog: Catalog,
 ): RouteResult {
   if (route.legacy !== undefined) {
-    if (
-      ['ktp', 'start', 'frame', 'mod2', 'later', 'risks'].some(
-        (id) => route.legacy === id || route.legacy?.startsWith(id + '-'),
+    for (const routing of Object.values(courseRouting)) {
+      if (
+        routing.legacyDocumentPrefixes?.some(
+          (id) => route.legacy === id || route.legacy?.startsWith(id + '-'),
+        )
       )
-    )
-      return { redirect: '#/robo/robot/lessons' };
+        return { redirect: hrefCourse(routing.subject) };
+    }
     for (
       let id = route.legacy;
       id;
@@ -112,8 +117,8 @@ export function resolveRoute(
   if (!route.cls && route.course === undefined) return { state: {} };
   const subjectId = route.course ?? route.subject;
   if (!subjectId) {
-    const subjects = catalog.subjects.filter(
-      (item) => item.active && item.cls.includes(route.cls || ''),
+    const subjects = catalog.subjects.filter((item) =>
+      item.cls.includes(route.cls || ''),
     );
     return {
       redirect: subjects.length === 1 ? hrefCourse(subjects[0].id) : hrefHome(),
@@ -142,9 +147,7 @@ export function resolveRoute(
             alias.id === route.topic,
         )),
   );
-  const subject = catalog.subjects.find(
-    (item) => item.id === subjectId && item.active,
-  );
+  const subject = catalog.subjects.find((item) => item.id === subjectId);
   if (topic && (topic.subject !== subjectId || topic.id !== route.topic))
     return { redirect: hrefTopic(topic, route.sub) + cfgQuery(route.cfg) };
   if (
@@ -154,8 +157,19 @@ export function resolveRoute(
       !subject.cls.includes(route.cls || ''))
   )
     return { redirect: hrefHome() };
+  if (
+    route.course !== undefined &&
+    route.topic === 'tools' &&
+    !topic &&
+    !route.sub &&
+    catalog.topics.some(
+      (item) => item.subject === subject.id && item.kind === 'tool',
+    )
+  ) {
+    return { state: { subject: subject.id, sub: 'tools' } };
+  }
   if (!route.topic) {
-    if (route.course === undefined || subject.id === 'robot')
+    if (route.course === undefined || courseRouting[subject.id]?.home)
       return { redirect: hrefCourse(subject.id) };
     return { state: { subject: subject.id } };
   }

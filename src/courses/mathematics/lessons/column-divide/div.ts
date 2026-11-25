@@ -1,13 +1,13 @@
-import type { ColumnNote } from '../../../../engines/core/column';
+import type { ColumnNote } from '../../../../components/notebook/rendering';
 import {
   colAsk,
   colNum,
   colSheet,
   colToolBase,
   colWritten,
-} from '../../../../engines/core/column';
+} from '../../../../components/notebook/rendering';
 import { hwEqline } from '../../../../components/notebook/handwriting';
-import { defineTool } from '../../../../engines/core/registry';
+import { defineTool } from '../../../../runtime/tool';
 interface DivisionBase extends ColumnNote {
   i: number;
   cur: number;
@@ -31,7 +31,7 @@ type DivisionAction =
           }
       ));
 /* =========================================================
-   ДІЛЕННЯ В СТОВПЧИК («куточком»; ядро — src/engines/core/column.ts)
+   ДІЛЕННЯ В СТОВПЧИК («куточком»; ядро — src/components/notebook/rendering/column.ts)
    Перше неповне ділене → для кожної цифри частки три дії, кожна — три кроки
    (питання → відповідь і підпис → цифри летять на місця):
      ділимо «72:8=» → цифра летить у частку;
@@ -315,7 +315,6 @@ export const divTool = defineTool('div', {
   ...colToolBase,
   name: 'Ділення в стовпчик',
   icon: '➗',
-  color: 'var(--green)',
   bg: 'var(--green-l)',
   build: (cfg) => ({ steps: divSteps(Number(cfg.n), Number(cfg.d)) }),
   read: (v) => ({ n: +v('i_n'), d: +v('i_d') }),

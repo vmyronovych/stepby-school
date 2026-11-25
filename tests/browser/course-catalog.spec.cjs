@@ -2,8 +2,7 @@ const { test, expect } = require('@playwright/test');
 const { pathToFileURL } = require('node:url');
 const path = require('node:path');
 const { loadTypeScript } = require('../helpers/load-typescript.cjs');
-const { engine } = loadTypeScript('src/runtime/index.ts');
-const catalog = engine.DB;
+const { catalog, documents: applicationDocuments } = loadTypeScript('tests/entries/application.ts');
 const mathematical = catalog.topics.filter((t) =>
   ['math', 'algebra', 'geometry'].includes(t.subject),
 );
@@ -69,7 +68,7 @@ for (const [name, width, base] of [
           .first()
           .click();
         await expect(page.locator('h1')).toHaveText(
-          topic.doc ? engine.DOCS[topic.doc].title : topic.title,
+          topic.doc ? applicationDocuments[topic.doc].title : topic.title,
         );
         await expect(page.locator('#app')).not.toContainText('Демо:');
         await expect(

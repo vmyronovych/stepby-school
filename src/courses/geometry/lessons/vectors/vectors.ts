@@ -59,8 +59,7 @@ export const VectorLesson = (() => {
   };
   const symbol = (name: string) =>
     `<span class="vec-symbol" aria-label="вектор ${name}">${name}</span>`;
-  const ab = symbol('AB'),
-    cd = symbol('CD');
+  const ab = symbol('AB');
   const lessons = [
     {
       title: 'Вектор',

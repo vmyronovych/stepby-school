@@ -13,17 +13,16 @@ import mathematics from '../src/courses/mathematics/publication.cjs';
 import algebra from '../src/courses/algebra/publication.cjs';
 import geometry from '../src/courses/geometry/publication.cjs';
 import robotics from '../src/courses/robotics/publication.cjs';
+import informatics from '../src/courses/informatics/publication.cjs';
+import webDevelopment from '../src/courses/web-development/publication.cjs';
+import mediaLiteracy from '../src/courses/media-literacy/publication.cjs';
 
 export const projectRoot = resolve(
   dirname(fileURLToPath(import.meta.url)),
   '..',
 );
 export const distRoot = join(projectRoot, 'dist');
-const sourceTrees = [
-  ['css', 'css'],
-  ['src/features/media-literacy/assets', 'assets/media-literacy'],
-  ['src/features/web-development/assets', 'assets/web-development'],
-];
+const sourceTrees = [['css', 'css']];
 
 /** Only explicit public inputs enter dist; repository docs, tests and AI rules do not. */
 export function siteInputs() {
@@ -52,7 +51,16 @@ export function siteInputs() {
   }
   for (const [source, destination] of sourceTrees)
     collect(join(projectRoot, source), join(distRoot, destination));
-  for (const module of [robotics, components, mathematics, algebra, geometry])
+  for (const module of [
+    robotics,
+    components,
+    mathematics,
+    algebra,
+    geometry,
+    mediaLiteracy,
+    informatics,
+    webDevelopment,
+  ])
     files.push(...module.publicationFiles());
   const destinations = new Set();
   for (const file of files) {

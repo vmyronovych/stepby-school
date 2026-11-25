@@ -1,3 +1,4 @@
+import type { Course } from '../../types';
 import type { Subject } from '../../types';
 import { lesson as columnAddSubtract } from './lessons/column-add-subtract/lesson';
 import { lesson as columnMultiply } from './lessons/column-multiply/lesson';
@@ -27,8 +28,11 @@ export const mathematicsSubject: Subject = {
   name: 'Математика',
   description: 'Обчислення, подільність, дроби, рівняння та пропорції.',
   icon: '🧮',
-  color: 'var(--primary)',
   bg: 'var(--primary-l)',
-  active: true,
   cls: ['5a', '6a'],
+};
+
+export const mathematics: Course = {
+  subject: mathematicsSubject,
+  topics: mathematicsTopics,
 };

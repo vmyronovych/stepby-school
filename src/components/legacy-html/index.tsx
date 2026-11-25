@@ -1,3 +1,4 @@
+export { esc } from './escape';
 // Only repository-authored lesson and tool HTML belongs here. Never pass user HTML.
 export function LegacyHtml({
   html,

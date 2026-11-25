@@ -1,7 +1,7 @@
 import { HW_STEP, hwGlyphs } from '../../../../components/notebook/handwriting';
 import { colGrid, mkRow } from '../../../../components/notebook/grid';
-import type { EngineStepContext } from '../../../../engines/core/registry';
-import { defineTool } from '../../../../engines/core/registry';
+import type { EngineStepContext } from '../../../../runtime/tool';
+import { defineTool } from '../../../../runtime/tool';
 interface FactorTry {
   p: number;
   ok: boolean;
@@ -366,7 +366,7 @@ function prepareFacAnim(model: FactorModel, from: number, to: number) {
   const st = model.steps[to];
   return st && st.kind === 'divide' ? { fly: true } : null;
 }
-function runFacFly(model: FactorModel, ctx: EngineStepContext<FactorStep>) {
+function runFacFly(_model: FactorModel, ctx: EngineStepContext<FactorStep>) {
   if (!ctx.anim) return;
   const wrap = document.querySelector('.fac');
   if (!wrap) return;
@@ -421,7 +421,6 @@ function runFacFly(model: FactorModel, ctx: EngineStepContext<FactorStep>) {
 export const factorTool = defineTool('factor', {
   name: 'Розкладання на прості множники',
   icon: '🧩',
-  color: 'var(--primary)',
   bg: 'var(--primary-l)',
   build: (cfg) => buildFactorModel(cfg.n),
   view: facView,

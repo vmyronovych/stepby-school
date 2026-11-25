@@ -1,5 +1,5 @@
 /* ---------- Рівняння і пропорції (eq / prop) ---------- */
-.eqstep{font-size:22px;font-family:'JetBrains Mono',monospace;text-align:center;color:var(--graphite);line-height:1.7}
+
 .eqsolve{display:flex;flex-direction:column;align-items:flex-start;font-family:'JetBrains Mono',monospace;color:var(--graphite);position:relative}
 .eqrow{font-size:20px;height:var(--cell);display:flex;align-items:center;gap:5px;padding:0 8px;border-radius:7px;white-space:nowrap;transition:background .2s}
 .eqrow.cur{background:rgba(224,152,42,.18)}

@@ -1,7 +1,7 @@
-import { catalog as DB } from '../../../../data/catalog';
-import type { FormulaNode } from '../../../../engines/core/formula';
-import { F, Q } from '../../../../engines/core/formula';
-import { defineTool } from '../../../../engines/core/registry';
+import { lesson as topic } from './lesson';
+import type { FormulaNode } from '../../../../lib/math';
+import { F, Q } from '../../../../lib/math';
+import { defineTool } from '../../../../runtime/tool';
 import { runtimeServices } from '../../../../runtime/services';
 import type { ToolConfig } from '../../../../types';
 import type {
@@ -262,7 +262,6 @@ export const ScalingNotebook = (() => {
     return { example: Number(v(id)) };
   }
   function nextHref(index: number) {
-    const topic = DB.topics.find((t) => t.id === 'vector-scaling');
     const task =
       topic && (topic.tasks || []).find((t) => Number(t.cfg.example) === index);
     return task
@@ -276,7 +275,6 @@ export const scalingTool = defineTool<ReturnType<typeof ScalingNotebook.build>>(
   {
     name: 'Множення вектора на число',
     icon: '✖',
-    color: 'var(--primary)',
     bg: 'var(--primary-l)',
     inputHint:
       'Натискай «Далі», щоб дописувати розв’язання. Після відповіді відкрий наступну задачу.',
@@ -288,7 +286,7 @@ export const scalingTool = defineTool<ReturnType<typeof ScalingNotebook.build>>(
       return `<div class="rp-sheet sp-tool-sheet"><div class="rp-condition sp-tool-condition"><p>Задача ${m.index + 1} із ${ScalingNotebook.examples.length}</p><div>${m.condition}</div></div>${rows}${last ? `<div class="sp-tool-next">${m.index + 1 < ScalingNotebook.examples.length ? `<a class="btn sm" href="${ScalingNotebook.nextHref(m.index + 1)}">Наступна задача →</a>` : '<p>Усі задачі теми розглянуто.</p>'}</div>` : ''}</div>`;
     },
     animate: VectorNotebook.scrollCurrent,
-    prepare: (m, from, to) => (to === from + 1 ? { writing: true } : null),
+    prepare: (_m, from, to) => (to === from + 1 ? { writing: true } : null),
     read: (v) => ScalingNotebook.readFields(v, 'i_vsexample'),
   },
 );

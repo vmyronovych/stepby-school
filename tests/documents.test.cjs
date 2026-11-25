@@ -2,8 +2,13 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { createHash } = require('node:crypto');
 const { loadTypeScript } = require('./helpers/load-typescript.cjs');
+const { catalog } = loadTypeScript('src/app/catalog/catalog.ts');
 const baseline = require('./fixtures/documents-baseline.json');
-const content = loadTypeScript('src/features/documents/content/index.ts');
+const content = {
+  ...loadTypeScript('src/app/documents/registry.ts'),
+  ...loadTypeScript('src/courses/informatics/documents/index.ts'),
+  ...loadTypeScript('src/components/file-export/index.ts'),
+};
 const sha = (value) => createHash('sha256').update(value).digest('hex');
 
 function unpackStoredZip(bytes) {
@@ -15,36 +20,103 @@ function unpackStoredZip(bytes) {
     const size = data.readUInt32LE(offset + 18);
     const nameLength = data.readUInt16LE(offset + 26);
     const extraLength = data.readUInt16LE(offset + 28);
-    const name = data.subarray(offset + 30, offset + 30 + nameLength).toString();
+    const name = data
+      .subarray(offset + 30, offset + 30 + nameLength)
+      .toString();
     const start = offset + 30 + nameLength + extraLength;
     const value = data.subarray(start, start + size);
     assert.equal(content.crc32(value), data.readUInt32LE(offset + 14));
     entries.set(name, value.toString());
     offset = start + size;
   }
-  assert.equal(data.readUInt32LE(offset), 0x02014b50, 'ZIP central directory follows files');
-  assert.equal(data.readUInt32LE(data.length - 22), 0x06054b50, 'ZIP end record exists');
+  assert.equal(
+    data.readUInt32LE(offset),
+    0x02014b50,
+    'ZIP central directory follows files',
+  );
+  assert.equal(
+    data.readUInt32LE(data.length - 22),
+    0x06054b50,
+    'ZIP end record exists',
+  );
   assert.equal(data.readUInt16LE(data.length - 12), entries.size);
   return entries;
 }
 
 function unescapeXml(text) {
-  return text.replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+  return text
+    .replace(/&quot;/g, '"')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&');
 }
 
 function workbookRows(files) {
-  const strings = [...files.get('xl/sharedStrings.xml').matchAll(/<t xml:space="preserve">([\s\S]*?)<\/t>/g)]
-    .map((match) => unescapeXml(match[1]));
-  return [...files.get('xl/worksheets/sheet1.xml').matchAll(/<c r="A(\d+)" t="s"><v>(\d+)<\/v><\/c>/g)]
-    .map((match, index) => {
-      assert.equal(Number(match[1]), index + 1, 'column A has consecutive row numbers');
-      return strings[Number(match[2])];
-    });
+  const strings = [
+    ...files
+      .get('xl/sharedStrings.xml')
+      .matchAll(/<t xml:space="preserve">([\s\S]*?)<\/t>/g),
+  ].map((match) => unescapeXml(match[1]));
+  return [
+    ...files
+      .get('xl/worksheets/sheet1.xml')
+      .matchAll(/<c r="A(\d+)" t="s"><v>(\d+)<\/v><\/c>/g),
+  ].map((match, index) => {
+    assert.equal(
+      Number(match[1]),
+      index + 1,
+      'column A has consecutive row numbers',
+    );
+    return strings[Number(match[2])];
+  });
 }
 
 test('document IDs, lesson text, static SVG, anchors and projector metadata match the original source', () => {
-  const definitions = content.composeDocuments();
-  assert.deepEqual(Object.keys(definitions).filter((id) => !['media-truth', 'media-publishing', 'media-games', 'media-safety', 'web-page', 'text-formatting', 'css-intro', 'lists-lines', 'page-images', 'web-review', 'mini-project-1', 'hyperlinks', 'image-links', 'tables-basics', 'table-spans', 'web-review-2', 'mini-project-2', 'block-elements', 'external-css', 'flex-basics', 'flex-wrap', 'forms-basics', 'forms-choice', 'web-review-3', 'mini-project-3', 'dropdown-menu', 'semantic-media', 'responsive-scroll', 'css-animation', 'web-review-4', 'mini-project-4'].includes(id)).sort(), Object.keys(baseline.documents).sort());
+  const definitions = content.composeDocuments(catalog);
+  assert.deepEqual(
+    Object.keys(definitions)
+      .filter(
+        (id) =>
+          ![
+            'geometry-vectors',
+            'geometry-vector-scaling',
+            'geometry-scalar-product',
+            'media-truth',
+            'media-publishing',
+            'media-games',
+            'media-safety',
+            'web-page',
+            'text-formatting',
+            'css-intro',
+            'lists-lines',
+            'page-images',
+            'web-review',
+            'mini-project-1',
+            'hyperlinks',
+            'image-links',
+            'tables-basics',
+            'table-spans',
+            'web-review-2',
+            'mini-project-2',
+            'block-elements',
+            'external-css',
+            'flex-basics',
+            'flex-wrap',
+            'forms-basics',
+            'forms-choice',
+            'web-review-3',
+            'mini-project-3',
+            'dropdown-menu',
+            'semantic-media',
+            'responsive-scroll',
+            'css-animation',
+            'web-review-4',
+            'mini-project-4',
+          ].includes(id),
+      )
+      .sort(),
+    Object.keys(baseline.documents).sort(),
+  );
   for (const [id, expected] of Object.entries(baseline.documents)) {
     const actual = definitions[id];
     assert.equal(actual.title, expected.title, id);
@@ -55,7 +127,7 @@ test('document IDs, lesson text, static SVG, anchors and projector metadata matc
 });
 
 test('React projector documents no longer expose obsolete imperative lifecycle hooks', () => {
-  for (const [id, doc] of Object.entries(content.composeDocuments())) {
+  for (const [id, doc] of Object.entries(content.composeDocuments(catalog))) {
     if (!id.endsWith('-keyboard') && !id.endsWith('-windows')) continue;
     assert.equal(doc.init, undefined, id);
     assert.equal(doc.onSub, undefined, id);
@@ -72,8 +144,13 @@ test('school calendar retains 32 Monday lessons, semester split and spare Monday
   assert.equal(INFO.s2, 16);
   assert.deepEqual(INFO.spare, ['2027-05-31']);
   assert(!INFO.dates.includes('2027-03-08'));
-  assert(INFO.dates.every((date) => new Date(date + 'T12:00:00Z').getUTCDay() === 1));
-  assert.throws(() => content.lessonDates({ ...INFO.calendar, lessons: 100 }), /навчальних днів/);
+  assert(
+    INFO.dates.every((date) => new Date(date + 'T12:00:00Z').getUTCDay() === 1),
+  );
+  assert.throws(
+    () => content.lessonDates({ ...INFO.calendar, lessons: 100 }),
+    /навчальних днів/,
+  );
 });
 
 for (const g of ['g3', 'g4']) {
@@ -84,7 +161,10 @@ for (const g of ['g3', 'g4']) {
       assert.equal(sha(bytes), expected.bytesSHA256);
       const files = unpackStoredZip(bytes);
       assert.equal(files.size, 7);
-      assert.match(files.get('xl/workbook.xml'), /<sheet name="План навчання" sheetId="1"/);
+      assert.match(
+        files.get('xl/workbook.xml'),
+        /<sheet name="План навчання" sheetId="1"/,
+      );
       const rows = workbookRows(files);
       assert.deepEqual(rows, ['Зміст робіт', ...expected.rows]);
       assert.equal(rows.length, { all: 33, s1: 16, s2: 18 }[segment]);
@@ -96,13 +176,21 @@ for (const g of ['g3', 'g4']) {
 }
 
 test('unknown NIT segments use the original all-lessons fallback', () => {
-  assert.deepEqual(content.buildNitWorkbook('g3', 'unknown'), content.buildNitWorkbook('g3', 'all'));
+  assert.deepEqual(
+    content.buildNitWorkbook('g3', 'unknown'),
+    content.buildNitWorkbook('g3', 'all'),
+  );
 });
 
 test('workbook strings preserve XML-sensitive characters and duplicate row references', () => {
   const values = ['A & B', '<topic> "quote"', 'A & B'];
-  const files = unpackStoredZip(content.xlsxOneColumn('A & B', 'Header', values));
+  const files = unpackStoredZip(
+    content.xlsxOneColumn('A & B', 'Header', values),
+  );
   assert.deepEqual(workbookRows(files), ['Header', ...values]);
   assert.match(files.get('xl/workbook.xml'), /name="A &amp; B"/);
-  assert.equal(content.crc32(new TextEncoder().encode('123456789')), 0xcbf43926);
+  assert.equal(
+    content.crc32(new TextEncoder().encode('123456789')),
+    0xcbf43926,
+  );
 });

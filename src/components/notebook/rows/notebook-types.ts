@@ -1,4 +1,4 @@
-import type { FormulaNode } from '../../../engines/core/formula';
+import type { FormulaNode } from '../../../lib/math';
 import type { Step } from '../../../types';
 export interface VectorToken {
   kind: 'vector';

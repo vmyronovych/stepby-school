@@ -1,7 +1,7 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
 const {loadTypeScript}=require('./helpers/load-typescript.cjs');
-const core=loadTypeScript('src/engines/core/index.ts');
+const core=loadTypeScript('tests/entries/foundation.ts');
 test('rational operations preserve reduced signed fractions',()=>{
  const {Q,qAdd,qMul,qDiv,qSqrt}=core;
  assert.deepEqual(Q(6,-8),{n:-3,d:4});
@@ -24,15 +24,20 @@ test('parser, polynomial conversion, and rendering retain exact roots and powers
  assert.equal(pen.order,10);
 });
 test('tool assembly rejects duplicates atomically and dispatches only its built models',()=>{
+ const catalog = { tools: {} };
  const definition=core.defineTool('contract-test',{
-  name:'test',icon:'x',color:'red',bg:'white',read:()=>({}),
+  name:'test',icon:'x',bg:'white',read:()=>({}),
   build:()=>({steps:[{text:'one'}],answer:42}),
   view:(model,context)=>`${model.answer}:${context.step.text}`,
  });
- assert.throws(()=>core.registerTools([definition,definition]),/уже зареєстровано/);
- assert.equal(core.toolDef('contract-test'),null);
- core.registerTools([definition]);
- assert.equal(core.toolDef('contract-test'),definition);
+ assert.throws(()=>core.registerTools(catalog, [definition,definition]),/уже зареєстровано/);
+ assert.deepEqual(catalog.tools, {});
+ core.registerTools(catalog, [definition]);
+ assert.equal(catalog.tools['contract-test'],definition);
+ const independent = { tools: {} };
+ core.registerTools(independent, [definition]);
+ assert.notEqual(independent.tools, catalog.tools);
+ assert.equal(independent.tools['contract-test'], definition);
  const model=definition.build({});
  assert.equal(definition.view(model,{step:model.steps[0],index:0,anim:null}),'42:one');
  assert.throws(()=>definition.view({...model},{step:model.steps[0],index:0,anim:null}),/невідома модель/);

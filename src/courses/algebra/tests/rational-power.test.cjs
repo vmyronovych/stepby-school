@@ -1,4 +1,4 @@
-// Запуск: node --test tests/rational-power.test.cjs. Потребує npm ci.
+// Запуск: node --test src/courses/algebra/tests/rational-power.test.cjs. Потребує npm ci.
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const {

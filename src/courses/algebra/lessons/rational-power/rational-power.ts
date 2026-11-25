@@ -1,17 +1,13 @@
-import type { FormulaNode } from '../../../../engines/core/formula';
+import type { FormulaNode } from '../../../../lib/math';
+import { F, fmlText, Q, qAst, qFromStr } from '../../../../lib/math';
 import {
-  F,
-  fmlText,
   formulaHtml,
-  Q,
-  qAst,
-  qFromStr,
   renderFormula,
-} from '../../../../engines/core/formula';
+} from '../../../../components/notebook/rendering';
 import type { Pen } from '../../../../components/notebook/handwriting';
 import { hwGlyphs, hwTick } from '../../../../components/notebook/handwriting';
-import { defineTool } from '../../../../engines/core/registry';
-import { esc } from '../../../../engines/core/util';
+import { defineTool } from '../../../../runtime/tool';
+import { esc } from '../../../../components/legacy-html';
 import type { ToolConfig } from '../../../../types';
 export interface RationalPowerRow {
   text: string;
@@ -56,8 +52,6 @@ export const RP = (() => {
     F.pow(typeof a === 'number' ? N(a) : a, D(s));
   const times = (...xs: FormulaNode[]) => xs.reduce((a, b) => mul(a, b));
   const a = V('a'),
-    b = V('b'),
-    c = V('c'),
     m = V('m'),
     n = V('n');
   const examples: RationalPowerExample[] = [];
@@ -260,7 +254,6 @@ export function buildRationalPower(cfg: ToolConfig) {
 export const rationalPowerTool = defineTool('rational-power', {
   name: 'Степінь з раціональним показником',
   icon: 'aʳ',
-  color: 'var(--primary)',
   bg: 'var(--primary-l)',
   inputHint: 'Вибери інший приклад і натисни «Показати розв’язання».',
   freeHint: 'Вибери приклад і переглянь його розв’язання крок за кроком',
@@ -294,7 +287,7 @@ export const rationalPowerTool = defineTool('rational-power', {
       })
       .join('')}</div>`;
   },
-  prepare: (m, from, to) => (to === from + 1 ? { writing: true } : null),
+  prepare: (_m, from, to) => (to === from + 1 ? { writing: true } : null),
   read: (v) => ({ example: v('i_rpexample') }),
 });
 

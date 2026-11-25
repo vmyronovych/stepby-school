@@ -1,7 +1,8 @@
-import { fmlText, renderFormula } from '../../../engines/core/formula';
+import { fmlText } from '../../../lib/math';
+import { renderFormula } from '../rendering';
 import type { Pen } from '../handwriting';
 import { hwGlyphs, hwTick } from '../handwriting';
-import { esc } from '../../../engines/core/util';
+import { esc } from '../../legacy-html';
 import type {
   NotebookContext,
   NotebookModel,
@@ -80,7 +81,7 @@ export const VectorNotebook = (() => {
       .join('');
   }
   function scrollCurrent(
-    m: NotebookModel,
+    _m: NotebookModel,
     ctx: NotebookContext & { root?: HTMLElement },
   ) {
     if (ctx.step.appendTo == null) return;

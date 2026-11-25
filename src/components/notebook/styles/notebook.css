@@ -22,9 +22,6 @@
 .nk.op{color:var(--pink);font-weight:800}
 .nk.muted{color:#98a0bd}
 .nk.ul::after{content:"";position:absolute;left:-1px;right:-1px;bottom:0;height:2px;background:var(--graphite);border-radius:2px}
-.divwrap{display:flex;align-items:flex-start}
-.divwrap .notebook{border:none;box-shadow:none;background:transparent}
-.divbar{align-self:stretch;border-left:3px solid var(--graphite)}
 
 /* підсумковий рядок «284 × 36 = 10224» */
 .eqline{font-size:22px;font-family:'JetBrains Mono',monospace;display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;color:var(--graphite)}
@@ -39,7 +36,7 @@
 @media(prefers-reduced-motion:reduce){.hwg path{animation:none!important;stroke-dashoffset:0!important}}
 
 /* =========================================================
-   ФОРМУЛИ (js/core/formula.js): дроби з виразами, корені, степені.
+   ФОРМУЛИ (src/components/notebook/rendering/formula.ts): дроби з виразами, корені, степені.
    Вкладені inline-flex span; розмір — від font-size обгортки.
    ========================================================= */
 .fml{display:inline-flex;align-items:center;font-family:'JetBrains Mono','Consolas',monospace;color:var(--graphite);line-height:1}
@@ -76,7 +73,7 @@
 @keyframes hwpop{0%{opacity:0;transform:scale(.3)}70%{opacity:1;transform:scale(1.2)}100%{opacity:1;transform:scale(1)}}
 @media(prefers-reduced-motion:reduce){.hwa{animation:none!important}}
 
-/* числова пряма (js/core/numline.js) */
+/* числова пряма (src/components/notebook/rendering/number-line.ts) */
 .nl{position:relative;display:inline-block;flex:none}
 .nl>svg{position:absolute;left:0;top:0;overflow:visible}
 .nl>svg path{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
@@ -100,7 +97,7 @@ pattern path.lv2{stroke:var(--amber)} pattern path.lv3{stroke:#1596a8}
 @keyframes hwdash{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
 
 /* =========================================================
-   ОБЧИСЛЕННЯ СТОВПЧИКОМ (js/core/column.js): число «в умі», чернетка, польоти
+   ОБЧИСЛЕННЯ СТОВПЧИКОМ (src/components/notebook/rendering/column.ts): число «в умі», чернетка, польоти
    ========================================================= */
 /* дрібна цифра в правому верхньому куті клітинки (colGrid: поле sup) — «в умі», «позичили» */
 .nk-sup{position:absolute;right:2px;top:1px;font-size:11px;line-height:1;color:var(--amber);display:flex;border-radius:3px}

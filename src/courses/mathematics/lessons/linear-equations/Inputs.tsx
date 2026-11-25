@@ -1,7 +1,6 @@
 import type { ToolConfig } from '../../../../types';
 import {
   InputField,
-  SelectField,
   configValue,
 } from '../../../../components/notebook/inputs';
 export function EquationInputs({ config }: { config: ToolConfig }) {

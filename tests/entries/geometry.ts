@@ -1,3 +1,3 @@
 export * from '../../src/courses/geometry/runtime';
-export { catalog } from '../../src/data/catalog';
+export { catalog } from '../../src/app/catalog/catalog';
 export { runtimeServices } from '../../src/runtime/services';
