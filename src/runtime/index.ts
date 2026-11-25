@@ -19,8 +19,8 @@ import {
   ScalarNotebook,
 } from '../features/geometry/engines';
 import { composeDocuments } from '../features/documents/content';
-import { roboticsLessonState } from '../courses/robotics/documents';
-import { CircuitEngine, circuitState } from '../courses/robotics/circuit';
+import { roboticsLessonState } from '../courses/robotics/shared/documents';
+import { CircuitEngine, circuitState } from '../courses/robotics/tools/circuit';
 import { KeyboardEngine } from '../features/keyboard/engine/keyboard';
 import { engineState, documents } from './state';
 import type { EngineRuntime } from './types';

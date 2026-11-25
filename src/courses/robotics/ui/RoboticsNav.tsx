@@ -1,6 +1,6 @@
-import { Breadcrumbs } from '../../components/ui';
-import { hrefHome } from '../../navigation/routes';
-import { roboticsHref } from './routes';
+import { Breadcrumbs } from '../../../components/ui';
+import { hrefHome } from '../../../navigation/routes';
+import { roboticsHref } from '../shared/routes';
 
 export function RoboticsBreadcrumbs({
   section,

@@ -109,9 +109,9 @@ test('courses expose explicit entrypoints and lessons do not import their siblin
       : null;
   const publicFiles = new Set([
     'index.ts',
-    'ui.ts',
-    'circuit.ts',
-    'documents.ts',
+    'ui/index.ts',
+    'tools/circuit/index.ts',
+    'shared/documents/index.ts',
   ]);
   const composition = new Set([
     'src/app/App.tsx',
@@ -147,7 +147,10 @@ test('courses expose explicit entrypoints and lessons do not import their siblin
             );
             assert(
               publicFiles.has(
-                path.relative(path.join(coursesRoot, toCourse), target),
+                path
+                  .relative(path.join(coursesRoot, toCourse), target)
+                  .split(path.sep)
+                  .join('/'),
               ),
               'Private course import: ' + filename + ' → ' + target,
             );
@@ -169,6 +172,19 @@ test('courses expose explicit entrypoints and lessons do not import their siblin
               !targetLesson,
               'Shared course code must receive lesson-specific data: ' +
                 filename,
+            );
+          // A tool's public entry lives with that tool, including for course consumers.
+          const toolRoot = target.match(
+            /^(.*\/courses\/[^/]+\/tools\/[^/]+)\//,
+          )?.[1];
+          if (toolRoot && !filename.startsWith(toolRoot + '/'))
+            assert.equal(
+              target,
+              toolRoot + '/index.ts',
+              'Import tools through their own public entry: ' +
+                filename +
+                ' → ' +
+                target,
             );
         }
       }

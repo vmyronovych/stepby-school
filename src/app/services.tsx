@@ -1,4 +1,4 @@
-import { handleRoboticsDocumentAction } from '../courses/robotics/documents';
+import { handleRoboticsDocumentAction } from '../courses/robotics/shared/documents';
 import { radianExamples } from '../features/tools/data/radian';
 import { LegacyHtml } from '../components/ui';
 import { engine } from '../runtime';

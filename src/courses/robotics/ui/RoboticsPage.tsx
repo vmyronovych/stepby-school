@@ -1,12 +1,12 @@
-import { transistorMotorPreset } from './lessons/lesson-07/experiment';
-import type { Topic } from '../../types';
-import { Card, LinkButton, PageHeading } from '../../components/ui';
-import { roboticsLessons, roboticsStages } from './course';
-import { mcarUrl, roboticsHref, roboticsView } from './routes';
+import { transistorMotorPreset } from '../lessons/lesson-07/experiment';
+import type { Topic } from '../../../types';
+import { Card, LinkButton, PageHeading } from '../../../components/ui';
+import { roboticsLessons, roboticsStages } from '../course';
+import { mcarUrl, roboticsHref, roboticsView } from '../shared/routes';
 import { RoboticsBreadcrumbs, RoboticsNav } from './RoboticsNav';
-import { CourseLesson } from './shared/ui/CourseLesson';
-import { lessonContents } from './lessons';
-import { MotorLesson } from './lessons/lesson-08/MotorLesson';
+import { CourseLesson } from '../shared/ui/CourseLesson';
+import { lessonContents } from '../lessons';
+import { MotorLesson } from '../lessons/lesson-08/MotorLesson';
 
 export function RoboticsPage({
   topic,

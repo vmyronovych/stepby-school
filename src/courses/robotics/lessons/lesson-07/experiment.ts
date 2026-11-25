@@ -1,14 +1,10 @@
-import {
-  cbNewBoard,
-  cbAddPart,
-  cbAddWire,
-} from '../../tools/circuit/engine/board';
-import type { CircuitPreset } from '../../tools/circuit/types';
+import { cbNewBoard, cbAddPart, cbAddWire } from '../../tools/circuit';
 import type {
+  CircuitPreset,
   CircuitPart,
   Point,
   Wire,
-} from '../../tools/circuit/engine/types';
+} from '../../tools/circuit';
 
 function transistorMotor(): CircuitPreset {
   const board = cbNewBoard(false);

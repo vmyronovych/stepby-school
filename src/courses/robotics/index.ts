@@ -4,4 +4,4 @@ export {
   roboticsClass,
   roboticsSubject,
 } from './course';
-export { roboticsHref } from './routes';
+export { roboticsHref } from './shared/routes';

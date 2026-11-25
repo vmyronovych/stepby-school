@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { roboticsLessons } from '../../course';
-import { roboticsHref, type RoboticsView } from '../../routes';
+import { roboticsHref, type RoboticsView } from '../routes';
 
 /** Shared compact lesson layout: navigation stays secondary to the teaching material. */
 export function LessonScreen({

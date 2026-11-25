@@ -6,7 +6,7 @@ import { engine } from '../runtime';
 import type { Topic } from '../types';
 import type { DocumentSection } from '../features/documents/types';
 import { ContentSlot } from '../features/documents/components/ContentSlot';
-import { CircuitProjector } from '../courses/robotics/ui';
+import { CircuitProjector } from '../courses/robotics/tools/circuit';
 import { KeyboardProjector } from '../features/keyboard/KeyboardProjector';
 import { GeometryLesson } from '../features/geometry/GeometryLesson';
 import { hrefTopic } from '../navigation/routes';

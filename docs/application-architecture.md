@@ -25,7 +25,7 @@ src/courses/robotics/tools/circuit/engine/    фізика кола, макет�
 src/features/windows/engine/    файлова модель, команди й публікація стану
 src/features/keyboard/engine/   пресети, редактор і контролер клавіш
 src/features/documents/data/    календар, КТП і конспекти інформатики
-src/features/documents/content/ збірка документів; робототехніка підключається через courses/robotics/documents.ts
+src/features/documents/content/ збірка документів; робототехніка підключається через courses/robotics/shared/documents/index.ts
 src/features/documents/services/ XLSX та стан полів КТП
 css/                           наявні токени й стилі зошита, уроків та проєкторів
 ```

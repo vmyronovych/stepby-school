@@ -4,15 +4,14 @@ import { MaterialPanels } from './MaterialPanels';
 import { LessonScreen } from './LessonScreen';
 import { Button, LinkButton } from '../../../../components/ui';
 import { roboticsLessons } from '../../course';
-import { mcarUrl, roboticsHref, type RoboticsView } from '../../routes';
+import { mcarUrl, roboticsHref, type RoboticsView } from '../routes';
 import type { LessonMaterial, RoboticsLessonContent } from '../content/types';
 import { courseImages } from '../content/resources';
 
 import { CoursePreparation } from './CoursePreparation';
 import { LineRuleVisual } from './LineRuleVisual';
-import { CircuitProjector } from '../../tools/circuit/CircuitProjector';
-import { CircuitEngine } from '../../tools/circuit/engine';
-import type { CircuitPreset } from '../../tools/circuit/types';
+import { CircuitProjector, CircuitEngine } from '../../tools/circuit';
+import type { CircuitPreset } from '../../tools/circuit';
 const idFor = (n: number) => `lesson-${String(n).padStart(2, '0')}`;
 function Programs({
   number,

@@ -1,4 +1,4 @@
-import { hrefTopic } from '../../navigation/routes';
+import { hrefTopic } from '../../../navigation/routes';
 
 export type RoboticsView = 'classroom' | 'practice' | 'teacher' | 'student';
 export const mcarUrl = 'https://vmyronovych.github.io/stepby-robotics/';

@@ -5,7 +5,7 @@ import { LessonScreen } from '../../shared/ui/LessonScreen';
 import { MaterialPanels } from '../../shared/ui/MaterialPanels';
 import { CoursePreparation } from '../../shared/ui/CoursePreparation';
 import { practiceSections, teacherSections } from './lesson08-content';
-import { mcarUrl, roboticsHref, type RoboticsView } from '../../routes';
+import { mcarUrl, roboticsHref, type RoboticsView } from '../../shared/routes';
 
 const lessonId = 'lesson-08';
 const diagram = 'assets/robotics/lesson-08-wiring.png';
