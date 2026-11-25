@@ -110,12 +110,16 @@ test('courses expose explicit entrypoints and lessons do not import their siblin
   const publicFiles = new Set([
     'index.ts',
     'ui/index.ts',
+    'runtime/index.ts',
     'tools/circuit/index.ts',
     'shared/documents/index.ts',
   ]);
   const composition = new Set([
     'src/app/App.tsx',
     'src/app/services.tsx',
+    'src/app/math-runtime.ts',
+    'src/app/math-tools.ts',
+    'src/app/math-inputs/ToolInputs.tsx',
     'src/app/documentViews.tsx',
     'src/data/catalog.ts',
     'src/runtime/index.ts',
@@ -159,8 +163,8 @@ test('courses expose explicit entrypoints and lessons do not import their siblin
               'Only application composition may import a course: ' + filename,
             );
           }
-          const lesson = filename.match(/\/lessons\/(lesson-\d+)\//)?.[1];
-          const targetLesson = target.match(/\/lessons\/(lesson-\d+)\//)?.[1];
+          const lesson = filename.match(/\/lessons\/([^/]+)\//)?.[1];
+          const targetLesson = target.match(/\/lessons\/([^/]+)\//)?.[1];
           if (lesson && targetLesson)
             assert.equal(
               lesson,
@@ -191,5 +195,63 @@ test('courses expose explicit entrypoints and lessons do not import their siblin
       ts.forEachChild(node, check);
     }
     check(source);
+  }
+});
+
+test('shared components own their implementation and expose explicit public entries', () => {
+  const componentsRoot = path.join(root, 'src/components') + path.sep;
+  const moduleOf = (filename) =>
+    filename.startsWith(componentsRoot)
+      ? path.relative(componentsRoot, filename).split(path.sep)[0]
+      : null;
+  const lowLevel = new Set([
+    'notebook/handwriting/index.ts',
+    'notebook/grid/index.ts',
+    'notebook/inputs/index.ts',
+  ]);
+  for (const [filename, source] of files) {
+    const owner = moduleOf(filename);
+    if (owner)
+      assert(
+        filename.includes(path.sep + owner + path.sep),
+        'Component must own a directory: ' + filename,
+      );
+    for (const statement of source.statements) {
+      if (
+        !ts.isImportDeclaration(statement) &&
+        !ts.isExportDeclaration(statement)
+      )
+        continue;
+      const specifier = statement.moduleSpecifier;
+      if (!specifier || !ts.isStringLiteral(specifier)) continue;
+      const target = ts.resolveModuleName(
+        specifier.text,
+        filename,
+        config.options,
+        ts.sys,
+      ).resolvedModule?.resolvedFileName;
+      if (!target) continue;
+      if (owner) {
+        assert(
+          !/\/src\/(courses|app|data)\//.test(target),
+          'Components receive course data through their interface: ' +
+            filename +
+            ' → ' +
+            target,
+        );
+      }
+      const targetOwner = moduleOf(target);
+      if (targetOwner && owner !== targetOwner) {
+        const relative = path
+          .relative(componentsRoot, target)
+          .split(path.sep)
+          .join('/');
+        assert(
+          new RegExp('^' + targetOwner + '/index\\.tsx?$').test(relative) ||
+            lowLevel.has(relative),
+          'Private component import: ' + filename + ' → ' + target,
+        );
+      }
+    }
   }
 });

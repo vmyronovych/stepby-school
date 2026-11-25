@@ -1,7 +1,12 @@
 import type { FormulaNode } from './formula';
 import { formulaHtml } from './formula';
-import type { Pen } from './handwriting';
-import { HW_DUR, HW_STEP, hwGlyphs, hwTick } from './handwriting';
+import type { Pen } from '../../components/notebook/handwriting';
+import {
+  HW_DUR,
+  HW_STEP,
+  hwGlyphs,
+  hwTick,
+} from '../../components/notebook/handwriting';
 export interface NumberLinePoint {
   v: number;
   ast: FormulaNode;

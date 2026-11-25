@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { Breadcrumbs } from '../../components/ui';
+import { Breadcrumbs } from '../../components/breadcrumbs';
 import type { DocumentHeading, DocumentPageProps } from './types';
 import { DocumentArticle } from './components/DocumentArticle';
 import { DocumentContents } from './components/DocumentContents';

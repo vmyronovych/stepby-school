@@ -4,6 +4,7 @@ module.exports = defineConfig({
   testMatch: [
     'tests/browser/**/*.spec.cjs',
     'src/courses/*/tests/browser/**/*.spec.cjs',
+    'src/components/*/tests/browser/**/*.spec.cjs',
   ],
   testIgnore: ['**/node_modules/**'],
   fullyParallel: true,

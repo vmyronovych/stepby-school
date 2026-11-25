@@ -7,7 +7,7 @@ import {
   assembleAlgebraLessons,
   domPreviewHtml,
   RP,
-} from '../features/tools/engines';
+} from '../app/math-tools';
 import {
   geometryTools,
   geometryDocuments,
@@ -17,7 +17,7 @@ import {
   ScalarProduct,
   ScalingNotebook,
   ScalarNotebook,
-} from '../features/geometry/engines';
+} from '../courses/geometry/runtime';
 import { composeDocuments } from '../features/documents/content';
 import { roboticsLessonState } from '../courses/robotics/shared/documents';
 import { CircuitEngine, circuitState } from '../courses/robotics/tools/circuit';

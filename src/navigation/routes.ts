@@ -3,6 +3,9 @@ import type { AppState, Catalog, ToolConfig, Topic } from '../types';
 export function hrefHome() {
   return '#/';
 }
+export function hrefCourse(subject: string) {
+  return subject === 'robot' ? '#/robo/robot/lessons' : `#/courses/${subject}`;
+}
 export function hrefCls(id: string) {
   return `#/${id}`;
 }
@@ -13,7 +16,10 @@ export function hrefTopic(
   topic: Pick<Topic, 'cls' | 'subject' | 'id'>,
   sub?: string | null,
 ) {
-  return `#/${topic.cls}/${topic.subject}/${topic.id}${sub ? '/' + encodeURIComponent(sub) : ''}`;
+  const base = ['math', 'algebra', 'geometry'].includes(topic.subject)
+    ? `${hrefCourse(topic.subject)}/${topic.id}`
+    : `#/${topic.cls}/${topic.subject}/${topic.id}`;
+  return base + (sub ? '/' + encodeURIComponent(sub) : '');
 }
 export function cfgQuery(config?: ToolConfig | null) {
   return config ? '?c=' + encodeURIComponent(JSON.stringify(config)) : '';
@@ -23,6 +29,7 @@ export function hrefTool(id: string, config?: ToolConfig | null) {
 }
 
 export interface ParsedRoute {
+  course?: string;
   legacy?: string;
   tool?: string;
   cls?: string | null;
@@ -49,6 +56,13 @@ export function parseRoute(hash: string): ParsedRoute {
         /* Invalid custom conditions fall back to the lesson's condition. */
       }
     }
+    if (parts[0] === 'courses')
+      return {
+        course: parts[1] || '',
+        topic: parts[2] || null,
+        sub: parts[3] || null,
+        cfg: config,
+      };
     if (parts[0] === 'tool') return { tool: parts[1] || '', cfg: config };
     return {
       cls: parts[0] || null,
@@ -95,55 +109,60 @@ export function resolveRoute(
       state: { tool: route.tool, toolCfg: route.cfg ?? null, toolTaskId: null },
     };
   }
-  if (!route.cls) return { state: {} };
-  const schoolClass = catalog.classes.find((item) => item.id === route.cls);
-  if (!schoolClass) return { redirect: hrefHome() };
-  if (!route.subject) {
-    if (schoolClass.courseSubject) {
-      const course = catalog.subjects.find(
-        (item) =>
-          item.id === schoolClass.courseSubject &&
-          item.active &&
-          item.cls.includes(schoolClass.id),
-      );
-      if (course) return { redirect: hrefSubj(schoolClass.id, course.id) };
-    }
-    return { state: { cls: schoolClass.id } };
+  if (!route.cls && route.course === undefined) return { state: {} };
+  const subjectId = route.course ?? route.subject;
+  if (!subjectId) {
+    const subjects = catalog.subjects.filter(
+      (item) => item.active && item.cls.includes(route.cls || ''),
+    );
+    return {
+      redirect: subjects.length === 1 ? hrefCourse(subjects[0].id) : hrefHome(),
+    };
   }
-  const subject = catalog.subjects.find(
-    (item) =>
-      item.id === route.subject &&
-      item.active &&
-      item.cls.includes(schoolClass.id),
-  );
-  if (!subject) return { redirect: hrefCls(schoolClass.id) };
-  if (!route.topic) {
-    if (schoolClass.courseHome && schoolClass.courseSubject === subject.id)
-      return {
-        redirect: hrefTopic({
-          cls: schoolClass.id,
-          subject: subject.id,
-          id: schoolClass.courseHome,
-        }),
-      };
-    return { state: { cls: schoolClass.id, subject: subject.id } };
+  if (route.course === undefined && !route.topic) {
+    const moved = catalog.topics.find((item) =>
+      item.aliases?.some(
+        (alias) => alias.cls === route.cls && alias.subject === subjectId,
+      ),
+    );
+    if (moved && moved.subject !== subjectId)
+      return { redirect: hrefCourse(moved.subject) };
   }
-  if (
-    schoolClass.id === 'robo' &&
-    subject.id === 'robot' &&
-    ['r1', 'r2', 'r4', 'r6', 'r7', 'r10'].includes(route.topic)
-  )
-    return { redirect: '#/robo/robot/lessons' };
+  // Legacy topics can have moved to another course or merged into one lesson.
   const topic = catalog.topics.find(
     (item) =>
-      item.id === route.topic &&
-      item.cls === schoolClass.id &&
-      item.subject === subject.id,
+      (item.subject === subjectId &&
+        item.id === route.topic &&
+        (route.course !== undefined || item.cls === route.cls)) ||
+      (route.course === undefined &&
+        item.aliases?.some(
+          (alias) =>
+            alias.cls === route.cls &&
+            alias.subject === route.subject &&
+            alias.id === route.topic,
+        )),
   );
-  if (!topic) return { redirect: hrefSubj(schoolClass.id, subject.id) };
+  const subject = catalog.subjects.find(
+    (item) => item.id === subjectId && item.active,
+  );
+  if (topic && (topic.subject !== subjectId || topic.id !== route.topic))
+    return { redirect: hrefTopic(topic, route.sub) + cfgQuery(route.cfg) };
+  if (
+    !subject ||
+    (route.course === undefined &&
+      !topic &&
+      !subject.cls.includes(route.cls || ''))
+  )
+    return { redirect: hrefHome() };
+  if (!route.topic) {
+    if (route.course === undefined || subject.id === 'robot')
+      return { redirect: hrefCourse(subject.id) };
+    return { state: { subject: subject.id } };
+  }
+  if (!topic) return { redirect: hrefCourse(subject.id) };
   const state: Partial<AppState> = {
-    cls: schoolClass.id,
-    subject: subject.id,
+    cls: topic.cls,
+    subject: topic.subject,
     topic: topic.id,
   };
   if (topic.views) {

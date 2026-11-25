@@ -8,7 +8,7 @@ import type { DocumentSection } from '../features/documents/types';
 import { ContentSlot } from '../features/documents/components/ContentSlot';
 import { CircuitProjector } from '../courses/robotics/tools/circuit';
 import { KeyboardProjector } from '../features/keyboard/KeyboardProjector';
-import { GeometryLesson } from '../features/geometry/GeometryLesson';
+import { GeometryLesson } from '../courses/geometry/ui';
 import { hrefTopic } from '../navigation/routes';
 import { WebPractice } from '../features/web-development/WebPractice';
 import { webLessonPractice } from '../features/web-development/lessons';

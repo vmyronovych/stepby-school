@@ -1,3 +1,10 @@
+import {
+  hrefHome,
+  hrefCls,
+  hrefSubj,
+  hrefTopic,
+  hrefTool,
+} from '../navigation/routes';
 import type { ToolConfig, Topic } from '../types';
 
 export interface RuntimeServices {
@@ -14,13 +21,11 @@ export interface RuntimeServices {
 // Link defaults allow repository lesson getters to run before the app mounts.
 // React installs document navigation and notifications during application setup.
 export const runtimeServices: RuntimeServices = {
-  hrefHome: () => '#/',
-  hrefCls: (id) => `#/${id}`,
-  hrefSubj: (classId, subjectId) => `#/${classId}/${subjectId}`,
-  hrefTopic: (topic, sub) =>
-    `#/${topic.cls}/${topic.subject}/${topic.id}${sub ? '/' + encodeURIComponent(sub) : ''}`,
-  hrefTool: (id, config) =>
-    `#/tool/${id}${config ? '?c=' + encodeURIComponent(JSON.stringify(config)) : ''}`,
+  hrefHome,
+  hrefCls,
+  hrefSubj,
+  hrefTopic,
+  hrefTool,
   hrefDoc: () => '#/',
   docReplaceSub: () => {
     throw new Error('Document navigation service is not configured');

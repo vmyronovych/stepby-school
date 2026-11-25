@@ -1,4 +1,4 @@
-import { Breadcrumbs } from '../../../components/ui';
+import { Breadcrumbs } from '../../../components/breadcrumbs';
 import { hrefHome } from '../../../navigation/routes';
 import { roboticsHref } from '../shared/routes';
 

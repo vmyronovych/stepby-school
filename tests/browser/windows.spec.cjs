@@ -99,7 +99,7 @@ test('Notepad save dialog, explorer search and window lifecycle', async ({
     'React notebook text',
   );
   await page.locator('.logo').click();
-  await expect(page.locator('h1')).toContainText('Оберіть клас');
+  await expect(page.locator('h1')).toContainText('Оберіть курс');
   await page.goBack();
   await expect(note.locator('textarea.np-t')).toHaveValue(
     'React notebook text',

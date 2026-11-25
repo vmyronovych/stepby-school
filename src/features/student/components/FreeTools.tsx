@@ -1,6 +1,7 @@
 import { hrefTool } from '../../../navigation/routes';
 import type { Task, ToolDefinition } from '../../../types';
-import { Card, Icon } from '../../../components/ui';
+import { Card } from '../../../components/card';
+import { Icon } from '../../../components/icon';
 
 function FreeToolCard({ id, tool }: { id: string; tool: ToolDefinition }) {
   return (

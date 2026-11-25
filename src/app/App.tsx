@@ -7,10 +7,10 @@ import { useLayoutEffect, useSyncExternalStore } from 'react';
 import { engine } from '../runtime';
 import { StudentPage } from '../features/student/StudentPage';
 import { StudentBreadcrumbs } from '../features/student/components/StudentBreadcrumbs';
-import { ToolPage } from '../features/tools/ToolPage';
+import { NotebookWorkspace } from '../components/notebook';
+import { ToolInputs } from './math-inputs/ToolInputs';
 import { DocumentPage } from '../features/documents/DocumentPage';
-import { hrefCls, hrefHome, hrefSubj, hrefTopic } from '../navigation/routes';
-import { clsCrumb } from '../navigation/labels';
+import { hrefCourse, hrefHome, hrefTopic } from '../navigation/routes';
 import {
   applyTool,
   changeStep,
@@ -21,7 +21,7 @@ import {
 } from './controller';
 import { documentServices, inputServices } from './services';
 import { Header } from './Header';
-import { notify, Toast } from './notifications';
+import { Toast } from './notifications';
 
 export function App() {
   const state = useSyncExternalStore(subscribe, getSnapshot);
@@ -76,16 +76,21 @@ export function App() {
             {document?.content}
           </>
         ) : definition ? (
-          <ToolPage
+          <NotebookWorkspace
             key={state.revision}
             state={state}
             definition={definition}
             backHref={toolBackHref()}
-            inputServices={inputServices}
             onApply={applyTool}
             onMarkDone={markDone}
             onStepChange={changeStep}
-          />
+          >
+            <ToolInputs
+              toolId={definition.id}
+              config={state.toolCfg || {}}
+              services={inputServices}
+            />
+          </NotebookWorkspace>
         ) : isDocument && topic ? (
           <>
             {isRobotics && (
@@ -114,21 +119,11 @@ export function App() {
                       { text: topic.title },
                     ]
                   : [
-                      { text: 'Класи', href: hrefHome() },
+                      { text: 'Головна', href: hrefHome() },
                       {
-                        text: schoolClass ? clsCrumb(schoolClass) : '',
-                        href: schoolClass?.courseSubject
-                          ? hrefSubj(topic.cls, schoolClass.courseSubject)
-                          : hrefCls(topic.cls),
+                        text: subject?.name || 'Курс',
+                        href: hrefCourse(topic.subject),
                       },
-                      ...(!schoolClass?.courseSubject
-                        ? [
-                            {
-                              text: subject?.name || 'Предмет',
-                              href: hrefSubj(topic.cls, topic.subject),
-                            },
-                          ]
-                        : []),
                       { text: topic.title },
                     ]
               }
@@ -139,11 +134,7 @@ export function App() {
             </DocumentPage>
           </>
         ) : (
-          <StudentPage
-            catalog={catalog}
-            state={state}
-            onOpenMaterial={() => notify('Демо: матеріал відкрито')}
-          />
+          <StudentPage catalog={catalog} state={state} />
         )}
       </main>
       <Toast />

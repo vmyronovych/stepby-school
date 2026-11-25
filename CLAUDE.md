@@ -13,12 +13,14 @@
 
 | Область | Правила |
 |---|---|
+| Спільні компоненти, зошит | [src/components/CLAUDE.md](src/components/CLAUDE.md) |
+| Спільна математична основа | [src/engines/core/CLAUDE.md](src/engines/core/CLAUDE.md) |
 | Робототехніка, електричне коло, генератори Mcar | [src/courses/robotics/CLAUDE.md](src/courses/robotics/CLAUDE.md) |
-| Математичні інструменти та геометрія | [src/features/tools/CLAUDE.md](src/features/tools/CLAUDE.md) |
+| Математичні інструменти та геометрія | [математика](src/courses/mathematics/CLAUDE.md), [алгебра](src/courses/algebra/CLAUDE.md), [геометрія](src/courses/geometry/CLAUDE.md) |
 | Матеріали інформатики | [src/features/documents/data/CLAUDE.md](src/features/documents/data/CLAUDE.md) |
 | Медіаграмотність | [src/features/media-literacy/CLAUDE.md](src/features/media-literacy/CLAUDE.md) |
 
-Робототехніка — перший перенесений курс. Інші курси поки зберігають чинні шляхи; не перенось їх побіжно. Нові модулі курсів організовуй за зразком `src/courses/robotics/`. Докладніше: [структура й залежності](docs/course-structure.md), [наявна архітектура](docs/application-architecture.md).
+Робототехніку, математику, алгебру й геометрію перенесено до `src/courses/`. Інші курси поки зберігають чинні шляхи; не перенось їх побіжно. Нові модулі курсів організовуй за зразком `src/courses/robotics/`. Докладніше: [структура й залежності](docs/course-structure.md), [наявна архітектура](docs/application-architecture.md).
 
 ## Спільні обмеження
 

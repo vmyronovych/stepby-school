@@ -139,7 +139,7 @@ test('navigation removes keyboard listeners and releases held keys before remoun
   await page.keyboard.down('Shift');
   await expect(page.locator('[data-code="ShiftLeft"]')).toHaveClass(/down/);
   await page.evaluate(() => StepBySchool.navigate('#/'));
-  await expect(page.locator('h1.page')).toContainText('Оберіть клас');
+  await expect(page.locator('h1.page')).toContainText('Оберіть курс');
   await page.keyboard.up('Shift');
   await page.keyboard.type('ignored');
   await page.evaluate(() => StepBySchool.navigate('#/tool/add'));

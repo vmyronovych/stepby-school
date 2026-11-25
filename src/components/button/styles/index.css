@@ -1,0 +1,9 @@
+a.btn{text-decoration:none}
+.btn{background:var(--primary);color:#fff;padding:11px 20px;border-radius:11px;font-weight:600;font-size:14px;transition:.15s;display:inline-flex;gap:8px;align-items:center}
+.btn:hover{background:var(--primary-d)}
+.btn.ghost{background:var(--primary-l);color:var(--primary)}
+.btn.ghost:hover{background:#e0ddfb}
+.btn.sm{padding:7px 13px;font-size:13px}
+.btn.green{background:var(--green)}
+.btn.gray{background:#eceef5;color:var(--ink)}
+.btn.gray:hover{background:#e2e5ef}

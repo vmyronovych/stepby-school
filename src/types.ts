@@ -9,6 +9,7 @@ export interface SchoolClass {
   cover?: string;
 }
 export interface Subject {
+  description?: string;
   color?: string;
   id: string;
   name: string;
@@ -26,6 +27,8 @@ export interface Task {
   done: boolean;
 }
 export interface Topic {
+  grades?: number[];
+  aliases?: { cls: string; subject: string; id: string }[];
   id: string;
   cls: string;
   subject: string;

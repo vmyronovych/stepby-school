@@ -1,5 +1,7 @@
 import type { Task, ToolDefinition } from '../../../types';
-import { Card, Icon, LinkButton } from '../../../components/ui';
+import { Card } from '../../../components/card';
+import { Icon } from '../../../components/icon';
+import { LinkButton } from '../../../components/button';
 
 export function TaskCard({
   task,

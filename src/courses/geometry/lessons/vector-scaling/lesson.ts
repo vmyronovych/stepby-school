@@ -1,0 +1,60 @@
+import type { Topic } from '../../../../types';
+export const lesson: Topic = {
+  id: 'vector-scaling',
+  cls: '9a',
+  subject: 'geometry',
+  doc: 'geometry-vector-scaling',
+  icon: '✖️',
+  title: '§ 9. Множення вектора на число',
+  desc: 'Змінюй множник і координати. Досліджуй довжину, напрям та властивості добутку вектора на число.',
+  chips: [
+    'Інтерактивна панель',
+    '6 прикладів у зошиті',
+    'Координати та властивості',
+  ],
+  tasks: [
+    {
+      id: 'scaling-1',
+      tool: 'vector-scaling',
+      title: 'Знайди модуль добутку вектора на число',
+      cfg: { example: 0 },
+      done: false,
+    },
+    {
+      id: 'scaling-2',
+      tool: 'vector-scaling',
+      title: 'Визнач напрям за від’ємним множником',
+      cfg: { example: 1 },
+      done: false,
+    },
+    {
+      id: 'scaling-3',
+      tool: 'vector-scaling',
+      title: 'Помнож координати вектора на −3',
+      cfg: { example: 2 },
+      done: false,
+    },
+    {
+      id: 'scaling-4',
+      tool: 'vector-scaling',
+      title: 'Знайди множник за координатами векторів',
+      cfg: { example: 3 },
+      done: false,
+    },
+    {
+      id: 'scaling-5',
+      tool: 'vector-scaling',
+      title: 'Знайди множник нульового добутку',
+      cfg: { example: 4 },
+      done: false,
+    },
+    {
+      id: 'scaling-6',
+      tool: 'vector-scaling',
+      title: 'Спрости вираз із векторами',
+      cfg: { example: 5 },
+      done: false,
+    },
+  ],
+  grades: [9],
+};

@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react';
-import { Button } from '../../../components/ui';
+import { Button } from '../../../components/button';
 import { FIGURE_PRINT_CSS, printHtml } from '../printing';
 
 interface FigureLightboxProps {

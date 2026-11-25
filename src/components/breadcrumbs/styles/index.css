@@ -1,0 +1,4 @@
+.crumbs{display:flex;gap:8px;align-items:center;color:var(--muted);font-size:14px;margin-bottom:18px;flex-wrap:wrap}
+.crumbs a{color:var(--primary);cursor:pointer;font-weight:600;text-decoration:none}
+.crumbs a:hover{text-decoration:underline}
+.crumbs span.sep{opacity:.5}

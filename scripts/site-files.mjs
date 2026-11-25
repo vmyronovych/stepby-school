@@ -8,6 +8,10 @@ import {
 } from 'node:fs';
 import { dirname, join, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import components from '../src/components/publication.cjs';
+import mathematics from '../src/courses/mathematics/publication.cjs';
+import algebra from '../src/courses/algebra/publication.cjs';
+import geometry from '../src/courses/geometry/publication.cjs';
 import robotics from '../src/courses/robotics/publication.cjs';
 
 export const projectRoot = resolve(
@@ -48,7 +52,8 @@ export function siteInputs() {
   }
   for (const [source, destination] of sourceTrees)
     collect(join(projectRoot, source), join(distRoot, destination));
-  files.push(...robotics.publicationFiles());
+  for (const module of [robotics, components, mathematics, algebra, geometry])
+    files.push(...module.publicationFiles());
   const destinations = new Set();
   for (const file of files) {
     if (!file.destination.startsWith(distRoot + sep))

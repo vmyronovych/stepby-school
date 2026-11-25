@@ -1,0 +1,1167 @@
+[
+  {
+    "id": "vectors",
+    "cls": "9a",
+    "subject": "geometry",
+    "doc": "geometry-vectors",
+    "icon": "↗️",
+    "title": "§ 6. Вектор. Модуль і напрям вектора. Колінеарні вектори. Рівність векторів",
+    "desc": "Рухай точки та порівнюй вектори: початок і кінець, довжина, напрям, колінеарність і рівність.",
+    "chips": [
+      "Інтерактивна панель",
+      "7 задач",
+      "Без доведень"
+    ]
+  },
+  {
+    "id": "vector-scaling",
+    "cls": "9a",
+    "subject": "geometry",
+    "doc": "geometry-vector-scaling",
+    "icon": "✖️",
+    "title": "§ 9. Множення вектора на число",
+    "desc": "Змінюй множник і координати. Досліджуй довжину, напрям та властивості добутку вектора на число.",
+    "chips": [
+      "Інтерактивна панель",
+      "6 прикладів у зошиті",
+      "Координати та властивості"
+    ],
+    "tasks": [
+      {
+        "id": "scaling-1",
+        "tool": "vector-scaling",
+        "title": "Знайди модуль добутку вектора на число",
+        "cfg": {
+          "example": 0
+        },
+        "done": false
+      },
+      {
+        "id": "scaling-2",
+        "tool": "vector-scaling",
+        "title": "Визнач напрям за від’ємним множником",
+        "cfg": {
+          "example": 1
+        },
+        "done": false
+      },
+      {
+        "id": "scaling-3",
+        "tool": "vector-scaling",
+        "title": "Помнож координати вектора на −3",
+        "cfg": {
+          "example": 2
+        },
+        "done": false
+      },
+      {
+        "id": "scaling-4",
+        "tool": "vector-scaling",
+        "title": "Знайди множник за координатами векторів",
+        "cfg": {
+          "example": 3
+        },
+        "done": false
+      },
+      {
+        "id": "scaling-5",
+        "tool": "vector-scaling",
+        "title": "Знайди множник нульового добутку",
+        "cfg": {
+          "example": 4
+        },
+        "done": false
+      },
+      {
+        "id": "scaling-6",
+        "tool": "vector-scaling",
+        "title": "Спрости вираз із векторами",
+        "cfg": {
+          "example": 5
+        },
+        "done": false
+      }
+    ]
+  },
+  {
+    "id": "scalar-product",
+    "cls": "9a",
+    "subject": "geometry",
+    "doc": "geometry-scalar-product",
+    "icon": "📐",
+    "title": "§ 10. Скалярний добуток векторів",
+    "desc": "Дізнайся, що таке скалярний добуток. Обчислюй його за координатами й кутом та перевіряй перпендикулярність.",
+    "chips": [
+      "Теорія та дослід",
+      "11 задач у зошиті",
+      "Покрокові пояснення"
+    ],
+    "tasks": [
+      {
+        "id": "scalar-1",
+        "tool": "scalar-product",
+        "title": "Обчисли добуток за координатами (−2; 1) і (0; 3)",
+        "cfg": {
+          "group": 0,
+          "part": 0
+        },
+        "done": false
+      },
+      {
+        "id": "scalar-2",
+        "tool": "scalar-product",
+        "title": "Обчисли добуток за координатами (1; −3) і (−2; 1)",
+        "cfg": {
+          "group": 0,
+          "part": 1
+        },
+        "done": false
+      },
+      {
+        "id": "scalar-3",
+        "tool": "scalar-product",
+        "title": "Знайди скалярний квадрат вектора (−1; −2)",
+        "cfg": {
+          "group": 1,
+          "part": 0
+        },
+        "done": false
+      },
+      {
+        "id": "scalar-4",
+        "tool": "scalar-product",
+        "title": "Знайди скалярний квадрат вектора (4; 1)",
+        "cfg": {
+          "group": 1,
+          "part": 1
+        },
+        "done": false
+      },
+      {
+        "id": "scalar-5",
+        "tool": "scalar-product",
+        "title": "Обчисли добуток при куті 30°",
+        "cfg": {
+          "group": 2,
+          "part": 0
+        },
+        "done": false
+      },
+      {
+        "id": "scalar-6",
+        "tool": "scalar-product",
+        "title": "Обчисли добуток при куті 60°",
+        "cfg": {
+          "group": 2,
+          "part": 1
+        },
+        "done": false
+      },
+      {
+        "id": "scalar-7",
+        "tool": "scalar-product",
+        "title": "Обчисли добуток при куті 135°",
+        "cfg": {
+          "group": 2,
+          "part": 2
+        },
+        "done": false
+      },
+      {
+        "id": "scalar-8",
+        "tool": "scalar-product",
+        "title": "Обчисли добуток при куті 180°",
+        "cfg": {
+          "group": 2,
+          "part": 3
+        },
+        "done": false
+      },
+      {
+        "id": "scalar-9",
+        "tool": "scalar-product",
+        "title": "Доведи перпендикулярність векторів (−1; 10) і (20; 2)",
+        "cfg": {
+          "group": 3,
+          "part": 0
+        },
+        "done": false
+      },
+      {
+        "id": "scalar-10",
+        "tool": "scalar-product",
+        "title": "Перевір перпендикулярність векторів (1; 5) і (−5; −1)",
+        "cfg": {
+          "group": 4,
+          "part": 0
+        },
+        "done": false
+      },
+      {
+        "id": "scalar-11",
+        "tool": "scalar-product",
+        "title": "Перевір перпендикулярність векторів (2; 3) і (−6; 4)",
+        "cfg": {
+          "group": 4,
+          "part": 1
+        },
+        "done": false
+      }
+    ]
+  },
+  {
+    "id": "t11",
+    "cls": "5a",
+    "subject": "math",
+    "title": "Додавання і віднімання багатоцифрових чисел",
+    "desc": "Додавання й віднімання в стовпчик: число «в умі», позичання в сусіднього розряду.",
+    "materials": [
+      {
+        "type": "text",
+        "title": "Конспект: додавання і віднімання в стовпчик"
+      }
+    ],
+    "tasks": [
+      {
+        "id": "k28",
+        "tool": "add",
+        "title": "Обчисли 4786 + 2539",
+        "cfg": {
+          "a": 4786,
+          "b": 2539
+        },
+        "done": false
+      },
+      {
+        "id": "k29",
+        "tool": "add",
+        "title": "Обчисли 38 057 + 9468",
+        "cfg": {
+          "a": 38057,
+          "b": 9468
+        },
+        "done": false
+      },
+      {
+        "id": "k30",
+        "tool": "sub",
+        "title": "Обчисли 5003 − 1748",
+        "cfg": {
+          "a": 5003,
+          "b": 1748
+        },
+        "done": false
+      },
+      {
+        "id": "k31",
+        "tool": "sub",
+        "title": "Обчисли 7240 − 3586",
+        "cfg": {
+          "a": 7240,
+          "b": 3586
+        },
+        "done": false
+      }
+    ]
+  },
+  {
+    "id": "t1",
+    "cls": "5a",
+    "subject": "math",
+    "title": "Множення багатоцифрових чисел",
+    "desc": "Множення в стовпчик, властивості множення, задачі.",
+    "materials": [
+      {
+        "type": "video",
+        "title": "Відео: як множити в стовпчик"
+      },
+      {
+        "type": "text",
+        "title": "Конспект: алгоритм множення"
+      },
+      {
+        "type": "test",
+        "title": "Тест: перевір себе (10 завдань)"
+      }
+    ],
+    "tasks": [
+      {
+        "id": "k1",
+        "tool": "mult",
+        "title": "Обчисли 284 × 36",
+        "cfg": {
+          "a": 284,
+          "b": 36
+        },
+        "done": true
+      },
+      {
+        "id": "k2",
+        "tool": "mult",
+        "title": "Обчисли 507 × 48",
+        "cfg": {
+          "a": 507,
+          "b": 48
+        },
+        "done": false
+      }
+    ]
+  },
+  {
+    "id": "t2",
+    "cls": "5a",
+    "subject": "math",
+    "title": "Ділення багатоцифрових чисел",
+    "desc": "Ділення в стовпчик (куточком), ділення з остачею.",
+    "materials": [
+      {
+        "type": "video",
+        "title": "Відео: ділення куточком"
+      },
+      {
+        "type": "text",
+        "title": "Конспект: крок за кроком"
+      }
+    ],
+    "tasks": [
+      {
+        "id": "k3",
+        "tool": "div",
+        "title": "Виконай ділення 7256 : 8",
+        "cfg": {
+          "n": 7256,
+          "d": 8
+        },
+        "done": false
+      },
+      {
+        "id": "k4",
+        "tool": "div",
+        "title": "Виконай ділення 9450 : 15",
+        "cfg": {
+          "n": 9450,
+          "d": 15
+        },
+        "done": false
+      }
+    ]
+  },
+  {
+    "id": "t3",
+    "cls": "5a",
+    "subject": "math",
+    "title": "Звичайні дроби",
+    "desc": "Додавання і віднімання дробів, зведення до спільного знаменника, скорочення.",
+    "materials": [
+      {
+        "type": "text",
+        "title": "Конспект: спільний знаменник"
+      },
+      {
+        "type": "test",
+        "title": "Тест: дії з дробами"
+      }
+    ],
+    "tasks": [
+      {
+        "id": "k5",
+        "tool": "frac",
+        "title": "Обчисли 1/4 + 1/6",
+        "cfg": {
+          "a": 1,
+          "b": 4,
+          "op": "+",
+          "c": 1,
+          "d": 6
+        },
+        "done": false
+      },
+      {
+        "id": "k6",
+        "tool": "frac",
+        "title": "Обчисли 5/6 − 1/4",
+        "cfg": {
+          "a": 5,
+          "b": 6,
+          "op": "-",
+          "c": 1,
+          "d": 4
+        },
+        "done": false
+      }
+    ]
+  },
+  {
+    "id": "t7",
+    "cls": "6a",
+    "subject": "math",
+    "title": "Дільники і кратні числа",
+    "desc": "Чим дільник відрізняється від кратного, зв’язок між ними.",
+    "materials": [
+      {
+        "type": "video",
+        "title": "Відео: дільник чи кратне?"
+      },
+      {
+        "type": "text",
+        "title": "Конспект: дільники ≤ числа, кратні ≥ числа"
+      },
+      {
+        "type": "test",
+        "title": "Тест: відрізни дільник від кратного"
+      }
+    ],
+    "tasks": [
+      {
+        "id": "k12",
+        "tool": "dvk",
+        "title": "Порівняй дільники і кратні числа 12",
+        "cfg": {
+          "n": 12
+        },
+        "done": false
+      },
+      {
+        "id": "k13",
+        "tool": "dvk",
+        "title": "Порівняй дільники і кратні числа 7",
+        "cfg": {
+          "n": 7
+        },
+        "done": false
+      }
+    ]
+  },
+  {
+    "id": "t8",
+    "cls": "6a",
+    "subject": "math",
+    "title": "Розкладання на прості множники",
+    "desc": "Перебір дільників 2, 3, 5, 7…, ознаки подільності, запис розкладу степенями.",
+    "materials": [
+      {
+        "type": "video",
+        "title": "Відео: драбинка ділення на прості множники"
+      },
+      {
+        "type": "text",
+        "title": "Конспект: ознаки подільності на 2, 3, 5"
+      },
+      {
+        "type": "test",
+        "title": "Тест: розклади число на прості множники"
+      }
+    ],
+    "tasks": [
+      {
+        "id": "k14",
+        "tool": "factor",
+        "title": "Розклади 360 на прості множники",
+        "cfg": {
+          "n": 360
+        },
+        "done": false
+      },
+      {
+        "id": "k15",
+        "tool": "factor",
+        "title": "Розклади 84 на прості множники",
+        "cfg": {
+          "n": 84
+        },
+        "done": false
+      },
+      {
+        "id": "k16",
+        "tool": "factor",
+        "title": "Розклади 91 на прості множники",
+        "cfg": {
+          "n": 91
+        },
+        "done": false
+      }
+    ]
+  },
+  {
+    "id": "t12",
+    "cls": "6a",
+    "subject": "math",
+    "title": "Найбільший спільний дільник",
+    "desc": "НСД розкладанням на прості множники: розклади одне під одним, закреслюємо пари однакових множників і перемножуємо спільні.",
+    "materials": [
+      {
+        "type": "video",
+        "title": "Відео: як знайти НСД через розклад"
+      },
+      {
+        "type": "text",
+        "title": "Конспект: розклади рядками, пари множників закреслюємо"
+      },
+      {
+        "type": "test",
+        "title": "Тест: знайди НСД чисел"
+      }
+    ],
+    "tasks": [
+      {
+        "id": "k32",
+        "tool": "nsd",
+        "title": "Знайди НСД(24; 18)",
+        "cfg": {
+          "a": 24,
+          "b": 18
+        },
+        "done": false
+      },
+      {
+        "id": "k33",
+        "tool": "nsd",
+        "title": "Знайди НСД(60; 84)",
+        "cfg": {
+          "a": 60,
+          "b": 84
+        },
+        "done": false
+      },
+      {
+        "id": "k34",
+        "tool": "nsd",
+        "title": "Знайди НСД(12; 36)",
+        "cfg": {
+          "a": 12,
+          "b": 36
+        },
+        "done": false
+      },
+      {
+        "id": "k35",
+        "tool": "nsd",
+        "title": "Знайди НСД(8; 15)",
+        "cfg": {
+          "a": 8,
+          "b": 15
+        },
+        "done": false
+      },
+      {
+        "id": "k36",
+        "tool": "nsd",
+        "title": "Знайди НСД(24; 36; 60)",
+        "cfg": {
+          "a": 24,
+          "b": 36,
+          "c": 60
+        },
+        "done": false
+      }
+    ]
+  },
+  {
+    "id": "t10",
+    "cls": "6a",
+    "subject": "math",
+    "title": "Найменше спільне кратне",
+    "desc": "НСК розкладанням на прості множники: беремо всі множники більшого числа й дописуємо ті, яких бракує.",
+    "materials": [
+      {
+        "type": "video",
+        "title": "Відео: як знайти НСК через розклад"
+      },
+      {
+        "type": "text",
+        "title": "Конспект: стовпчик більшого числа + множники, яких бракує"
+      },
+      {
+        "type": "test",
+        "title": "Тест: знайди НСК чисел"
+      }
+    ],
+    "tasks": [
+      {
+        "id": "k23",
+        "tool": "nsk",
+        "title": "Знайди НСК(24; 18)",
+        "cfg": {
+          "a": 24,
+          "b": 18
+        },
+        "done": false
+      },
+      {
+        "id": "k24",
+        "tool": "nsk",
+        "title": "Знайди НСК(40; 60)",
+        "cfg": {
+          "a": 40,
+          "b": 60
+        },
+        "done": false
+      },
+      {
+        "id": "k25",
+        "tool": "nsk",
+        "title": "Знайди НСК(12; 36)",
+        "cfg": {
+          "a": 12,
+          "b": 36
+        },
+        "done": false
+      },
+      {
+        "id": "k26",
+        "tool": "nsk",
+        "title": "Знайди НСК(8; 15)",
+        "cfg": {
+          "a": 8,
+          "b": 15
+        },
+        "done": false
+      },
+      {
+        "id": "k27",
+        "tool": "nsk",
+        "title": "Знайди НСК(12; 18; 30)",
+        "cfg": {
+          "a": 12,
+          "b": 18,
+          "c": 30
+        },
+        "done": false
+      }
+    ]
+  },
+  {
+    "id": "t5",
+    "cls": "6a",
+    "subject": "math",
+    "title": "Дії з дробами",
+    "desc": "Додавання, віднімання дробів з різними знаменниками.",
+    "materials": [
+      {
+        "type": "text",
+        "title": "Конспект: НСК знаменників"
+      }
+    ],
+    "tasks": [
+      {
+        "id": "k9",
+        "tool": "frac",
+        "title": "Обчисли 7/10 + 2/15",
+        "cfg": {
+          "a": 7,
+          "b": 10,
+          "op": "+",
+          "c": 2,
+          "d": 15
+        },
+        "done": false
+      }
+    ]
+  },
+  {
+    "id": "t4",
+    "cls": "6a",
+    "subject": "math",
+    "title": "Розв’язування рівнянь",
+    "desc": "Лінійні рівняння, перенесення доданків, зведення подібних.",
+    "materials": [
+      {
+        "type": "video",
+        "title": "Відео: що таке рівняння"
+      },
+      {
+        "type": "text",
+        "title": "Конспект: правила перенесення"
+      },
+      {
+        "type": "test",
+        "title": "Тест: розв’яжи рівняння"
+      }
+    ],
+    "tasks": [
+      {
+        "id": "k7",
+        "tool": "eq",
+        "title": "Розв’яжи 3x + 5 = 20",
+        "cfg": {
+          "text": "3x + 5 = 20"
+        },
+        "done": false
+      },
+      {
+        "id": "k8",
+        "tool": "eq",
+        "title": "Розв’яжи 5x - 4 = 2x + 11",
+        "cfg": {
+          "text": "5x - 4 = 2x + 11"
+        },
+        "done": false
+      }
+    ]
+  },
+  {
+    "id": "t6",
+    "cls": "6a",
+    "subject": "math",
+    "title": "Пропорції",
+    "desc": "Основна властивість пропорції, зведення навхрест до лінійного рівняння.",
+    "materials": [
+      {
+        "type": "video",
+        "title": "Відео: що таке пропорція"
+      },
+      {
+        "type": "text",
+        "title": "Конспект: множення навхрест"
+      }
+    ],
+    "tasks": [
+      {
+        "id": "k10",
+        "tool": "prop",
+        "title": "Знайди x: x : 3 = 4 : 6",
+        "cfg": {
+          "a": "x",
+          "b": "3",
+          "c": "4",
+          "d": "6"
+        },
+        "done": false
+      },
+      {
+        "id": "k11",
+        "tool": "prop",
+        "title": "Знайди x: 2x : 5 = 6 : 15",
+        "cfg": {
+          "a": "2x",
+          "b": "5",
+          "c": "6",
+          "d": "15"
+        },
+        "done": false
+      }
+    ]
+  },
+  {
+    "id": "t9",
+    "cls": "10a",
+    "subject": "math",
+    "title": "Область визначення функції",
+    "desc": "Знаменник ≠ 0, під коренем парного степеня ≥ 0, корінь у знаменнику > 0; система умов і числова пряма.",
+    "materials": [
+      {
+        "type": "video",
+        "title": "Відео: де функцію не можна обчислити"
+      },
+      {
+        "type": "text",
+        "title": "Конспект: три «небезпечні місця» формули"
+      },
+      {
+        "type": "test",
+        "title": "Тест: знайди область визначення"
+      }
+    ],
+    "tasks": [
+      {
+        "id": "k17",
+        "tool": "domain",
+        "title": "Знайди D(y): y = √(x − 2)",
+        "cfg": {
+          "f": "sqrt(x - 2)"
+        },
+        "done": false
+      },
+      {
+        "id": "k18",
+        "tool": "domain",
+        "title": "Знайди D(y): y = (x + 1)/(x² − 9)",
+        "cfg": {
+          "f": "(x + 1)/(x^2 - 9)"
+        },
+        "done": false
+      },
+      {
+        "id": "k19",
+        "tool": "domain",
+        "title": "Знайди D(y): y = √(x² − 5x + 6)",
+        "cfg": {
+          "f": "sqrt(x^2 - 5x + 6)"
+        },
+        "done": false
+      },
+      {
+        "id": "k20",
+        "tool": "domain",
+        "title": "Знайди D(y): y = √(4 − x)/(x − 1)",
+        "cfg": {
+          "f": "sqrt(4 - x)/(x - 1)"
+        },
+        "done": false
+      },
+      {
+        "id": "k21",
+        "tool": "domain",
+        "title": "Знайди D(y): y = 1/√(x + 3) + x⁻²",
+        "cfg": {
+          "f": "1/sqrt(x + 3) + x^-2"
+        },
+        "done": false
+      },
+      {
+        "id": "k22",
+        "tool": "domain",
+        "title": "Знайди D(y): y = ∛(x − 1)/(x² + 1)",
+        "cfg": {
+          "f": "root(3, x - 1)/(x^2 + 1)"
+        },
+        "done": false
+      }
+    ]
+  },
+  {
+    "id": "irrational",
+    "cls": "10a",
+    "subject": "math",
+    "title": "Ірраціональні рівняння",
+    "desc": "Квадратні й кубічні корені: ОДЗ, піднесення обох частин до степеня, розв’язання та перевірка.",
+    "materials": [],
+    "tasks": [
+      {
+        "id": "ir1",
+        "tool": "irrational",
+        "title": "Перший приклад: √(x − 2) = 3",
+        "cfg": {
+          "text": "sqrt(x - 2) = 3"
+        },
+        "done": false
+      },
+      {
+        "id": "ir2",
+        "tool": "irrational",
+        "title": "Сторонній корінь: √(x + 2) = x",
+        "cfg": {
+          "text": "sqrt(x + 2) = x"
+        },
+        "done": false
+      },
+      {
+        "id": "ir3",
+        "tool": "irrational",
+        "title": "Чи є розв’язки: √(x + 1) = −2",
+        "cfg": {
+          "text": "sqrt(x + 1) = -2"
+        },
+        "done": false
+      },
+      {
+        "id": "ir4",
+        "tool": "irrational",
+        "title": "Корені з обох боків: √(2x + 3) = √(x + 5)",
+        "cfg": {
+          "text": "sqrt(2x + 3) = sqrt(x + 5)"
+        },
+        "done": false
+      },
+      {
+        "id": "ir5",
+        "tool": "irrational",
+        "title": "Межа ОДЗ: √(x − 2) = 0",
+        "cfg": {
+          "text": "sqrt(x - 2) = 0"
+        },
+        "done": false
+      },
+      {
+        "id": "ir6",
+        "tool": "irrational",
+        "title": "Відокрем корінь: √(x + 2) + 1 = x",
+        "cfg": {
+          "text": "sqrt(x + 2) + 1 = x"
+        },
+        "done": false
+      },
+      {
+        "id": "ir7",
+        "tool": "irrational",
+        "title": "Кубічний корінь: ∛(x − 1) = 2",
+        "cfg": {
+          "text": "root(3, x - 1) = 2"
+        },
+        "done": false
+      },
+      {
+        "id": "ir8",
+        "tool": "irrational",
+        "title": "Від’ємне значення: ∛(x + 1) = −2",
+        "cfg": {
+          "text": "root(3, x + 1) = -2"
+        },
+        "done": false
+      },
+      {
+        "id": "ir9",
+        "tool": "irrational",
+        "title": "Два кубічні корені: ∛(2x − 1) = ∛(x + 3)",
+        "cfg": {
+          "text": "root(3, 2x - 1) = root(3, x + 3)"
+        },
+        "done": false
+      },
+      {
+        "id": "ir10",
+        "tool": "irrational",
+        "title": "Квадратне рівняння: ∛(x² − 1) = 2",
+        "cfg": {
+          "text": "root(3, x^2 - 1) = 2"
+        },
+        "done": false
+      },
+      {
+        "id": "ir11",
+        "tool": "irrational",
+        "title": "Заміна змінної: x − 3√x + 2 = 0",
+        "cfg": {
+          "text": "x - 3sqrt(x) + 2 = 0",
+          "method": "substitution"
+        },
+        "done": false
+      }
+    ],
+    "lesson": "\n    <h2>Що таке ірраціональне рівняння</h2>\n    <p>Ірраціональне рівняння містить змінну під знаком кореня. У цьому уроці розглядаємо квадратні та кубічні корені.</p>\n    <p>Приклади:</p>\n    <div class=\"ir-lesson-formula\" role=\"img\" aria-label=\"√(x − 2) = 3\"><span class=\"fml\"><span class=\"fx fx-root\" data-fid=\"f0\"><span class=\"rhook hwa\"><svg viewBox=\"0 0 20 100\" preserveAspectRatio=\"none\"><path d=\"M1,62 L6,55 L11,97 L19.6,1\" vector-effect=\"non-scaling-stroke\"/></svg></span><span class=\"rbody\"><span class=\"rbar hwa\"></span><span class=\"fx fx-sub\" data-fid=\"f1\"><span class=\"fx fx-x\" data-fid=\"f2\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,34 L46,72\" pathLength=\"100\"/><path d=\"M46,34 L14,72\" pathLength=\"100\"/></svg></span><span class=\"fo\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M12,52 L52,52\" pathLength=\"100\"/></svg></span><span class=\"fx fx-num\" data-fid=\"f3\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span></span></span></span><span class=\"ir-lesson-equals\">=</span><span class=\"fml\"><span class=\"fx fx-num\" data-fid=\"f0\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,22 C28,6 52,14 45,36 C41,50 27,49 27,49 C50,49 53,78 37,88 C24,96 12,86 12,72\" pathLength=\"100\"/></svg></span></span></div>\n    <div class=\"ir-lesson-formula\" role=\"img\" aria-label=\"∛(x − 1) = −2\"><span class=\"fml\"><span class=\"fx fx-root\" data-fid=\"f0\"><span class=\"ridx\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,22 C28,6 52,14 45,36 C41,50 27,49 27,49 C50,49 53,78 37,88 C24,96 12,86 12,72\" pathLength=\"100\"/></svg></span><span class=\"rhook hwa\"><svg viewBox=\"0 0 20 100\" preserveAspectRatio=\"none\"><path d=\"M1,62 L6,55 L11,97 L19.6,1\" vector-effect=\"non-scaling-stroke\"/></svg></span><span class=\"rbody\"><span class=\"rbar hwa\"></span><span class=\"fx fx-sub\" data-fid=\"f1\"><span class=\"fx fx-x\" data-fid=\"f2\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,34 L46,72\" pathLength=\"100\"/><path d=\"M46,34 L14,72\" pathLength=\"100\"/></svg></span><span class=\"fo\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M12,52 L52,52\" pathLength=\"100\"/></svg></span><span class=\"fx fx-num\" data-fid=\"f3\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M15,32 L31,12 L31,90\" pathLength=\"100\"/></svg></span></span></span></span></span><span class=\"ir-lesson-equals\">=</span><span class=\"fml\"><span class=\"fx fx-neg\" data-fid=\"f0\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M12,52 L52,52\" pathLength=\"100\"/></svg><span class=\"fx fx-num\" data-fid=\"f1\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span></span></div>\n    <h2>Рівносильні рівняння та рівняння-наслідок</h2>\n    <p>Рівносильні рівняння мають однакові множини коренів.</p>\n    <p>Рівняння-наслідок зберігає всі корені початкового рівняння, але може мати й додаткові.</p>\n    <p>Такий додатковий корінь називають стороннім: він не задовольняє початкове рівняння.</p>\n    <h2>Піднесення обох частин до степеня</h2>\n    <h3>Непарний степінь</h3>\n    <p>Піднесення обох частин до непарного степеня зберігає рівносильність на ОДЗ початкового рівняння. Непарний степінь зберігає знак числа.</p>\n    <p>Приклад: піднесемо обидві частини до куба.</p>\n    <div class=\"ir-lesson-formula\" role=\"img\" aria-label=\"∛(x − 1) = −2\"><span class=\"fml\"><span class=\"fx fx-root\" data-fid=\"f0\"><span class=\"ridx\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,22 C28,6 52,14 45,36 C41,50 27,49 27,49 C50,49 53,78 37,88 C24,96 12,86 12,72\" pathLength=\"100\"/></svg></span><span class=\"rhook hwa\"><svg viewBox=\"0 0 20 100\" preserveAspectRatio=\"none\"><path d=\"M1,62 L6,55 L11,97 L19.6,1\" vector-effect=\"non-scaling-stroke\"/></svg></span><span class=\"rbody\"><span class=\"rbar hwa\"></span><span class=\"fx fx-sub\" data-fid=\"f1\"><span class=\"fx fx-x\" data-fid=\"f2\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,34 L46,72\" pathLength=\"100\"/><path d=\"M46,34 L14,72\" pathLength=\"100\"/></svg></span><span class=\"fo\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M12,52 L52,52\" pathLength=\"100\"/></svg></span><span class=\"fx fx-num\" data-fid=\"f3\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M15,32 L31,12 L31,90\" pathLength=\"100\"/></svg></span></span></span></span></span><span class=\"ir-lesson-equals\">=</span><span class=\"fml\"><span class=\"fx fx-neg\" data-fid=\"f0\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M12,52 L52,52\" pathLength=\"100\"/></svg><span class=\"fx fx-num\" data-fid=\"f1\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span></span></div>\n    <div class=\"ir-lesson-formula\" role=\"img\" aria-label=\"x − 1 = −8\"><span class=\"fml\"><span class=\"fx fx-sub\" data-fid=\"f0\"><span class=\"fx fx-x\" data-fid=\"f1\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,34 L46,72\" pathLength=\"100\"/><path d=\"M46,34 L14,72\" pathLength=\"100\"/></svg></span><span class=\"fo\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M12,52 L52,52\" pathLength=\"100\"/></svg></span><span class=\"fx fx-num\" data-fid=\"f2\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M15,32 L31,12 L31,90\" pathLength=\"100\"/></svg></span></span></span><span class=\"ir-lesson-equals\">=</span><span class=\"fml\"><span class=\"fx fx-neg\" data-fid=\"f0\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M12,52 L52,52\" pathLength=\"100\"/></svg><span class=\"fx fx-num\" data-fid=\"f1\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M30,47 C11,47 13,13 30,13 C47,13 49,47 30,47 C9,47 8,90 30,90 C52,90 51,47 30,47\" pathLength=\"100\"/></svg></span></span></span></div>\n    <div class=\"ir-lesson-formula\" role=\"img\" aria-label=\"x = −7\"><span class=\"fml\"><span class=\"fx fx-x\" data-fid=\"f0\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,34 L46,72\" pathLength=\"100\"/><path d=\"M46,34 L14,72\" pathLength=\"100\"/></svg></span></span><span class=\"ir-lesson-equals\">=</span><span class=\"fml\"><span class=\"fx fx-neg\" data-fid=\"f0\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M12,52 L52,52\" pathLength=\"100\"/></svg><span class=\"fx fx-num\" data-fid=\"f1\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M11,14 L52,14 L25,90\" pathLength=\"100\"/></svg></span></span></span></div>\n    <h3>Парний степінь</h3>\n    <p>Піднесення обох частин до парного степеня дає рівняння-наслідок. Можуть з’явитися сторонні корені, бо числа з протилежними знаками мають однакові квадрати.</p>\n    <div class=\"ir-lesson-formula\" role=\"img\" aria-label=\"2² = (−2)² = 4\"><span class=\"fml\"><span class=\"fx fx-pow\" data-fid=\"f0\"><span class=\"fx fx-num\" data-fid=\"f1\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-num\" data-fid=\"f2\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span></span></span><span class=\"ir-lesson-equals\">=</span><span class=\"fml\"><span class=\"fx fx-pow\" data-fid=\"f0\"><span class=\"fx fx-paren\" data-fid=\"f1\"><span class=\"fpar\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M40,8 C18,30 18,72 40,94\" pathLength=\"100\"/></svg></span><span class=\"fx fx-neg\" data-fid=\"f2\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M12,52 L52,52\" pathLength=\"100\"/></svg><span class=\"fx fx-num\" data-fid=\"f3\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span><span class=\"fpar\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M20,8 C42,30 42,72 20,94\" pathLength=\"100\"/></svg></span></span><span class=\"fpow\"><span class=\"fx fx-num\" data-fid=\"f4\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span></span></span><span class=\"ir-lesson-equals\">=</span><span class=\"fml\"><span class=\"fx fx-num\" data-fid=\"f0\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M44,90 L44,10 L9,66 L55,66\" pathLength=\"100\"/></svg></span></span></div>\n    <p>Приклад: піднесемо обидві частини до квадрата.</p>\n    <div class=\"ir-lesson-formula\" role=\"img\" aria-label=\"√(x + 2) = x\"><span class=\"fml\"><span class=\"fx fx-root\" data-fid=\"f0\"><span class=\"rhook hwa\"><svg viewBox=\"0 0 20 100\" preserveAspectRatio=\"none\"><path d=\"M1,62 L6,55 L11,97 L19.6,1\" vector-effect=\"non-scaling-stroke\"/></svg></span><span class=\"rbody\"><span class=\"rbar hwa\"></span><span class=\"fx fx-add\" data-fid=\"f1\"><span class=\"fx fx-x\" data-fid=\"f2\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,34 L46,72\" pathLength=\"100\"/><path d=\"M46,34 L14,72\" pathLength=\"100\"/></svg></span><span class=\"fo\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M32,28 L32,76\" pathLength=\"100\"/><path d=\"M12,52 L52,52\" pathLength=\"100\"/></svg></span><span class=\"fx fx-num\" data-fid=\"f3\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span></span></span></span><span class=\"ir-lesson-equals\">=</span><span class=\"fml\"><span class=\"fx fx-x\" data-fid=\"f0\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,34 L46,72\" pathLength=\"100\"/><path d=\"M46,34 L14,72\" pathLength=\"100\"/></svg></span></span></div>\n    <div class=\"ir-lesson-formula\" role=\"img\" aria-label=\"x + 2 = x²\"><span class=\"fml\"><span class=\"fx fx-add\" data-fid=\"f0\"><span class=\"fx fx-x\" data-fid=\"f1\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,34 L46,72\" pathLength=\"100\"/><path d=\"M46,34 L14,72\" pathLength=\"100\"/></svg></span><span class=\"fo\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M32,28 L32,76\" pathLength=\"100\"/><path d=\"M12,52 L52,52\" pathLength=\"100\"/></svg></span><span class=\"fx fx-num\" data-fid=\"f2\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span></span><span class=\"ir-lesson-equals\">=</span><span class=\"fml\"><span class=\"fx fx-pow\" data-fid=\"f0\"><span class=\"fx fx-x\" data-fid=\"f1\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,34 L46,72\" pathLength=\"100\"/><path d=\"M46,34 L14,72\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-num\" data-fid=\"f2\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span></span></span></div>\n    <p>Кандидати: −1 і 2. Перевіримо x = −1:</p>\n    <div class=\"ir-lesson-formula\" role=\"img\" aria-label=\"√(−1 + 2) = 1\"><span class=\"fml\"><span class=\"fx fx-root\" data-fid=\"f0\"><span class=\"rhook hwa\"><svg viewBox=\"0 0 20 100\" preserveAspectRatio=\"none\"><path d=\"M1,62 L6,55 L11,97 L19.6,1\" vector-effect=\"non-scaling-stroke\"/></svg></span><span class=\"rbody\"><span class=\"rbar hwa\"></span><span class=\"fx fx-add\" data-fid=\"f1\"><span class=\"fx fx-neg\" data-fid=\"f2\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M12,52 L52,52\" pathLength=\"100\"/></svg><span class=\"fx fx-num\" data-fid=\"f3\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M15,32 L31,12 L31,90\" pathLength=\"100\"/></svg></span></span><span class=\"fo\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M32,28 L32,76\" pathLength=\"100\"/><path d=\"M12,52 L52,52\" pathLength=\"100\"/></svg></span><span class=\"fx fx-num\" data-fid=\"f4\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span></span></span></span><span class=\"ir-lesson-equals\">=</span><span class=\"fml\"><span class=\"fx fx-num\" data-fid=\"f0\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M15,32 L31,12 L31,90\" pathLength=\"100\"/></svg></span></span></div>\n    <p>Ліва частина дорівнює 1, а права — −1. Отже, −1 — сторонній корінь.</p>\n    <p>При x = 2 обидві частини рівні:</p>\n    <div class=\"ir-lesson-formula\" role=\"img\" aria-label=\"√(2 + 2) = 2\"><span class=\"fml\"><span class=\"fx fx-root\" data-fid=\"f0\"><span class=\"rhook hwa\"><svg viewBox=\"0 0 20 100\" preserveAspectRatio=\"none\"><path d=\"M1,62 L6,55 L11,97 L19.6,1\" vector-effect=\"non-scaling-stroke\"/></svg></span><span class=\"rbody\"><span class=\"rbar hwa\"></span><span class=\"fx fx-add\" data-fid=\"f1\"><span class=\"fx fx-num\" data-fid=\"f2\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span><span class=\"fo\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M32,28 L32,76\" pathLength=\"100\"/><path d=\"M12,52 L52,52\" pathLength=\"100\"/></svg></span><span class=\"fx fx-num\" data-fid=\"f3\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span></span></span></span><span class=\"ir-lesson-equals\">=</span><span class=\"fml\"><span class=\"fx fx-num\" data-fid=\"f0\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span></div>\n    <p>Відповідь: 2. Обидва кандидати належать ОДЗ x ≥ −2, тому самої перевірки ОДЗ недостатньо.</p>\n    <h2>Як розв’язувати ірраціональні рівняння</h2>\n    <h3>1. Знайди ОДЗ</h3>\n    <p>Область допустимих значень змінної — це значення, за яких визначені обидві частини рівняння.</p>\n    <p>Під квадратним коренем має бути невід’ємний вираз. Кубічний корінь визначений для будь-якого дійсного підкореневого значення, навіть від’ємного. Знаменник, якщо він є, не може дорівнювати нулю.</p>\n    <h3>2. Відокрем корінь і піднеси обидві частини до степеня</h3>\n    <p>Для квадратного кореня — до другого, для кубічного — до третього.</p>\n    <p>Квадратний корінь невід’ємний, тому вираз, якому він дорівнює, також має бути невід’ємним. Цю умову перевіряємо окремо від ОДЗ.</p>\n    <p>Для кубічного кореня обмеження за знаком немає: він може дорівнювати від’ємному числу.</p>\n    <h3>3. Розв’яжи отримане рівняння</h3>\n    <p>Розкрий дужки, зведи подібні доданки та знайди кандидатів у корені.</p>\n    <h3>4. Перевір кожного кандидата</h3>\n    <p>Підстав кандидата в початкове рівняння: обидві частини мають бути рівними. Піднесення до квадрата може дати сторонні корені. Піднесення до куба зберігає рівносильність і не створює сторонніх коренів.</p>\n    <h2>Метод заміни змінної</h2>\n    <p>Якщо рівняння містить x і √x, познач √x через t. Тоді t ≥ 0:</p>\n    <div class=\"ir-lesson-formula\" role=\"img\" aria-label=\"t = √x\"><span class=\"fml\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M34,16 L26,70 C23,86 32,90 43,79\" pathLength=\"100\"/><path d=\"M12,40 L48,40\" pathLength=\"100\"/></svg></span></span><span class=\"ir-lesson-equals\">=</span><span class=\"fml\"><span class=\"fx fx-root\" data-fid=\"f0\"><span class=\"rhook hwa\"><svg viewBox=\"0 0 20 100\" preserveAspectRatio=\"none\"><path d=\"M1,62 L6,55 L11,97 L19.6,1\" vector-effect=\"non-scaling-stroke\"/></svg></span><span class=\"rbody\"><span class=\"rbar hwa\"></span><span class=\"fx fx-x\" data-fid=\"f1\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,34 L46,72\" pathLength=\"100\"/><path d=\"M46,34 L14,72\" pathLength=\"100\"/></svg></span></span></span></span></div>\n    <div class=\"ir-lesson-formula\" role=\"img\" aria-label=\"x = t²\"><span class=\"fml\"><span class=\"fx fx-x\" data-fid=\"f0\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,34 L46,72\" pathLength=\"100\"/><path d=\"M46,34 L14,72\" pathLength=\"100\"/></svg></span></span><span class=\"ir-lesson-equals\">=</span><span class=\"fml\"><span class=\"fx fx-pow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M34,16 L26,70 C23,86 32,90 43,79\" pathLength=\"100\"/><path d=\"M12,40 L48,40\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span></span></span></div>\n    <p>Розв’яжи рівняння відносно t, відкинь від’ємні значення та повернися до x. Перевір отримані корені в початковому рівнянні.</p>\n    <h2>Перейди до прикладів</h2>\n    <p>Почни з простого прикладу. Потім розглянь сторонній корінь і рівняння без розв’язків. У кожному завданні можна ввести власну умову.</p>"
+  },
+  {
+    "id": "rational-power",
+    "cls": "10a",
+    "subject": "math",
+    "title": "Означення та властивості степеня з раціональним показником",
+    "desc": "Означення, умови застосування та основні властивості без доведень. Покрокові приклади різних типів.",
+    "materials": [],
+    "tasks": [
+      {
+        "id": "rp1",
+        "tool": "rational-power",
+        "title": "Подай 5^(1/3) у вигляді кореня",
+        "cfg": {
+          "example": "6.1"
+        },
+        "done": false
+      },
+      {
+        "id": "rp2",
+        "tool": "rational-power",
+        "title": "Подай 3^(−1/9) у вигляді кореня",
+        "cfg": {
+          "example": "6.2"
+        },
+        "done": false
+      },
+      {
+        "id": "rp3",
+        "tool": "rational-power",
+        "title": "Запиши √x як степінь",
+        "cfg": {
+          "example": "6.3"
+        },
+        "done": false
+      },
+      {
+        "id": "rp4",
+        "tool": "rational-power",
+        "title": "Запиши ¹⁴√(m⁻⁹) як степінь",
+        "cfg": {
+          "example": "6.4"
+        },
+        "done": false
+      },
+      {
+        "id": "rp5",
+        "tool": "rational-power",
+        "title": "Обчисли 27^(4/3)",
+        "cfg": {
+          "example": "6.5"
+        },
+        "done": false
+      },
+      {
+        "id": "rp6",
+        "tool": "rational-power",
+        "title": "Обчисли 0,125^(−2/3)",
+        "cfg": {
+          "example": "6.6"
+        },
+        "done": false
+      },
+      {
+        "id": "rp7",
+        "tool": "rational-power",
+        "title": "Добуток степенів з основою 3",
+        "cfg": {
+          "example": "6.7"
+        },
+        "done": false
+      },
+      {
+        "id": "rp8",
+        "tool": "rational-power",
+        "title": "Степінь степеня та частка з основою 7",
+        "cfg": {
+          "example": "6.8"
+        },
+        "done": false
+      },
+      {
+        "id": "rp9",
+        "tool": "rational-power",
+        "title": "Розкрий дужки: різниця квадратів",
+        "cfg": {
+          "example": "6.9"
+        },
+        "done": false
+      },
+      {
+        "id": "rp10",
+        "tool": "rational-power",
+        "title": "Спрости (√m + √n)(√m − √n)",
+        "cfg": {
+          "example": "6.10"
+        },
+        "done": false
+      },
+      {
+        "id": "rp11",
+        "tool": "rational-power",
+        "title": "Обчисли суму та різницю степенів",
+        "cfg": {
+          "example": "6.11"
+        },
+        "done": false
+      },
+      {
+        "id": "rp12",
+        "tool": "rational-power",
+        "title": "Зведи степені до основи 5",
+        "cfg": {
+          "example": "6.12"
+        },
+        "done": false
+      },
+      {
+        "id": "rp13",
+        "tool": "rational-power",
+        "title": "Скороти (a − 5√a)/(√a − 5)",
+        "cfg": {
+          "example": "6.13"
+        },
+        "done": false
+      }
+    ],
+    "lesson": "\n    <h2>Означення степеня з раціональним показником</h2>\n    <p>Раціональний показник можна записати дробом m/n, де m — ціле число, n — натуральне число, n &gt; 1.</p>\n    <p>Для a &gt; 0 степінь з показником m/n — це корінь n-го степеня з aᵐ. Спочатку можна добути корінь, потім піднести до степеня.</p>\n    <div class=\"rp-formula\" role=\"img\" aria-label=\"a^(1/3) = ∛a\"><span class=\"fml\"><span class=\"fx fx-pow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M44,44 C20,24 10,65 24,76 C38,85 46,46 44,38 L40,76 L51,70\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M15,32 L31,12 L31,90\" pathLength=\"100\"/></svg></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,22 C28,6 52,14 45,36 C41,50 27,49 27,49 C50,49 53,78 37,88 C24,96 12,86 12,72\" pathLength=\"100\"/></svg></span></span></span></span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-root\"><span class=\"ridx\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,22 C28,6 52,14 45,36 C41,50 27,49 27,49 C50,49 53,78 37,88 C24,96 12,86 12,72\" pathLength=\"100\"/></svg></span><span class=\"rhook hwa\"><svg viewBox=\"0 0 20 100\" preserveAspectRatio=\"none\"><path d=\"M1,62 L6,55 L11,97 L19.6,1\" vector-effect=\"non-scaling-stroke\"/></svg></span><span class=\"rbody\"><span class=\"rbar hwa\"></span><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M44,44 C20,24 10,65 24,76 C38,85 46,46 44,38 L40,76 L51,70\" pathLength=\"100\"/></svg></span></span></span></span></div>\n    <div class=\"rp-formula\" role=\"img\" aria-label=\"a^(m/n) = n√(a^(m)) = (n√a)^(m)\"><span class=\"fml\"><span class=\"fx fx-pow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M44,44 C20,24 10,65 24,76 C38,85 46,46 44,38 L40,76 L51,70\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M10,40 L10,77 L19,47 C26,31 32,38 30,76 L39,47 C48,29 54,40 50,77\" pathLength=\"100\"/></svg></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,40 L13,77 L25,47 C37,27 48,38 44,77\" pathLength=\"100\"/></svg></span></span></span></span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-root\"><span class=\"ridx\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,40 L13,77 L25,47 C37,27 48,38 44,77\" pathLength=\"100\"/></svg></span><span class=\"rhook hwa\"><svg viewBox=\"0 0 20 100\" preserveAspectRatio=\"none\"><path d=\"M1,62 L6,55 L11,97 L19.6,1\" vector-effect=\"non-scaling-stroke\"/></svg></span><span class=\"rbody\"><span class=\"rbar hwa\"></span><span class=\"fx fx-pow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M44,44 C20,24 10,65 24,76 C38,85 46,46 44,38 L40,76 L51,70\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M10,40 L10,77 L19,47 C26,31 32,38 30,76 L39,47 C48,29 54,40 50,77\" pathLength=\"100\"/></svg></span></span></span></span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-pow\"><span class=\"fx fx-paren\"><span class=\"fpar\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M40,8 C18,30 18,72 40,94\" pathLength=\"100\"/></svg></span><span class=\"fx fx-root\"><span class=\"ridx\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,40 L13,77 L25,47 C37,27 48,38 44,77\" pathLength=\"100\"/></svg></span><span class=\"rhook hwa\"><svg viewBox=\"0 0 20 100\" preserveAspectRatio=\"none\"><path d=\"M1,62 L6,55 L11,97 L19.6,1\" vector-effect=\"non-scaling-stroke\"/></svg></span><span class=\"rbody\"><span class=\"rbar hwa\"></span><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M44,44 C20,24 10,65 24,76 C38,85 46,46 44,38 L40,76 L51,70\" pathLength=\"100\"/></svg></span></span></span><span class=\"fpar\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M20,8 C42,30 42,72 20,94\" pathLength=\"100\"/></svg></span></span><span class=\"fpow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M10,40 L10,77 L19,47 C26,31 32,38 30,76 L39,47 C48,29 54,40 50,77\" pathLength=\"100\"/></svg></span></span></span></span></div>\n    <p>Значення не залежить від запису дробу:</p><div class=\"rp-formula\" role=\"img\" aria-label=\"8^(1/3) = 8^(1/3) = 2\"><span class=\"fml\"><span class=\"fx fx-pow\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M30,47 C11,47 13,13 30,13 C47,13 49,47 30,47 C9,47 8,90 30,90 C52,90 51,47 30,47\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M15,32 L31,12 L31,90\" pathLength=\"100\"/></svg></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,22 C28,6 52,14 45,36 C41,50 27,49 27,49 C50,49 53,78 37,88 C24,96 12,86 12,72\" pathLength=\"100\"/></svg></span></span></span></span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-pow\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M30,47 C11,47 13,13 30,13 C47,13 49,47 30,47 C9,47 8,90 30,90 C52,90 51,47 30,47\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M15,32 L31,12 L31,90\" pathLength=\"100\"/></svg></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,22 C28,6 52,14 45,36 C41,50 27,49 27,49 C50,49 53,78 37,88 C24,96 12,86 12,72\" pathLength=\"100\"/></svg></span></span></span></span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span></div>\n    <h2>Нульовий і від’ємний показники</h2>\n    <p>Для a &gt; 0 нульовий степінь дорівнює 1. Від’ємний показник означає обернене число.</p>\n    <div class=\"rp-formula\" role=\"img\" aria-label=\"a⁰ = 1\"><span class=\"fml\"><span class=\"fx fx-pow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M44,44 C20,24 10,65 24,76 C38,85 46,46 44,38 L40,76 L51,70\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M30,10 C13,10 13,90 30,90 C47,90 47,10 30,10\" pathLength=\"100\"/></svg></span></span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M15,32 L31,12 L31,90\" pathLength=\"100\"/></svg></span></span></div><div class=\"rp-formula\" role=\"img\" aria-label=\"a^(−p) = 1/a^(p)\"><span class=\"fml\"><span class=\"fx fx-pow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M44,44 C20,24 10,65 24,76 C38,85 46,46 44,38 L40,76 L51,70\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-neg\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M12,52 L52,52\" pathLength=\"100\"/></svg><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M18,40 L12,96\" pathLength=\"100\"/><path d=\"M17,51 C39,25 52,43 44,63 C37,80 23,75 16,67\" pathLength=\"100\"/></svg></span></span></span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M15,32 L31,12 L31,90\" pathLength=\"100\"/></svg></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-pow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M44,44 C20,24 10,65 24,76 C38,85 46,46 44,38 L40,76 L51,70\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M18,40 L12,96\" pathLength=\"100\"/><path d=\"M17,51 C39,25 52,43 44,63 C37,80 23,75 16,67\" pathLength=\"100\"/></svg></span></span></span></span></span></span></div>\n    <div class=\"rp-formula\" role=\"img\" aria-label=\"16^(−3/4) = 1/16^(3/4) = 1/8\"><span class=\"fml\"><span class=\"fx fx-pow\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M15,32 L31,12 L31,90\" pathLength=\"100\"/></svg><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M47,15 C27,10 14,42 14,63 C14,88 49,88 49,63 C49,47 18,45 15,60\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-neg\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M12,52 L52,52\" pathLength=\"100\"/></svg><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,22 C28,6 52,14 45,36 C41,50 27,49 27,49 C50,49 53,78 37,88 C24,96 12,86 12,72\" pathLength=\"100\"/></svg></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M44,90 L44,10 L9,66 L55,66\" pathLength=\"100\"/></svg></span></span></span></span></span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M15,32 L31,12 L31,90\" pathLength=\"100\"/></svg></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-pow\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M15,32 L31,12 L31,90\" pathLength=\"100\"/></svg><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M47,15 C27,10 14,42 14,63 C14,88 49,88 49,63 C49,47 18,45 15,60\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,22 C28,6 52,14 45,36 C41,50 27,49 27,49 C50,49 53,78 37,88 C24,96 12,86 12,72\" pathLength=\"100\"/></svg></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M44,90 L44,10 L9,66 L55,66\" pathLength=\"100\"/></svg></span></span></span></span></span></span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M15,32 L31,12 L31,90\" pathLength=\"100\"/></svg></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M30,47 C11,47 13,13 30,13 C47,13 49,47 30,47 C9,47 8,90 30,90 C52,90 51,47 30,47\" pathLength=\"100\"/></svg></span></span></span></span></div>\n    <h2>Коли вираз має зміст</h2>\n    <p>Для додатної основи дозволений будь-який раціональний показник. Для нульової основи дозволений лише додатний показник.</p>\n    <div class=\"rp-formula\" role=\"img\" aria-label=\"0^(2/3) = 0\"><span class=\"fml\"><span class=\"fx fx-pow\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M30,10 C13,10 13,90 30,90 C47,90 47,10 30,10\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,22 C28,6 52,14 45,36 C41,50 27,49 27,49 C50,49 53,78 37,88 C24,96 12,86 12,72\" pathLength=\"100\"/></svg></span></span></span></span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M30,10 C13,10 13,90 30,90 C47,90 47,10 30,10\" pathLength=\"100\"/></svg></span></span></div>\n    <p>Нуль у нульовому або від’ємному степені не визначений. За означенням цього уроку від’ємну основу з нецілим раціональним показником не розглядаємо. Кубічний корінь із від’ємного числа при цьому існує.</p>\n    <h2>Основні властивості без доведень</h2>\n    <p>У формулах нижче a &gt; 0, b &gt; 0; p і q — довільні раціональні числа.</p>\n    <h3>Добуток степенів</h3><p>При множенні степенів з однаковою основою показники додаємо.</p><div class=\"rp-formula\" role=\"img\" aria-label=\"a^(p)·a^(q) = a^(p + q)\"><span class=\"fml\"><span class=\"fx fx-mul\"><span class=\"fx fx-pow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M44,44 C20,24 10,65 24,76 C38,85 46,46 44,38 L40,76 L51,70\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M18,40 L12,96\" pathLength=\"100\"/><path d=\"M17,51 C39,25 52,43 44,63 C37,80 23,75 16,67\" pathLength=\"100\"/></svg></span></span></span><span class=\"fo\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M29,52 L31,52\" pathLength=\"100\"/></svg></span><span class=\"fx fx-pow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M44,44 C20,24 10,65 24,76 C38,85 46,46 44,38 L40,76 L51,70\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M43,43 C21,25 9,61 23,73 C37,84 47,42 45,36 L37,96\" pathLength=\"100\"/></svg></span></span></span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-pow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M44,44 C20,24 10,65 24,76 C38,85 46,46 44,38 L40,76 L51,70\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-add\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M18,40 L12,96\" pathLength=\"100\"/><path d=\"M17,51 C39,25 52,43 44,63 C37,80 23,75 16,67\" pathLength=\"100\"/></svg></span><span class=\"fo\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M32,28 L32,76\" pathLength=\"100\"/><path d=\"M12,52 L52,52\" pathLength=\"100\"/></svg></span><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M43,43 C21,25 9,61 23,73 C37,84 47,42 45,36 L37,96\" pathLength=\"100\"/></svg></span></span></span></span></span></div><p>Приклад:</p><div class=\"rp-formula\" role=\"img\" aria-label=\"2^(1/3)·2^(2/3) = 2\"><span class=\"fml\"><span class=\"fx fx-mul\"><span class=\"fx fx-pow\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M15,32 L31,12 L31,90\" pathLength=\"100\"/></svg></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,22 C28,6 52,14 45,36 C41,50 27,49 27,49 C50,49 53,78 37,88 C24,96 12,86 12,72\" pathLength=\"100\"/></svg></span></span></span></span></span><span class=\"fo\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M29,52 L31,52\" pathLength=\"100\"/></svg></span><span class=\"fx fx-pow\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,22 C28,6 52,14 45,36 C41,50 27,49 27,49 C50,49 53,78 37,88 C24,96 12,86 12,72\" pathLength=\"100\"/></svg></span></span></span></span></span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span></div><h3>Частка степенів</h3><p>При діленні степенів з однаковою основою показники віднімаємо.</p><div class=\"rp-formula\" role=\"img\" aria-label=\"a^(p)/a^(q) = a⁰\"><span class=\"fml\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-pow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M44,44 C20,24 10,65 24,76 C38,85 46,46 44,38 L40,76 L51,70\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M18,40 L12,96\" pathLength=\"100\"/><path d=\"M17,51 C39,25 52,43 44,63 C37,80 23,75 16,67\" pathLength=\"100\"/></svg></span></span></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-pow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M44,44 C20,24 10,65 24,76 C38,85 46,46 44,38 L40,76 L51,70\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M43,43 C21,25 9,61 23,73 C37,84 47,42 45,36 L37,96\" pathLength=\"100\"/></svg></span></span></span></span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-pow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M44,44 C20,24 10,65 24,76 C38,85 46,46 44,38 L40,76 L51,70\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-sub\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M18,40 L12,96\" pathLength=\"100\"/><path d=\"M17,51 C39,25 52,43 44,63 C37,80 23,75 16,67\" pathLength=\"100\"/></svg></span><span class=\"fo\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M12,52 L52,52\" pathLength=\"100\"/></svg></span><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M43,43 C21,25 9,61 23,73 C37,84 47,42 45,36 L37,96\" pathLength=\"100\"/></svg></span></span></span></span></span></div><p>Приклад:</p><div class=\"rp-formula\" role=\"img\" aria-label=\"9^(3/2)/9^(1/2) = 9\"><span class=\"fml\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-pow\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M47,55 C27,61 14,42 16,27 C18,11 48,11 46,38 C44,74 40,85 21,90\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,22 C28,6 52,14 45,36 C41,50 27,49 27,49 C50,49 53,78 37,88 C24,96 12,86 12,72\" pathLength=\"100\"/></svg></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span></span></span></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-pow\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M47,55 C27,61 14,42 16,27 C18,11 48,11 46,38 C44,74 40,85 21,90\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M15,32 L31,12 L31,90\" pathLength=\"100\"/></svg></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span></span></span></span></span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M47,55 C27,61 14,42 16,27 C18,11 48,11 46,38 C44,74 40,85 21,90\" pathLength=\"100\"/></svg></span></span></div><h3>Степінь степеня</h3><p>При піднесенні степеня до степеня показники перемножуємо.</p><div class=\"rp-formula\" role=\"img\" aria-label=\"(a^(p))^(q) = a^(p·q)\"><span class=\"fml\"><span class=\"fx fx-pow\"><span class=\"fx fx-paren\"><span class=\"fpar\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M40,8 C18,30 18,72 40,94\" pathLength=\"100\"/></svg></span><span class=\"fx fx-pow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M44,44 C20,24 10,65 24,76 C38,85 46,46 44,38 L40,76 L51,70\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M18,40 L12,96\" pathLength=\"100\"/><path d=\"M17,51 C39,25 52,43 44,63 C37,80 23,75 16,67\" pathLength=\"100\"/></svg></span></span></span><span class=\"fpar\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M20,8 C42,30 42,72 20,94\" pathLength=\"100\"/></svg></span></span><span class=\"fpow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M43,43 C21,25 9,61 23,73 C37,84 47,42 45,36 L37,96\" pathLength=\"100\"/></svg></span></span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-pow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M44,44 C20,24 10,65 24,76 C38,85 46,46 44,38 L40,76 L51,70\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-mul\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M18,40 L12,96\" pathLength=\"100\"/><path d=\"M17,51 C39,25 52,43 44,63 C37,80 23,75 16,67\" pathLength=\"100\"/></svg></span><span class=\"fo\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M29,52 L31,52\" pathLength=\"100\"/></svg></span><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M43,43 C21,25 9,61 23,73 C37,84 47,42 45,36 L37,96\" pathLength=\"100\"/></svg></span></span></span></span></span></div><p>Приклад:</p><div class=\"rp-formula\" role=\"img\" aria-label=\"(8^(2/3))^(3/2) = 8\"><span class=\"fml\"><span class=\"fx fx-pow\"><span class=\"fx fx-paren\"><span class=\"fpar\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M40,8 C18,30 18,72 40,94\" pathLength=\"100\"/></svg></span><span class=\"fx fx-pow\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M30,47 C11,47 13,13 30,13 C47,13 49,47 30,47 C9,47 8,90 30,90 C52,90 51,47 30,47\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,22 C28,6 52,14 45,36 C41,50 27,49 27,49 C50,49 53,78 37,88 C24,96 12,86 12,72\" pathLength=\"100\"/></svg></span></span></span></span></span><span class=\"fpar\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M20,8 C42,30 42,72 20,94\" pathLength=\"100\"/></svg></span></span><span class=\"fpow\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,22 C28,6 52,14 45,36 C41,50 27,49 27,49 C50,49 53,78 37,88 C24,96 12,86 12,72\" pathLength=\"100\"/></svg></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span></span></span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M30,47 C11,47 13,13 30,13 C47,13 49,47 30,47 C9,47 8,90 30,90 C52,90 51,47 30,47\" pathLength=\"100\"/></svg></span></span></div><h3>Степінь добутку</h3><p>Кожний множник підносимо до того самого степеня.</p><div class=\"rp-formula\" role=\"img\" aria-label=\"(a·b)^(p) = a^(p)·b^(p)\"><span class=\"fml\"><span class=\"fx fx-pow\"><span class=\"fx fx-paren\"><span class=\"fpar\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M40,8 C18,30 18,72 40,94\" pathLength=\"100\"/></svg></span><span class=\"fx fx-mul\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M44,44 C20,24 10,65 24,76 C38,85 46,46 44,38 L40,76 L51,70\" pathLength=\"100\"/></svg></span><span class=\"fo\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M29,52 L31,52\" pathLength=\"100\"/></svg></span><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M23,12 L17,76 C48,92 57,34 34,38 L19,57\" pathLength=\"100\"/></svg></span></span><span class=\"fpar\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M20,8 C42,30 42,72 20,94\" pathLength=\"100\"/></svg></span></span><span class=\"fpow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M18,40 L12,96\" pathLength=\"100\"/><path d=\"M17,51 C39,25 52,43 44,63 C37,80 23,75 16,67\" pathLength=\"100\"/></svg></span></span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-mul\"><span class=\"fx fx-pow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M44,44 C20,24 10,65 24,76 C38,85 46,46 44,38 L40,76 L51,70\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M18,40 L12,96\" pathLength=\"100\"/><path d=\"M17,51 C39,25 52,43 44,63 C37,80 23,75 16,67\" pathLength=\"100\"/></svg></span></span></span><span class=\"fo\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M29,52 L31,52\" pathLength=\"100\"/></svg></span><span class=\"fx fx-pow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M23,12 L17,76 C48,92 57,34 34,38 L19,57\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M18,40 L12,96\" pathLength=\"100\"/><path d=\"M17,51 C39,25 52,43 44,63 C37,80 23,75 16,67\" pathLength=\"100\"/></svg></span></span></span></span></span></div><p>Приклад:</p><div class=\"rp-formula\" role=\"img\" aria-label=\"(4·9)^(1/2) = 4^(1/2)·9^(1/2) = 6\"><span class=\"fml\"><span class=\"fx fx-pow\"><span class=\"fx fx-paren\"><span class=\"fpar\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M40,8 C18,30 18,72 40,94\" pathLength=\"100\"/></svg></span><span class=\"fx fx-mul\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M44,90 L44,10 L9,66 L55,66\" pathLength=\"100\"/></svg></span><span class=\"fo\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M29,52 L31,52\" pathLength=\"100\"/></svg></span><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M47,55 C27,61 14,42 16,27 C18,11 48,11 46,38 C44,74 40,85 21,90\" pathLength=\"100\"/></svg></span></span><span class=\"fpar\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M20,8 C42,30 42,72 20,94\" pathLength=\"100\"/></svg></span></span><span class=\"fpow\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M15,32 L31,12 L31,90\" pathLength=\"100\"/></svg></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span></span></span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-mul\"><span class=\"fx fx-pow\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M44,90 L44,10 L9,66 L55,66\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M15,32 L31,12 L31,90\" pathLength=\"100\"/></svg></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span></span></span></span><span class=\"fo\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M29,52 L31,52\" pathLength=\"100\"/></svg></span><span class=\"fx fx-pow\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M47,55 C27,61 14,42 16,27 C18,11 48,11 46,38 C44,74 40,85 21,90\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M15,32 L31,12 L31,90\" pathLength=\"100\"/></svg></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span></span></span></span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M47,15 C27,10 14,42 14,63 C14,88 49,88 49,63 C49,47 18,45 15,60\" pathLength=\"100\"/></svg></span></span></div><h3>Степінь частки</h3><p>Чисельник і знаменник підносимо до того самого степеня.</p><div class=\"rp-formula\" role=\"img\" aria-label=\"(a/b)^(p) = a^(p)/b^(p)\"><span class=\"fml\"><span class=\"fx fx-pow\"><span class=\"fx fx-paren\"><span class=\"fpar\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M40,8 C18,30 18,72 40,94\" pathLength=\"100\"/></svg></span><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M44,44 C20,24 10,65 24,76 C38,85 46,46 44,38 L40,76 L51,70\" pathLength=\"100\"/></svg></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M23,12 L17,76 C48,92 57,34 34,38 L19,57\" pathLength=\"100\"/></svg></span></span></span><span class=\"fpar\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M20,8 C42,30 42,72 20,94\" pathLength=\"100\"/></svg></span></span><span class=\"fpow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M18,40 L12,96\" pathLength=\"100\"/><path d=\"M17,51 C39,25 52,43 44,63 C37,80 23,75 16,67\" pathLength=\"100\"/></svg></span></span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-pow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M44,44 C20,24 10,65 24,76 C38,85 46,46 44,38 L40,76 L51,70\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M18,40 L12,96\" pathLength=\"100\"/><path d=\"M17,51 C39,25 52,43 44,63 C37,80 23,75 16,67\" pathLength=\"100\"/></svg></span></span></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-pow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M23,12 L17,76 C48,92 57,34 34,38 L19,57\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M18,40 L12,96\" pathLength=\"100\"/><path d=\"M17,51 C39,25 52,43 44,63 C37,80 23,75 16,67\" pathLength=\"100\"/></svg></span></span></span></span></span></span></div><p>Приклад:</p><div class=\"rp-formula\" role=\"img\" aria-label=\"(25/4)^(1/2) = 25^(1/2)/4^(1/2) = 5/2\"><span class=\"fml\"><span class=\"fx fx-pow\"><span class=\"fx fx-paren\"><span class=\"fpar\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M40,8 C18,30 18,72 40,94\" pathLength=\"100\"/></svg></span><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M48,12 L20,12 L16,46 C31,38 50,45 48,66 C46,90 17,92 11,74\" pathLength=\"100\"/></svg></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M44,90 L44,10 L9,66 L55,66\" pathLength=\"100\"/></svg></span></span></span><span class=\"fpar\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M20,8 C42,30 42,72 20,94\" pathLength=\"100\"/></svg></span></span><span class=\"fpow\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M15,32 L31,12 L31,90\" pathLength=\"100\"/></svg></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span></span></span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-pow\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M48,12 L20,12 L16,46 C31,38 50,45 48,66 C46,90 17,92 11,74\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M15,32 L31,12 L31,90\" pathLength=\"100\"/></svg></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span></span></span></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-pow\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M44,90 L44,10 L9,66 L55,66\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M15,32 L31,12 L31,90\" pathLength=\"100\"/></svg></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span></span></span></span></span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M48,12 L20,12 L16,46 C31,38 50,45 48,66 C46,90 17,92 11,74\" pathLength=\"100\"/></svg></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span></span></span></div>\n    <h2>Степенева функція</h2>\n    <p>Функцію y = xʳ називають степеневою. Для нецілого раціонального r &gt; 0 її область визначення — [0; +∞). Для нецілого раціонального r &lt; 0 — (0; +∞).</p>\n    <p>Для функції нижче дозволено x ≥ 0:</p><div class=\"rp-formula\" role=\"img\" aria-label=\"y = x^(1/2)\"><span class=\"fml\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,34 L32,70\" pathLength=\"100\"/><path d=\"M48,34 L28,82 C24,92 18,94 12,92\" pathLength=\"100\"/></svg></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-pow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,34 L46,72\" pathLength=\"100\"/><path d=\"M46,34 L14,72\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M15,32 L31,12 L31,90\" pathLength=\"100\"/></svg></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span></span></span></span></span></div><p>Для функції з від’ємним показником потрібно x &gt; 0:</p><div class=\"rp-formula\" role=\"img\" aria-label=\"y = x^(−1/2)\"><span class=\"fml\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,34 L32,70\" pathLength=\"100\"/><path d=\"M48,34 L28,82 C24,92 18,94 12,92\" pathLength=\"100\"/></svg></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-pow\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,34 L46,72\" pathLength=\"100\"/><path d=\"M46,34 L14,72\" pathLength=\"100\"/></svg></span><span class=\"fpow\"><span class=\"fx fx-neg\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M12,52 L52,52\" pathLength=\"100\"/></svg><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M15,32 L31,12 L31,90\" pathLength=\"100\"/></svg></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span></span></span></span></span></span></div><p>Ці обмеження відповідають означенню степеня в цьому уроці.</p>\n    <h2>Приклади з кожної групи</h2>\n    <p>Нижче є приклади різних типів. Відкрий завдання та натискай «Далі», щоб переглянути перетворення.</p>"
+  },
+  {
+    "id": "radian",
+    "cls": "10a",
+    "subject": "math",
+    "icon": "📐",
+    "title": "8. Радіанна міра кутів",
+    "desc": "Що таке радіан, як переводити градуси в радіани та як обчислювати тригонометричні вирази.",
+    "chips": [
+      "Пояснення",
+      "10 задач у зошиті",
+      "Точні значення"
+    ],
+    "tasks": [
+      {
+        "id": "radian-1",
+        "tool": "radian",
+        "title": "Обчисли 2 cos 0° + 3 sin 90°",
+        "cfg": {
+          "example": 0
+        },
+        "done": false
+      },
+      {
+        "id": "radian-2",
+        "tool": "radian",
+        "title": "Обчисли sin² 60° + cos² 30°",
+        "cfg": {
+          "example": 1
+        },
+        "done": false
+      },
+      {
+        "id": "radian-3",
+        "tool": "radian",
+        "title": "Обчисли sin 0° + tg π − sin (3π/2)",
+        "cfg": {
+          "example": 2
+        },
+        "done": false
+      },
+      {
+        "id": "radian-4",
+        "tool": "radian",
+        "title": "Обчисли 2 sin² (π/4) + cos² (π/6)",
+        "cfg": {
+          "example": 3
+        },
+        "done": false
+      },
+      {
+        "id": "radian-5",
+        "tool": "radian",
+        "title": "Чи можлива рівність cos α = π/3?",
+        "cfg": {
+          "example": 4
+        },
+        "done": false
+      },
+      {
+        "id": "radian-6",
+        "tool": "radian",
+        "title": "Чи можлива рівність sin α = 9/8?",
+        "cfg": {
+          "example": 5
+        },
+        "done": false
+      },
+      {
+        "id": "radian-7",
+        "tool": "radian",
+        "title": "Знайди найменше й найбільше значення 3 sin α",
+        "cfg": {
+          "example": 6
+        },
+        "done": false
+      },
+      {
+        "id": "radian-8",
+        "tool": "radian",
+        "title": "Знайди найменше й найбільше значення 4 + 2 cos α",
+        "cfg": {
+          "example": 7
+        },
+        "done": false
+      },
+      {
+        "id": "radian-9",
+        "tool": "radian",
+        "title": "Знайди найменше й найбільше значення 2 − sin α",
+        "cfg": {
+          "example": 8
+        },
+        "done": false
+      },
+      {
+        "id": "radian-10",
+        "tool": "radian",
+        "title": "Знайди найменше й найбільше значення sin² α",
+        "cfg": {
+          "example": 9
+        },
+        "done": false
+      }
+    ],
+    "lesson": "<h2>Що таке радіанна міра кута?</h2>\n    <p>Кути можна вимірювати в градусах і радіанах. Радіанна міра пов’язує кут із довжиною дуги кола.</p>\n    <p><b>Один радіан</b> — це центральний кут, який спирається на дугу, довжина якої дорівнює радіусу кола.</p>\n    <svg viewBox=\"0 0 360 230\" role=\"img\" aria-label=\"Кут один радіан: довжина виділеної дуги l дорівнює радіусу R\" style=\"display:block;width:100%;max-width:420px;margin:16px auto\">\n      <circle cx=\"135\" cy=\"130\" r=\"85\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"/>\n      <path d=\"M135 130 L220 130 M135 130 L180.93 58.48\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/>\n      <path d=\"M220 130 A85 85 0 0 0 180.93 58.48\" fill=\"none\" stroke=\"var(--primary)\" stroke-width=\"4\"/>\n      <path d=\"M162 130 A27 27 0 0 0 149.59 107.28\" fill=\"none\" stroke=\"currentColor\"/>\n      <g fill=\"currentColor\" font-size=\"17\"><text x=\"116\" y=\"150\">O</text><text x=\"175\" y=\"151\">R</text><text x=\"174\" y=\"108\">1 рад</text><text x=\"230\" y=\"83\">l = R</text></g>\n    </svg>\n    <p>Радіанна міра α дорівнює відношенню довжини дуги l до радіуса R. Довжини l і R вимірюємо в однакових одиницях.</p>\n    <div class=\"rp-formula\" role=\"img\" aria-label=\"α = l/R\"><span class=\"fml\"><span class=\"fx fx-x\"><span class=\"hwt\">α</span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-x\"><span class=\"hwt\">l</span></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-x\"><span class=\"hwt\">R</span></span></span></span></span></div>\n    <div class=\"rp-formula\" role=\"img\" aria-label=\"l = αR\"><span class=\"fml\"><span class=\"fx fx-x\"><span class=\"hwt\">l</span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-mul\"><span class=\"fx fx-x\"><span class=\"hwt\">α</span></span><span class=\"fx fx-x\"><span class=\"hwt\">R</span></span></span></span></div>\n    <p>Це відношення не залежить від розміру кола. Якщо l = 2R, кут дорівнює 2 рад.</p>\n    <h2>Як перейти від градусів до радіанів?</h2>\n    <p>Довжина кола дорівнює 2πR. Повний оберт містить 2π рад, а пів оберту — π рад.</p>\n    <div class=\"rp-formula\" role=\"img\" aria-label=\"360° = 2π рад; 180° = π рад\"><span class=\"fml\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,22 C28,6 52,14 45,36 C41,50 27,49 27,49 C50,49 53,78 37,88 C24,96 12,86 12,72\" pathLength=\"100\"/></svg><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M47,15 C27,10 14,42 14,63 C14,88 49,88 49,63 C49,47 18,45 15,60\" pathLength=\"100\"/></svg><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M30,10 C13,10 13,90 30,90 C47,90 47,10 30,10\" pathLength=\"100\"/></svg><span class=\"hwt\">°</span><span class=\"hwt\"> </span><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M12,42 L52,42\" pathLength=\"100\"/><path d=\"M12,64 L52,64\" pathLength=\"100\"/></svg><span class=\"hwt\"> </span><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg><span class=\"hwt\">π</span><span class=\"hwt\"> </span><span class=\"hwt\">р</span><span class=\"hwt\">а</span><span class=\"hwt\">д</span><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M30,34 L30,40\" pathLength=\"100\"/><path d=\"M31,64 L26,86\" pathLength=\"100\"/></svg><span class=\"hwt\"> </span><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M15,32 L31,12 L31,90\" pathLength=\"100\"/></svg><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M30,47 C11,47 13,13 30,13 C47,13 49,47 30,47 C9,47 8,90 30,90 C52,90 51,47 30,47\" pathLength=\"100\"/></svg><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M30,10 C13,10 13,90 30,90 C47,90 47,10 30,10\" pathLength=\"100\"/></svg><span class=\"hwt\">°</span><span class=\"hwt\"> </span><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M12,42 L52,42\" pathLength=\"100\"/><path d=\"M12,64 L52,64\" pathLength=\"100\"/></svg><span class=\"hwt\"> </span><span class=\"hwt\">π</span><span class=\"hwt\"> </span><span class=\"hwt\">р</span><span class=\"hwt\">а</span><span class=\"hwt\">д</span></span></span></div>\n    <p>Щоб перевести градуси в радіани, помнож число градусів на π/180.</p>\n    <p>Тут a — число градусів, α — радіанна міра кута.</p>\n    <div class=\"rp-formula\" role=\"img\" aria-label=\"α = a·π/180\"><span class=\"fml\"><span class=\"fx fx-x\"><span class=\"hwt\">α</span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-mul\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M44,44 C20,24 10,65 24,76 C38,85 46,46 44,38 L40,76 L51,70\" pathLength=\"100\"/></svg></span><span class=\"fo\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M29,52 L31,52\" pathLength=\"100\"/></svg></span><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-x\"><span class=\"hwt\">π</span></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M15,32 L31,12 L31,90\" pathLength=\"100\"/></svg><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M30,47 C11,47 13,13 30,13 C47,13 49,47 30,47 C9,47 8,90 30,90 C52,90 51,47 30,47\" pathLength=\"100\"/></svg><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M30,10 C13,10 13,90 30,90 C47,90 47,10 30,10\" pathLength=\"100\"/></svg></span></span></span></span></span></div>\n    <div class=\"rp-formula\" role=\"img\" aria-label=\"60° = π/3\"><span class=\"fml\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M47,15 C27,10 14,42 14,63 C14,88 49,88 49,63 C49,47 18,45 15,60\" pathLength=\"100\"/></svg><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M30,10 C13,10 13,90 30,90 C47,90 47,10 30,10\" pathLength=\"100\"/></svg><span class=\"hwt\">°</span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-x\"><span class=\"hwt\">π</span></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,22 C28,6 52,14 45,36 C41,50 27,49 27,49 C50,49 53,78 37,88 C24,96 12,86 12,72\" pathLength=\"100\"/></svg></span></span></span></span></div>\n    <div class=\"rp-formula\" role=\"img\" aria-label=\"90° = π/2\"><span class=\"fml\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M47,55 C27,61 14,42 16,27 C18,11 48,11 46,38 C44,74 40,85 21,90\" pathLength=\"100\"/></svg><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M30,10 C13,10 13,90 30,90 C47,90 47,10 30,10\" pathLength=\"100\"/></svg><span class=\"hwt\">°</span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-x\"><span class=\"hwt\">π</span></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span></span></span></div>\n    <div class=\"rp-formula\" role=\"img\" aria-label=\"270° = (3π)/2\"><span class=\"fml\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M11,14 L52,14 L25,90\" pathLength=\"100\"/></svg><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M30,10 C13,10 13,90 30,90 C47,90 47,10 30,10\" pathLength=\"100\"/></svg><span class=\"hwt\">°</span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-mul\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,22 C28,6 52,14 45,36 C41,50 27,49 27,49 C50,49 53,78 37,88 C24,96 12,86 12,72\" pathLength=\"100\"/></svg></span><span class=\"fx fx-x\"><span class=\"hwt\">π</span></span></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span></span></span></div>\n    <p>Щоб перевести радіани в градуси, помнож радіанну міру на 180/π. Один радіан приблизно дорівнює 57,3°.</p>\n    <div class=\"rp-formula\" role=\"img\" aria-label=\"π/4 = 45°\"><span class=\"fml\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-x\"><span class=\"hwt\">π</span></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M44,90 L44,10 L9,66 L55,66\" pathLength=\"100\"/></svg></span></span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M44,90 L44,10 L9,66 L55,66\" pathLength=\"100\"/></svg><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M48,12 L20,12 L16,46 C31,38 50,45 48,66 C46,90 17,92 11,74\" pathLength=\"100\"/></svg><span class=\"hwt\">°</span></span></span></div>\n    <div class=\"rp-formula\" role=\"img\" aria-label=\"π/6 = 30°\"><span class=\"fml\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-x\"><span class=\"hwt\">π</span></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M47,15 C27,10 14,42 14,63 C14,88 49,88 49,63 C49,47 18,45 15,60\" pathLength=\"100\"/></svg></span></span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,22 C28,6 52,14 45,36 C41,50 27,49 27,49 C50,49 53,78 37,88 C24,96 12,86 12,72\" pathLength=\"100\"/></svg><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M30,10 C13,10 13,90 30,90 C47,90 47,10 30,10\" pathLength=\"100\"/></svg><span class=\"hwt\">°</span></span></span></div>\n    <h2>Кут повороту та одиничне коло</h2>\n    <p>Одиничне коло має радіус 1 і центр у початку координат. Початкова точка — P₀(1; 0).</p>\n    <p>Поворот проти годинникової стрілки має додатний кут. Поворот за годинниковою стрілкою має від’ємний кут.</p>\n    <p>Кути α і α + 2πk, де k — ціле число, приводять у ту саму точку кола.</p>\n    <h2>Що потрібно для задач?</h2>\n    <p>Після повороту на кут α точка має координати P(cos α; sin α). Косинус — це її абсциса, синус — ордината.</p>\n    <div class=\"rp-formula\" role=\"img\" aria-label=\"−1 ≤ sin α ≤ 1; −1 ≤ cos α ≤ 1\"><span class=\"fml\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M12,52 L52,52\" pathLength=\"100\"/></svg><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M15,32 L31,12 L31,90\" pathLength=\"100\"/></svg><span class=\"hwt\"> </span><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M46,24 L12,42 L46,60\" pathLength=\"100\"/><path d=\"M12,76 L46,76\" pathLength=\"100\"/></svg><span class=\"hwt\"> </span><span class=\"hwt\">s</span><span class=\"hwt\">i</span><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,40 L13,77 L25,47 C37,27 48,38 44,77\" pathLength=\"100\"/></svg><span class=\"hwt\"> </span><span class=\"hwt\">α</span><span class=\"hwt\"> </span><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M46,24 L12,42 L46,60\" pathLength=\"100\"/><path d=\"M12,76 L46,76\" pathLength=\"100\"/></svg><span class=\"hwt\"> </span><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M15,32 L31,12 L31,90\" pathLength=\"100\"/></svg><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M30,34 L30,40\" pathLength=\"100\"/><path d=\"M31,64 L26,86\" pathLength=\"100\"/></svg><span class=\"hwt\"> </span><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M12,52 L52,52\" pathLength=\"100\"/></svg><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M15,32 L31,12 L31,90\" pathLength=\"100\"/></svg><span class=\"hwt\"> </span><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M46,24 L12,42 L46,60\" pathLength=\"100\"/><path d=\"M12,76 L46,76\" pathLength=\"100\"/></svg><span class=\"hwt\"> </span><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M48,42 C27,24 10,46 16,66 C21,83 39,79 48,68\" pathLength=\"100\"/></svg><span class=\"hwt\">o</span><span class=\"hwt\">s</span><span class=\"hwt\"> </span><span class=\"hwt\">α</span><span class=\"hwt\"> </span><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M46,24 L12,42 L46,60\" pathLength=\"100\"/><path d=\"M12,76 L46,76\" pathLength=\"100\"/></svg><span class=\"hwt\"> </span><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M15,32 L31,12 L31,90\" pathLength=\"100\"/></svg></span></span></div>\n    <p>Тангенс дорівнює sin α / cos α. Він визначений, коли cos α ≠ 0.</p>\n    <p>Якщо біля аргументу немає знака градуса, кут задано в радіанах. Наприклад, sin π — це синус кута 180°.</p>\n    <p>Запис sin² α означає (sin α)². Спочатку знаходимо синус, потім підносимо його до квадрата.</p>\n    <h3>Точні значення для обчислень</h3>\n    <div class=\"rp-formula\" role=\"img\" aria-label=\"sin 0 = 0\"><span class=\"fml\"><span class=\"fx fx-mul fx-function\"><span class=\"fx fx-x\"><span class=\"hwt\">s</span><span class=\"hwt\">i</span><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,40 L13,77 L25,47 C37,27 48,38 44,77\" pathLength=\"100\"/></svg></span><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M30,10 C13,10 13,90 30,90 C47,90 47,10 30,10\" pathLength=\"100\"/></svg></span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M30,10 C13,10 13,90 30,90 C47,90 47,10 30,10\" pathLength=\"100\"/></svg></span></span></div>\n    <div class=\"rp-formula\" role=\"img\" aria-label=\"cos 0 = 1\"><span class=\"fml\"><span class=\"fx fx-mul fx-function\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M48,42 C27,24 10,46 16,66 C21,83 39,79 48,68\" pathLength=\"100\"/></svg><span class=\"hwt\">o</span><span class=\"hwt\">s</span></span><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M30,10 C13,10 13,90 30,90 C47,90 47,10 30,10\" pathLength=\"100\"/></svg></span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M15,32 L31,12 L31,90\" pathLength=\"100\"/></svg></span></span></div>\n    <div class=\"rp-formula\" role=\"img\" aria-label=\"sin π/2 = 1\"><span class=\"fml\"><span class=\"fx fx-mul fx-function\"><span class=\"fx fx-x\"><span class=\"hwt\">s</span><span class=\"hwt\">i</span><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,40 L13,77 L25,47 C37,27 48,38 44,77\" pathLength=\"100\"/></svg></span><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-x\"><span class=\"hwt\">π</span></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span></span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M15,32 L31,12 L31,90\" pathLength=\"100\"/></svg></span></span></div>\n    <div class=\"rp-formula\" role=\"img\" aria-label=\"sin (3π)/2 = -1\"><span class=\"fml\"><span class=\"fx fx-mul fx-function\"><span class=\"fx fx-x\"><span class=\"hwt\">s</span><span class=\"hwt\">i</span><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,40 L13,77 L25,47 C37,27 48,38 44,77\" pathLength=\"100\"/></svg></span><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-mul\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,22 C28,6 52,14 45,36 C41,50 27,49 27,49 C50,49 53,78 37,88 C24,96 12,86 12,72\" pathLength=\"100\"/></svg></span><span class=\"fx fx-x\"><span class=\"hwt\">π</span></span></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span></span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M12,52 L52,52\" pathLength=\"100\"/></svg><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M15,32 L31,12 L31,90\" pathLength=\"100\"/></svg></span></span></div>\n    <div class=\"rp-formula\" role=\"img\" aria-label=\"tg π = 0\"><span class=\"fml\"><span class=\"fx fx-mul fx-function\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M34,16 L26,70 C23,86 32,90 43,79\" pathLength=\"100\"/><path d=\"M12,40 L48,40\" pathLength=\"100\"/></svg><span class=\"hwt\">g</span></span><span class=\"fx fx-x\"><span class=\"hwt\">π</span></span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M30,10 C13,10 13,90 30,90 C47,90 47,10 30,10\" pathLength=\"100\"/></svg></span></span></div>\n    <div class=\"rp-formula\" role=\"img\" aria-label=\"sin 60° = cos 30° = √3/2\"><span class=\"fml\"><span class=\"fx fx-mul fx-function\"><span class=\"fx fx-x\"><span class=\"hwt\">s</span><span class=\"hwt\">i</span><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,40 L13,77 L25,47 C37,27 48,38 44,77\" pathLength=\"100\"/></svg></span><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M47,15 C27,10 14,42 14,63 C14,88 49,88 49,63 C49,47 18,45 15,60\" pathLength=\"100\"/></svg><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M30,10 C13,10 13,90 30,90 C47,90 47,10 30,10\" pathLength=\"100\"/></svg><span class=\"hwt\">°</span></span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-mul fx-function\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M48,42 C27,24 10,46 16,66 C21,83 39,79 48,68\" pathLength=\"100\"/></svg><span class=\"hwt\">o</span><span class=\"hwt\">s</span></span><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,22 C28,6 52,14 45,36 C41,50 27,49 27,49 C50,49 53,78 37,88 C24,96 12,86 12,72\" pathLength=\"100\"/></svg><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M30,10 C13,10 13,90 30,90 C47,90 47,10 30,10\" pathLength=\"100\"/></svg><span class=\"hwt\">°</span></span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-root\"><span class=\"rhook hwa\"><svg viewBox=\"0 0 20 100\" preserveAspectRatio=\"none\"><path d=\"M1,62 L6,55 L11,97 L19.6,1\" vector-effect=\"non-scaling-stroke\"/></svg></span><span class=\"rbody\"><span class=\"rbar hwa\"></span><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,22 C28,6 52,14 45,36 C41,50 27,49 27,49 C50,49 53,78 37,88 C24,96 12,86 12,72\" pathLength=\"100\"/></svg></span></span></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span></span></span></div>\n    <div class=\"rp-formula\" role=\"img\" aria-label=\"sin π/4 = √2/2\"><span class=\"fml\"><span class=\"fx fx-mul fx-function\"><span class=\"fx fx-x\"><span class=\"hwt\">s</span><span class=\"hwt\">i</span><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,40 L13,77 L25,47 C37,27 48,38 44,77\" pathLength=\"100\"/></svg></span><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-x\"><span class=\"hwt\">π</span></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M44,90 L44,10 L9,66 L55,66\" pathLength=\"100\"/></svg></span></span></span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-root\"><span class=\"rhook hwa\"><svg viewBox=\"0 0 20 100\" preserveAspectRatio=\"none\"><path d=\"M1,62 L6,55 L11,97 L19.6,1\" vector-effect=\"non-scaling-stroke\"/></svg></span><span class=\"rbody\"><span class=\"rbar hwa\"></span><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span></span></span></div>\n    <div class=\"rp-formula\" role=\"img\" aria-label=\"cos π/6 = √3/2\"><span class=\"fml\"><span class=\"fx fx-mul fx-function\"><span class=\"fx fx-x\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M48,42 C27,24 10,46 16,66 C21,83 39,79 48,68\" pathLength=\"100\"/></svg><span class=\"hwt\">o</span><span class=\"hwt\">s</span></span><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-x\"><span class=\"hwt\">π</span></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M47,15 C27,10 14,42 14,63 C14,88 49,88 49,63 C49,47 18,45 15,60\" pathLength=\"100\"/></svg></span></span></span></span></span><span class=\"rp-equals\">=</span><span class=\"fml\"><span class=\"fx fx-div ffrac\"><span class=\"ffn\"><span class=\"fx fx-root\"><span class=\"rhook hwa\"><svg viewBox=\"0 0 20 100\" preserveAspectRatio=\"none\"><path d=\"M1,62 L6,55 L11,97 L19.6,1\" vector-effect=\"non-scaling-stroke\"/></svg></span><span class=\"rbody\"><span class=\"rbar hwa\"></span><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M14,22 C28,6 52,14 45,36 C41,50 27,49 27,49 C50,49 53,78 37,88 C24,96 12,86 12,72\" pathLength=\"100\"/></svg></span></span></span></span><span class=\"ffbar hwa\"></span><span class=\"ffd\"><span class=\"fx fx-num\"><svg class=\"hwg\" viewBox=\"0 0 60 100\"><path d=\"M13,30 C13,8 49,8 49,32 C49,55 15,64 12,90 L52,88\" pathLength=\"100\"/></svg></span></span></span></span></div>\n    <p>У задачах використовуй точні значення з π, коренями та дробами. Округлення тут не потрібне.</p>"
+  }
+]

@@ -1,6 +1,7 @@
 import { hrefTopic } from '../../../navigation/routes';
 import type { Topic, ToolDefinition } from '../../../types';
-import { Card, Icon } from '../../../components/ui';
+import { Card } from '../../../components/card';
+import { Icon } from '../../../components/icon';
 
 const rowStyle = {
   display: 'flex',

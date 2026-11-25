@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Button } from '../../components/ui';
+import { Button } from '../../components/button';
 import { ChatScene } from './ChatScene';
 import { ConsequenceNote } from './ConsequenceNote';
 import { PracticeQr } from './PracticeQr';

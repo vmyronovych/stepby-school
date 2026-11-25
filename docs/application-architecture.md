@@ -11,24 +11,26 @@ src/navigation/                чистий типізований hash-роут
 src/data/catalog.ts            класи, предмети, теми, завдання
 src/courses/robotics/           заняття, інструменти, матеріали й правила робототехніки
 src/features/student/          екрани, картки, секції уроків
-src/features/tools/            зошит, кроки, форми математичних інструментів, хук анімації
+src/components/notebook/       зошит, письмо, кроки, анімація та поля вводу
+src/app/math-inputs/            підключення полів і готових прикладів курсів
 src/features/documents/        статті, зміст, друк, КТП, lightbox
-src/features/geometry/         React-досліди, SVG-ручки, практика й перевірка відповідей
+src/courses/geometry/          уроки, React-досліди, практика й перевірка відповідей
 src/features/keyboard/         React-клавіатура й редактор тексту
 src/features/windows/          React-робочий стіл, Провідник, меню та діалоги
 src/courses/robotics/tools/circuit/          React-палітра, панель дій і властивості деталей
 src/components/                Button, Card, Breadcrumbs, Notebook, довірена розмітка
 src/runtime/                   типізовані API двигунів і приватне дзеркало стану
-src/engines/core/              формули, гліфи, точна арифметика, сітка, числова пряма
-src/features/tools/engines/     математичні моделі, читання значень і письмо кроків
-src/features/geometry/engines/  геометричні моделі, дані й чисті SVG-побудови
+src/engines/core/              формули, точна арифметика, рівняння, числова пряма
+src/courses/mathematics/        математичні уроки, моделі та задачі
+src/courses/algebra/            алгебраїчні уроки, моделі та задачі
+src/courses/geometry/lessons/   геометричні моделі, дані й SVG-побудови
 src/courses/robotics/tools/circuit/engine/    фізика кола, макетка, історія й малювання SVG
 src/features/windows/engine/    файлова модель, команди й публікація стану
 src/features/keyboard/engine/   пресети, редактор і контролер клавіш
 src/features/documents/data/    календар, КТП і конспекти інформатики
 src/features/documents/content/ збірка документів; робототехніка підключається через courses/robotics/shared/documents/index.ts
 src/features/documents/services/ XLSX та стан полів КТП
-css/                           наявні токени й стилі зошита, уроків та проєкторів
+css/                           токени, каркас сайту й стилі ще не перенесених областей
 ```
 
 ## Архітектура
@@ -47,13 +49,15 @@ css/                           наявні токени й стилі зоши�
 
 | адреса | сторінка |
 |---|---|
-| `#/` | вибір класу |
-| `#/5a`, `#/5a/math` | предмети та теми |
-| `#/5a/math/t1` | урок із завданнями |
-| `#/5a/math/t1/k1` | завдання в зошиті |
+| `#/` | каталог курсів |
+| `#/courses/math` | математика, групи уроків за класами |
+| `#/courses/math/t1` | урок із завданнями |
+| `#/courses/math/t1/k1` | завдання в зошиті |
 | `#/tool/add?c=<JSON>` | вільна умова |
 | `#/robo/robot/r5/mod1-3` | документ і якір |
 | `#/3a/info/kb3/caps` | проєктор і пресет |
+
+Старі адреси з класами відкривають відповідні курси й уроки; об’єднані теми мають явні `aliases`.
 
 Адреси будуй функціями `src/navigation/routes.ts`. Для переходів використовуй `<a href>`.
 Крок у URL не записується. Власна умова замінює URL без додаткового запису історії.

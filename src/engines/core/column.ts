@@ -1,6 +1,6 @@
-import { HW_DUR, HW_STEP } from './handwriting';
-import type { GridCell, GridRow } from './notebook';
-import { colGrid } from './notebook';
+import { HW_DUR, HW_STEP } from '../../components/notebook/handwriting';
+import type { GridCell, GridRow } from '../../components/notebook/grid';
+import { colGrid } from '../../components/notebook/grid';
 import type { EngineStepContext } from './registry';
 export interface CellPosition {
   r: number;

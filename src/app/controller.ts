@@ -11,7 +11,7 @@ import {
   parseRoute,
   resolveRoute,
 } from '../navigation/routes';
-import { clsCrumb, clsTitle } from '../navigation/labels';
+import { clsTitle } from '../navigation/labels';
 import { notify } from './notifications';
 
 export interface AppSnapshot extends AppState {
@@ -102,7 +102,12 @@ export function pageTitle(state = snapshot) {
   const brand = 'StepBy School';
   if (state.tool) return `${engine.DB.tools[state.tool].name} — ${brand}`;
   const schoolClass = engine.DB.classes.find((item) => item.id === state.cls);
-  if (!schoolClass) return `${brand} — шкільні предмети крок за кроком`;
+  if (!schoolClass) {
+    const course = engine.DB.subjects.find((item) => item.id === state.subject);
+    return course
+      ? `${course.name} — ${brand}`
+      : `${brand} — шкільні предмети крок за кроком`;
+  }
   const subject = engine.DB.subjects.find((item) => item.id === state.subject);
   if (!subject) return `${clsTitle(schoolClass)} — ${brand}`;
   const topic = engine.DB.topics.find(
@@ -111,7 +116,7 @@ export function pageTitle(state = snapshot) {
       item.cls === state.cls &&
       item.subject === state.subject,
   );
-  return `${topic ? topic.title + ' · ' : ''}${subject.name}${schoolClass.label ? '' : ', ' + clsCrumb(schoolClass)} — ${brand}`;
+  return `${topic ? topic.title + ' · ' : ''}${subject.name} — ${brand}`;
 }
 export function route() {
   const hash = location.hash || '#/';

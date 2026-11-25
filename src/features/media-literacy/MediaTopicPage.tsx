@@ -1,5 +1,5 @@
 import type { Topic } from '../../types';
-import { LinkButton } from '../../components/ui';
+import { LinkButton } from '../../components/button';
 import { hrefSubj, hrefTopic } from '../../navigation/routes';
 import type { MediaContent } from './content';
 import { TopicPractice } from './TopicPractice';

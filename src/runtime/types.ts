@@ -17,10 +17,10 @@ export interface ExampleOption {
 
 export interface EngineRuntime {
   windows: import('../features/windows/types').WindowsController;
-  VectorLesson: import('../features/geometry/types').GeometryEngines['vectors'];
-  VectorPractice: import('../features/geometry/types').GeometryEngines['practice'];
-  VectorScaling: import('../features/geometry/types').GeometryEngines['scaling'];
-  ScalarProduct: import('../features/geometry/types').GeometryEngines['scalar'];
+  VectorLesson: import('../courses/geometry/ui').GeometryEngines['vectors'];
+  VectorPractice: import('../courses/geometry/ui').GeometryEngines['practice'];
+  VectorScaling: import('../courses/geometry/ui').GeometryEngines['scaling'];
+  ScalarProduct: import('../courses/geometry/ui').GeometryEngines['scalar'];
   CircuitEngine: import('../courses/robotics/tools/circuit').CircuitController;
   KeyboardEngine: import('../features/keyboard/types').KeyboardController;
   DB: Catalog;

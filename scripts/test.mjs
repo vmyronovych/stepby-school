@@ -19,7 +19,7 @@ if (course && !courses.includes(course))
   throw new Error(`Unknown course: ${course}`);
 const files = course
   ? tests(`src/courses/${course}`)
-  : [...tests('tests'), ...tests('src/courses')];
+  : [...tests('tests'), ...tests('src/courses'), ...tests('src/components')];
 const result = spawnSync(process.execPath, ['--test', ...files.sort()], {
   stdio: 'inherit',
 });

@@ -1,5 +1,5 @@
-import type { Pen } from './handwriting';
-import { hwGlyphs, hwTick } from './handwriting';
+import type { Pen } from '../../components/notebook/handwriting';
+import { hwGlyphs, hwTick } from '../../components/notebook/handwriting';
 import { gcd } from './util';
 export interface Rational {
   n: number;

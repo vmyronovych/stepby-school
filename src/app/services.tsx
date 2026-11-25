@@ -1,8 +1,8 @@
 import { handleRoboticsDocumentAction } from '../courses/robotics/shared/documents';
-import { radianExamples } from '../features/tools/data/radian';
-import { LegacyHtml } from '../components/ui';
+import { radianExamples } from '../courses/algebra/runtime';
+import { LegacyHtml } from '../components/legacy-html';
 import { engine } from '../runtime';
-import type { ToolInputServices } from '../features/tools/inputs/ToolInputs';
+import type { ToolInputServices } from './math-inputs/ToolInputs';
 import type { DocumentServices } from '../features/documents/types';
 import { notify } from './notifications';
 
