@@ -26,10 +26,10 @@ const page = await browser.newPage({
   deviceScaleFactor: 2,
 });
 const captures = JSON.parse(
-  await readFile('src/courses/robotics/docs/course-captures.json'),
+  await readFile('src/courses/robotics/shared/content/captures.json'),
 ).filter(
   (c) =>
-    !['School circuit engine', 'docs/circuit-examples.json'].includes(
+    !['School circuit engine', 'shared/content/circuit-examples.json'].includes(
       c.source,
     ) && c.filename !== 'wire-game-assembly.svg',
 );
@@ -128,7 +128,7 @@ try {
     await page.locator('#cbSvg').screenshot({ path: assetPath(filename) });
     captures.push({
       filename,
-      source: 'docs/circuit-examples.json',
+      source: 'shared/content/circuit-examples.json',
       width: 2400,
       height: 1360,
       caption:
@@ -140,14 +140,16 @@ try {
     });
   }
   await writeFile(
-    'src/courses/robotics/docs/circuit-examples.json',
+    'src/courses/robotics/shared/content/circuit-examples.json',
     JSON.stringify(examples, null, 2) + '\n',
   );
   const hash = createHash('sha256')
-    .update(await readFile('src/courses/robotics/docs/circuit-examples.json'))
+    .update(
+      await readFile('src/courses/robotics/shared/content/circuit-examples.json'),
+    )
     .digest('hex');
   for (const c of captures)
-    if (c.source === 'docs/circuit-examples.json') c.sha256 = hash;
+    if (c.source === 'shared/content/circuit-examples.json') c.sha256 = hash;
   captures.push({
     filename: 'wire-game-assembly.svg',
     source: 'scripts/render-wire-game.mjs',
@@ -162,7 +164,7 @@ try {
       'Готова гра «Нервовий дріт» із активною пищалкою на mini breadboard.',
   });
   await writeFile(
-    'src/courses/robotics/docs/course-captures.json',
+    'src/courses/robotics/shared/content/captures.json',
     JSON.stringify(captures, null, 2) + '\n',
   );
   await writeFile(

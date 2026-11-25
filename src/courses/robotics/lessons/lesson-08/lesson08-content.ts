@@ -1,4 +1,4 @@
-// Repository-authored prose adapted from src/courses/robotics/lessons/lesson-08/teacher-notes.md.
+// Canonical lesson text, including practice and teacher guidance.
 // Interactive controls are rendered by React.
 export const practiceSections = [
   {

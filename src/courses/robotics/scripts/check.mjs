@@ -22,15 +22,8 @@ const { validateWiring, analyzeWiring } = await import(
 );
 const { compileUsbBytecode } = await import(source('usb-bytecode.js'));
 
-const course = await readFile(coursePath('docs/course.md'), 'utf8');
-const numbers = [...course.matchAll(/^(\d+)\. \*\*/gm)].map((match) =>
-  Number(match[1]),
-);
-assert.deepEqual(
-  numbers,
-  Array.from({ length: 32 }, (_, index) => index + 1),
-);
-
+// Catalog coverage is checked against course.ts by tests/robotics.test.cjs.
+// This script verifies the three editable motor projects, not Markdown formatting.
 for (const [id, duration] of [
   ['start', 0],
   ['demo', 1],
@@ -133,4 +126,3 @@ for (const [id, duration] of [
     reloaded.dispose();
   }
 }
-console.log('32 lesson cards: PASS');

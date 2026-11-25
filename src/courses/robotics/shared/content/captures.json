@@ -1141,7 +1141,7 @@
   },
   {
     "filename": "circuit-first.png",
-    "source": "docs/circuit-examples.json",
+    "source": "shared/content/circuit-examples.json",
     "width": 2400,
     "height": 1360,
     "caption": "Перше коло: джерело 3,3 В, резистор 330 Ом і LED.",
@@ -1149,7 +1149,7 @@
   },
   {
     "filename": "circuit-button.png",
-    "source": "docs/circuit-examples.json",
+    "source": "shared/content/circuit-examples.json",
     "width": 2400,
     "height": 1360,
     "caption": "Звукове Морзе: активна пищалка та кнопка. Кнопка відпущена — коло розімкнене, звуку немає.",
@@ -1157,7 +1157,7 @@
   },
   {
     "filename": "circuit-contact.png",
-    "source": "docs/circuit-examples.json",
+    "source": "shared/content/circuit-examples.json",
     "width": 2400,
     "height": 1360,
     "caption": "Звукова гра: кнопка на цій схемі позначає дотик петлі до траси. Контакт замкнений — пищалка звучить; у виробі окремої кнопки немає.",

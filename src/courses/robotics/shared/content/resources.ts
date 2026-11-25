@@ -1011,14 +1011,14 @@ export const courseImages: CourseImage[] = [
   },
   {
     filename: 'circuit-first.png',
-    source: 'docs/circuit-examples.json',
+    source: 'shared/content/circuit-examples.json',
     width: 2400,
     height: 1360,
     caption: 'Перше коло: джерело 3,3 В, резистор 330 Ом і LED.',
   },
   {
     filename: 'circuit-button.png',
-    source: 'docs/circuit-examples.json',
+    source: 'shared/content/circuit-examples.json',
     width: 2400,
     height: 1360,
     caption:
@@ -1026,7 +1026,7 @@ export const courseImages: CourseImage[] = [
   },
   {
     filename: 'circuit-contact.png',
-    source: 'docs/circuit-examples.json',
+    source: 'shared/content/circuit-examples.json',
     width: 2400,
     height: 1360,
     caption:

@@ -17,7 +17,7 @@ const { Blockly } = await import(src('usb-blocks.js'));
 const { compileUsbBytecode } = await import(src('usb-bytecode.js'));
 const { analyzeWiring, validateWiring } = await import(src('wiring-model.js'));
 const manifest = JSON.parse(
-  await readFile('src/courses/robotics/docs/projects.json'),
+  await readFile('src/courses/robotics/scripts/data/projects.json'),
 );
 const codes = new Map();
 for (const item of manifest) {
@@ -225,7 +225,7 @@ for (const n of [27, 28, 29, 30])
     [],
   ]);
 for (const capture of JSON.parse(
-  await readFile('src/courses/robotics/docs/course-captures.json'),
+  await readFile('src/courses/robotics/shared/content/captures.json'),
 )) {
   assert.ok((await readFile('dist/assets/robotics/' + capture.filename)).length > 0);
   if (capture.sha256)

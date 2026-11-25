@@ -1,20 +1,40 @@
 ---
 name: robotics-prepare-wiring
-description: Generate and verify Mcar wiring, editable projects and captured block programs for the StepBy School robotics course. Use when circuitry, block programs or their rendered assets change.
+description: Підготуй і перевір схеми, проєкти Mcar та зображення блоків для робототехніки StepBy School. Застосовуй після змін проводки, програм або їхніх зображень.
 ---
 
-Read the course [CLAUDE.md](../../../CLAUDE.md), especially electrical and image requirements. Run commands from the repository root. Use the existing neighboring Mcar checkout (`../mcar` by default); inspect script arguments before choosing a different location.
+# Підготовка схем і програм
 
-Choose only the workflow needed by the change:
+Прочитай [правила схем](../../../CLAUDE.md#схеми) та [обмеження матеріалів](../../../docs/course.md#обмеження-матеріалів). Зміну лише тексту чи розміщення файлів не супроводжуй перегенерацією навчальних матеріалів.
 
-- Program projects: `node src/courses/robotics/scripts/generate-projects.mjs ../mcar` regenerates the course project set. Review the generated diff; do not run it for an image-only or prose-only change.
-- Lesson 8 captures: `node src/courses/robotics/scripts/render-mcar.mjs ../mcar`.
-- Other Mcar captures: `node src/courses/robotics/scripts/render-course.mjs --lessons=7`; use the relevant lesson numbers. The renderer requires an existing Mcar `web/dist` build. Inspect the renderer when changing a shared wiring figure.
-- The first three circuit examples and wire-game illustration: `node src/courses/robotics/scripts/render-circuits.mjs`.
-- Shared line decision diagrams: `node src/courses/robotics/scripts/render-line-diagrams.mjs`.
+## Підготовка
 
-Generators write canonical course files. `npm run build` publishes them to the existing site URLs. Do not edit published copies.
+Виконуй команди з кореня репозиторію. Для Mcar потрібні сусідній каталог `../mcar` з установленими залежностями, зібраний `../mcar/web/dist` і Chromium Playwright. Якщо їх немає, назви недоступний крок; не підміняй знімок Mcar намальованою імітацією.
 
-Run `check.mjs ../mcar` and `check-course.mjs ../mcar` from the course's `scripts/` path, followed by the repository checks required in CLAUDE.md. Inspect the rendered result in its lesson at desktop and mobile sizes. A successful circuit simulation does not replace checking wire routing, readable labels and traceable capture sources.
+Редагуй джерела в папці курсу. `dist/` містить лише копії публікації.
 
-If Mcar is unavailable, report the blocked generation/check precisely; do not draw a substitute that pretends to be a verified Mcar capture.
+## Вибір команди
+
+| Що змінилося | Команда | Результат |
+|---|---|---|
+| Програми Mcar | `node src/courses/robotics/scripts/generate-projects.mjs ../mcar` | 70 проєктів у `lessons/*/files/` і `scripts/data/projects.json`; переглянь увесь diff |
+| Зображення заняття 8 | `node src/courses/robotics/scripts/render-mcar.mjs ../mcar` | Знімки та `lessons/lesson-08/captures.json` |
+| Блоки іншого заняття | `node src/courses/robotics/scripts/render-course.mjs --lessons=7` | Зображення вибраного заняття; заміни `7` потрібними номерами через кому |
+| Кола занять 1–3 і малюнок гри | `node src/courses/robotics/scripts/render-circuits.mjs` | Зображення, початкові кола в `shared/content/circuit-examples.json` |
+| Схеми вибору руху й зупинки | `node src/courses/robotics/scripts/render-line-diagrams.mjs` | Спільні пояснювальні SVG |
+
+Знімки курсу описані в `shared/content/captures.json`; дозволені маршрути проводів — у `scripts/data/wiring-routes.json`. Генератори знімків також оновлюють `shared/content/resources.ts`. Не змінюй контрольну суму без повторного отримання відповідного зображення.
+
+`render-circuits.mjs` відкриває готовий `dist/index.html`: перед ним виконай `npm run build`. Після генерації знову виконай збірку, щоб опублікувати оновлені джерела.
+
+## Перевірка
+
+```sh
+npm run build
+node src/courses/robotics/scripts/check.mjs ../mcar
+node src/courses/robotics/scripts/check-course.mjs ../mcar
+```
+
+Потім виконай загальні тести зі спільного `CLAUDE.md`. Переглянь змінені зображення в занятті на комп’ютері й телефоні: контакти, підписи, посадку на макетці та остаточні маршрути проводів. Успішна симуляція не підтверджує відсутності перетинів або роботу фізичного робота.
+
+У підсумку назви змінені матеріали, виконані перевірки й обмеження, що залишилися.

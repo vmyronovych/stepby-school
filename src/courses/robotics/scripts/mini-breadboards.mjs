@@ -4,7 +4,7 @@ const { coursePath, projectPath, projectRelative, assetPath, publicPath } =
 import { readFileSync } from 'node:fs';
 import { assertClearWires } from './wire-clearance.mjs';
 const approvedRoutes = JSON.parse(
-  readFileSync(new URL('../docs/wiring-routes.json', import.meta.url)),
+  readFileSync(new URL('./data/wiring-routes.json', import.meta.url)),
 );
 // Real Mcar footprints, electrical groups and routing; no decorative breadboards.
 import { resolve } from 'node:path';

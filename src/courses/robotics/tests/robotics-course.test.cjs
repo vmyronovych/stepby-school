@@ -36,7 +36,7 @@ test('every remaining lesson is authored with earlier prerequisites and individu
 });
 test('published program files and captured Mcar figures have traceable sources', () => {
   const files = JSON.parse(
-    fs.readFileSync('src/courses/robotics/docs/projects.json'),
+    fs.readFileSync('src/courses/robotics/scripts/data/projects.json'),
   );
   assert.equal(files.length, 70);
   for (const item of files) {
@@ -55,7 +55,7 @@ test('published program files and captured Mcar figures have traceable sources',
     );
   }
   const captures = JSON.parse(
-    fs.readFileSync('src/courses/robotics/docs/course-captures.json'),
+    fs.readFileSync('src/courses/robotics/shared/content/captures.json'),
   );
   for (const c of captures) {
     assert.ok(fs.existsSync('dist/assets/robotics/' + c.filename));
@@ -131,7 +131,7 @@ test('sound lessons use the captured active-buzzer circuit and every open contac
     'src/courses/robotics/tools/circuit/engine/index.ts',
   );
   const examples = JSON.parse(
-    fs.readFileSync('src/courses/robotics/docs/circuit-examples.json'),
+    fs.readFileSync('src/courses/robotics/shared/content/circuit-examples.json'),
   );
   const { assertClearWires } = await import('../scripts/wire-clearance.mjs');
   assert.equal(examples.length, 3);

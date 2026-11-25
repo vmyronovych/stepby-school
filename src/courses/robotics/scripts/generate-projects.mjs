@@ -575,7 +575,7 @@ for (let n = 6; n <= 30; n++) {
   }
 }
 await writeFile(
-  'src/courses/robotics/docs/projects.json',
+  'src/courses/robotics/scripts/data/projects.json',
   JSON.stringify(manifest, null, 2) + '\n',
 );
 console.log(`Validated and round-tripped ${manifest.length} Mcar files.`);

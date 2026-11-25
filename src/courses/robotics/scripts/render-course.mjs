@@ -54,7 +54,7 @@ const selected = selectedArg
   : null;
 const captures = selected
   ? JSON.parse(
-      await readFile('src/courses/robotics/docs/course-captures.json'),
+      await readFile('src/courses/robotics/shared/content/captures.json'),
     ).filter(
       (c) =>
         !selected.some((n) =>
@@ -127,7 +127,7 @@ try {
   await page.goto(`http://127.0.0.1:${server.address().port}/`);
   await page.getByRole('button', { name: 'Продовжити без плати' }).click();
   const projects = JSON.parse(
-    await readFile('src/courses/robotics/docs/projects.json'),
+    await readFile('src/courses/robotics/scripts/data/projects.json'),
   );
   const wiringOnly = process.argv.includes('--wiring-only');
   for (const entry of projects) {
@@ -230,7 +230,7 @@ try {
   if (wiringOnly) process.exitCode = 0;
   if (!wiringOnly) {
     await writeFile(
-      'src/courses/robotics/docs/course-captures.json',
+      'src/courses/robotics/shared/content/captures.json',
       JSON.stringify(captures, null, 2) + '\n',
     );
     if (!selected) {
@@ -265,7 +265,7 @@ try {
       }
     }
     await writeFile(
-      'src/courses/robotics/docs/course-captures.json',
+      'src/courses/robotics/shared/content/captures.json',
       JSON.stringify(captures, null, 2) + '\n',
     );
     await writeFile(
