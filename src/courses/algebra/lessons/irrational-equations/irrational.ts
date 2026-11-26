@@ -1,3 +1,4 @@
+import type { ToolLinks } from '../../../../types';
 import type { FormulaNode, Polynomial, Rational } from '../../../../lib/math';
 import {
   F,
@@ -702,6 +703,7 @@ export function buildSubstitutionModel(text: unknown): SubstitutionModel {
 export function irView(
   m: IrrationalModel,
   ctx: EngineStepContext<IrrationalStep>,
+  links: ToolLinks,
 ) {
   const writing = !!ctx.anim;
   const linearSteps = m.steps
@@ -724,7 +726,7 @@ export function irView(
             : `<span class="fml">${domParts(s.parts, pen)}</span>`;
         const note = s.domainNote
           ? lessonNote(
-              'domain',
+              links.lessonForTool('domain'),
               'Як знайти область визначення',
               pen.writing ? hwTick(pen, 'hwfade', 0.3, 3) : '',
             )

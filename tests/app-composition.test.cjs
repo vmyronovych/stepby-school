@@ -28,27 +28,30 @@ test('every registered course tool has exactly one course-owned input form', () 
     assert.equal(typeof input, 'function');
 });
 
-test('startup connects notebook lesson links without exposing the application catalog', () => {
-  const {
-    initializeApplication,
-    notebookLinks,
-    lessonNote,
-    engineState,
-    catalog,
-  } = loadTypeScript('tests/entries/composition.ts');
-  assert.equal(lessonNote('mult', 'Множення'), '');
-  initializeApplication();
-  const lookup = notebookLinks.lessonForTool;
-  assert.equal(notebookLinks.lessonForTool, lookup);
-  for (const cls of ['5a', '6a', null]) {
-    engineState.cls = cls;
-    const topic = lookup('mult');
-    assert.deepEqual(topic, {
-      title: catalog.topics.find((t) => t.id === 't1' && t.subject === 'math')
-        .title,
-      href: '#/courses/math/t1',
-    });
-    assert.match(lessonNote('mult', 'Множення'), /href="#\/courses\/math\/t1"/);
-  }
-  assert.equal(lookup('unknown-tool'), null);
+test('tool link lookup uses its supplied class without application startup or copied state', () => {
+  const { createToolLinks, catalog, lessonNote } = loadTypeScript(
+    'tests/entries/composition.ts',
+  );
+  assert.deepEqual(Object.keys(catalog.tools), []);
+  const alternatives = ['5a', '6a'].map((cls) => ({
+    id: 'test-' + cls,
+    cls,
+    subject: 'math',
+    title: cls,
+    desc: '',
+    tasks: [{ id: cls, tool: 'test-tool', title: '', cfg: {}, done: false }],
+  }));
+  catalog.topics.push(...alternatives);
+  const first = createToolLinks('5a'),
+    second = createToolLinks('6a');
+  assert.equal(first.lessonForTool('test-tool').title, '5a');
+  assert.equal(second.lessonForTool('test-tool').title, '6a');
+  assert.equal(first.lessonForTool('test-tool').title, '5a');
+  assert.equal(createToolLinks(null).lessonForTool('test-tool').title, '5a');
+  assert.equal(first.lessonForTool('unknown-tool'), null);
+  assert.equal(lessonNote(null, 'Пояснення'), '');
+  assert.match(
+    lessonNote(first.lessonForTool('mult'), 'Множення'),
+    /href="#\/courses\/math\/t1"/,
+  );
 });

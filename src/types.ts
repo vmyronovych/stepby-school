@@ -53,6 +53,12 @@ export interface StepContext {
 export interface ToolModel {
   steps: Step[];
 }
+/** Host-supplied links for one tool rendering; no application state is stored. */
+export interface ToolLinks {
+  lessonForTool(id: string): { title: string; href: string } | null;
+  hrefTopic(topic: Topic, sub?: string | null): string;
+  hrefTool(id: string, config?: ToolConfig | null): string;
+}
 export interface ToolDefinition {
   id: string;
   errorHint?: string;
@@ -64,7 +70,7 @@ export interface ToolDefinition {
   bg: string;
   freeHint?: string;
   inputHint?: string;
-  view(model: unknown, context: StepContext): string;
+  view(model: unknown, context: StepContext, links: ToolLinks): string;
   animate?(model: unknown, context: StepContext): void;
 }
 export interface AppState {

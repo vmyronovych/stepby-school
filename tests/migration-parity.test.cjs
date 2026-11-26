@@ -1,3 +1,4 @@
+const { toolLinks } = require('./helpers/tool-links.cjs');
 const { baselineDocumentLinks } = require('./helpers/document-links.cjs');
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
@@ -14,7 +15,7 @@ test('all 77 task models and all 656 step views match the original engines', () 
     const model = definition.build(task.config);
     assert.equal(digest(model), task.model, `${task.id}: model`);
     const views = model.steps.map((step, index) =>
-      definition.view(model, { step, index, anim: null }),
+      definition.view(model, { step, index, anim: null }, toolLinks),
     );
     assert.equal(digest(views), task.steps, `${task.id}: rendered steps`);
     steps += views.length;

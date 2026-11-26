@@ -347,3 +347,11 @@ test('navigation belongs to the application and the shared runtime tree is remov
   assert.equal(fs.existsSync(path.join(root, 'src/navigation')), false);
   assert.equal(fs.existsSync(path.join(root, 'src/runtime')), false);
 });
+
+test('tool links and controller state have no global mirror', () => {
+  assert.equal(fs.existsSync(path.join(root, 'src/app/state.ts')), false);
+  assert.equal(
+    fs.existsSync(path.join(root, 'src/components/notebook/links.ts')),
+    false,
+  );
+});

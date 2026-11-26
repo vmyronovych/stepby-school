@@ -12,5 +12,3 @@ export type {
 } from './rows/notebook-types';
 
 export { lessonNote } from './lesson-note';
-export { notebookLinks, configureNotebookLinks } from './links';
-export type { NotebookLinks } from './links';

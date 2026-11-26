@@ -1,3 +1,4 @@
+import { createToolLinks } from './tools/links';
 import { coursePageFor } from './course-pages';
 import { Breadcrumbs } from '../components/breadcrumbs';
 import { documentView } from './documents/views';
@@ -63,6 +64,7 @@ export function App() {
             key={state.revision}
             state={state}
             definition={definition}
+            links={createToolLinks(state.cls)}
             backHref={toolBackHref()}
             onApply={applyTool}
             onMarkDone={markDone}

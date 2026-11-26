@@ -1,5 +1,5 @@
 import { useRef, type ReactNode } from 'react';
-import type { Step, ToolDefinition } from '../../types';
+import type { Step, ToolDefinition, ToolLinks } from '../../types';
 import { Breadcrumbs } from '../breadcrumbs';
 import { PageHeading } from '../page-heading';
 import { ToolConfiguration } from './workspace/ToolConfiguration';
@@ -15,6 +15,7 @@ interface NotebookWorkspaceProps {
     toolTaskId: string | null;
   };
   definition: ToolDefinition;
+  links: ToolLinks;
   backHref: string;
   children: ReactNode;
   onApply: () => void;
@@ -25,6 +26,7 @@ interface NotebookWorkspaceProps {
 export function NotebookWorkspace({
   state,
   definition,
+  links,
   backHref,
   children,
   onApply,
@@ -58,7 +60,7 @@ export function NotebookWorkspace({
           count={state.steps.length}
           notebookHtml={
             context && !context.step.error
-              ? definition.view(state.model, context)
+              ? definition.view(state.model, context, links)
               : undefined
           }
           onStepChange={onStepChange}

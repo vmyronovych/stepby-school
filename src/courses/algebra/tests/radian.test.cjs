@@ -1,3 +1,4 @@
+const { toolLinks } = require('../../../../tests/helpers/tool-links.cjs');
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const {
@@ -68,11 +69,15 @@ test('sequential writing accumulates expressions and offers next task only after
   for (let example = 0; example < 10; example++) {
     const model = tool.build({ example });
     const last = model.steps.length - 1;
-    const html = tool.view(model, {
-      index: last,
-      step: model.steps[last],
-      anim: null,
-    });
+    const html = tool.view(
+      model,
+      {
+        index: last,
+        step: model.steps[last],
+        anim: null,
+      },
+      toolLinks,
+    );
     assert.doesNotMatch(html, /9\.[135]|підпункт/);
     assert.equal(html.includes('Наступна задача'), example < 9);
     assert.equal(
@@ -83,11 +88,15 @@ test('sequential writing accumulates expressions and offers next task only after
   const model = tool.build({ example: 1 });
   assert.equal(tool.prepare(model, 0, 2), null);
   assert.deepEqual(tool.prepare(model, 1, 2), { writing: true });
-  const html = tool.view(model, {
-    index: 2,
-    step: model.steps[2],
-    anim: { writing: true },
-  });
+  const html = tool.view(
+    model,
+    {
+      index: 2,
+      step: model.steps[2],
+      anim: { writing: true },
+    },
+    toolLinks,
+  );
   assert(!html.split('data-step="2"')[0].includes('animation:hwdraw'));
   assert(html.split('data-step="2"')[1].includes('animation:hwdraw'));
   assert(!html.includes('Наступна задача'));

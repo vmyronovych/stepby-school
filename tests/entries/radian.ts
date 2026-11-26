@@ -1,5 +1,3 @@
-import { initializeApplication } from '../../src/app/composition';
-initializeApplication();
 export {
   radianTool,
   radianLesson,

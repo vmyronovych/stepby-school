@@ -1,3 +1,4 @@
+import type { ToolLinks } from '../../../types';
 import type { Pen } from '../../../components/notebook/handwriting';
 import {
   HW_DUR,
@@ -397,7 +398,11 @@ function nskAnswerHtml(
   return h + '</div>';
 }
 
-function nskView(m: NskModel, ctx: EngineStepContext<NskStep>) {
+function nskView(
+  m: NskModel,
+  ctx: EngineStepContext<NskStep>,
+  links: ToolLinks,
+) {
   const st = ctx.step;
   const S = nskState(m, st);
   const pen = { writing: true, order: 0 };
@@ -412,7 +417,7 @@ function nskView(m: NskModel, ctx: EngineStepContext<NskStep>) {
   // як розкладати — не пояснюємо, а посилаємось на урок; нотатка з'являється з першою драбинкою
   if (st.lad)
     h += lessonNote(
-      'factor',
+      links.lessonForTool('factor'),
       'Як розкласти число на прості множники драбинкою',
       st.kind === 'ladder' && st.lad === 1 ? hwTick(pen, 'hwfade') : '',
     );

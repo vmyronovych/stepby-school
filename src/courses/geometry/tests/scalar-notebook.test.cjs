@@ -1,3 +1,4 @@
+const { toolLinks } = require('../../../../tests/helpers/tool-links.cjs');
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const {
@@ -85,15 +86,23 @@ test('лише послідовний крок отримує анімацію; 
   assert.equal(def.prepare(m, 0, 2), null);
   assert.equal(def.prepare(m, 2, 1), null);
   assert.equal(def.prepare(m, 0, 1).writing, true);
-  const html = def.view(m, {
-    index: 2,
-    step: m.steps[2],
-    anim: { writing: true },
-  });
+  const html = def.view(
+    m,
+    {
+      index: 2,
+      step: m.steps[2],
+      anim: { writing: true },
+    },
+    toolLinks,
+  );
   assert.equal((html.match(/<section class="rp-row/g) || []).length, 3);
   assert(html.includes('hwdraw'));
   assert(html.includes('rhook'));
-  const staticHtml = def.view(m, { index: 2, step: m.steps[2], anim: null });
+  const staticHtml = def.view(
+    m,
+    { index: 2, step: m.steps[2], anim: null },
+    toolLinks,
+  );
   assert(!staticHtml.includes('animation:hwdraw'));
   assert(!html.includes('Наступна задача'));
 });
@@ -101,7 +110,11 @@ test('обчислення дописуються в рядок, номер вп
   tool.examples.forEach((cfg) => {
     const m = tool.build(cfg),
       last = m.steps.length - 1;
-    const html = def.view(m, { index: last, step: m.steps[last], anim: null });
+    const html = def.view(
+      m,
+      { index: last, step: m.steps[last], anim: null },
+      toolLinks,
+    );
     assert(!html.includes('За вправою'));
     assert(!html.includes('підпункт'));
     assert.equal(
@@ -112,11 +125,15 @@ test('обчислення дописуються в рядок, номер вп
     assert(html.includes('data-step="3"'));
   });
   const m = tool.build({ group: 0, part: 0 });
-  const html = def.view(m, {
-    index: 3,
-    step: m.steps[3],
-    anim: { writing: true },
-  });
+  const html = def.view(
+    m,
+    {
+      index: 3,
+      step: m.steps[3],
+      anim: { writing: true },
+    },
+    toolLinks,
+  );
   const label = html.match(
     /aria-label="a · b = \([-−]2\)·0 \+ 1·3 = 0 \+ 3 = 3"/,
   );

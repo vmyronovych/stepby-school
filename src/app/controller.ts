@@ -2,7 +2,6 @@ import { flushSync } from 'react-dom';
 import { catalog } from './catalog/catalog';
 import { documents } from './documents/registry';
 import { initializeApplication } from './composition';
-import { engineState } from './state';
 import { readField } from './tools/read-field';
 import { prefersReducedMotion } from '../components/motion';
 import type { AppState } from '../types';
@@ -55,10 +54,8 @@ export function subscribe(listener: () => void) {
 }
 function publish(next: AppSnapshot) {
   snapshot = next;
-  Object.assign(engineState, next);
   // Diagram engines read positions immediately before and after a step transition.
   flushSync(() => listeners.forEach((listener) => listener()));
-  engineState.anim = null;
 }
 export function getToolDefinition(id = snapshot.tool) {
   return id ? catalog.tools[id] : undefined;
@@ -164,7 +161,6 @@ export function route() {
     revision: snapshot.revision + 1,
     scrollTop: restore ?? (anchored ? null : 0),
   };
-  Object.assign(engineState, next);
   if (next.tool) buildTool(next);
   publish(next);
   document.title = pageTitle(next);
