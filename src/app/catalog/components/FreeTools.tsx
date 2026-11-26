@@ -1,4 +1,4 @@
-import { hrefTool } from '../../../navigation/routes';
+import { hrefTool } from '../../navigation/routes';
 import type { Task, ToolDefinition } from '../../../types';
 import { Card } from '../../../components/card';
 import { Icon } from '../../../components/icon';

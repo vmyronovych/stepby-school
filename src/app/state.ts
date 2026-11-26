@@ -1,7 +1,6 @@
 import type { AppState } from '../types';
 
-// Mathematical helpers read this module-local mirror of the React route state.
-// Application controls and subscriptions belong to the React application store.
+// Current application context used to resolve lesson links while building a tool.
 export const engineState: AppState = {
   cls: null,
   subject: null,

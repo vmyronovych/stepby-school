@@ -6,7 +6,6 @@ function keyboardNavigator(): Navigator & { keyboard?: KeyboardApi } {
   return navigator;
 }
 import { esc } from '../../../../../components/legacy-html';
-import { runtimeServices } from '../../../../../runtime/services';
 import type {
   MenuItem,
   WindowsController,
@@ -133,8 +132,6 @@ import {
   wnShown,
   wnTitle,
 } from './view';
-const docReplaceSub = (sub: string | null) =>
-  runtimeServices.docReplaceSub(sub);
 
 /* ---- миша, клавіатура, меню ----
    Кнопки спрацьовують на відпусканні, як у Windows, і порівнюються не за
@@ -2735,7 +2732,6 @@ export const WN_REACT: WindowsController & {
       wn.menu = null;
       wn.start = null;
       wnLayoutDesk();
-      docReplaceSub(value);
     } else if (action === 'big') {
       wn.big = !wn.big;
       wn.menu = null;

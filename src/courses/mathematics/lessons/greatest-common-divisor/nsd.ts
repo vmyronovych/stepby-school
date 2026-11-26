@@ -4,9 +4,9 @@ import {
   HW_STEP,
   hwTick,
 } from '../../../../components/notebook/handwriting';
-import { lessonNote } from '../../../../runtime/lesson-note';
-import type { EngineStepContext } from '../../../../runtime/tool';
-import { defineTool } from '../../../../runtime/tool';
+import { lessonNote } from '../../../../components/notebook';
+import type { EngineStepContext } from '../../../../lib/lesson-tool';
+import { defineTool } from '../../../../lib/lesson-tool';
 import type { ToolConfig } from '../../../../types';
 import { nskCells, nskFlySlots, nskLadder } from '../../shared/nsk';
 interface NsdCheck {

@@ -12,7 +12,9 @@ const {
   loadTypeScript,
 } = require('../../../../tests/helpers/load-typescript.cjs');
 const { catalog } = loadTypeScript('src/app/catalog/catalog.ts');
-const { parseRoute, resolveRoute } = loadTypeScript('src/navigation/routes.ts');
+const { parseRoute, resolveRoute } = loadTypeScript(
+  'src/app/navigation/routes.ts',
+);
 const resolve = (hash) => resolveRoute(parseRoute(hash), catalog);
 
 test('robotics has 32 sequential lessons and exposes every authored lesson as ready', () => {

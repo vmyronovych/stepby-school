@@ -6,7 +6,7 @@ import {
 } from '../../../../components/notebook/rendering';
 import type { Pen } from '../../../../components/notebook/handwriting';
 import { hwGlyphs, hwTick } from '../../../../components/notebook/handwriting';
-import { defineTool } from '../../../../runtime/tool';
+import { defineTool } from '../../../../lib/lesson-tool';
 import { esc } from '../../../../components/legacy-html';
 import type { ToolConfig } from '../../../../types';
 export interface RationalPowerRow {

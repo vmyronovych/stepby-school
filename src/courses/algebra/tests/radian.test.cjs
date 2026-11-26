@@ -4,7 +4,7 @@ const {
   loadTypeScript,
 } = require('../../../../tests/helpers/load-typescript.cjs');
 const { radianTool: tool, radianLesson } = loadTypeScript(
-  'src/courses/algebra/lessons/radians/radian.ts',
+  'tests/entries/radian.ts',
 );
 function numeric(node) {
   switch (node.t) {

@@ -2,8 +2,7 @@ import { flushSync } from 'react-dom';
 import { catalog } from './catalog/catalog';
 import { documents } from './documents/registry';
 import { initializeApplication } from './composition';
-import { configureRuntimeServices } from '../runtime/services';
-import { engineState } from '../runtime/state';
+import { engineState } from './state';
 import { readField } from './tools/read-field';
 import { prefersReducedMotion } from '../components/motion';
 import type { AppState } from '../types';
@@ -14,7 +13,7 @@ import {
   hrefTopic,
   parseRoute,
   resolveRoute,
-} from '../navigation/routes';
+} from './navigation/routes';
 import { notify } from './notifications';
 
 export interface AppSnapshot extends AppState {
@@ -60,14 +59,6 @@ function publish(next: AppSnapshot) {
   // Diagram engines read positions immediately before and after a step transition.
   flushSync(() => listeners.forEach((listener) => listener()));
   engineState.anim = null;
-}
-function documentTopic() {
-  return catalog.topics.find(
-    (topic) =>
-      topic.id === snapshot.topic &&
-      topic.cls === snapshot.cls &&
-      topic.subject === snapshot.subject,
-  );
 }
 export function getToolDefinition(id = snapshot.tool) {
   return id ? catalog.tools[id] : undefined;
@@ -217,25 +208,10 @@ export function markDone() {
   if (task) task.done = true;
   notify('Завдання виконано! 🎉');
 }
-function replaceDocumentSub(sub: string | null) {
-  const topic = documentTopic();
-  if (topic) location.replace(hrefTopic(topic, sub));
-}
 export function startApplication() {
   if (started) return;
   initializeApplication();
   started = true;
-  configureRuntimeServices({
-    hrefHome,
-    hrefTopic,
-    hrefTool,
-    hrefDoc: (id: string, sub?: string | null) => {
-      const topic = catalog.topics.find((item) => item.doc === id);
-      return topic ? hrefTopic(topic, sub) : hrefHome();
-    },
-    docReplaceSub: replaceDocumentSub,
-    toast: notify,
-  });
   document.addEventListener(
     'click',
     (event) => {

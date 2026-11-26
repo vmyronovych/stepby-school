@@ -1,6 +1,6 @@
-import type { EngineDocument } from '../../../../runtime/types';
+import type { DocumentSection } from '../../../../components/document';
 
-export const roboticsModule1: Record<string, EngineDocument> = {
+export const roboticsModule1: Record<string, DocumentSection> = {
   /* =========================================================
    МОДУЛЬ 1 — поурочні плани, заняття 1-5
    Витяг із вихідного порталу гуртка. Не редагується вручну по дрібницях:

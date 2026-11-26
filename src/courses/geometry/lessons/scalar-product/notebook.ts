@@ -1,8 +1,8 @@
 import { lesson as topic } from './lesson';
 import type { FormulaNode } from '../../../../lib/math';
 import { F } from '../../../../lib/math';
-import { defineTool } from '../../../../runtime/tool';
-import { runtimeServices } from '../../../../runtime/services';
+import { defineTool } from '../../../../lib/lesson-tool';
+import { notebookLinks } from '../../../../components/notebook';
 import type { ToolConfig } from '../../../../types';
 import type {
   AstToken,
@@ -195,8 +195,8 @@ export const ScalarNotebook = (() => {
           Number(t.cfg.part) === example.part,
       );
     return task
-      ? runtimeServices.hrefTopic(topic, task.id)
-      : runtimeServices.hrefTool('scalar-product', {
+      ? notebookLinks.hrefTopic(topic, task.id)
+      : notebookLinks.hrefTool('scalar-product', {
           group: example.group,
           part: example.part,
         });

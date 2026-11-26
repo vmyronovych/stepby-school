@@ -1,7 +1,7 @@
 import { HW_STEP, hwGlyphs } from '../../../../components/notebook/handwriting';
 import { colGrid, mkRow } from '../../../../components/notebook/grid';
-import type { EngineStepContext } from '../../../../runtime/tool';
-import { defineTool } from '../../../../runtime/tool';
+import type { EngineStepContext } from '../../../../lib/lesson-tool';
+import { defineTool } from '../../../../lib/lesson-tool';
 interface FactorTry {
   p: number;
   ok: boolean;

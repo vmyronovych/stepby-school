@@ -3,7 +3,7 @@ import type { Catalog, Subject } from '../../../types';
 import { Breadcrumbs } from '../../../components/breadcrumbs';
 import { PageHeading } from '../../../components/page-heading';
 import { TopicGrid } from '../components/TopicGrid';
-import { hrefHome, hrefCourse } from '../../../navigation/routes';
+import { hrefHome, hrefCourse } from '../../navigation/routes';
 export function CourseTopics({
   subject,
   catalog,

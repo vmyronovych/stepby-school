@@ -1,5 +1,5 @@
 import { courseRouting } from './course-registry';
-import type { AppState, Catalog, ToolConfig, Topic } from '../types';
+import type { AppState, Catalog, ToolConfig, Topic } from '../../types';
 
 export function hrefHome() {
   return '#/';

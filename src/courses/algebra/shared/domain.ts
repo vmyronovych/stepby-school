@@ -40,8 +40,8 @@ import type {
   NumberLineRange,
 } from '../../../components/notebook/rendering';
 import { numLine } from '../../../components/notebook/rendering';
-import type { EngineStepContext } from '../../../runtime/tool';
-import { defineTool } from '../../../runtime/tool';
+import type { EngineStepContext } from '../../../lib/lesson-tool';
+import { defineTool } from '../../../lib/lesson-tool';
 import { esc } from '../../../components/legacy-html';
 import type { EquationAnimation } from '../../../components/notebook/rendering';
 import type { LinearRow } from '../../../lib/math';

@@ -12,7 +12,7 @@ export {
   navigate,
   changeStep,
 } from './app/controller';
-export { hrefTopic, hrefTool } from './navigation/routes';
+export { hrefTopic, hrefTool } from './app/navigation/routes';
 
 startApplication();
 const root = createRoot(document.getElementById('root')!);

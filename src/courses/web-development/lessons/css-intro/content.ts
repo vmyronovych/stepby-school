@@ -1,4 +1,4 @@
-import type { EngineDocument } from '../../../../runtime/types';
+import type { DocumentSection } from '../../../../components/document';
 
 function code(source: string) {
   const escaped = source
@@ -94,7 +94,7 @@ const fontComparison = `
   </div>
 </figure>`;
 
-export const cssIntroDocuments: Record<string, EngineDocument> = {
+export const cssIntroDocuments: Record<string, DocumentSection> = {
   'css-intro': {
     title: 'Тема 3. Вступ до CSS',
     html: `

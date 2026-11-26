@@ -1,10 +1,14 @@
-import type { CoursePageRenderer } from '../../../runtime/course-view';
-import { hrefCourse, hrefHome } from '../../../navigation/routes';
+import type { CoursePageRenderer } from '../../../types';
 import { mediaSubject } from '../course';
 import { mediaLessonRoute } from '../shared/routes';
 import { mediaContent } from './content';
 import { MediaTopicPage } from './MediaTopicPage';
-export const mediaPage: CoursePageRenderer = ({ topic, sub, pageUrl }) => {
+export const mediaPage: CoursePageRenderer = ({
+  topic,
+  sub,
+  pageUrl,
+  links,
+}) => {
   const content = topic.doc ? mediaContent[topic.doc] : undefined;
   if (!content) return null;
   const student = mediaLessonRoute(sub).view === 'student';
@@ -23,8 +27,8 @@ export const mediaPage: CoursePageRenderer = ({ topic, sub, pageUrl }) => {
     breadcrumbs: student
       ? undefined
       : [
-          { text: 'Головна', href: hrefHome() },
-          { text: mediaSubject.name, href: hrefCourse(mediaSubject.id) },
+          { text: 'Головна', href: links.hrefHome() },
+          { text: mediaSubject.name, href: links.hrefCourse(mediaSubject.id) },
           { text: topic.title },
         ],
   };

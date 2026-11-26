@@ -1,4 +1,4 @@
-import type { EngineDocument } from '../../../../runtime/types';
+import type { DocumentSection } from '../../../../components/document';
 
 function code(source: string) {
   const escaped = source
@@ -76,7 +76,7 @@ const floatDiagram = `
   </div>
 </figure>`;
 
-export const imagesDocuments: Record<string, EngineDocument> = {
+export const imagesDocuments: Record<string, DocumentSection> = {
   'page-images': {
     title: 'Тема 5. Зображення на сторінці',
     html: `

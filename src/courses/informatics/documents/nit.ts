@@ -1,4 +1,3 @@
-import { runtimeServices } from '../../../runtime/services';
 import { INFO, infoPlural } from './info';
 import type { InfoGrade } from '../shared/content/types';
 import { xlsxOneColumn } from '../../../components/file-export';
@@ -50,7 +49,11 @@ export function buildNitWorkbook(g: InfoGrade, segment?: string) {
   };
 }
 
-export function downloadNit(g: InfoGrade, segment?: string) {
+export function downloadNit(
+  g: InfoGrade,
+  segment: string | undefined,
+  notify: (message: string) => void,
+) {
   const workbook = buildNitWorkbook(g, segment);
   const blob = new Blob([workbook.bytes], {
     type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -63,7 +66,7 @@ export function downloadNit(g: InfoGrade, segment?: string) {
   anchor.click();
   anchor.remove();
   setTimeout(() => URL.revokeObjectURL(url), 2000);
-  runtimeServices.toast(workbook.message);
+  notify(workbook.message);
 }
 
 const NIT_SHEET = 'План навчання',

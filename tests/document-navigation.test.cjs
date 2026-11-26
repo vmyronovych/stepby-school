@@ -5,8 +5,11 @@ const { loadTypeScript } = require('./helpers/load-typescript.cjs');
 const { catalog } = loadTypeScript('src/app/catalog/catalog.ts');
 const { documentNavigationFor } = loadTypeScript(
   'src/app/documents/navigation.ts',
+  { external: ['react', 'react-dom'] },
 );
-const { parseRoute, resolveRoute } = loadTypeScript('src/navigation/routes.ts');
+const { parseRoute, resolveRoute } = loadTypeScript(
+  'src/app/navigation/routes.ts',
+);
 
 for (const [subjectId, topicId, section, href] of [
   ['robot', 'r8', 'Інструменти', '#/robo/robot/tools'],

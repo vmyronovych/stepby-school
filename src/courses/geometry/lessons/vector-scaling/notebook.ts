@@ -1,8 +1,8 @@
 import { lesson as topic } from './lesson';
 import type { FormulaNode } from '../../../../lib/math';
 import { F, Q } from '../../../../lib/math';
-import { defineTool } from '../../../../runtime/tool';
-import { runtimeServices } from '../../../../runtime/services';
+import { defineTool } from '../../../../lib/lesson-tool';
+import { notebookLinks } from '../../../../components/notebook';
 import type { ToolConfig } from '../../../../types';
 import type {
   AstToken,
@@ -265,8 +265,8 @@ export const ScalingNotebook = (() => {
     const task =
       topic && (topic.tasks || []).find((t) => Number(t.cfg.example) === index);
     return task
-      ? runtimeServices.hrefTopic(topic, task.id)
-      : runtimeServices.hrefTool('vector-scaling', { example: index });
+      ? notebookLinks.hrefTopic(topic, task.id)
+      : notebookLinks.hrefTool('vector-scaling', { example: index });
   }
   return { examples, build, readFields, nextHref };
 })();

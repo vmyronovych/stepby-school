@@ -1,4 +1,4 @@
-import type { EngineDocument } from '../../../../runtime/types';
+import type { DocumentSection } from '../../../../components/document';
 import {
   alignmentIllustration,
   emphasisIllustration,
@@ -15,7 +15,7 @@ function code(source: string) {
   return `<pre class="web-code"><code>${escaped}</code></pre>`;
 }
 
-export const webFormattingDocuments: Record<string, EngineDocument> = {
+export const webFormattingDocuments: Record<string, DocumentSection> = {
   'text-formatting': {
     title: 'Тема 2. Форматування тексту',
     html: `

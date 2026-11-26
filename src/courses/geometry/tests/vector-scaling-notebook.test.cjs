@@ -7,7 +7,7 @@ const {
   ScalingNotebook,
   scalingTool: def,
   catalog,
-  runtimeServices,
+  notebookLinks,
 } = loadTypeScript('tests/entries/geometry.ts');
 const lesson = { ...ScalingNotebook, build: (cfg = {}) => def.build(cfg) };
 function value(n, variables = {}) {
@@ -143,7 +143,7 @@ test('анімація пише лише новий фрагмент, стриб
 });
 test('наступна задача має адресу завдання теми; вибір і помилкові умови оброблено', () => {
   assert(catalog.topics.some((t) => t.id === 'vector-scaling'));
-  runtimeServices.hrefTopic = (topic, id) => `#/9a/geometry/${topic.id}/${id}`;
+  notebookLinks.hrefTopic = (topic, id) => `#/9a/geometry/${topic.id}/${id}`;
   assert.equal(lesson.nextHref(1), '#/9a/geometry/vector-scaling/scaling-2');
   assert.deepEqual(
     JSON.parse(JSON.stringify(lesson.readFields(() => '4', 'i_vsexample'))),

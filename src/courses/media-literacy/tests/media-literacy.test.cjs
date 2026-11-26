@@ -1,10 +1,16 @@
+const { courseLinks } =
+  require('../../../../tests/helpers/load-typescript.cjs').loadTypeScript(
+    'src/app/navigation/links.ts',
+  );
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const {
   loadTypeScript,
 } = require('../../../../tests/helpers/load-typescript.cjs');
 const { catalog } = loadTypeScript('src/app/catalog/catalog.ts');
-const { parseRoute, resolveRoute } = loadTypeScript('src/navigation/routes.ts');
+const { parseRoute, resolveRoute } = loadTypeScript(
+  'src/app/navigation/routes.ts',
+);
 const { mediaDocuments } = loadTypeScript(
   'src/courses/media-literacy/index.ts',
 );
@@ -126,7 +132,7 @@ test('lesson modes have direct routes; default is classroom and QR entry is stud
   });
   for (const robux of [false, true]) {
     for (const view of ['classroom', 'practice', 'teacher', 'student']) {
-      const href = mediaLessonHref(safetyTopic, robux, view);
+      const href = mediaLessonHref(courseLinks, safetyTopic, robux, view);
       const result = resolveRoute(parseRoute(href), catalog);
       assert(result.state);
       assert.deepEqual(mediaLessonRoute(result.state.sub), { robux, view });
@@ -137,7 +143,7 @@ test('lesson modes have direct routes; default is classroom and QR entry is stud
 test('student QR links use the agreed public base while preserving local test URLs', () => {
   const file =
     'file:///Users/teacher/Documents/медіа урок/index.html#/media/literacy/safety/robux';
-  const local = new URL(studentLessonUrl(file, safetyTopic, true));
+  const local = new URL(studentLessonUrl(courseLinks, file, safetyTopic, true));
   assert.equal(local.protocol, 'file:');
   assert.equal(
     decodeURIComponent(local.pathname),
@@ -145,6 +151,7 @@ test('student QR links use the agreed public base while preserving local test UR
   );
   assert.equal(local.hash, '#/media/literacy/safety/robux-student');
   const deployed = studentLessonUrl(
+    courseLinks,
     'https://vmyronovych.github.io/stepby-school/?preview=1#/media/literacy/safety',
     safetyTopic,
     false,
@@ -156,6 +163,7 @@ test('student QR links use the agreed public base while preserving local test UR
   assert.equal(
     new URL(
       studentLessonUrl(
+        courseLinks,
         'http://localhost:4173/index.html#/media',
         safetyTopic,
         true,
@@ -169,12 +177,12 @@ test('student QR links use the agreed public base while preserving local test UR
   ]) {
     for (const topic of catalog.topics.filter((item) => item.cls === 'media')) {
       assert.equal(
-        studentLessonUrl(pageUrl, topic, false),
+        studentLessonUrl(courseLinks, pageUrl, topic, false),
         `https://vmyronovych.github.io/stepby-school/#/media/literacy/${topic.id}/student`,
       );
     }
     assert.equal(
-      studentLessonUrl(pageUrl, safetyTopic, true),
+      studentLessonUrl(courseLinks, pageUrl, safetyTopic, true),
       'https://vmyronovych.github.io/stepby-school/#/media/literacy/safety/robux-student',
     );
   }

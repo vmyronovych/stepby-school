@@ -1,4 +1,4 @@
-import type { EngineDocument } from '../../../../runtime/types';
+import type { DocumentSection } from '../../../../components/document';
 
 function code(source: string) {
   return `<pre class="web-code"><code>${source.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')}</code></pre>`;
@@ -22,7 +22,7 @@ const selectorDiagram = `<figure class="web-diagram" aria-labelledby="dropdown-s
 
 const positionDiagram = `<figure class="web-diagram" aria-labelledby="dropdown-position-caption"><figcaption id="dropdown-position-caption">Позиція підменю залежить від батьківського li</figcaption><div class="web-code-result"><div class="web-diagram-card"><h3>Вертикальне меню: праворуч</h3>${code('.menu > li { position: relative; }\n.submenu { position: absolute;\n  top: 0; left: 100%; }')}<div style="position:relative;height:100px"><div style="width:45%;box-sizing:border-box;padding:8px;border:2px solid #0f766e">Стежки</div><div style="position:absolute;top:0;left:45%;width:50%;box-sizing:border-box;padding:8px;border:2px dashed #0f766e">Сад<br>Вежа</div></div><p class="web-diagram-note">Left: 100% починає підменю біля правого краю головного пункту.</p></div><div class="web-diagram-card"><h3>Горизонтальне меню: нижче</h3>${code('.menu > li { position: relative; }\n.submenu { position: absolute;\n  top: 100%; left: 0; }')}<div style="position:relative;height:100px"><div style="padding:8px;border:2px solid #0f766e">Стежки</div><div style="padding:8px;border:2px dashed #0f766e">Сад<br>Вежа</div></div><p class="web-diagram-note">Top: 100% починає підменю від нижнього краю головного пункту.</p></div></div></figure>`;
 
-export const dropdownMenuDocuments: Record<string, EngineDocument> = {
+export const dropdownMenuDocuments: Record<string, DocumentSection> = {
   'dropdown-menu': {
     title: 'Тема 22. Випадне меню: вкладені списки та фокус',
     html: `<p>Побудуємо навігацію з вкладеними посиланнями. Підменю відкриватиметься при наведенні вказівника або переході фокуса всередину пункту.</p>

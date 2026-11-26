@@ -1,4 +1,4 @@
-import type { EngineDocument } from '../../../../runtime/types';
+import type { DocumentSection } from '../../../../components/document';
 
 function code(source: string) {
   return `<pre class="web-code"><code>${source.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')}</code></pre>`;
@@ -36,7 +36,7 @@ const mediaDiagram = `<figure class="web-diagram" aria-labelledby="semantic-medi
 в межах кадру; мовлення немає.&lt;/p&gt;</code></pre></div>
 <div class="web-diagram-card"><h3>Що бачить читач</h3><div class="web-browser-sample"><div style="padding:20px;border:2px solid #0f766e;text-align:center;background:#ecfdf5">Область відео<br>▶ Відтворення · Пауза · Час</div><p style="border-left:3px solid #0f766e;padding-left:10px">Видимий опис залишається під плеєром, навіть якщо відтворення не почалося.</p></div><p class="web-diagram-note">Це схема. Вправи нижче містять справжні плеєри й власні локальні файли.</p></div></div></figure>`;
 
-export const semanticMediaDocuments: Record<string, EngineDocument> = {
+export const semanticMediaDocuments: Record<string, DocumentSection> = {
   'semantic-media': {
     title: 'Тема 23. Семантичний HTML, відео та аудіо',
     html: `<p>Навчимося називати частини сторінки за призначенням і додавати власні відео та аудіо. Спочатку побудуємо зміст, а потім оформимо його CSS.</p>

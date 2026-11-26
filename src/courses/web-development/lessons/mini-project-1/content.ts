@@ -1,4 +1,4 @@
-import type { EngineDocument } from '../../../../runtime/types';
+import type { DocumentSection } from '../../../../components/document';
 
 const structureDiagram = `
 <figure class="web-diagram" aria-labelledby="mini-project-1-map-caption">
@@ -34,7 +34,7 @@ const structureDiagram = `
   </div>
 </figure>`;
 
-export const projectDocuments: Record<string, EngineDocument> = {
+export const projectDocuments: Record<string, DocumentSection> = {
   'mini-project-1': {
     title: 'Міні-проєкт 1. Детективне бюро',
     html: `

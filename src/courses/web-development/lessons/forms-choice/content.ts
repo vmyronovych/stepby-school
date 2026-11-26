@@ -1,4 +1,4 @@
-import type { EngineDocument } from '../../../../runtime/types';
+import type { DocumentSection } from '../../../../components/document';
 
 function code(source: string) {
   return `<pre class="web-code"><code>${source.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')}</code></pre>`;
@@ -40,7 +40,7 @@ button:focus <mark class="web-tag-match">+</mark> img {
 }</code></pre><p>Кнопка й зображення мають одного батька. Між ними немає іншого елемента.</p></div>
 <div class="web-diagram-card"><h3>Кнопка у фокусі → рамка картинки</h3><div class="web-browser-sample" style="text-align:center"><div style="display:inline-block;padding:6px;border:2px solid #0f766e;outline:3px solid #d97706;outline-offset:2px">Птах — фокус</div><br><img src="assets/web-development/media/bird.svg" alt="Зразок картинки з рамкою" style="width:120px;max-width:100%;height:auto;border:2px solid #b45309;margin-top:12px"></div><p class="web-diagram-note">Після переходу фокуса на іншу кнопку рамка повертається. Це тимчасове оформлення, а не збережений вибір персонажа.</p></div></div></figure>`;
 
-export const formsChoiceDocuments: Record<string, EngineDocument> = {
+export const formsChoiceDocuments: Record<string, DocumentSection> = {
   'forms-choice': {
     title: 'Тема 19. Форми: групи та вибір варіантів',
     html: `<p>Навчимося обирати один або кілька варіантів і збирати пов’язані поля у змістові групи.</p>

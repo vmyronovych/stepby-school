@@ -1,4 +1,4 @@
-import type { EngineDocument } from '../../../../runtime/types';
+import type { DocumentSection } from '../../../../components/document';
 
 function code(source: string) {
   const escaped = source
@@ -9,7 +9,7 @@ function code(source: string) {
   return `<pre class="web-code"><code>${escaped}</code></pre>`;
 }
 
-export const webDevelopmentDocuments: Record<string, EngineDocument> = {
+export const webDevelopmentDocuments: Record<string, DocumentSection> = {
   'web-page': {
     title: 'Тема 1. Веб-сторінка',
     html: `

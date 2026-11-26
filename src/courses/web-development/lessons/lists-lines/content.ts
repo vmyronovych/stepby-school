@@ -1,4 +1,4 @@
-import type { EngineDocument } from '../../../../runtime/types';
+import type { DocumentSection } from '../../../../components/document';
 
 function code(source: string) {
   const escaped = source
@@ -38,7 +38,7 @@ const nestingDiagram = `
 </div>
 </figure>`;
 
-export const listsDocuments: Record<string, EngineDocument> = {
+export const listsDocuments: Record<string, DocumentSection> = {
   'lists-lines': {
     title: 'Тема 4. Списки та лінії',
     html: `

@@ -5,9 +5,9 @@ import {
   hwGlyphs,
   hwTick,
 } from '../../../components/notebook/handwriting';
-import { lessonNote } from '../../../runtime/lesson-note';
-import type { EngineStepContext } from '../../../runtime/tool';
-import { defineTool } from '../../../runtime/tool';
+import { lessonNote } from '../../../components/notebook';
+import type { EngineStepContext } from '../../../lib/lesson-tool';
+import { defineTool } from '../../../lib/lesson-tool';
 import type { ToolConfig } from '../../../types';
 export interface FactorLadder {
   n: number;

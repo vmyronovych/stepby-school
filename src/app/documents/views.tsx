@@ -1,3 +1,4 @@
+import { courseLinks } from '../navigation/links';
 import type { ReactNode } from 'react';
 import type { Topic } from '../../types';
 import type {
@@ -30,6 +31,7 @@ export function documentView(
   if (!source) return { section: undefined };
   const content = renderers[topic.subject]?.({
     topic,
+    links: courseLinks,
     section: source,
     sub,
     pageUrl,

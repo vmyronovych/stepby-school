@@ -1,4 +1,4 @@
-import type { Step, ToolConfig, ToolDefinition, ToolModel } from '../types';
+import type { Step, ToolConfig, ToolDefinition, ToolModel } from '../../types';
 
 export type FieldReader = (id: string) => string;
 export interface EngineStepContext<EngineStep extends Step = Step> {

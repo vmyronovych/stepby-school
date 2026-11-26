@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 export interface Subject {
   description?: string;
   id: string;
@@ -84,4 +86,41 @@ export interface Catalog {
   subjects: Subject[];
   topics: Topic[];
   tools: Record<string, ToolDefinition>;
+}
+
+/** Course-owned URL choices; the router provides generic parsing and resolution. */
+export interface CourseRouting {
+  subject: string;
+  topicUrls?: 'course' | 'class';
+  home?: string;
+  tools?: string;
+  legacyDocumentPrefixes?: readonly string[];
+}
+
+export interface CourseViewContext {
+  links: CourseLinks;
+  topic: Topic;
+  sub: string | null;
+  pageUrl: string;
+}
+export interface CoursePageView {
+  content: ReactNode;
+  wide?: boolean;
+  hideHeader?: boolean;
+  headerClassName?: string;
+  shellClassName?: string;
+  breadcrumbs?: { text: string; href?: string }[];
+}
+export type CoursePageRenderer = (
+  context: CourseViewContext,
+) => CoursePageView | null;
+
+/** Links are supplied by the application; courses own the choice of destinations. */
+export interface CourseLinks {
+  hrefHome(): string;
+  hrefCourse(subject: string, section?: 'lessons' | 'tools'): string;
+  hrefTopic(
+    topic: Pick<Topic, 'cls' | 'subject' | 'id'>,
+    sub?: string | null,
+  ): string;
 }

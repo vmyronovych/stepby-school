@@ -1,4 +1,4 @@
-import type { EngineDocument } from '../../../../runtime/types';
+import type { DocumentSection } from '../../../../components/document';
 
 function code(source: string) {
   return `<pre class="web-code"><code>${source.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')}</code></pre>`;
@@ -26,7 +26,7 @@ const rowspanDiagram = `
 &lt;/tr&gt;</code></pre><p class="web-diagram-note">У другому tr немає клітинки для назви групи: її позиція вже зайнята зверху.</p></div>
 <div class="web-diagram-card"><h3>Результат</h3><div class="web-browser-sample"><table style="width:100%;border-collapse:collapse"><tbody><tr><td rowspan="2" style="border:2px solid #0f766e;padding:12px;background:#ccfbf1">Група</td><td style="border:1px solid #64748b;padding:12px">Квітка</td></tr><tr><td style="border:1px solid #64748b;padding:12px">Листок</td></tr></tbody></table></div><p class="web-diagram-note">Одна назва стосується обох рядків. У таблиці залишаються два стовпці.</p></div></div></figure>`;
 
-export const tableSpansDocuments: Record<string, EngineDocument> = {
+export const tableSpansDocuments: Record<string, DocumentSection> = {
   'table-spans': {
     title: 'Тема 11. Таблиці: об’єднання клітинок',
     html: `

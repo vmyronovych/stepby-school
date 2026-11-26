@@ -4,7 +4,7 @@ export type { ColumnAddend } from '../../../lib/math';
 import { HW_DUR, HW_STEP } from '../handwriting';
 import type { GridCell, GridRow } from '../grid';
 import { colGrid } from '../grid';
-import type { EngineStepContext } from '../../../runtime/tool';
+import type { EngineStepContext } from '../../../lib/lesson-tool';
 export interface CellPosition {
   r: number;
   c: number;

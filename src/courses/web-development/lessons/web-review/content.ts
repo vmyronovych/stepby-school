@@ -1,4 +1,4 @@
-import type { EngineDocument } from '../../../../runtime/types';
+import type { DocumentSection } from '../../../../components/document';
 
 function code(source: string) {
   const escaped = source
@@ -46,7 +46,7 @@ const planningDiagram = `
   </ol>
 </figure>`;
 
-export const reviewDocuments: Record<string, EngineDocument> = {
+export const reviewDocuments: Record<string, DocumentSection> = {
   'web-review': {
     title: 'Тема 6. Повторення: HTML і CSS',
     html: `

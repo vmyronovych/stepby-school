@@ -4,7 +4,7 @@ const {
   loadTypeScript,
 } = require('../../../../tests/helpers/load-typescript.cjs');
 const { ScalarNotebook, scalarTool: def } = loadTypeScript(
-  'src/courses/geometry/runtime/index.ts',
+  'tests/entries/geometry.ts',
 );
 const tool = { ...ScalarNotebook, build: (cfg = {}) => def.build(cfg) };
 function value(n) {

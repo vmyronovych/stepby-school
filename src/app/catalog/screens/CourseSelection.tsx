@@ -2,7 +2,7 @@ import type { Catalog } from '../../../types';
 import { Card } from '../../../components/card';
 import { Icon } from '../../../components/icon';
 import { PageHeading } from '../../../components/page-heading';
-import { hrefCourse } from '../../../navigation/routes';
+import { hrefCourse } from '../../navigation/routes';
 export function CourseSelection({ catalog }: { catalog: Catalog }) {
   const subjects = catalog.subjects.filter((subject) =>
     catalog.topics.some((topic) => topic.subject === subject.id),

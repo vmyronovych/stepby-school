@@ -5,7 +5,7 @@ const {
 } = require('../../../../tests/helpers/load-typescript.cjs');
 const { catalog } = loadTypeScript('src/app/catalog/catalog.ts');
 const { parseRoute, resolveRoute, hrefTopic, hrefTool } = loadTypeScript(
-  'src/navigation/routes.ts',
+  'src/app/navigation/routes.ts',
 );
 const resolve = (hash) => resolveRoute(parseRoute(hash), catalog);
 const follow = (hash) => {

@@ -1,4 +1,4 @@
-import type { CourseRouting } from '../../navigation/course-routing';
+import type { CourseRouting } from '../../types';
 export const roboticsRouting: CourseRouting = {
   subject: 'robot',
   home: '#/robo/robot/lessons',

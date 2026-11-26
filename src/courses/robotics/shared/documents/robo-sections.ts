@@ -1,6 +1,6 @@
-import type { EngineDocument } from '../../../../runtime/types';
+import type { DocumentSection } from '../../../../components/document';
 
-export const roboticsSections: Record<string, EngineDocument> = {
+export const roboticsSections: Record<string, DocumentSection> = {
   /* =========================================================
    РОЗДІЛИ ГУРТКА РОБОТОТЕХНІКИ (короткі)
    Витяг із вихідного порталу гуртка. Не редагується вручну по дрібницях:

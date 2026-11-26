@@ -2,7 +2,7 @@ import {
   DocumentPage,
   type DocumentNavigation,
 } from '../../components/document';
-import { hrefTopic } from '../../navigation/routes';
+import { hrefTopic } from '../navigation/routes';
 import type { Topic } from '../../types';
 import type { documentView } from './views';
 import { documentServicesFor } from './services';

@@ -6,7 +6,7 @@ import {
   colToolBase,
 } from '../../../../components/notebook/rendering';
 import { hwEqline } from '../../../../components/notebook/handwriting';
-import { defineTool } from '../../../../runtime/tool';
+import { defineTool } from '../../../../lib/lesson-tool';
 /* =========================================================
    ДОДАВАННЯ В СТОВПЧИК (ядро — src/components/notebook/rendering/column.ts)
    Розряд за розрядом справа наліво: «7+5=» → «12 (2 — записуємо, 1 — запам'ятовуємо)» →

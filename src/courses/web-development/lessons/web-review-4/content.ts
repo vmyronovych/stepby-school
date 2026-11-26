@@ -1,4 +1,4 @@
-import type { EngineDocument } from '../../../../runtime/types';
+import type { DocumentSection } from '../../../../components/document';
 
 function code(source: string) {
   return `<pre class="web-code"><code>${source.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>`;
@@ -42,7 +42,7 @@ const keyframesDiagram = `
 </div><p>Браузер обчислює проміжні положення. Після фінішу alternate змінює напрямок.</p></div>
 </div></figure>`;
 
-export const review4Documents: Record<string, EngineDocument> = {
+export const review4Documents: Record<string, DocumentSection> = {
   'web-review-4': {
     title: 'Тема 26. Повторення: навігація, медіа, адаптивність і рух',
     html: `

@@ -1,10 +1,10 @@
-import type { EngineDocument } from '../../../../runtime/types';
+import type { DocumentSection } from '../../../../components/document';
 
 function code(source: string) {
   return `<pre class="web-code"><code>${source.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')}</code></pre>`;
 }
 
-export const flexBasicsDocuments: Record<string, EngineDocument> = {
+export const flexBasicsDocuments: Record<string, DocumentSection> = {
   'flex-basics': {
     title: 'Тема 16. CSS Flexbox: основи',
     html: `

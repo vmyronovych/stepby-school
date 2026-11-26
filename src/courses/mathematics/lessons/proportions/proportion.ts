@@ -1,4 +1,4 @@
-import { defineTool } from '../../../../runtime/tool';
+import { defineTool } from '../../../../lib/lesson-tool';
 import type { LinearRow, LinearSide, LinearToken } from '../../../../lib/math';
 import { buildLinearRows, linearSteps, parseSide } from '../../../../lib/math';
 import { linearToolBase } from '../../../../components/notebook/rendering';
