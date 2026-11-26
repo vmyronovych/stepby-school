@@ -1,4 +1,4 @@
-import { hrefHome, hrefCourse } from '../../../navigation/routes';
+import { hrefHome, hrefCourse } from '../../navigation/routes';
 import type { Subject, Topic } from '../../../types';
 import { Breadcrumbs } from '../../../components/breadcrumbs';
 export function CatalogBreadcrumbs({

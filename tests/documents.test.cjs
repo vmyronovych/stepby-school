@@ -1,3 +1,4 @@
+const { baselineDocumentLinks } = require('./helpers/document-links.cjs');
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { createHash } = require('node:crypto');
@@ -72,7 +73,7 @@ function workbookRows(files) {
 }
 
 test('document IDs, lesson text, static SVG, anchors and projector metadata match the original source', () => {
-  const definitions = content.composeDocuments(catalog);
+  const definitions = content.composeDocuments(catalog, baselineDocumentLinks);
   assert.deepEqual(
     Object.keys(definitions)
       .filter(
@@ -192,5 +193,31 @@ test('workbook strings preserve XML-sensitive characters and duplicate row refer
   assert.equal(
     content.crc32(new TextEncoder().encode('123456789')),
     0xcbf43926,
+  );
+});
+
+test('application document assembly supplies navigable links to informatics lessons and projectors', () => {
+  const { parseRoute, resolveRoute } = loadTypeScript(
+    'src/app/navigation/routes.ts',
+  );
+  const definitions = content.composeDocuments(catalog);
+  let links = 0;
+  for (const [id, section] of Object.entries(definitions)) {
+    if (!id.startsWith('inf')) continue;
+    for (const [, href] of section.html.matchAll(/href="(#[^"]+)"/g)) {
+      assert.notEqual(
+        href,
+        '#/',
+        `${id}: document link must have a destination`,
+      );
+      const result = resolveRoute(parseRoute(href), catalog);
+      assert(result.state, `${id}: ${href}`);
+      assert.equal(result.state.subject, 'info');
+      links++;
+    }
+  }
+  assert(
+    links > 100,
+    'calendar, lesson stages and projector references are all covered',
   );
 });

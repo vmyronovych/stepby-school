@@ -130,7 +130,7 @@ test('courses expose explicit entrypoints and lessons do not import their siblin
     'src/app/documents/services.ts',
     'src/app/documents/navigation.ts',
     'src/app/catalog/registry.ts',
-    'src/navigation/course-registry.ts',
+    'src/app/navigation/course-registry.ts',
   ]);
   for (const [filename, source] of files) {
     function check(node) {
@@ -147,7 +147,7 @@ test('courses expose explicit entrypoints and lessons do not import their siblin
           ts.sys,
         ).resolvedModule?.resolvedFileName;
         if (target) {
-          if (/\/src\/(runtime|lib\/math|navigation)\//.test(filename))
+          if (/\/src\/(lib)\//.test(filename))
             assert(
               !target.includes('/src/app/'),
               'Shared foundations must not import application composition: ' +
@@ -156,7 +156,7 @@ test('courses expose explicit entrypoints and lessons do not import their siblin
                 target,
             );
           if (
-            filename.endsWith('/src/navigation/course-registry.ts') &&
+            filename.endsWith('/src/app/navigation/course-registry.ts') &&
             target.includes('/src/courses/')
           )
             assert(
@@ -164,10 +164,10 @@ test('courses expose explicit entrypoints and lessons do not import their siblin
               'Navigation may compose only data-only routing entries: ' +
                 target,
             );
-          if (filename.includes('/src/runtime/'))
+          if (courseOf(filename))
             assert(
-              !/\/src\/(app|courses)\//.test(target),
-              'Runtime must not assemble the application or import courses: ' +
+              !target.includes('/src/app/'),
+              'Courses receive application functions through parameters: ' +
                 filename +
                 ' → ' +
                 target,
@@ -340,5 +340,18 @@ test('shared mathematics has no browser or application dependencies', () => {
       ts.flattenDiagnosticMessageText(d.messageText, '\n'),
     ),
     [],
+  );
+});
+
+test('navigation belongs to the application and the shared runtime tree is removed', () => {
+  assert.equal(fs.existsSync(path.join(root, 'src/navigation')), false);
+  assert.equal(fs.existsSync(path.join(root, 'src/runtime')), false);
+});
+
+test('tool links and controller state have no global mirror', () => {
+  assert.equal(fs.existsSync(path.join(root, 'src/app/state.ts')), false);
+  assert.equal(
+    fs.existsSync(path.join(root, 'src/components/notebook/links.ts')),
+    false,
   );
 });

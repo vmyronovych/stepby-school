@@ -2,13 +2,13 @@ import {
   ContentSlot,
   type DocumentContentRenderer,
 } from '../../../components/document';
-import { hrefTopic } from '../../../navigation/routes';
 import { KeyboardEngine, KeyboardProjector } from '../tools/keyboard';
 import { WindowsEngine, WindowsProjector } from '../tools/windows';
 export const informaticsDocumentContent: DocumentContentRenderer = ({
   topic,
   section,
   sub,
+  links,
 }) => {
   if (topic.doc?.endsWith('-keyboard'))
     return (
@@ -17,7 +17,7 @@ export const informaticsDocumentContent: DocumentContentRenderer = ({
           controller={KeyboardEngine}
           preset={sub}
           onPresetChange={(preset) =>
-            location.replace(hrefTopic(topic, preset))
+            location.replace(links.hrefTopic(topic, preset))
           }
         />
       </ContentSlot>
@@ -25,7 +25,13 @@ export const informaticsDocumentContent: DocumentContentRenderer = ({
   if (topic.doc?.endsWith('-windows'))
     return (
       <ContentSlot html={section.html} selector=".inf-mount">
-        <WindowsProjector controller={WindowsEngine} sub={sub} />
+        <WindowsProjector
+          controller={WindowsEngine}
+          sub={sub}
+          onPresetChange={(preset) =>
+            location.replace(links.hrefTopic(topic, preset))
+          }
+        />
       </ContentSlot>
     );
   return undefined;

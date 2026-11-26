@@ -21,9 +21,11 @@ import { ContextMenu } from './components/ContextMenu';
 export function WindowsProjector({
   controller,
   sub,
+  onPresetChange,
 }: {
   controller: WindowsController;
   sub: string | null;
+  onPresetChange(preset: string | null): void;
 }) {
   const host = useRef<HTMLDivElement>(null),
     revision = useSyncExternalStore(
@@ -49,7 +51,10 @@ export function WindowsProjector({
       data-wnc={action}
       data-v={value}
       aria-pressed={pressed}
-      onClick={() => controller.toolbar(action, value)}
+      onClick={() => {
+        controller.toolbar(action, value);
+        if (action === 'ver') onPresetChange(value ?? null);
+      }}
     >
       {label}
     </button>

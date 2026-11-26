@@ -1,4 +1,4 @@
-import type { EngineDocument } from '../../../../runtime/types';
+import type { DocumentSection } from '../../../../components/document';
 
 const projectMap = `
 <figure class="web-diagram" aria-labelledby="mini-project-2-map-caption">
@@ -14,7 +14,7 @@ const projectMap = `
 &lt;/a&gt;</code></pre><div class="web-browser-sample"><img src="assets/web-development/media/comets.svg" alt="Синя емблема з кометою" style="width:140px;max-width:100%;height:auto"><p>Завантажити емблему Комет</p></div><p class="web-diagram-note">У підписі вже названа дія. Порожній alt не дублює її під час озвучення.</p></div>
 </div></figure>`;
 
-export const project2Documents: Record<string, EngineDocument> = {
+export const project2Documents: Record<string, DocumentSection> = {
   'mini-project-2': {
     title: 'Міні-проєкт 2. Кубок шкільного двору',
     html: `

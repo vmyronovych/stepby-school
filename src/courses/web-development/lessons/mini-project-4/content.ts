@@ -1,4 +1,4 @@
-import type { EngineDocument } from '../../../../runtime/types';
+import type { DocumentSection } from '../../../../components/document';
 
 function code(source: string) {
   return `<pre class="web-code"><code>${source.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>`;
@@ -24,7 +24,7 @@ const articleDiagram = `<figure class="web-diagram" aria-labelledby="moon-layout
 </div>
 </figure>`;
 
-export const project4Documents: Record<string, EngineDocument> = {
+export const project4Documents: Record<string, DocumentSection> = {
   'mini-project-4': {
     title: 'Міні-проєкт 4. Десять фактів про Місяць',
     html: `<p>Створи ілюстровану сторінку про Місяць. Кожен факт матиме окремий заголовок, абзац та схему. Тексти для десяти статей є під завданням.</p>

@@ -1,6 +1,6 @@
 import type { LinearRow, LinearUnit } from '../../../lib/math';
 import { HW_STEP, hwGlyphs } from '../handwriting';
-import type { EngineStepContext } from '../../../runtime/tool';
+import type { EngineStepContext } from '../../../lib/lesson-tool';
 export interface EquationRect {
   left: number;
   top: number;

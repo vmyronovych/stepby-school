@@ -1,4 +1,4 @@
-import type { EngineDocument } from '../../../../runtime/types';
+import type { DocumentSection } from '../../../../components/document';
 
 function code(source: string) {
   return `<pre class="web-code"><code>${source.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')}</code></pre>`;
@@ -14,7 +14,7 @@ const anchorDiagram = `
 <div class="web-diagram-card"><h3>Результат</h3><div class="web-browser-sample"><p><span style="color:#075985;text-decoration:underline">Квітка</span> → розділ нижче</p><div style="border:2px dashed #0369a1;padding:12px"><strong>Квітка</strong><p>Ціль переходу: id="flower"</p></div></div><p class="web-diagram-note">Це схема переходу. Робочі посилання створиш у практичній майстерні.</p></div>
 </div></figure>`;
 
-export const linksDocuments: Record<string, EngineDocument> = {
+export const linksDocuments: Record<string, DocumentSection> = {
   hyperlinks: {
     title: 'Тема 8. Гіперпосилання',
     html: `

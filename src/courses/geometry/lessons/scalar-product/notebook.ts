@@ -1,8 +1,8 @@
 import { lesson as topic } from './lesson';
 import type { FormulaNode } from '../../../../lib/math';
 import { F } from '../../../../lib/math';
-import { defineTool } from '../../../../runtime/tool';
-import { runtimeServices } from '../../../../runtime/services';
+import { defineTool } from '../../../../lib/lesson-tool';
+import type { ToolLinks } from '../../../../types';
 import type { ToolConfig } from '../../../../types';
 import type {
   AstToken,
@@ -186,7 +186,10 @@ export const ScalarNotebook = (() => {
       e = examples[i];
     return e ? { group: e.group, part: e.part } : { group: -1, part: -1 };
   }
-  function nextHref(example: { group: number; part: number }) {
+  function nextHref(
+    example: { group: number; part: number },
+    links: ToolLinks,
+  ) {
     const task =
       topic &&
       (topic.tasks || []).find(
@@ -195,8 +198,8 @@ export const ScalarNotebook = (() => {
           Number(t.cfg.part) === example.part,
       );
     return task
-      ? runtimeServices.hrefTopic(topic, task.id)
-      : runtimeServices.hrefTool('scalar-product', {
+      ? links.hrefTopic(topic, task.id)
+      : links.hrefTool('scalar-product', {
           group: example.group,
           part: example.part,
         });
@@ -221,10 +224,10 @@ export const scalarTool = defineTool<ReturnType<typeof ScalarNotebook.build>>(
     freeHint:
       'Розв’язуй задачі про скалярний добуток одну за одною на аркуші зошита.',
     build: ScalarNotebook.build,
-    view(m, ctx) {
+    view(m, ctx, links) {
       const rows = VectorNotebook.renderRows(m, ctx);
       const next = ScalarNotebook.examples[m.index + 1];
-      return `<div class="rp-sheet sp-tool-sheet"><div class="rp-condition sp-tool-condition"><p>Задача ${m.index + 1} із ${ScalarNotebook.examples.length}</p><div>${m.condition}</div></div>${rows}${ctx.index === m.steps.length - 1 ? `<div class="sp-tool-next">${next ? `<a class="btn sm" href="${ScalarNotebook.nextHref(next)}">Наступна задача →</a>` : '<p>Усі задачі теми розглянуто.</p>'}</div>` : ''}</div>`;
+      return `<div class="rp-sheet sp-tool-sheet"><div class="rp-condition sp-tool-condition"><p>Задача ${m.index + 1} із ${ScalarNotebook.examples.length}</p><div>${m.condition}</div></div>${rows}${ctx.index === m.steps.length - 1 ? `<div class="sp-tool-next">${next ? `<a class="btn sm" href="${ScalarNotebook.nextHref(next, links)}">Наступна задача →</a>` : '<p>Усі задачі теми розглянуто.</p>'}</div>` : ''}</div>`;
     },
     animate: VectorNotebook.scrollCurrent,
     prepare: (_m, from, to) => (to === from + 1 ? { writing: true } : null),

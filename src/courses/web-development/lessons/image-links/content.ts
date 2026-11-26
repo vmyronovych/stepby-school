@@ -1,4 +1,4 @@
-import type { EngineDocument } from '../../../../runtime/types';
+import type { DocumentSection } from '../../../../components/document';
 
 function code(source: string) {
   return `<pre class="web-code"><code>${source.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')}</code></pre>`;
@@ -25,7 +25,7 @@ const stateDiagram = `
 <div class="web-diagram-card"><h3>:active — триває натискання</h3><div class="web-browser-sample" style="border:3px solid #1d4ed8;background-color:#dbeafe;padding:12px;color:#134e4a">Перейти до опису</div><p class="web-diagram-note">Короткий стан. Після натискання він припиняється.</p></div>
 </div></figure>`;
 
-export const imageLinksDocuments: Record<string, EngineDocument> = {
+export const imageLinksDocuments: Record<string, DocumentSection> = {
   'image-links': {
     title: 'Тема 9. Посилання та зображення',
     html: `

@@ -1,3 +1,4 @@
+import { useRoboticsHref } from '../../shared/ui/useRoboticsHref';
 import { McarFigure } from '../../shared/ui/McarFigure';
 import { useState } from 'react';
 import { Button } from '../../../../components/button';
@@ -7,7 +8,7 @@ import { LessonScreen } from '../../shared/ui/LessonScreen';
 import { MaterialPanels } from '../../shared/ui/MaterialPanels';
 import { CoursePreparation } from '../../shared/ui/CoursePreparation';
 import { practiceSections, teacherSections } from './lesson08-content';
-import { mcarUrl, roboticsHref, type RoboticsView } from '../../shared/routes';
+import { mcarUrl, type RoboticsView } from '../../shared/routes';
 
 const lessonId = 'lesson-08';
 const diagram = 'assets/robotics/lesson-08-wiring.png';
@@ -64,6 +65,7 @@ function ProgramBlocks({
 }
 
 function Classroom({ active }: { active: boolean }) {
+  const roboticsHref = useRoboticsHref();
   const [revealed, setRevealed] = useState(false);
   return (
     <MaterialPanels
@@ -230,6 +232,7 @@ function Practice({ active = true }: { active?: boolean }) {
 }
 
 function Teacher() {
+  const roboticsHref = useRoboticsHref();
   return (
     <div
       className="robotics-teacher robotics-prose"
@@ -291,6 +294,7 @@ function Teacher() {
 }
 
 export function MotorLesson({ view }: { view: RoboticsView }) {
+  const roboticsHref = useRoboticsHref();
   if (view === 'student')
     return (
       <div className="robotics-student-only">

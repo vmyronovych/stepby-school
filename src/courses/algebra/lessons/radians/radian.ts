@@ -1,10 +1,9 @@
 import { radianExamples } from './examples';
 import { F, fmlText, type FormulaNode } from '../../../../lib/math';
 import { formulaHtml } from '../../../../components/notebook/rendering';
-import { defineTool } from '../../../../runtime/tool';
+import { defineTool } from '../../../../lib/lesson-tool';
 import { esc } from '../../../../components/legacy-html';
 import { lesson as topic } from './lesson';
-import { runtimeServices } from '../../../../runtime/services';
 import { VectorNotebook } from '../../../../components/notebook';
 import type {
   NotebookStep,
@@ -253,9 +252,9 @@ export const radianTool = defineTool<ReturnType<typeof buildRadian>>('radian', {
   read: (read) => ({ example: Number(read('i_radexample')) }),
   prepare: (_model, from, to) => (to === from + 1 ? { writing: true } : null),
   animate: VectorNotebook.scrollCurrent,
-  view(model, context) {
+  view(model, context, links) {
     const next = topic?.tasks?.[model.index + 1];
-    return `<div class="rp-sheet sp-tool-sheet"><div class="rp-condition sp-tool-condition">${model.condition}</div>${VectorNotebook.renderRows(model, context)}${context.index === model.steps.length - 1 ? `<div class="sp-tool-next">${next && topic ? `<a class="btn sm" href="${runtimeServices.hrefTopic(topic, next.id)}">Наступна задача →</a>` : '<p>Усі задачі теми розглянуто.</p>'}</div>` : ''}</div>`;
+    return `<div class="rp-sheet sp-tool-sheet"><div class="rp-condition sp-tool-condition">${model.condition}</div>${VectorNotebook.renderRows(model, context)}${context.index === model.steps.length - 1 ? `<div class="sp-tool-next">${next && topic ? `<a class="btn sm" href="${links.hrefTopic(topic, next.id)}">Наступна задача →</a>` : '<p>Усі задачі теми розглянуто.</p>'}</div>` : ''}</div>`;
   },
 });
 

@@ -1,4 +1,4 @@
-import type { EngineDocument } from '../../../../runtime/types';
+import type { DocumentSection } from '../../../../components/document';
 
 function code(source: string) {
   return `<pre class="web-code"><code>${source.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>`;
@@ -15,7 +15,7 @@ const breakpointDiagram = `<figure class="web-diagram" aria-labelledby="responsi
 
 const overflowDiagram = `<figure class="web-diagram" aria-labelledby="responsive-overflow-caption"><figcaption id="responsive-overflow-caption">Рамка обмежує видиму частину; текст залишається в документі</figcaption><div class="web-code-result"><div class="web-diagram-card"><h3>Код → вибрана область</h3>${code('<div class="scroll-box" tabindex="0"\n     role="region" aria-label="Журнал">\n  <p>Перший запис…</p>\n  <p>Другий запис…</p>\n  <p>Третій запис…</p>\n</div>\n.scroll-box { max-height: 100px;\n  overflow: auto; }')}<p>Tabindex додає область у порядок Tab. Назва «Журнал» пояснює її призначення.</p></div><div class="web-diagram-card"><h3>Результат</h3><div class="web-browser-sample" tabindex="0" role="region" aria-label="Зразок прокрутки" style="max-height:100px;overflow:auto;border:2px solid #0e7490"><p>Перший запис: обираємо станцію.</p><p>Другий запис: готуємо матеріали.</p><p>Третій запис: записуємо враження.</p><p>Останній запис: домовляємося про наступну зустріч.</p></div><p class="web-diagram-note">Прокрути цей зразок вказівником або дотиком. Смуга може ховатися за правилами операційної системи.</p></div></div></figure>`;
 
-export const responsiveScrollDocuments: Record<string, EngineDocument> = {
+export const responsiveScrollDocuments: Record<string, DocumentSection> = {
   'responsive-scroll': {
     title: 'Тема 24. Адаптивність, прокрутка та GitHub Pages',
     html: `<p>Навчимося змінювати розміщення елементів залежно від ширини вікна та прокручувати довгий вміст усередині блока.</p>

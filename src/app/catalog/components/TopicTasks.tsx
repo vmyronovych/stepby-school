@@ -1,4 +1,4 @@
-import { hrefTopic } from '../../../navigation/routes';
+import { hrefTopic } from '../../navigation/routes';
 import type { Topic, ToolDefinition } from '../../../types';
 import { TaskCard } from './TaskCard';
 

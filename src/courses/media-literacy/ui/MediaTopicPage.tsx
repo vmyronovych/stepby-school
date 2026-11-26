@@ -1,6 +1,6 @@
 import type { Topic } from '../../../types';
 import { LinkButton } from '../../../components/button';
-import { hrefCourse, hrefTopic } from '../../../navigation/routes';
+import { useCourseLinks } from '../../../components/course-navigation';
 import type { MediaContent } from './content';
 import { StudentPractice } from '../shared/ui/StudentPractice';
 import { practiceTasks } from './practice-content';
@@ -28,13 +28,17 @@ export function MediaTopicPage({
   sub: string | null;
   pageUrl?: string;
 }) {
+  const links = useCourseLinks();
+  const { hrefCourse, hrefTopic } = links;
   const route = mediaLessonRoute(sub);
   const robux = !!content.robux && route.robux;
   const title = robux
     ? 'Безкоштовні Robux: подарунок чи пастка?'
     : content.title;
   const isolated = route.view === 'student';
-  const practiceUrl = pageUrl ? studentLessonUrl(pageUrl, topic, robux) : '';
+  const practiceUrl = pageUrl
+    ? studentLessonUrl(links, pageUrl, topic, robux)
+    : '';
   const practice = (
     <StudentPractice
       key={robux ? 'robux' : content.id}
@@ -70,14 +74,14 @@ export function MediaTopicPage({
         <LinkButton
           variant={route.view === 'classroom' ? 'primary' : 'gray'}
           aria-current={route.view === 'classroom' ? 'page' : undefined}
-          href={mediaLessonHref(topic, robux, 'classroom')}
+          href={mediaLessonHref(links, topic, robux, 'classroom')}
         >
           Разом у класі
         </LinkButton>
         <LinkButton
           variant={route.view === 'practice' ? 'primary' : 'gray'}
           aria-current={route.view === 'practice' ? 'page' : undefined}
-          href={mediaLessonHref(topic, robux, 'practice')}
+          href={mediaLessonHref(links, topic, robux, 'practice')}
         >
           Практика учня
         </LinkButton>
@@ -108,7 +112,7 @@ export function MediaTopicPage({
       )}
       <footer className="media-lesson-services">
         <a
-          href={mediaLessonHref(topic, robux, 'teacher')}
+          href={mediaLessonHref(links, topic, robux, 'teacher')}
           aria-current={route.view === 'teacher' ? 'page' : undefined}
         >
           Матеріали для вчителя

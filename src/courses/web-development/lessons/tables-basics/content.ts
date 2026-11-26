@@ -1,4 +1,4 @@
-import type { EngineDocument } from '../../../../runtime/types';
+import type { DocumentSection } from '../../../../components/document';
 
 function code(source: string) {
   return `<pre class="web-code"><code>${source.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')}</code></pre>`;
@@ -26,7 +26,7 @@ const structureDiagram = `
 <div class="web-diagram-card"><h3>Результат</h3><div class="web-browser-sample"><table style="width:100%;border-collapse:collapse"><caption>Матеріали</caption><thead><tr><th scope="col" style="border:1px solid #64748b;padding:8px">Назва</th><th scope="col" style="border:1px solid #64748b;padding:8px">Кількість</th></tr></thead><tbody><tr><th scope="row" style="border:2px solid #0f766e;padding:8px;background:#ecfdf5">Блокнот</th><td style="border:2px solid #0f766e;padding:8px;background:#ecfdf5">3</td></tr></tbody></table></div><p class="web-diagram-note">Виділений tr створює один рядок: назва «Блокнот» і значення 3. Рамки тут додано через CSS.</p></div>
 </div></figure>`;
 
-export const tablesDocuments: Record<string, EngineDocument> = {
+export const tablesDocuments: Record<string, DocumentSection> = {
   'tables-basics': {
     title: 'Тема 10. Таблиці: основи',
     html: `

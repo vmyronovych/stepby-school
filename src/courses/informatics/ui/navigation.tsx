@@ -1,11 +1,11 @@
 import type { DocumentNavigation } from '../../../components/document';
 import { CourseNavigation } from '../../../components/course-navigation';
-import { hrefCourse, hrefHome } from '../../../navigation/routes';
-import type { Topic } from '../../../types';
+import type { Topic, CourseLinks } from '../../../types';
 import { informaticsSubject } from '../course';
 
 export function informaticsDocumentNavigation(
   topic: Topic,
+  { hrefHome, hrefCourse }: CourseLinks,
 ): DocumentNavigation {
   const section = topic.kind === 'tool' ? 'tools' : 'lessons';
   return {

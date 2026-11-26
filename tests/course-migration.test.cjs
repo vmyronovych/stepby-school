@@ -4,7 +4,7 @@ const { loadTypeScript } = require('./helpers/load-typescript.cjs');
 const { digest } = require('./helpers/parity.cjs');
 const before = require('./fixtures/mathematical-lessons-before.json');
 const { catalog } = loadTypeScript('tests/entries/application.ts');
-const routes = loadTypeScript('src/navigation/routes.ts');
+const routes = loadTypeScript('src/app/navigation/routes.ts');
 function follow(hash) {
   for (let n = 0; n < 5; n++) {
     const result = routes.resolveRoute(routes.parseRoute(hash), catalog);
@@ -133,7 +133,9 @@ test('course routing preserves published links and retired robotics document anc
   for (const prefix of ['ktp', 'start', 'frame', 'mod2', 'later', 'risks']) {
     for (const suffix of ['', '-section']) {
       assert.deepEqual(follow('#' + prefix + suffix), {
-        cls: 'robo', subject: 'robot', topic: 'lessons',
+        cls: 'robo',
+        subject: 'robot',
+        topic: 'lessons',
       });
     }
   }
@@ -152,7 +154,10 @@ test('course routing preserves published links and retired robotics document anc
     ['html-css', 'web', 'w1', '#/web/html-css/w1'],
   ]) {
     assert.equal(routes.hrefTopic({ subject, cls, id }), expected);
-    assert.equal(routes.hrefTopic({ subject, cls, id }, 'a b'), expected + '/a%20b');
+    assert.equal(
+      routes.hrefTopic({ subject, cls, id }, 'a b'),
+      expected + '/a%20b',
+    );
   }
   assert.deepEqual(follow('#unknown-document'), {});
 });

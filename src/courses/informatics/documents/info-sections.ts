@@ -1,8 +1,6 @@
 import { esc } from '../../../components/legacy-html';
-import type { RuntimeServices } from '../../../runtime/services';
-import { runtimeServices } from '../../../runtime/services';
-import type { EngineDocument } from '../../../runtime/types';
-import type { Catalog } from '../../../types';
+import type { DocumentSection } from '../../../components/document';
+import type { Catalog, CourseLinks } from '../../../types';
 import { INFO, infoDate, infoDateShort, infoPlural } from './info';
 import type { ProjectorMetadata } from '../shared/content/projectors';
 import { projectorMetadata } from '../shared/content/projectors';
@@ -10,7 +8,15 @@ import type { InfoGrade, LessonStage } from '../shared/content/types';
 import type { NitSegment } from './nit';
 import { downloadNit } from './nit';
 
-interface CachedDocument extends EngineDocument {
+export interface InfoDocumentServices extends Pick<
+  CourseLinks,
+  'hrefTopic' | 'hrefHome'
+> {
+  hrefDoc(id: string, sub?: string | null): string;
+  notify(message: string): void;
+}
+
+interface CachedDocument extends DocumentSection {
   _h(): string;
 }
 
@@ -30,16 +36,13 @@ interface CachedDocument extends EngineDocument {
 /** Assemble cached articles explicitly after catalog data is available. */
 export function composeInfoDocuments(
   DB: Catalog,
+  services: InfoDocumentServices,
   screens: Readonly<Record<string, ProjectorMetadata>> = projectorMetadata,
-): Record<string, EngineDocument> {
+): Record<string, DocumentSection> {
   const DOCS: Record<string, CachedDocument> = {};
   const docTopicFor = (id: string) =>
     DB.topics.find((topic) => topic.doc === id) || null;
-  const hrefDoc: RuntimeServices['hrefDoc'] = (...args) =>
-    runtimeServices.hrefDoc(...args);
-  const hrefTopic: RuntimeServices['hrefTopic'] = (...args) =>
-    runtimeServices.hrefTopic(...args);
-  const hrefHome = () => runtimeServices.hrefHome();
+  const { hrefDoc, hrefTopic, hrefHome } = services;
   const PREFIX = /^Інструктаж з БЖД\.\s*/; // є в кожній темі КТП; у списках ховаємо
   const short = (topic: string) => topic.replace(PREFIX, '');
   const once = (f: () => string) => {
@@ -137,7 +140,7 @@ export function composeInfoDocuments(
         const onClick = (event: MouseEvent) => {
           if (!(event.target instanceof Element)) return;
           const button = event.target.closest<HTMLElement>('[data-nit]');
-          if (button) downloadNit(g, button.dataset.nit);
+          if (button) downloadNit(g, button.dataset.nit, services.notify);
         };
         body.addEventListener('click', onClick);
         removeNitListener = () => body.removeEventListener('click', onClick);

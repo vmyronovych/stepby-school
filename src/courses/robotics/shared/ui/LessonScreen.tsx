@@ -1,6 +1,7 @@
+import { useRoboticsHref } from './useRoboticsHref';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { roboticsLessons } from '../../course';
-import { roboticsHref, type RoboticsView } from '../routes';
+import { type RoboticsView } from '../routes';
 
 /** Shared compact lesson layout: navigation stays secondary to the teaching material. */
 export function LessonScreen({
@@ -14,6 +15,7 @@ export function LessonScreen({
   prerequisites: number[];
   children: ReactNode;
 }) {
+  const roboticsHref = useRoboticsHref();
   const meta = roboticsLessons.find((lesson) => lesson.number === number)!;
   const root = useRef<HTMLElement>(null);
   const [fullscreen, setFullscreen] = useState(false);

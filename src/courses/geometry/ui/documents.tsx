@@ -1,5 +1,4 @@
 import type { DocumentContentRenderer } from '../../../components/document';
-import { hrefTopic } from '../../../navigation/routes';
 import { VectorLesson } from '../lessons/vectors/vectors';
 import { VectorPractice } from '../lessons/vectors/vector-practice';
 import { VectorScaling } from '../lessons/vector-scaling/vector-scaling';
@@ -11,12 +10,15 @@ const engines = {
   scaling: VectorScaling,
   scalar: ScalarProduct,
 };
-export const geometryDocumentContent: DocumentContentRenderer = ({ topic }) =>
+export const geometryDocumentContent: DocumentContentRenderer = ({
+  topic,
+  links,
+}) =>
   topic.doc?.startsWith('geometry-') ? (
     <GeometryLesson
       sectionId={topic.doc}
       topic={topic}
       engines={engines}
-      hrefForTask={(task) => hrefTopic(topic, task)}
+      hrefForTask={(task) => links.hrefTopic(topic, task)}
     />
   ) : undefined;

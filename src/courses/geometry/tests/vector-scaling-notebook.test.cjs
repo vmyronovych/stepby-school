@@ -1,3 +1,4 @@
+const { toolLinks } = require('../../../../tests/helpers/tool-links.cjs');
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const {
@@ -7,7 +8,6 @@ const {
   ScalingNotebook,
   scalingTool: def,
   catalog,
-  runtimeServices,
 } = loadTypeScript('tests/entries/geometry.ts');
 const lesson = { ...ScalingNotebook, build: (cfg = {}) => def.build(cfg) };
 function value(n, variables = {}) {
@@ -36,7 +36,7 @@ function value(n, variables = {}) {
 }
 function render(index, step, anim = null) {
   const m = lesson.build({ example: index });
-  return def.view(m, { index: step, step: m.steps[step], anim });
+  return def.view(m, { index: step, step: m.steps[step], anim }, toolLinks);
 }
 test('шість прикладів мають правильні числові відповіді та векторний напрям', () => {
   assert.equal(lesson.examples.length, 6);
@@ -143,8 +143,14 @@ test('анімація пише лише новий фрагмент, стриб
 });
 test('наступна задача має адресу завдання теми; вибір і помилкові умови оброблено', () => {
   assert(catalog.topics.some((t) => t.id === 'vector-scaling'));
-  runtimeServices.hrefTopic = (topic, id) => `#/9a/geometry/${topic.id}/${id}`;
-  assert.equal(lesson.nextHref(1), '#/9a/geometry/vector-scaling/scaling-2');
+  const links = {
+    ...toolLinks,
+    hrefTopic: (topic, id) => `#/9a/geometry/${topic.id}/${id}`,
+  };
+  assert.equal(
+    lesson.nextHref(1, links),
+    '#/9a/geometry/vector-scaling/scaling-2',
+  );
   assert.deepEqual(
     JSON.parse(JSON.stringify(lesson.readFields(() => '4', 'i_vsexample'))),
     { example: 4 },

@@ -1,5 +1,4 @@
-import type { Topic } from '../../../types';
-import { hrefTopic } from '../../../navigation/routes';
+import type { Topic, CourseLinks } from '../../../types';
 
 const publicCourseBaseUrl = 'https://vmyronovych.github.io/stepby-school/';
 
@@ -14,11 +13,12 @@ export function mediaLessonRoute(sub: string | null) {
   return { robux, view };
 }
 export function mediaLessonHref(
+  links: CourseLinks,
   topic: Topic,
   robux: boolean,
   view: LessonView,
 ) {
-  return hrefTopic(
+  return links.hrefTopic(
     topic,
     robux
       ? view === 'classroom'
@@ -30,6 +30,7 @@ export function mediaLessonHref(
   );
 }
 export function studentLessonUrl(
+  links: CourseLinks,
   pageUrl: string,
   topic: Topic,
   robux: boolean,
@@ -39,7 +40,7 @@ export function studentLessonUrl(
     current.protocol === 'file:' ||
     ['localhost', '127.0.0.1', '[::1]'].includes(current.hostname);
   const url = local ? current : new URL(publicCourseBaseUrl);
-  url.hash = mediaLessonHref(topic, robux, 'student');
+  url.hash = mediaLessonHref(links, topic, robux, 'student');
   // Local tests keep their document; published QR links use the agreed site base.
   url.search = '';
   return url.href;

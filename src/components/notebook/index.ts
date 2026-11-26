@@ -10,3 +10,5 @@ export type {
   NotebookToken,
   VectorToken,
 } from './rows/notebook-types';
+
+export { lessonNote } from './lesson-note';

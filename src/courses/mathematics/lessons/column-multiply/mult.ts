@@ -19,7 +19,7 @@ import {
   colWritten,
 } from '../../../../components/notebook/rendering';
 import { hwEqline } from '../../../../components/notebook/handwriting';
-import { defineTool } from '../../../../runtime/tool';
+import { defineTool } from '../../../../lib/lesson-tool';
 interface MultiplicationOperation extends ColumnNote {
   ad: number;
   aCol: number;

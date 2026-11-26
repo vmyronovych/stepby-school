@@ -1,4 +1,4 @@
-import type { EngineDocument } from '../../../../runtime/types';
+import type { DocumentSection } from '../../../../components/document';
 
 function code(source: string) {
   return `<pre class="web-code"><code>${source.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')}</code></pre>`;
@@ -38,7 +38,7 @@ const formDiagram = `
  Записувати нотатки&lt;/label&gt;</code></pre><p>Можна позначити обидва варіанти або жодного. Однаковий name не робить checkbox взаємовиключними.</p></div></div>
 </figure>`;
 
-export const review3Documents: Record<string, EngineDocument> = {
+export const review3Documents: Record<string, DocumentSection> = {
   'web-review-3': {
     title: 'Тема 20. Повторення: блоки, Flexbox і форми',
     html: `

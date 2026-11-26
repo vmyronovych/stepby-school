@@ -1,6 +1,6 @@
 import type { Course } from '../../types';
 import type { Topic, Subject } from '../../types';
-import type { EngineDocument } from '../../runtime/types';
+import type { DocumentSection } from '../../components/document';
 import { metadata as truth } from './lessons/truth/metadata';
 import { metadata as publishing } from './lessons/publishing/metadata';
 import { metadata as games } from './lessons/games/metadata';
@@ -25,7 +25,7 @@ export const mediaTopics: Topic[] = themes.map((theme) => ({
     ? ['1–4 класи', 'Урок про Robux · 4 клас']
     : ['1–4 класи', '4 історії та вправи'],
 }));
-export const mediaDocuments: Record<string, EngineDocument> =
+export const mediaDocuments: Record<string, DocumentSection> =
   Object.fromEntries(
     themes.map((theme) => [
       `media-${theme.id}`,

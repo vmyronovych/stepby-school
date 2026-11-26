@@ -1,28 +1,114 @@
+const { toolLinks } = require('./helpers/tool-links.cjs');
+const { baselineDocumentLinks } = require('./helpers/document-links.cjs');
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { loadTypeScript } = require('./helpers/load-typescript.cjs');
 const { digest } = require('./helpers/parity.cjs');
 const baseline = require('./fixtures/migration-parity.json');
 // This import also proves the complete runtime can be composed without a DOM.
-const { catalog, documents: applicationDocuments } = loadTypeScript('tests/entries/application.ts');
+const { catalog } = loadTypeScript('tests/entries/application.ts');
 
 test('all 77 task models and all 656 step views match the original engines', () => {
- let steps = 0;
- for (const task of baseline.tasks) {
-  const definition = catalog.tools[task.tool];
-  const model = definition.build(task.config);
-  assert.equal(digest(model), task.model, `${task.id}: model`);
-  const views = model.steps.map((step,index) => definition.view(model,{step,index,anim:null}));
-  assert.equal(digest(views), task.steps, `${task.id}: rendered steps`);
-  steps += views.length;
- }
- assert.equal(baseline.tasks.length,77);
- assert.equal(steps,656);
+  let steps = 0;
+  for (const task of baseline.tasks) {
+    const definition = catalog.tools[task.tool];
+    const model = definition.build(task.config);
+    assert.equal(digest(model), task.model, `${task.id}: model`);
+    const views = model.steps.map((step, index) =>
+      definition.view(model, { step, index, anim: null }, toolLinks),
+    );
+    assert.equal(digest(views), task.steps, `${task.id}: rendered steps`);
+    steps += views.length;
+  }
+  assert.equal(baseline.tasks.length, 77);
+  assert.equal(steps, 656);
 });
 
 test('the 23 preserved documents and reviewed lesson catalog match their baselines', () => {
- const documents = Object.fromEntries(Object.entries(applicationDocuments).filter(([id]) => !['media-truth', 'media-publishing', 'media-games', 'media-safety', 'web-page', 'text-formatting', 'css-intro', 'lists-lines', 'page-images', 'web-review', 'mini-project-1', 'hyperlinks', 'image-links', 'tables-basics', 'table-spans', 'web-review-2', 'mini-project-2', 'block-elements', 'external-css', 'flex-basics', 'flex-wrap', 'forms-basics', 'forms-choice', 'web-review-3', 'mini-project-3', 'dropdown-menu', 'semantic-media', 'responsive-scroll', 'css-animation', 'web-review-4', 'mini-project-4'].includes(id)).map(([id,doc]) => [id,{title:doc.title,html:doc.html,app:doc.app}]));
- assert.equal(Object.keys(documents).length,23);
- assert.equal(digest(documents),baseline.documents);
- assert.equal(digest(catalog.topics.filter(topic => topic.cls !== 'media' && !['radian', 'web-page', 'text-formatting', 'css-intro', 'lists-lines', 'page-images', 'web-review', 'mini-project-1', 'hyperlinks', 'image-links', 'tables-basics', 'table-spans', 'web-review-2', 'mini-project-2', 'block-elements', 'external-css', 'flex-basics', 'flex-wrap', 'forms-basics', 'forms-choice', 'web-review-3', 'mini-project-3', 'dropdown-menu', 'semantic-media', 'responsive-scroll', 'css-animation', 'web-review-4', 'mini-project-4'].includes(topic.id))),baseline.topics);
+  const { composeDocuments } = loadTypeScript('src/app/documents/registry.ts');
+  const applicationDocuments = composeDocuments(catalog, baselineDocumentLinks);
+  const documents = Object.fromEntries(
+    Object.entries(applicationDocuments)
+      .filter(
+        ([id]) =>
+          ![
+            'media-truth',
+            'media-publishing',
+            'media-games',
+            'media-safety',
+            'web-page',
+            'text-formatting',
+            'css-intro',
+            'lists-lines',
+            'page-images',
+            'web-review',
+            'mini-project-1',
+            'hyperlinks',
+            'image-links',
+            'tables-basics',
+            'table-spans',
+            'web-review-2',
+            'mini-project-2',
+            'block-elements',
+            'external-css',
+            'flex-basics',
+            'flex-wrap',
+            'forms-basics',
+            'forms-choice',
+            'web-review-3',
+            'mini-project-3',
+            'dropdown-menu',
+            'semantic-media',
+            'responsive-scroll',
+            'css-animation',
+            'web-review-4',
+            'mini-project-4',
+          ].includes(id),
+      )
+      .map(([id, doc]) => [
+        id,
+        { title: doc.title, html: doc.html, app: doc.app },
+      ]),
+  );
+  assert.equal(Object.keys(documents).length, 23);
+  assert.equal(digest(documents), baseline.documents);
+  assert.equal(
+    digest(
+      catalog.topics.filter(
+        (topic) =>
+          topic.cls !== 'media' &&
+          ![
+            'radian',
+            'web-page',
+            'text-formatting',
+            'css-intro',
+            'lists-lines',
+            'page-images',
+            'web-review',
+            'mini-project-1',
+            'hyperlinks',
+            'image-links',
+            'tables-basics',
+            'table-spans',
+            'web-review-2',
+            'mini-project-2',
+            'block-elements',
+            'external-css',
+            'flex-basics',
+            'flex-wrap',
+            'forms-basics',
+            'forms-choice',
+            'web-review-3',
+            'mini-project-3',
+            'dropdown-menu',
+            'semantic-media',
+            'responsive-scroll',
+            'css-animation',
+            'web-review-4',
+            'mini-project-4',
+          ].includes(topic.id),
+      ),
+    ),
+    baseline.topics,
+  );
 });

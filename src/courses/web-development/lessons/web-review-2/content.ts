@@ -1,4 +1,4 @@
-import type { EngineDocument } from '../../../../runtime/types';
+import type { DocumentSection } from '../../../../components/document';
 
 function code(source: string) {
   return `<pre class="web-code"><code>${source.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')}</code></pre>`;
@@ -39,7 +39,7 @@ const spansDiagram = `
   </div>
 </figure>`;
 
-export const review2Documents: Record<string, EngineDocument> = {
+export const review2Documents: Record<string, DocumentSection> = {
   'web-review-2': {
     title: 'Тема 12. Повторення: посилання й таблиці',
     html: `

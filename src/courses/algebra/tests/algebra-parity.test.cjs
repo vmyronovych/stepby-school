@@ -1,3 +1,4 @@
+const { toolLinks } = require('../../../../tests/helpers/tool-links.cjs');
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const {
@@ -19,7 +20,7 @@ for (const definition of algebra.algebraTools.filter(
       assert.equal(
         digest(
           model.steps.map((step, index) =>
-            definition.view(model, { step, index, anim: null }),
+            definition.view(model, { step, index, anim: null }, toolLinks),
           ),
         ),
         task.steps,

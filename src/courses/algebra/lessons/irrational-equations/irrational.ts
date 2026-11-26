@@ -1,3 +1,4 @@
+import type { ToolLinks } from '../../../../types';
 import type { FormulaNode, Polynomial, Rational } from '../../../../lib/math';
 import {
   F,
@@ -21,13 +22,13 @@ import {
 import { formulaHtml } from '../../../../components/notebook/rendering';
 import type { Pen } from '../../../../components/notebook/handwriting';
 import { hwTick } from '../../../../components/notebook/handwriting';
-import { lessonNote } from '../../../../runtime/lesson-note';
+import { lessonNote } from '../../../../components/notebook';
 import type {
   NumberLinePoint,
   NumberLineRange,
 } from '../../../../components/notebook/rendering';
-import type { EngineStepContext } from '../../../../runtime/tool';
-import { defineTool } from '../../../../runtime/tool';
+import type { EngineStepContext } from '../../../../lib/lesson-tool';
+import { defineTool } from '../../../../lib/lesson-tool';
 import { esc } from '../../../../components/legacy-html';
 import { gcd } from '../../../../lib/math';
 import type { DomainPart } from '../../shared/domain';
@@ -702,6 +703,7 @@ export function buildSubstitutionModel(text: unknown): SubstitutionModel {
 export function irView(
   m: IrrationalModel,
   ctx: EngineStepContext<IrrationalStep>,
+  links: ToolLinks,
 ) {
   const writing = !!ctx.anim;
   const linearSteps = m.steps
@@ -724,7 +726,7 @@ export function irView(
             : `<span class="fml">${domParts(s.parts, pen)}</span>`;
         const note = s.domainNote
           ? lessonNote(
-              'domain',
+              links.lessonForTool('domain'),
               'Як знайти область визначення',
               pen.writing ? hwTick(pen, 'hwfade', 0.3, 3) : '',
             )

@@ -1,4 +1,4 @@
-import type { EngineDocument } from '../../../../runtime/types';
+import type { DocumentSection } from '../../../../components/document';
 
 function code(source: string) {
   return `<pre class="web-code"><code>${source.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>`;
@@ -28,7 +28,7 @@ const floatDiagram = `<figure class="web-diagram" aria-labelledby="external-css-
   width: 90px; margin-right: 12px; }</code></pre></div>
 <div class="web-diagram-card"><h3>Результат</h3><div style="display:flow-root;border:2px solid #0f766e;padding:10px"><img src="assets/web-development/media/leaf.svg" alt="Листок" style="float:left;width:90px;max-width:40%;height:auto;margin-right:12px"><p>Розглядаємо форму листка. Текст займає місце праворуч, а потім продовжується нижче малюнка.</p></div><p style="border-top:2px solid #9a3412">Наступний розділ залишається під карткою.</p></div></div></figure>`;
 
-export const externalCssDocuments: Record<string, EngineDocument> = {
+export const externalCssDocuments: Record<string, DocumentSection> = {
   'external-css': {
     title: 'Тема 15. Зовнішній CSS, відступи та обтікання',
     html: `<p>Відокремимо стилі від HTML. Навчимося розрізняти зовнішні поля, внутрішні відступи й рамки та оформлювати частину речення.</p>

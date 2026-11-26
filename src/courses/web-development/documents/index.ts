@@ -1,4 +1,4 @@
-import type { EngineDocument } from '../../../runtime/types';
+import type { DocumentSection } from '../../../components/document';
 import { animationDocuments } from '../lessons/css-animation/content';
 import { blockElementsDocuments } from '../lessons/block-elements/content';
 import { webDevelopmentDocuments } from '../lessons/web-page/content';
@@ -26,7 +26,7 @@ import { tableSpansDocuments } from '../lessons/table-spans/content';
 import { tablesDocuments } from '../lessons/tables-basics/content';
 import { review3Documents } from '../lessons/web-review-3/content';
 import { review4Documents } from '../lessons/web-review-4/content';
-export const webDocuments: Record<string, EngineDocument> = {};
+export const webDocuments: Record<string, DocumentSection> = {};
 for (const group of [
   animationDocuments,
   blockElementsDocuments,

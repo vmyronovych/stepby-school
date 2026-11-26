@@ -4,8 +4,8 @@ import {
   HW_STEP,
   hwGlyphs,
 } from '../../../../components/notebook/handwriting';
-import type { EngineStepContext } from '../../../../runtime/tool';
-import { defineTool } from '../../../../runtime/tool';
+import type { EngineStepContext } from '../../../../lib/lesson-tool';
+import { defineTool } from '../../../../lib/lesson-tool';
 import { fmtNum, gcd } from '../../../../lib/math';
 import { prefersReducedMotion } from '../../../../components/motion';
 type FractionUnit =

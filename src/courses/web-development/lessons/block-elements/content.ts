@@ -1,4 +1,4 @@
-import type { EngineDocument } from '../../../../runtime/types';
+import type { DocumentSection } from '../../../../components/document';
 
 function code(source: string) {
   return `<pre class="web-code"><code>${source.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>`;
@@ -23,7 +23,7 @@ const positionDiagram = `<figure class="web-diagram" aria-labelledby="blocks-pos
   top: 32px; left: 24px; }</code></pre><p>Рамка контейнера задає область. Мітка відлічує координати від його внутрішнього краю рамки.</p></div>
 <div class="web-diagram-card"><h3>Результат</h3><div style="position:relative;height:140px;border:2px dashed #0f766e;background:#f0fdfa"><span style="position:absolute;top:2px;left:4px;font-size:12px">.scene — контейнер</span><div style="position:absolute;top:32px;left:24px;border:2px solid #9a3412;padding:8px;background:#ffedd5">Мітка .label</div></div><p>32px згори, 24px зліва. Змінюй лише одну координату й перевіряй результат.</p></div></div></figure>`;
 
-export const blockElementsDocuments: Record<string, EngineDocument> = {
+export const blockElementsDocuments: Record<string, DocumentSection> = {
   'block-elements': {
     title: 'Тема 14. Блоки та їх розташування',
     html: `<p>Згрупуємо вміст у картки та складемо малюнок із простих блоків. Навчимося керувати потоком і координатами.</p>

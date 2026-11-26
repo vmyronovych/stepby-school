@@ -1,4 +1,4 @@
-import type { CourseRouting } from '../../navigation/course-routing';
+import type { CourseRouting } from '../../types';
 export const algebraRouting: CourseRouting = {
   subject: 'algebra',
   topicUrls: 'course',

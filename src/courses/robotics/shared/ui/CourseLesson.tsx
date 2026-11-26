@@ -1,3 +1,4 @@
+import { useRoboticsHref } from './useRoboticsHref';
 import { McarFigure } from './McarFigure';
 import { useState } from 'react';
 import { MaterialPanels } from './MaterialPanels';
@@ -5,7 +6,7 @@ import { LessonScreen } from './LessonScreen';
 import { Button } from '../../../../components/button';
 import { LinkButton } from '../../../../components/button';
 import { roboticsLessons } from '../../course';
-import { mcarUrl, roboticsHref, type RoboticsView } from '../routes';
+import { mcarUrl, type RoboticsView } from '../routes';
 import type { LessonMaterial, RoboticsLessonContent } from '../content/types';
 import { courseImages } from '../content/resources';
 
@@ -675,6 +676,7 @@ export function CourseLesson({
   lesson: RoboticsLessonContent;
   view: RoboticsView;
 }) {
+  const roboticsHref = useRoboticsHref();
   const meta = roboticsLessons.find((l) => l.number === lesson.number)!;
   const isolated = view === 'student';
   if (isolated)

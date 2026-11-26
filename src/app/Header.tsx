@@ -1,4 +1,4 @@
-import { hrefHome } from '../navigation/routes';
+import { hrefHome } from './navigation/routes';
 
 export function Header({ className = '' }: { className?: string }) {
   return (

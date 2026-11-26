@@ -7,7 +7,7 @@ import {
   colWritten,
 } from '../../../../components/notebook/rendering';
 import { hwEqline } from '../../../../components/notebook/handwriting';
-import { defineTool } from '../../../../runtime/tool';
+import { defineTool } from '../../../../lib/lesson-tool';
 interface DivisionBase extends ColumnNote {
   i: number;
   cur: number;

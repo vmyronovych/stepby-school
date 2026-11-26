@@ -1,4 +1,4 @@
-import type { CoursePageRenderer } from '../../../runtime/course-view';
+import type { CoursePageRenderer } from '../../../types';
 import { RoboticsPage } from './RoboticsPage';
 export const roboticsPage: CoursePageRenderer = ({ topic, sub }) => {
   if (topic.kind !== 'robotics-lesson' && topic.kind !== 'course-navigation')

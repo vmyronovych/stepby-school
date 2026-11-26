@@ -1,9 +1,10 @@
+import { useRoboticsHref } from '../shared/ui/useRoboticsHref';
 import type { Topic } from '../../../types';
 import { Card } from '../../../components/card';
 import { LinkButton } from '../../../components/button';
 import { PageHeading } from '../../../components/page-heading';
 import { roboticsLessons, roboticsStages } from '../course';
-import { mcarUrl, roboticsHref, roboticsView } from '../shared/routes';
+import { mcarUrl, roboticsView } from '../shared/routes';
 import { RoboticsBreadcrumbs, RoboticsNav } from './RoboticsNav';
 import { CourseLesson } from '../shared/ui/CourseLesson';
 import { lessonContents } from '../lessons';
@@ -16,6 +17,7 @@ export function RoboticsPage({
   topic: Topic;
   sub: string | null;
 }) {
+  const roboticsHref = useRoboticsHref();
   const lesson = roboticsLessons.find((item) => item.id === topic.id);
   const isolated = lesson?.ready && sub === 'student';
   const section = topic.id === 'tools' ? 'tools' : 'lessons';

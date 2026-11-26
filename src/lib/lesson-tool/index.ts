@@ -1,4 +1,10 @@
-import type { Step, ToolConfig, ToolDefinition, ToolModel } from '../types';
+import type {
+  Step,
+  ToolConfig,
+  ToolDefinition,
+  ToolModel,
+  ToolLinks,
+} from '../../types';
 
 export type FieldReader = (id: string) => string;
 export interface EngineStepContext<EngineStep extends Step = Step> {
@@ -19,6 +25,7 @@ export interface EngineToolDefinition<Model extends ToolModel> {
   view(
     model: NoInfer<Model>,
     context: EngineStepContext<NoInfer<Model>['steps'][number]>,
+    links: ToolLinks,
   ): string;
   prepare?(model: NoInfer<Model>, from: number, to: number): unknown;
   animate?(
@@ -61,9 +68,9 @@ export function defineTool<Model extends ToolModel>(
       models.add(model);
       return model;
     },
-    view(value, context) {
+    view(value, context, links) {
       const model = modelFor(value);
-      return definition.view(model, contextFor(model, context));
+      return definition.view(model, contextFor(model, context), links);
     },
     prepare: definition.prepare
       ? (value, from, to) => definition.prepare?.(modelFor(value), from, to)

@@ -1,4 +1,4 @@
-import type { EngineDocument } from '../../../../runtime/types';
+import type { DocumentSection } from '../../../../components/document';
 
 function code(source: string) {
   return `<pre class="web-code"><code>${source.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>`;
@@ -21,7 +21,7 @@ const positionDiagram = `<figure class="web-diagram" aria-labelledby="project3-p
 .garden { top: 12%; left: 4%; }</code></pre><p class="web-diagram-note">Класи pin і garden належать одному посиланню. pin задає спільне оформлення, garden — координати.</p></div>
 <div class="web-diagram-card"><h3>Система координат</h3><div style="position:relative;height:170px;border:3px double #0f766e;background:#dcfce7"><div style="position:absolute;top:12%;left:4%;width:28%;box-sizing:border-box;padding:8px;border:2px solid #0f766e;background:white;text-align:center">Сад</div><p style="position:absolute;bottom:0;left:8px;right:8px;font-size:13px">top — від верхнього краю<br>left — від лівого краю</p></div><p class="web-diagram-note">Рамка позначає map. Зміна положення мапи переносить позначку разом із нею.</p></div></div></figure>`;
 
-export const project3Documents: Record<string, EngineDocument> = {
+export const project3Documents: Record<string, DocumentSection> = {
   'mini-project-3': {
     title: 'Міні-проєкт 3. Мапа шкільних відкриттів',
     html: `<p>Створи невеликий сайт для вигаданої шкільної експедиції. Перша сторінка містить картку команди, друга — мапу шести станцій.</p>

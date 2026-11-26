@@ -1,8 +1,8 @@
 import { lesson as topic } from './lesson';
 import type { FormulaNode } from '../../../../lib/math';
 import { F, Q } from '../../../../lib/math';
-import { defineTool } from '../../../../runtime/tool';
-import { runtimeServices } from '../../../../runtime/services';
+import { defineTool } from '../../../../lib/lesson-tool';
+import type { ToolLinks } from '../../../../types';
 import type { ToolConfig } from '../../../../types';
 import type {
   AstToken,
@@ -261,12 +261,12 @@ export const ScalingNotebook = (() => {
   function readFields(v: (id: string) => string, id: string) {
     return { example: Number(v(id)) };
   }
-  function nextHref(index: number) {
+  function nextHref(index: number, links: ToolLinks) {
     const task =
       topic && (topic.tasks || []).find((t) => Number(t.cfg.example) === index);
     return task
-      ? runtimeServices.hrefTopic(topic, task.id)
-      : runtimeServices.hrefTool('vector-scaling', { example: index });
+      ? links.hrefTopic(topic, task.id)
+      : links.hrefTool('vector-scaling', { example: index });
   }
   return { examples, build, readFields, nextHref };
 })();
@@ -280,10 +280,10 @@ export const scalingTool = defineTool<ReturnType<typeof ScalingNotebook.build>>(
       'Натискай «Далі», щоб дописувати розв’язання. Після відповіді відкрий наступну задачу.',
     freeHint: 'Розв’язуй задачі про множення вектора на число одну за одною.',
     build: ScalingNotebook.build,
-    view(m, ctx) {
+    view(m, ctx, links) {
       const rows = VectorNotebook.renderRows(m, ctx),
         last = ctx.index === m.steps.length - 1;
-      return `<div class="rp-sheet sp-tool-sheet"><div class="rp-condition sp-tool-condition"><p>Задача ${m.index + 1} із ${ScalingNotebook.examples.length}</p><div>${m.condition}</div></div>${rows}${last ? `<div class="sp-tool-next">${m.index + 1 < ScalingNotebook.examples.length ? `<a class="btn sm" href="${ScalingNotebook.nextHref(m.index + 1)}">Наступна задача →</a>` : '<p>Усі задачі теми розглянуто.</p>'}</div>` : ''}</div>`;
+      return `<div class="rp-sheet sp-tool-sheet"><div class="rp-condition sp-tool-condition"><p>Задача ${m.index + 1} із ${ScalingNotebook.examples.length}</p><div>${m.condition}</div></div>${rows}${last ? `<div class="sp-tool-next">${m.index + 1 < ScalingNotebook.examples.length ? `<a class="btn sm" href="${ScalingNotebook.nextHref(m.index + 1, links)}">Наступна задача →</a>` : '<p>Усі задачі теми розглянуто.</p>'}</div>` : ''}</div>`;
     },
     animate: VectorNotebook.scrollCurrent,
     prepare: (_m, from, to) => (to === from + 1 ? { writing: true } : null),

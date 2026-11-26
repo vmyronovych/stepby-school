@@ -1,4 +1,4 @@
-import type { EngineDocument } from '../../../../runtime/types';
+import type { DocumentSection } from '../../../../components/document';
 
 function code(source: string) {
   return `<pre class="web-code"><code>${source.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')}</code></pre>`;
@@ -24,7 +24,7 @@ const delayDiagram = `<figure class="web-diagram" aria-labelledby="animation-del
 ${code('.parcel { animation: delivery 5s ease-in-out 1s 1 forwards; }')}
 <div class="web-code-result"><div class="web-diagram-card" style="border-top:4px dashed #d97706"><h3>0–1 s: очікування</h3><p>animation-delay: 1s. Пакунок ще не рухається. Звичайний CSS визначає його вигляд.</p></div><div class="web-diagram-card" style="border-top:4px solid #0f766e"><h3>1–6 s: рух</h3><p>animation-duration: 5s. Після проходу forwards зберігає значення останнього кадру.</p></div></div></figure>`;
 
-export const animationDocuments: Record<string, EngineDocument> = {
+export const animationDocuments: Record<string, DocumentSection> = {
   'css-animation': {
     title: 'Тема 25. CSS-анімація: кадри, рух і пауза',
     html: `<p>CSS може поступово змінювати положення, розмір, поворот або інші властивості елемента. Створимо три невеликі моделі руху.</p>

@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import type { Topic } from '../../types';
+import type { Topic, CourseLinks } from '../../types';
 
 /** Repository-authored lesson content and an optional interactive illustration. */
 export interface DocumentSection {
@@ -41,6 +41,7 @@ export type DocumentNavigation = Pick<
 >;
 
 export interface DocumentContentContext {
+  links: CourseLinks;
   topic: Topic;
   section: DocumentSection;
   sub: string | null;
